@@ -1,0 +1,25 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using ProductionRulesParser.Interfaces;
+
+namespace CommonLogic.Implementations
+{
+    public class FileReader : IFileReader
+    {
+        private readonly string _filePath;
+
+        public FileReader(string filePath)
+        {
+            ExceptionAssert.IsNotEmpty(filePath);
+            ExceptionAssert.FileExists(filePath);
+
+            _filePath = filePath;
+        }
+
+        public List<string> ReadFileByLines()
+        {
+            return File.ReadAllLines(_filePath).ToList();
+        }
+    }
+}
