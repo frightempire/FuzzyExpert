@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Base.UnitTests;
 using NUnit.Framework;
 
 namespace CommonLogic.UnitTests
@@ -8,38 +9,48 @@ namespace CommonLogic.UnitTests
     public class AssertTests
     {
         [Test]
-        public void IsNotEmpty_ThrowsArgumentNullExceptionIfStringToAssertIsEmpty()
+        public void IsEmpty_ThrowsArgumentNullExceptionIfStringToAssertIsEmpty()
         {
-            // Assert
-            Assert.Throws<ArgumentNullException>(delegate { ExceptionAssert.IsNotEmpty(string.Empty); });
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate { ExceptionAssert.IsEmpty(string.Empty); });
         }
 
         [Test]
-        public void IsNotEmpty_ThrowsArgumentNullExceptionIfStringToAssertIsNull()
+        public void IsEmpty_ThrowsArgumentNullExceptionIfStringToAssertIsNull()
         {
-            // Assert
-            Assert.Throws<ArgumentNullException>(delegate { ExceptionAssert.IsNotEmpty(null); });
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate { ExceptionAssert.IsEmpty(null); });
         }
 
         [Test]
         public void FileExists_ThrowsFileNotFoundExceptionIfFileNotExists()
         {
-            // Assert
+            // Act & Assert
             Assert.Throws<FileNotFoundException>(delegate { ExceptionAssert.FileExists("notExistingFilePath"); });
         }
 
         [Test]
         public void FileExists_ThrowsFileNotFoundExceptionIfFilePathIsEmpty()
         {
-            // Assert
+            // Act & Assert
             Assert.Throws<FileNotFoundException>(delegate { ExceptionAssert.FileExists(string.Empty); });
         }
 
         [Test]
         public void FileExists_ThrowsFileNotFoundExceptionIfFilePathIsNull()
         {
-            // Assert
+            // Act & Assert
             Assert.Throws<FileNotFoundException>(delegate { ExceptionAssert.FileExists(null); });
+        }
+
+        [Test]
+        public void IsNull_ThrowsArgumentNullExceptionIfTestClassInstanceIsNull()
+        {
+            // Arrange
+            TestClass instance = null;
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate { ExceptionAssert.IsNull(instance); });
         }
     }
 }

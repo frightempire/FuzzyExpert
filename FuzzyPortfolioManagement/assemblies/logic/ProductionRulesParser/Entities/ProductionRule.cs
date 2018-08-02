@@ -1,14 +1,26 @@
 ﻿using System.Collections.Generic;
+using CommonLogic;
 using ProductionRulesParser.Enums;
 
 namespace ProductionRulesParser.Entities
 {
     public class ProductionRule
     {
-        public List<UnaryStatement> IfStatement { get; set; }
+        public ProductionRule(List<UnaryStatement> ifStatement, List<LogicalOperation> logicalOperationsOrder, UnaryStatement thenStatement)
+        {
+            ExceptionAssert.IsNull(ifStatement);
+            ExceptionAssert.IsNull(logicalOperationsOrder);
+            ExceptionAssert.IsNull(thenStatement);
 
-        public List<LogicalOperation> LogicalOperationsOrder { get; set; }
+            IfStatement = ifStatement;
+            LogicalOperationsOrder = logicalOperationsOrder;
+            ThenStatement = thenStatement;
+        }
 
-        public UnaryStatement ThenStatement { get; set; }
+        public List<UnaryStatement> IfStatement { get; }
+
+        public List<LogicalOperation> LogicalOperationsOrder { get; }
+
+        public UnaryStatement ThenStatement { get; }
     }
 }

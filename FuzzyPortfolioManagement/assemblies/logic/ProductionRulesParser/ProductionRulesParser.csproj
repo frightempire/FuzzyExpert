@@ -44,6 +44,7 @@
     <Compile Include="Entities\UnaryStatement.cs" />
     <Compile Include="Enums\ComparisonOperation.cs" />
     <Compile Include="Enums\LogicalOperation.cs" />
+    <Compile Include="Interfaces\IProductionRuleCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

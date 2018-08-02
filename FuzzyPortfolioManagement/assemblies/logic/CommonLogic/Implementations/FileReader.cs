@@ -11,7 +11,7 @@ namespace CommonLogic.Implementations
 
         public FileReader(string filePath)
         {
-            ExceptionAssert.IsNotEmpty(filePath);
+            ExceptionAssert.IsEmpty(filePath);
             ExceptionAssert.FileExists(filePath);
 
             _filePath = filePath;

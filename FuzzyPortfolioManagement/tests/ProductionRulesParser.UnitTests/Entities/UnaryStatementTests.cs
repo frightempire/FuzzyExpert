@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using ProductionRulesParser.Entities;
 using ProductionRulesParser.Enums;
 
@@ -9,91 +10,115 @@ namespace ProductionRulesParser.UnitTests.Entities
     {
         private UnaryStatement _unaryStatement;
 
+        private string _expectedLeftOperand = "leftOperand";
+        private ComparisonOperation _expectedComparisonOperation = ComparisonOperation.Equal;
+        private string _expectedRightOperand = "rightOperand";
+
         [SetUp]
         public void SetUp()
         {
-            _unaryStatement = new UnaryStatement();
+            _unaryStatement = new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, _expectedRightOperand);
         }
 
         [Test]
-        public void LeftOperand_SetterWorksProperly()
+        public void Constructor_ThrowsArgumentNullExceptionIfLeftOperandIsEmpty()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate
+            {
+                new UnaryStatement(string.Empty, _expectedComparisonOperation, _expectedRightOperand);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfLeftOperandIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate
+            {
+                new UnaryStatement(null, _expectedComparisonOperation, _expectedRightOperand);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfRightOperandIsEmpty()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate
+            {
+                new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, string.Empty);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfRightOperandIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate
+            {
+                new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, null);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfIfStatementIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate
+            {
+                new UnaryStatement(null, _expectedComparisonOperation, _expectedRightOperand);
+            });
+        }
+
+        [Test]
+        public void LeftOperand_ConstructorSetsProperly()
         {
             // Assert
-            string leftOperand = "leftOperand";
-            
-            // Act
-            _unaryStatement.LeftOperand = leftOperand;
-
-            // Arrange
-            Assert.AreEqual(leftOperand, _unaryStatement.LeftOperand);
+            Assert.AreEqual(_expectedLeftOperand, _unaryStatement.LeftOperand);
         }
 
         [Test]
         public void LeftOperand_GetterWorksProperly()
         {
-            // Assert
-            string leftOperand = "leftOperand";
-            _unaryStatement.LeftOperand = leftOperand;
-
             // Act
             string actualLeftOperand = _unaryStatement.LeftOperand;
 
-            // Arrange
-            Assert.AreEqual(leftOperand, actualLeftOperand);
+            // Assert
+            Assert.AreEqual(_expectedLeftOperand, actualLeftOperand);
         }
 
         [Test]
-        public void ComparisonOperation_SetterWorksProperly()
+        public void ComparisonOperation_ConstructorSetsProperly()
         {
             // Assert
-            ComparisonOperation comparisonOperation = ComparisonOperation.Equal;
-
-            // Act
-            _unaryStatement.ComparisonOperation = comparisonOperation;
-
-            // Arrange
-            Assert.AreEqual(comparisonOperation, _unaryStatement.ComparisonOperation);
+            Assert.AreEqual(_expectedComparisonOperation, _unaryStatement.ComparisonOperation);
         }
 
         [Test]
         public void ComparisonOperation_GetterWorksProperly()
         {
-            // Assert
-            ComparisonOperation comparisonOperation = ComparisonOperation.Equal;
-            _unaryStatement.ComparisonOperation = comparisonOperation;
-
             // Act
             ComparisonOperation actualComparisonOperation = _unaryStatement.ComparisonOperation;
 
-            // Arrange
-            Assert.AreEqual(comparisonOperation, actualComparisonOperation);
+            // Assert
+            Assert.AreEqual(_expectedComparisonOperation, actualComparisonOperation);
         }
 
         [Test]
-        public void RightOperand_SetterWorksProperly()
+        public void RightOperand_ConstructorSetsProperly()
         {
             // Assert
-            string rightOperand = "rightOperand";
-
-            // Act
-            _unaryStatement.RightOperand = rightOperand;
-
-            // Arrange
-            Assert.AreEqual(rightOperand, _unaryStatement.RightOperand);
+            Assert.AreEqual(_expectedRightOperand, _unaryStatement.RightOperand);
         }
 
         [Test]
         public void RightOperand_GetterWorksProperly()
         {
-            // Assert
-            string rightOperand = "rightOperand";
-            _unaryStatement.RightOperand = rightOperand;
-
             // Act
             string actualRightOperand = _unaryStatement.RightOperand;
 
-            // Arrange
-            Assert.AreEqual(rightOperand, actualRightOperand);
+            // Assert
+            Assert.AreEqual(_expectedRightOperand, actualRightOperand);
         }
     }
 }

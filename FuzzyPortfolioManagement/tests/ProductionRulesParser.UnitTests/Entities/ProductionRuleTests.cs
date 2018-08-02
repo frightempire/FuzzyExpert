@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Base.UnitTests;
 using NUnit.Framework;
 using ProductionRulesParser.Entities;
@@ -11,130 +12,104 @@ namespace ProductionRulesParser.UnitTests.Entities
     {
         private ProductionRule _productionRule;
 
+        private readonly List<UnaryStatement> _ifUnaryStatements = new List<UnaryStatement>
+        {
+            new UnaryStatement("LeftOperand", ComparisonOperation.Equal, "RightOperand"),
+            new UnaryStatement("OperandLeft", ComparisonOperation.Equal, "OperandRight")
+        };
+
+        private readonly List<LogicalOperation> _logicalOperationsOrder = new List<LogicalOperation>
+        {
+            LogicalOperation.And, LogicalOperation.And, LogicalOperation.Or
+        };
+
+        private readonly UnaryStatement _thenUnaryStatement = new UnaryStatement("LeftOperand", ComparisonOperation.Equal, "RightOperand");
+
         [SetUp]
         public void SetUp()
         {
-            _productionRule = new ProductionRule();
+            _productionRule = new ProductionRule(_ifUnaryStatements, _logicalOperationsOrder, _thenUnaryStatement);
         }
 
-        public void IfStatement_SetterWorksProperly()
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfIfStatementIsNull()
         {
-            // Arrange
-            List<UnaryStatement> unaryStatements = new List<UnaryStatement>
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate
             {
-                new UnaryStatement
-                {
-                    LeftOperand = "LeftOperand",
-                    ComparisonOperation = ComparisonOperation.Equal,
-                    RightOperand = "RightOperand"
-                },
-                new UnaryStatement
-                {
-                    LeftOperand = "OperandLeft",
-                    ComparisonOperation = ComparisonOperation.Equal,
-                    RightOperand = "OperandRight"
-                },
-            };
-
-            // Act
-            _productionRule.IfStatement = unaryStatements;
-
-            // Assert
-            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(unaryStatements, _productionRule.IfStatement));
+                new ProductionRule(null, _logicalOperationsOrder, _thenUnaryStatement);
+            });
         }
 
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfLogicalOperationsOrderIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate
+            {
+                new ProductionRule(_ifUnaryStatements, null, _thenUnaryStatement);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfThenStatementIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(delegate
+            {
+                new ProductionRule(_ifUnaryStatements, _logicalOperationsOrder, null);
+            });
+        }
+
+        [Test]
+        public void IfStatement_ConstructorSetsProperly()
+        {
+            // Assert
+            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_ifUnaryStatements, _productionRule.IfStatement));
+        }
+
+        [Test]
         public void IfStatement_GetterWorksProperly()
         {
-            // Arrange
-            List<UnaryStatement> unaryStatements = new List<UnaryStatement>
-            {
-                new UnaryStatement
-                {
-                    LeftOperand = "LeftOperand",
-                    ComparisonOperation = ComparisonOperation.Equal,
-                    RightOperand = "RightOperand"
-                },
-                new UnaryStatement
-                {
-                    LeftOperand = "OperandLeft",
-                    ComparisonOperation = ComparisonOperation.Equal,
-                    RightOperand = "OperandRight"
-                },
-            };
-            _productionRule.IfStatement = unaryStatements;
-
             // Act
             List<UnaryStatement> actualUnaryStatements = _productionRule.IfStatement;
 
             // Assert
-            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(unaryStatements, actualUnaryStatements));
+            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_ifUnaryStatements, actualUnaryStatements));
         }
 
-        public void LogicalOperationsOrder_SetterWorksProperly()
+        [Test]
+        public void LogicalOperationsOrder_ConstructorSetsProperly()
         {
-            // Arrange
-            List<LogicalOperation> logicalOperationsOrder = new List<LogicalOperation>
-            {
-                LogicalOperation.And, LogicalOperation.And, LogicalOperation.Or
-            };
-
-            // Act
-            _productionRule.LogicalOperationsOrder = logicalOperationsOrder;
-
             // Assert
-            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(logicalOperationsOrder, _productionRule.LogicalOperationsOrder));
+            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_logicalOperationsOrder, _productionRule.LogicalOperationsOrder));
         }
 
+        [Test]
         public void LogicalOperationsOrder_GetterWorksProperly()
         {
-            // Arrange
-            List<LogicalOperation> logicalOperationsOrder = new List<LogicalOperation>
-            {
-                LogicalOperation.And, LogicalOperation.And, LogicalOperation.Or
-            };
-            _productionRule.LogicalOperationsOrder = logicalOperationsOrder;
-
             // Act
             List<LogicalOperation> actualLogicalOperationsOrder = _productionRule.LogicalOperationsOrder;
 
             // Assert
-            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(logicalOperationsOrder, actualLogicalOperationsOrder));
+            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_logicalOperationsOrder, actualLogicalOperationsOrder));
         }
 
-        public void ThenStatement_SetterWorksProperly()
+        [Test]
+        public void ThenStatement_ConstructorSetsProperly()
         {
-            // Arrange
-            UnaryStatement unaryStatement = new UnaryStatement
-            {
-                LeftOperand = "LeftOperand",
-                ComparisonOperation = ComparisonOperation.Equal,
-                RightOperand = "RightOperand"
-            };
-
-            // Act
-            _productionRule.ThenStatement = unaryStatement;
-
             // Assert
-            Assert.AreEqual(unaryStatement, _productionRule.ThenStatement);
+            Assert.AreEqual(_thenUnaryStatement, _productionRule.ThenStatement);
         }
 
+        [Test]
         public void ThenStatement_GetterWorksProperly()
         {
-            // Arrange
-            // Arrange
-            UnaryStatement unaryStatement = new UnaryStatement
-            {
-                LeftOperand = "LeftOperand",
-                ComparisonOperation = ComparisonOperation.Equal,
-                RightOperand = "RightOperand"
-            };
-            _productionRule.ThenStatement = unaryStatement;
-
             // Act
             UnaryStatement actualUnaryStatement = _productionRule.ThenStatement;
 
             // Assert
-            Assert.AreEqual(unaryStatement, actualUnaryStatement);
+            Assert.AreEqual(_thenUnaryStatement, actualUnaryStatement);
         }
     }
 }

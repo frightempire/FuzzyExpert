@@ -1,13 +1,24 @@
+using CommonLogic;
 using ProductionRulesParser.Enums;
 
 namespace ProductionRulesParser.Entities
 {
     public class UnaryStatement
     {
-        public string LeftOperand { get; set; }
+        public UnaryStatement(string leftOperand, ComparisonOperation comparisonOperation, string rightOperand)
+        {
+            ExceptionAssert.IsEmpty(leftOperand);
+            ExceptionAssert.IsEmpty(rightOperand);
 
-        public ComparisonOperation ComparisonOperation { get; set; }
+            LeftOperand = leftOperand;
+            ComparisonOperation = comparisonOperation;
+            RightOperand = rightOperand;
+        }
 
-        public string RightOperand { get; set; }
+        public string LeftOperand { get; }
+
+        public ComparisonOperation ComparisonOperation { get; }
+
+        public string RightOperand { get; }
     }
 }
