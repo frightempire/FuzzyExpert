@@ -40,11 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ProductionRule.cs" />
+    <Compile Include="Entities\ImplicationRule.cs" />
     <Compile Include="Entities\UnaryStatement.cs" />
     <Compile Include="Enums\ComparisonOperation.cs" />
     <Compile Include="Enums\LogicalOperation.cs" />
-    <Compile Include="Interfaces\IProductionRuleCreator.cs" />
+    <Compile Include="Interfaces\IImplicationRuleHelper.cs" />
+    <Compile Include="Interfaces\IImplicationRuleCreator.cs" />
+    <Compile Include="Interfaces\IImplicationRuleParser.cs" />
+    <Compile Include="Implementations\ImplicationRuleParser.cs" />
+    <Compile Include="Implementations\ImplicationRuleHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

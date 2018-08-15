@@ -8,9 +8,9 @@ using ProductionRulesParser.Enums;
 namespace ProductionRulesParser.UnitTests.Entities
 {
     [TestFixture]
-    public class ProductionRuleTests
+    public class ImplicationRuleTests
     {
-        private ProductionRule _productionRule;
+        private ImplicationRule _implicationRule;
 
         private readonly List<UnaryStatement> _ifUnaryStatements = new List<UnaryStatement>
         {
@@ -28,7 +28,7 @@ namespace ProductionRulesParser.UnitTests.Entities
         [SetUp]
         public void SetUp()
         {
-            _productionRule = new ProductionRule(_ifUnaryStatements, _logicalOperationsOrder, _thenUnaryStatement);
+            _implicationRule = new ImplicationRule(_ifUnaryStatements, _logicalOperationsOrder, _thenUnaryStatement);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace ProductionRulesParser.UnitTests.Entities
             // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
-                new ProductionRule(null, _logicalOperationsOrder, _thenUnaryStatement);
+                new ImplicationRule(null, _logicalOperationsOrder, _thenUnaryStatement);
             });
         }
 
@@ -47,7 +47,7 @@ namespace ProductionRulesParser.UnitTests.Entities
             // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
-                new ProductionRule(_ifUnaryStatements, null, _thenUnaryStatement);
+                new ImplicationRule(_ifUnaryStatements, null, _thenUnaryStatement);
             });
         }
 
@@ -57,7 +57,7 @@ namespace ProductionRulesParser.UnitTests.Entities
             // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
-                new ProductionRule(_ifUnaryStatements, _logicalOperationsOrder, null);
+                new ImplicationRule(_ifUnaryStatements, _logicalOperationsOrder, null);
             });
         }
 
@@ -65,14 +65,14 @@ namespace ProductionRulesParser.UnitTests.Entities
         public void IfStatement_ConstructorSetsProperly()
         {
             // Assert
-            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_ifUnaryStatements, _productionRule.IfStatement));
+            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_ifUnaryStatements, _implicationRule.IfStatement));
         }
 
         [Test]
         public void IfStatement_GetterWorksProperly()
         {
             // Act
-            List<UnaryStatement> actualUnaryStatements = _productionRule.IfStatement;
+            List<UnaryStatement> actualUnaryStatements = _implicationRule.IfStatement;
 
             // Assert
             Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_ifUnaryStatements, actualUnaryStatements));
@@ -82,14 +82,14 @@ namespace ProductionRulesParser.UnitTests.Entities
         public void LogicalOperationsOrder_ConstructorSetsProperly()
         {
             // Assert
-            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_logicalOperationsOrder, _productionRule.LogicalOperationsOrder));
+            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_logicalOperationsOrder, _implicationRule.LogicalOperationsOrder));
         }
 
         [Test]
         public void LogicalOperationsOrder_GetterWorksProperly()
         {
             // Act
-            List<LogicalOperation> actualLogicalOperationsOrder = _productionRule.LogicalOperationsOrder;
+            List<LogicalOperation> actualLogicalOperationsOrder = _implicationRule.LogicalOperationsOrder;
 
             // Assert
             Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_logicalOperationsOrder, actualLogicalOperationsOrder));
@@ -99,14 +99,14 @@ namespace ProductionRulesParser.UnitTests.Entities
         public void ThenStatement_ConstructorSetsProperly()
         {
             // Assert
-            Assert.AreEqual(_thenUnaryStatement, _productionRule.ThenStatement);
+            Assert.AreEqual(_thenUnaryStatement, _implicationRule.ThenStatement);
         }
 
         [Test]
         public void ThenStatement_GetterWorksProperly()
         {
             // Act
-            UnaryStatement actualUnaryStatement = _productionRule.ThenStatement;
+            UnaryStatement actualUnaryStatement = _implicationRule.ThenStatement;
 
             // Assert
             Assert.AreEqual(_thenUnaryStatement, actualUnaryStatement);

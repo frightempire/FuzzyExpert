@@ -4,9 +4,9 @@ using ProductionRulesParser.Enums;
 
 namespace ProductionRulesParser.Entities
 {
-    public class ProductionRule
+    public class ImplicationRule
     {
-        public ProductionRule(List<UnaryStatement> ifStatement, List<LogicalOperation> logicalOperationsOrder, UnaryStatement thenStatement)
+        public ImplicationRule(List<UnaryStatement> ifStatement, List<LogicalOperation> logicalOperationsOrder, UnaryStatement thenStatement)
         {
             ExceptionAssert.IsNull(ifStatement);
             ExceptionAssert.IsNull(logicalOperationsOrder);
