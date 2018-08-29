@@ -21,14 +21,16 @@ namespace ProductionRulesParser.Implementations
         {
             _implicationRuleHelper.ValidateImplicationRule(implicationRule);
 
-            int index = 0;
-            string implicationRuleToHandle = _implicationRuleHelper.PreProcessImplicationRule(implicationRule);
-            List<object> ruleParts = _implicationRuleHelper.GetRuleParts(implicationRuleToHandle, ref index);
+            string preProcessedImplicationRule = _implicationRuleHelper.PreProcessImplicationRule(implicationRule);
+
+
+
+            List<string> simplifiedRules = _implicationRuleHelper.GetStatementParts(ref preProcessedImplicationRule);
 
             return new List<string>();
         }
 
-        public ImplicationRule ParseImplicationRule(string implicationRule)
+        public ImplicationRule CreateImplicationRuleEntity(string implicationRule)
         {
             throw new NotImplementedException();
         }

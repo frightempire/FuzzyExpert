@@ -7,6 +7,6 @@ namespace ProductionRulesParser.Interfaces
     {
         List<string> DivideImplicationRule(string implicationRule);
 
-        ImplicationRule ParseImplicationRule(string implicationRule);
+        ImplicationRule CreateImplicationRuleEntity(string implicationRule);
     }
 }

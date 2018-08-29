@@ -1,50 +1,77 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProductionRulesParser.Entities;
 using ProductionRulesParser.Interfaces;
 
 namespace ProductionRulesParser.Implementations
 {
     public class ImplicationRuleHelper : IImplicationRuleHelper
     {
-        public List<object> GetRuleParts(string implicationRuleString, ref int index)
+        public List<string> GetStatementParts(ref string implicationRuleString)
         {
-            List<object> ruleParts = new List<object>();
+            List<string> ruleParts = new List<string>();
+            List<string> implicationRules = new List<string>();
             string appendingString = string.Empty;
 
-            for (int iterator = 0; iterator < implicationRuleString.Length; iterator++)
+            while (implicationRuleString.Length != 0)
             {
-                switch (implicationRuleString[iterator])
+                int iterator = 0;
+                char curChar = implicationRuleString[iterator];
+                implicationRuleString = implicationRuleString.Remove(iterator, 1);
+                switch (curChar)
                 {
                     case '(':
-                        index++;
-                        ruleParts.Add(GetRuleParts(implicationRuleString.Substring(index), ref index));
-                        iterator = index;
+                        ruleParts.AddRange(GetStatementParts(ref implicationRuleString));
+                        for (int i = 0; i < ruleParts.Count; i++)
+                            ruleParts[i] = appendingString + ruleParts[i];
+                        appendingString = string.Empty;
                         continue;
                     case ')':
-                        if (!string.IsNullOrEmpty(appendingString))
-                            ruleParts.Add(appendingString);
+                        if (ruleParts.Any())
+                        {                          
+                            for (int i = 0; i < ruleParts.Count; i++)
+                                ruleParts[i] += appendingString;
+                            implicationRules.AddRange(ruleParts);
+                        }
+                        else if (!string.IsNullOrEmpty(appendingString))
+                            implicationRules.Add(appendingString);
 
-                        index++;
-                        return ruleParts;
+                        return implicationRules;
                     case '|':
-                        if (!string.IsNullOrEmpty(appendingString))
-                            ruleParts.Add(appendingString);
+                        if (ruleParts.Any())
+                        {
+                            for (int i = 0; i < ruleParts.Count; i++)
+                                ruleParts[i] += appendingString;
+                            implicationRules.AddRange(ruleParts);
+                            ruleParts = new List<string>();
+                        }
+                        else if (!string.IsNullOrEmpty(appendingString))
+                            implicationRules.Add(appendingString);
 
                         appendingString = string.Empty;
-                        index++;
                         continue;
                     default:
-                        appendingString += implicationRuleString[iterator];
-                        index++;
+                        appendingString += curChar;
                         continue;
                 }
             }
 
-            if (!string.IsNullOrEmpty(appendingString))
-                ruleParts.Add(appendingString);
+            if (ruleParts.Any())
+            {
+                for (int i = 0; i < ruleParts.Count; i++)
+                    ruleParts[i] += appendingString;
+                implicationRules.AddRange(ruleParts);
+            }
+            else if (!string.IsNullOrEmpty(appendingString))
+                implicationRules.Add(appendingString);
 
-            return ruleParts;
+            return implicationRules;
+        }
+
+        public ImplicationRuleStrings ExtractStatementParts(string implicationRule)
+        {
+            throw new NotFiniteNumberException();
         }
 
         public void ValidateImplicationRule(string implicationRule)
