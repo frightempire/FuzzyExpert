@@ -45,11 +45,12 @@
     <Compile Include="Entities\UnaryStatement.cs" />
     <Compile Include="Enums\ComparisonOperation.cs" />
     <Compile Include="Enums\LogicalOperation.cs" />
-    <Compile Include="Interfaces\IImplicationRuleHelper.cs" />
-    <Compile Include="Interfaces\IImplicationRuleCreator.cs" />
+    <Compile Include="Interfaces\IImplicationRulePreProcessor.cs" />
+    <Compile Include="Implementations\ImplicationRulePreProcessor.cs" />
     <Compile Include="Interfaces\IImplicationRuleParser.cs" />
+    <Compile Include="Interfaces\IImplicationRuleCreator.cs" />
+    <Compile Include="Implementations\ImplicationRuleCreator.cs" />
     <Compile Include="Implementations\ImplicationRuleParser.cs" />
-    <Compile Include="Implementations\ImplicationRuleHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
