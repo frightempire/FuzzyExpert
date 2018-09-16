@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Base.UnitTests;
 using NUnit.Framework;
 using ProductionRulesParser.Entities;
 using ProductionRulesParser.Enums;
@@ -61,34 +63,63 @@ namespace ProductionRulesParser.UnitTests.Implementations
             Assert.IsTrue(ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
         }
 
-        [Test, Ignore("Needs adjustment")]
+        [Test]
         public void CreateImplicationRuleEntity_ReturnsImplicationRule()
         {
             // Arrange
+            string ifStatementPart = "(A=a|(B=b&C=c))";
+            string thenStatementpart = "(D=d)";
+            string implicationRule = "IF" + ifStatementPart + "THEN" + thenStatementpart;
             ImplicationRuleStrings implicationRuleStrings = new ImplicationRuleStrings(
-                "(A=a|(B=b&C=c))", "(D=d)");
+                ifStatementPart, thenStatementpart);
 
-            List<UnaryStatement> ifStatements = new List<UnaryStatement>
+            // (A=a|(B=b&C=c))
+            List<StatementCombination> ifStatementCombinations = new List<StatementCombination>
             {
-                new UnaryStatement("A", ComparisonOperation.Equal, "a"),
-
+                new StatementCombination(new List<UnaryStatement>
+                {
+                    new UnaryStatement("A", ComparisonOperation.Equal, "a"),
+                }),
+                new StatementCombination(new List<UnaryStatement>
+                {
+                    new UnaryStatement("B", ComparisonOperation.Equal, "b"),
+                    new UnaryStatement("C", ComparisonOperation.Equal, "c")
+                })
             };
-            string thenStatement = "D=d";
-            ImplicationRule expectedImplicationRule = new ImplicationRule(ifStatements, );
+            // (D=d)
+            StatementCombination thenStatementCombination = new StatementCombination(new List<UnaryStatement>
+            {
+                new UnaryStatement("D", ComparisonOperation.Equal, "d")
+            });
+            ImplicationRule expectedImplicationRule = new ImplicationRule(ifStatementCombinations, thenStatementCombination);
 
-            string implicationRuleAfterPreProcessing = "IF(A=a|(B=b&C=c))THEN(D=d)";
-            _implicationRulePreProcessor.Expect(irp => irp.PreProcessImplicationRule(implicationRule))
-                .Return(implicationRuleAfterPreProcessing);
+            List<string> ifStatementParts = new List<string> { "A=a", "B=b&C=c" };
+            _implicationRuleParser.Expect(irp => irp.ParseImplicationRule(ref ifStatementPart))
+                .Return(ifStatementParts);
+            List<string> thenStatementParts = new List<string> { "D=d" };
+            _implicationRuleParser.Expect(irp => irp.ParseStatementCombination(thenStatementpart))
+                .Return(thenStatementParts);
 
-            _implicationRuleParser.Expect(irp => irp.ExtractStatementParts(implicationRuleAfterPreProcessing))
-                .Return(implicationRuleStrings);
+            List<string> aIfUnaryStatementStrings = new List<string> {"A=a"};
+            List<string> bcIfUnaryStatementStrings = new List<string> { "B=b", "C=c" };
+            _implicationRuleParser.Expect(irp => irp.ParseStatementCombination("A=a")).Return(aIfUnaryStatementStrings);
+            _implicationRuleParser.Expect(irp => irp.ParseStatementCombination("B=b&C=c")).Return(bcIfUnaryStatementStrings);
+
+            UnaryStatement aUnaryStatement = new UnaryStatement("A", ComparisonOperation.Equal, "a");
+            UnaryStatement bUnaryStatement = new UnaryStatement("B", ComparisonOperation.Equal, "b");
+            UnaryStatement cUnaryStatement = new UnaryStatement("C", ComparisonOperation.Equal, "c");
+            UnaryStatement dUnaryStatement = new UnaryStatement("D", ComparisonOperation.Equal, "d");
+            _implicationRuleParser.Expect(irp => irp.ParseUnaryStatement("A=a")).Return(aUnaryStatement);
+            _implicationRuleParser.Expect(irp => irp.ParseUnaryStatement("B=b")).Return(bUnaryStatement);
+            _implicationRuleParser.Expect(irp => irp.ParseUnaryStatement("C=c")).Return(cUnaryStatement);
+            _implicationRuleParser.Expect(irp => irp.ParseUnaryStatement("D=d")).Return(dUnaryStatement);
 
             // Act
-            ImplicationRuleStrings actualImplicationRuleStrings =
-                _implicationRuleCreator.DivideImplicationRule(implicationRule);
+            ImplicationRule actualImplicationRule =
+                _implicationRuleCreator.CreateImplicationRuleEntity(implicationRuleStrings);
 
             // Assert
-            Assert.IsTrue(ImplicationRuleStringsAreEqual(implicationRuleStrings, actualImplicationRuleStrings));
+            Assert.IsTrue(ImplicationRulesAreEqual(expectedImplicationRule, actualImplicationRule));
         }
 
         private bool ImplicationRuleStringsAreEqual(
@@ -97,6 +128,52 @@ namespace ProductionRulesParser.UnitTests.Implementations
         {
             return implicationRuleStringsToCompare.IfStatement == implicationRuleStringsToCompareWith.IfStatement &&
                    implicationRuleStringsToCompare.ThenStatement == implicationRuleStringsToCompareWith.ThenStatement;
+        }
+
+        private bool UnaryStatementsAreEqual(
+            UnaryStatement unaryStatementToCompare,
+            UnaryStatement unaryStatementToCompareWith)
+        {
+            return unaryStatementToCompare.LeftOperand == unaryStatementToCompareWith.LeftOperand &&
+                   unaryStatementToCompare.ComparisonOperation == unaryStatementToCompareWith.ComparisonOperation &&
+                   unaryStatementToCompare.RightOperand == unaryStatementToCompareWith.RightOperand;
+        }
+
+        private bool ImplicationRulesAreEqual(
+            ImplicationRule implicationRuleToCompare,
+            ImplicationRule implicationRuleToCompareWith)
+        {
+            if (implicationRuleToCompare.IfStatement.Count != implicationRuleToCompareWith.IfStatement.Count)
+                return false;
+
+            for (int i = 0; i < implicationRuleToCompare.IfStatement.Count; i++)
+            {
+                List<UnaryStatement> ifUnaryStetementsToCompare = implicationRuleToCompare.IfStatement[i].UnaryStatements;
+                List<UnaryStatement> ifUnaryStetementsToCompareWith = implicationRuleToCompareWith.IfStatement[i].UnaryStatements;
+
+                if (ifUnaryStetementsToCompare.Count != ifUnaryStetementsToCompareWith.Count)
+                    return false;
+
+                for (var j = 0; j < ifUnaryStetementsToCompare.Count; j++)
+                {
+                    if (!UnaryStatementsAreEqual(ifUnaryStetementsToCompare[j], ifUnaryStetementsToCompareWith[j]))
+                        return false;
+                }
+            }
+
+            List<UnaryStatement> thenUnaryStetementsToCompare = implicationRuleToCompare.ThenStatement.UnaryStatements;
+            List<UnaryStatement> thenUnaryStetementsToCompareWith = implicationRuleToCompareWith.ThenStatement.UnaryStatements;
+
+            if (thenUnaryStetementsToCompare.Count != thenUnaryStetementsToCompareWith.Count)
+                return false;
+
+            for (var i = 0; i < thenUnaryStetementsToCompare.Count; i++)
+            {
+                if (!UnaryStatementsAreEqual(thenUnaryStetementsToCompare[i], thenUnaryStetementsToCompareWith[i]))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

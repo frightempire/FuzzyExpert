@@ -5,7 +5,9 @@ namespace ProductionRulesParser.Interfaces
 {
     public interface IImplicationRuleParser
     {
-        List<string> GetStatementParts(ref string implicationRule);
+        List<string> ParseImplicationRule(ref string implicationRule);
+
+        List<string> ParseStatementCombination(string statement);
 
         ImplicationRuleStrings ExtractStatementParts(string implicationRule);
 

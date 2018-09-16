@@ -20,7 +20,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
         }
 
         [Test]
-        public void GetRuleParts_SimpleRuleWithOr()
+        public void ParseImplicationRule_SimpleRuleWithOr()
         {
             // Arrange
             string implicationRule = "A=a|(B=b&C=c)";
@@ -31,14 +31,14 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
         }
 
         [Test]
-        public void GetRuleParts_SimpleRuleWithAnd()
+        public void ParseImplicationRule_SimpleRuleWithAnd()
         {
             // Arrange
             string implicationRule = "(A=a|B=b)&C=c";
@@ -49,14 +49,14 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
         }
 
         [Test]
-        public void GetRuleParts_ComplexLettersRuleCase1()
+        public void ParseImplicationRule_ComplexLettersRuleCase1()
         {
             // Arrange
             string implicationRule = "A=a|B=b|((D=d&(E=e|K=k))|(F=f&G=g))&C=c";
@@ -70,14 +70,14 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
         }
 
         [Test]
-        public void GetRuleParts_ComplexLettersRuleCase2()
+        public void ParseImplicationRule_ComplexLettersRuleCase2()
         {
             // Arrange
             string implicationRule = "((D=d&(E=e|K=k))|(F=f&G=g))&C=c|A=a|B=b";
@@ -91,14 +91,14 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
         }
 
         [Test]
-        public void GetRuleParts_ComplexNumericalRuleCase1()
+        public void ParseImplicationRule_ComplexNumericalRuleCase1()
         {
             // Arrange
             string implicationRule = "A=5|B=10|((D=7&(E=4|K=555))|(F=45&G=0))&C=2";
@@ -112,14 +112,14 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
         }
 
         [Test]
-        public void GetRuleParts_ComplexNumericalRuleCase2()
+        public void ParseImplicationRule_ComplexNumericalRuleCase2()
         {
             // Arrange
             string implicationRule = "((D=7&(E=4|K=555))|(F=45&G=0))&C=2|A=5|B=10";
@@ -133,14 +133,14 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
         }
 
         [Test]
-        public void GetRuleParts_RuleWithComplexVariables()
+        public void ParseImplicationRule_RuleWithComplexVariables()
         {
             // Arrange
             string implicationRule = "Distance=7&(Enumeration=4|Kinetic=555)|Avarage=5|Business=10";
@@ -153,14 +153,14 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
         }
 
         [Test]
-        public void GetRuleParts_RuleWithMultipleBrackets()
+        public void ParseImplicationRule_RuleWithMultipleBrackets()
         {
             // Arrange
             string implicationRule = "(((Distance=7&(Enumeration=4|Kinetic=555))))|((Avarage=5|Business=10))";
@@ -173,14 +173,14 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
         }
 
         [Test]
-        public void GetRuleParts_RuleSurroundedByBrackets()
+        public void ParseImplicationRule_RuleSurroundedByBrackets()
         {
             // Arrange
             string implicationRule = "(Distance=7&(Enumeration=4|Kinetic=555)|Avarage=5|Business=10)";
@@ -193,10 +193,66 @@ namespace ProductionRulesParser.UnitTests.Implementations
             };
 
             // Act
-            List<string> actualRuleParts = _implicationRuleParser.GetStatementParts(ref implicationRule);
+            List<string> actualRuleParts = _implicationRuleParser.ParseImplicationRule(ref implicationRule);
 
             // Assert
             Assert.IsTrue(expectedRuleParts.SequenceEqual(actualRuleParts));
+        }
+
+        [Test]
+        public void ParseStatementCombination_ThrowsArgumentNullExceptionIfStatementIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => _implicationRuleParser.ParseStatementCombination(null));
+        }
+
+        [Test]
+        public void ParseStatementCombination_ThrowsArgumentNullExceptionIfStatementIsEmpty()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => _implicationRuleParser.ParseStatementCombination(string.Empty));
+        }
+
+        [Test]
+        public void ParseStatementCombination_ReturnsUnaryStatement()
+        {
+            // Arrange
+            string statementCombination = "A=10";
+            List<string> actualUnaryStatements = new List<string> { "A=10" };
+
+            // Act
+            List<string> expectedUnaryStatements = _implicationRuleParser.ParseStatementCombination(statementCombination);
+
+            // Assert
+            Assert.IsTrue(expectedUnaryStatements.SequenceEqual(actualUnaryStatements));
+        }
+
+        [Test]
+        public void ParseStatementCombination_ReturnsUnaryStatements()
+        {
+            // Arrange
+            string statementCombination = "A=10&B=20";
+            List<string> actualUnaryStatements = new List<string> { "A=10", "B=20" };
+
+            // Act
+            List<string> expectedUnaryStatements = _implicationRuleParser.ParseStatementCombination(statementCombination);
+
+            // Assert
+            Assert.IsTrue(expectedUnaryStatements.SequenceEqual(actualUnaryStatements));
+        }
+
+        [Test]
+        public void ExtractStatementParts_ThrowsArgumentNullExceptionIfImplicationRuleIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => _implicationRuleParser.ParseUnaryStatement(null));
+        }
+
+        [Test]
+        public void ExtractStatementParts_ThrowsArgumentNullExceptionIfImplicationRuleIsEmpty()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => _implicationRuleParser.ExtractStatementParts(string.Empty));
         }
 
         [Test]
@@ -239,6 +295,20 @@ namespace ProductionRulesParser.UnitTests.Implementations
 
             // Assert
             Assert.IsTrue(ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
+        }
+
+        [Test]
+        public void ParseUnaryStatement_ThrowsArgumentNullExceptionIfStatementIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => _implicationRuleParser.ParseUnaryStatement(null));
+        }
+
+        [Test]
+        public void ParseUnaryStatement_ThrowsArgumentNullExceptionIfStatementIsEmpty()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => _implicationRuleParser.ParseUnaryStatement(string.Empty));
         }
 
         [Test]

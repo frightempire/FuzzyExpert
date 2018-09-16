@@ -5,7 +5,7 @@ namespace ProductionRulesParser.Entities
 {
     public class ImplicationRule
     {
-        public ImplicationRule(List<UnaryStatement> ifStatement, UnaryStatement thenStatement)
+        public ImplicationRule(List<StatementCombination> ifStatement, StatementCombination thenStatement)
         {
             ExceptionAssert.IsNull(ifStatement);
             ExceptionAssert.IsNull(thenStatement);
@@ -14,8 +14,8 @@ namespace ProductionRulesParser.Entities
             ThenStatement = thenStatement;
         }
 
-        public List<UnaryStatement> IfStatement { get; }
+        public List<StatementCombination> IfStatement { get; }
 
-        public UnaryStatement ThenStatement { get; }
+        public StatementCombination ThenStatement { get; }
     }
 }

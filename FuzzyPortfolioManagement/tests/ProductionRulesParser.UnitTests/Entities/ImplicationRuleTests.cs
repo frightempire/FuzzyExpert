@@ -12,10 +12,13 @@ namespace ProductionRulesParser.UnitTests.Entities
     {
         private ImplicationRule _implicationRule;
 
-        private readonly List<UnaryStatement> _ifUnaryStatements = new List<UnaryStatement>
+        private readonly List<StatementCombination> _ifUnaryStatements = new List<StatementCombination>
         {
-            new UnaryStatement("LeftOperand", ComparisonOperation.Equal, "RightOperand"),
-            new UnaryStatement("OperandLeft", ComparisonOperation.Equal, "OperandRight")
+            new StatementCombination(new List<UnaryStatement>
+            {
+                new UnaryStatement("LeftOperand", ComparisonOperation.Equal, "RightOperand"),
+                new UnaryStatement("OperandLeft", ComparisonOperation.Equal, "OperandRight")
+            })           
         };
 
         private readonly List<LogicalOperation> _logicalOperationsOrder = new List<LogicalOperation>
@@ -23,7 +26,10 @@ namespace ProductionRulesParser.UnitTests.Entities
             LogicalOperation.And, LogicalOperation.And, LogicalOperation.Or
         };
 
-        private readonly UnaryStatement _thenUnaryStatement = new UnaryStatement("LeftOperand", ComparisonOperation.Equal, "RightOperand");
+        private readonly StatementCombination _thenUnaryStatement = new StatementCombination(new List<UnaryStatement>
+        {
+            new UnaryStatement("LeftOperand", ComparisonOperation.Equal, "RightOperand")
+        });
 
         [SetUp]
         public void SetUp()
@@ -62,7 +68,7 @@ namespace ProductionRulesParser.UnitTests.Entities
         public void IfStatement_GetterWorksProperly()
         {
             // Act
-            List<UnaryStatement> actualUnaryStatements = _implicationRule.IfStatement;
+            List<StatementCombination> actualUnaryStatements = _implicationRule.IfStatement;
 
             // Assert
             Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_ifUnaryStatements, actualUnaryStatements));
@@ -79,7 +85,7 @@ namespace ProductionRulesParser.UnitTests.Entities
         public void ThenStatement_GetterWorksProperly()
         {
             // Act
-            UnaryStatement actualUnaryStatement = _implicationRule.ThenStatement;
+            StatementCombination actualUnaryStatement = _implicationRule.ThenStatement;
 
             // Assert
             Assert.AreEqual(_thenUnaryStatement, actualUnaryStatement);

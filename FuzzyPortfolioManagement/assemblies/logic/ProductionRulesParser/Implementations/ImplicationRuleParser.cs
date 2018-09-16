@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLogic;
 using ProductionRulesParser.Entities;
 using ProductionRulesParser.Enums;
 using ProductionRulesParser.Interfaces;
@@ -9,7 +10,7 @@ namespace ProductionRulesParser.Implementations
 {
     public class ImplicationRuleParser : IImplicationRuleParser
     {
-        public List<string> GetStatementParts(ref string implicationRuleString)
+        public List<string> ParseImplicationRule(ref string implicationRuleString)
         {
             List<string> ruleParts = new List<string>();
             List<string> implicationRules = new List<string>();
@@ -23,7 +24,7 @@ namespace ProductionRulesParser.Implementations
                 switch (curChar)
                 {
                     case '(':
-                        ruleParts.AddRange(GetStatementParts(ref implicationRuleString));
+                        ruleParts.AddRange(ParseImplicationRule(ref implicationRuleString));
                         for (int i = 0; i < ruleParts.Count; i++)
                             ruleParts[i] = appendingString + ruleParts[i];
                         appendingString = string.Empty;
@@ -70,8 +71,16 @@ namespace ProductionRulesParser.Implementations
             return implicationRules;
         }
 
+        public List<string> ParseStatementCombination(string statement)
+        {
+            ExceptionAssert.IsEmpty(statement);
+            return statement.Split('&').ToList();
+        }
+
         public ImplicationRuleStrings ExtractStatementParts(string implicationRule)
         {
+            ExceptionAssert.IsEmpty(implicationRule);
+
             int indexOfDelimeter = implicationRule.IndexOf(")THEN(", StringComparison.Ordinal);
 
             if (indexOfDelimeter == -1)
@@ -84,6 +93,8 @@ namespace ProductionRulesParser.Implementations
 
         public UnaryStatement ParseUnaryStatement(string statement)
         {
+            ExceptionAssert.IsEmpty(statement);
+
             int indexOfLess = statement.IndexOf('<');
             int indexOfLessEquals = statement.IndexOf("<=", StringComparison.Ordinal);
             int indexOfGrater = statement.IndexOf('>');
