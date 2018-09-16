@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Entities\ImplicationRule.cs" />
     <Compile Include="Entities\ImplicationRuleStrings.cs" />
+    <Compile Include="Entities\StatementCombination.cs" />
     <Compile Include="Entities\UnaryStatement.cs" />
     <Compile Include="Enums\ComparisonOperation.cs" />
     <Compile Include="Enums\LogicalOperation.cs" />

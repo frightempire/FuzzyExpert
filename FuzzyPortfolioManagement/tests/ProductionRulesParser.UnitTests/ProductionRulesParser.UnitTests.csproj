@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Entities\ImplicationRuleStringsTests.cs" />
     <Compile Include="Entities\ImplicationRuleTests.cs" />
+    <Compile Include="Entities\StatementCombinationTests.cs" />
     <Compile Include="Entities\UnaryStatementTests.cs" />
     <Compile Include="Implementations\ImplicationRuleHelperTests.cs" />
     <Compile Include="Implementations\ImplicationRuleParserTests.cs" />

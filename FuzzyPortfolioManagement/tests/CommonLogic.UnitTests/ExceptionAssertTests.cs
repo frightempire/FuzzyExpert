@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Base.UnitTests;
 using NUnit.Framework;
@@ -6,7 +7,7 @@ using NUnit.Framework;
 namespace CommonLogic.UnitTests
 {
     [TestFixture]
-    public class AssertTests
+    public class ExceptionAssertTests
     {
         [Test]
         public void IsEmpty_ThrowsArgumentNullExceptionIfStringToAssertIsEmpty()
@@ -20,6 +21,13 @@ namespace CommonLogic.UnitTests
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate { ExceptionAssert.IsEmpty(null); });
+        }
+
+        [Test]
+        public void IsEmpty_ThrowsArgumentExceptionIfListToAssertIsEmpty()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentException>(delegate { ExceptionAssert.IsEmpty(new List<TestClass>()); });
         }
 
         [Test]

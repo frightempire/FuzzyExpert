@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace CommonLogic
 {
@@ -9,6 +11,12 @@ namespace CommonLogic
         {
             if (string.IsNullOrEmpty(stringToAssert))
                 throw new ArgumentNullException(nameof(stringToAssert));
+        }
+
+        public static void IsEmpty<T>(List<T> list) where T : class
+        {
+            if (!list.Any())
+                throw new ArgumentException(nameof(list));
         }
 
         public static void FileExists(string filePath)
