@@ -5,8 +5,10 @@ namespace ProductionRulesParser.Interfaces
 {
     public interface IImplicationRuleParser
     {
-        List<string> DivideImplicationRule(string implicationRule);
+        List<string> GetStatementParts(ref string implicationRule);
 
-        ImplicationRule CreateImplicationRuleEntity(string implicationRule);
+        ImplicationRuleStrings ExtractStatementParts(string implicationRule);
+
+        UnaryStatement ParseUnaryStatement(string statement);
     }
 }

@@ -28,7 +28,7 @@ namespace ProductionRulesParser.UnitTests.Entities
         [SetUp]
         public void SetUp()
         {
-            _implicationRule = new ImplicationRule(_ifUnaryStatements, _logicalOperationsOrder, _thenUnaryStatement);
+            _implicationRule = new ImplicationRule(_ifUnaryStatements, _thenUnaryStatement);
         }
 
         [Test]
@@ -37,17 +37,7 @@ namespace ProductionRulesParser.UnitTests.Entities
             // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
-                new ImplicationRule(null, _logicalOperationsOrder, _thenUnaryStatement);
-            });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfLogicalOperationsOrderIsNull()
-        {
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(delegate
-            {
-                new ImplicationRule(_ifUnaryStatements, null, _thenUnaryStatement);
+                new ImplicationRule(null, _thenUnaryStatement);
             });
         }
 
@@ -57,7 +47,7 @@ namespace ProductionRulesParser.UnitTests.Entities
             // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
-                new ImplicationRule(_ifUnaryStatements, _logicalOperationsOrder, null);
+                new ImplicationRule(_ifUnaryStatements, null);
             });
         }
 
@@ -76,23 +66,6 @@ namespace ProductionRulesParser.UnitTests.Entities
 
             // Assert
             Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_ifUnaryStatements, actualUnaryStatements));
-        }
-
-        [Test]
-        public void LogicalOperationsOrder_ConstructorSetsProperly()
-        {
-            // Assert
-            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_logicalOperationsOrder, _implicationRule.LogicalOperationsOrder));
-        }
-
-        [Test]
-        public void LogicalOperationsOrder_GetterWorksProperly()
-        {
-            // Act
-            List<LogicalOperation> actualLogicalOperationsOrder = _implicationRule.LogicalOperationsOrder;
-
-            // Assert
-            Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(_logicalOperationsOrder, actualLogicalOperationsOrder));
         }
 
         [Test]
