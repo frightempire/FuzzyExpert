@@ -5,12 +5,13 @@ using Base.UnitTests;
 using CommonLogic.Implementations;
 using NUnit.Framework;
 
-namespace CommonLogic.UnitTests
+namespace CommonLogic.UnitTests.Implementations
 {
     [TestFixture]
     public class FileReaderTests
     {
         private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\TestFile.txt");
+        private readonly string _emptyFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\EmptyFile.txt");
 
         private FileReader _fileReader;
 
@@ -39,7 +40,7 @@ namespace CommonLogic.UnitTests
         }
 
         [Test]
-        public void ReadFileByLines()
+        public void ReadFileByLines_ReturnsCorrectListOfStrings()
         {
             // Arrange
             List<string> expectedLines = new List<string> {"line1", "line2", "line3" };
@@ -51,5 +52,17 @@ namespace CommonLogic.UnitTests
             Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(lines, expectedLines));
         }
 
+        [Test]
+        public void ReadFileByLines_ReturnsEmptyList()
+        {
+            // Arrange
+            _fileReader = new FileReader(_emptyFilePath);
+
+            // Act
+            List<string> lines = _fileReader.ReadFileByLines();
+
+            // Assert
+            Assert.IsEmpty(lines);
+        }
     }
 }

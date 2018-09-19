@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Base.UnitTests;
 using NUnit.Framework;
 using ProductionRulesParser.Entities;
 using ProductionRulesParser.Enums;
@@ -278,7 +279,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
             ImplicationRuleStrings actualImplicationRuleStrings = _implicationRuleParser.ExtractStatementParts(implicationRule);
 
             // Assert
-            Assert.IsTrue(ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
+            Assert.IsTrue(ObjectComparer.ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
         }
 
         [Test]
@@ -294,7 +295,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
             ImplicationRuleStrings actualImplicationRuleStrings = _implicationRuleParser.ExtractStatementParts(implicationRule);
 
             // Assert
-            Assert.IsTrue(ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
+            Assert.IsTrue(ObjectComparer.ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
         }
 
         [Test]
@@ -322,7 +323,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
             UnaryStatement actualUnaryStatement = _implicationRuleParser.ParseUnaryStatement(statement);
 
             // Assert
-            Assert.IsTrue(UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
+            Assert.IsTrue(ObjectComparer.UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
         }
 
         [Test]
@@ -336,7 +337,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
             UnaryStatement actualUnaryStatement = _implicationRuleParser.ParseUnaryStatement(statement);
 
             // Assert
-            Assert.IsTrue(UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
+            Assert.IsTrue(ObjectComparer.UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
         }
 
         [Test]
@@ -350,7 +351,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
             UnaryStatement actualUnaryStatement = _implicationRuleParser.ParseUnaryStatement(statement);
 
             // Assert
-            Assert.IsTrue(UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
+            Assert.IsTrue(ObjectComparer.UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
         }
 
         [Test]
@@ -364,7 +365,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
             UnaryStatement actualUnaryStatement = _implicationRuleParser.ParseUnaryStatement(statement);
 
             // Assert
-            Assert.IsTrue(UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
+            Assert.IsTrue(ObjectComparer.UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
         }
 
         [Test]
@@ -378,7 +379,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
             UnaryStatement actualUnaryStatement = _implicationRuleParser.ParseUnaryStatement(statement);
 
             // Assert
-            Assert.IsTrue(UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
+            Assert.IsTrue(ObjectComparer.UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
         }
 
         [Test]
@@ -392,7 +393,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
             UnaryStatement actualUnaryStatement = _implicationRuleParser.ParseUnaryStatement(statement);
 
             // Assert
-            Assert.IsTrue(UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
+            Assert.IsTrue(ObjectComparer.UnaryStatementsAreEqual(expectedUnaryStatement, actualUnaryStatement));
         }
 
         [Test]
@@ -403,23 +404,6 @@ namespace ProductionRulesParser.UnitTests.Implementations
 
             // Act & Assert
             Assert.Throws<ArgumentException>(() => _implicationRuleParser.ParseUnaryStatement(statement));
-        }
-
-        private bool ImplicationRuleStringsAreEqual(
-            ImplicationRuleStrings implicationRuleStringsToCompare,
-            ImplicationRuleStrings implicationRuleStringsToCompareWith)
-        {
-            return implicationRuleStringsToCompare.IfStatement == implicationRuleStringsToCompareWith.IfStatement &&
-                   implicationRuleStringsToCompare.ThenStatement == implicationRuleStringsToCompareWith.ThenStatement;
-        }
-
-        private bool UnaryStatementsAreEqual(
-            UnaryStatement unaryStatementToCompare,
-            UnaryStatement unaryStatementToCompareWith)
-        {
-            return unaryStatementToCompare.LeftOperand == unaryStatementToCompareWith.LeftOperand &&
-                   unaryStatementToCompare.ComparisonOperation == unaryStatementToCompareWith.ComparisonOperation &&
-                   unaryStatementToCompare.RightOperand == unaryStatementToCompareWith.RightOperand;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ProductionRulesParser.Interfaces
+namespace CommonLogic.Interfaces
 {
     public interface IFileReader
     {

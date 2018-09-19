@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionAssertTests.cs" />
-    <Compile Include="FileReaderTests.cs" />
+    <Compile Include="Implementations\FileReaderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +64,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TestFiles\EmptyFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestFiles\TestFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

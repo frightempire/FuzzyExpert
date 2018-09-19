@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ProductionRulesParser.Interfaces;
+using CommonLogic.Interfaces;
 
 namespace CommonLogic.Implementations
 {

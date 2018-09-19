@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ADB942CB-8FF7-4E8D-8ADF-AD621EE0C59E}</ProjectGuid>
+    <ProjectGuid>{04D9D0FD-FE48-4FDB-A04B-F2FC2E0FD012}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Base.UnitTests</RootNamespace>
-    <AssemblyName>Base.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>ImplicationRulesManager</RootNamespace>
+    <AssemblyName>ImplicationRulesManager</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -40,16 +40,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectComparer.cs" />
-    <Compile Include="TestClass.cs" />
-    <Compile Include="TestHelper.cs" />
+    <Compile Include="Interfaces\IImplicationRulesManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\assemblies\logic\ProductionRulesParser\ProductionRulesParser.csproj">
-      <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
+    <Folder Include="Implementations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\assemblies\logic\CommonLogic\CommonLogic.csproj">
+      <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
+      <Name>CommonLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\assemblies\logic\ProductionRulesParser\ProductionRulesParser.csproj">
+      <Project>{f56d71d5-f5d0-45b9-afae-bab233229c23}</Project>
       <Name>ProductionRulesParser</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

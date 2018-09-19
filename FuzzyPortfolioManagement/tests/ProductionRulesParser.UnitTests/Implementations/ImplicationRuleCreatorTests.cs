@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Base.UnitTests;
 using NUnit.Framework;
 using ProductionRulesParser.Entities;
@@ -60,7 +59,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
                 _implicationRuleCreator.DivideImplicationRule(implicationRule);
 
             // Assert
-            Assert.IsTrue(ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
+            Assert.IsTrue(ObjectComparer.ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
         }
 
         [Test]
@@ -119,61 +118,7 @@ namespace ProductionRulesParser.UnitTests.Implementations
                 _implicationRuleCreator.CreateImplicationRuleEntity(implicationRuleStrings);
 
             // Assert
-            Assert.IsTrue(ImplicationRulesAreEqual(expectedImplicationRule, actualImplicationRule));
-        }
-
-        private bool ImplicationRuleStringsAreEqual(
-            ImplicationRuleStrings implicationRuleStringsToCompare,
-            ImplicationRuleStrings implicationRuleStringsToCompareWith)
-        {
-            return implicationRuleStringsToCompare.IfStatement == implicationRuleStringsToCompareWith.IfStatement &&
-                   implicationRuleStringsToCompare.ThenStatement == implicationRuleStringsToCompareWith.ThenStatement;
-        }
-
-        private bool UnaryStatementsAreEqual(
-            UnaryStatement unaryStatementToCompare,
-            UnaryStatement unaryStatementToCompareWith)
-        {
-            return unaryStatementToCompare.LeftOperand == unaryStatementToCompareWith.LeftOperand &&
-                   unaryStatementToCompare.ComparisonOperation == unaryStatementToCompareWith.ComparisonOperation &&
-                   unaryStatementToCompare.RightOperand == unaryStatementToCompareWith.RightOperand;
-        }
-
-        private bool ImplicationRulesAreEqual(
-            ImplicationRule implicationRuleToCompare,
-            ImplicationRule implicationRuleToCompareWith)
-        {
-            if (implicationRuleToCompare.IfStatement.Count != implicationRuleToCompareWith.IfStatement.Count)
-                return false;
-
-            for (int i = 0; i < implicationRuleToCompare.IfStatement.Count; i++)
-            {
-                List<UnaryStatement> ifUnaryStetementsToCompare = implicationRuleToCompare.IfStatement[i].UnaryStatements;
-                List<UnaryStatement> ifUnaryStetementsToCompareWith = implicationRuleToCompareWith.IfStatement[i].UnaryStatements;
-
-                if (ifUnaryStetementsToCompare.Count != ifUnaryStetementsToCompareWith.Count)
-                    return false;
-
-                for (var j = 0; j < ifUnaryStetementsToCompare.Count; j++)
-                {
-                    if (!UnaryStatementsAreEqual(ifUnaryStetementsToCompare[j], ifUnaryStetementsToCompareWith[j]))
-                        return false;
-                }
-            }
-
-            List<UnaryStatement> thenUnaryStetementsToCompare = implicationRuleToCompare.ThenStatement.UnaryStatements;
-            List<UnaryStatement> thenUnaryStetementsToCompareWith = implicationRuleToCompareWith.ThenStatement.UnaryStatements;
-
-            if (thenUnaryStetementsToCompare.Count != thenUnaryStetementsToCompareWith.Count)
-                return false;
-
-            for (var i = 0; i < thenUnaryStetementsToCompare.Count; i++)
-            {
-                if (!UnaryStatementsAreEqual(thenUnaryStetementsToCompare[i], thenUnaryStetementsToCompareWith[i]))
-                    return false;
-            }
-
-            return true;
+            Assert.IsTrue(ObjectComparer.ImplicationRulesAreEqual(expectedImplicationRule, actualImplicationRule));
         }
     }
 }
