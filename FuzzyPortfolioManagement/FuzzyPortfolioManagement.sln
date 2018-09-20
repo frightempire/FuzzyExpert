@@ -19,11 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductionRulesParser.UnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.UnitTests", "tests\Base.UnitTests\Base.UnitTests.csproj", "{ADB942CB-8FF7-4E8D-8ADF-AD621EE0C59E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductionRuleManager", "ProductionRuleManager\ProductionRuleManager.csproj", "{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductionRuleManager", "assemblies\logic\ProductionRuleManager\ProductionRuleManager.csproj", "{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductionRuleManager.UnitTests", "ProductionRuleManager.UnitTests\ProductionRuleManager.UnitTests.csproj", "{FBB4B0C3-C0CB-4E51-B4C9-5B35CE220F60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductionRuleManager.UnitTests", "tests\ProductionRuleManager.UnitTests\ProductionRuleManager.UnitTests.csproj", "{FBB4B0C3-C0CB-4E51-B4C9-5B35CE220F60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{B0F4B692-8515-47CC-817F-84506F959AFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "tests\IntegrationTests\IntegrationTests.csproj", "{B0F4B692-8515-47CC-817F-84506F959AFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</ProjectGuid>
+    <ProjectGuid>{FBB4B0C3-C0CB-4E51-B4C9-5B35CE220F60}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProductionRuleManager</RootNamespace>
-    <AssemblyName>ProductionRuleManager</AssemblyName>
+    <RootNamespace>ProductionRuleManager.UnitTests</RootNamespace>
+    <AssemblyName>ProductionRuleManager.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,21 +47,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\FileImplicationRuleProvider.cs" />
-    <Compile Include="Interfaces\IImplicationRuleManager.cs" />
-    <Compile Include="Interfaces\IImplicationRuleProvider.cs" />
-    <Compile Include="Implementations\ImplicationRuleManager.cs" />
+    <Compile Include="Implementations\FileImplicationRuleProviderTests.cs" />
+    <Compile Include="Implementations\ImplicationRuleManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\assemblies\logic\CommonLogic\CommonLogic.csproj">
-      <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
+    <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
+      <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
       <Name>CommonLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\assemblies\logic\ProductionRulesParser\ProductionRulesParser.csproj">
-      <Project>{f56d71d5-f5d0-45b9-afae-bab233229c23}</Project>
+    <ProjectReference Include="..\..\assemblies\logic\ProductionRuleManager\ProductionRuleManager.csproj">
+      <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
+      <Name>ProductionRuleManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\assemblies\logic\ProductionRulesParser\ProductionRulesParser.csproj">
+      <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRulesParser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
