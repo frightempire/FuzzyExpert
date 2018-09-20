@@ -7,19 +7,12 @@ namespace CommonLogic.Implementations
 {
     public class FileReader : IFileReader
     {
-        private readonly string _filePath;
-
-        public FileReader(string filePath)
+        public List<string> ReadFileByLines(string filePath)
         {
             ExceptionAssert.IsEmpty(filePath);
             ExceptionAssert.FileExists(filePath);
 
-            _filePath = filePath;
-        }
-
-        public List<string> ReadFileByLines()
-        {
-            return File.ReadAllLines(_filePath).ToList();
+            return File.ReadAllLines(filePath).ToList();
         }
     }
 }

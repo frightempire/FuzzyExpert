@@ -19,9 +19,9 @@ namespace ProductionRulesParser.Implementations
             while (implicationRuleString.Length != 0)
             {
                 int iterator = 0;
-                char curChar = implicationRuleString[iterator];
+                char currentCharacter = implicationRuleString[iterator];
                 implicationRuleString = implicationRuleString.Remove(iterator, 1);
-                switch (curChar)
+                switch (currentCharacter)
                 {
                     case '(':
                         ruleParts.AddRange(ParseImplicationRule(ref implicationRuleString));
@@ -54,7 +54,7 @@ namespace ProductionRulesParser.Implementations
                         appendingString = string.Empty;
                         continue;
                     default:
-                        appendingString += curChar;
+                        appendingString += currentCharacter;
                         continue;
                 }
             }
@@ -74,7 +74,7 @@ namespace ProductionRulesParser.Implementations
         public List<string> ParseStatementCombination(string statement)
         {
             ExceptionAssert.IsEmpty(statement);
-            return statement.Split('&').ToList();
+            return statement.Replace("(", "").Replace(")", "").Split('&').ToList();
         }
 
         public ImplicationRuleStrings ExtractStatementParts(string implicationRule)

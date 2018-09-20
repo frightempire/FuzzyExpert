@@ -30,6 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,7 +47,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImplicationRuleManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
+      <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
+      <Name>CommonLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\assemblies\logic\ProductionRuleManager\ProductionRuleManager.csproj">
+      <Project>{67d42c31-9ff5-47bd-b3ea-dc8ae79fb4dc}</Project>
+      <Name>ProductionRuleManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\assemblies\logic\ProductionRulesParser\ProductionRulesParser.csproj">
+      <Project>{f56d71d5-f5d0-45b9-afae-bab233229c23}</Project>
+      <Name>ProductionRulesParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base.UnitTests\Base.UnitTests.csproj">
+      <Project>{adb942cb-8ff7-4e8d-8adf-ad621ee0c59e}</Project>
+      <Name>Base.UnitTests</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestFiles\ImplicationRules.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

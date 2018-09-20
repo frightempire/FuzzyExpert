@@ -23,9 +23,14 @@ namespace ProductionRuleManager.Implementations
             _implicationRuleCreator = implicationRuleCreator;
         }
 
+        public string FilePath { get; set; }
+
         public List<ImplicationRule> GetImplicationRules()
         {
-            List<string> implicationRulesFromFile = _fileReader.ReadFileByLines();
+            ExceptionAssert.IsNull(FilePath);
+            ExceptionAssert.FileExists(FilePath);
+
+            List<string> implicationRulesFromFile = _fileReader.ReadFileByLines(FilePath);
 
             List<ImplicationRule> implicationRules = new List<ImplicationRule>();
             implicationRulesFromFile.ForEach(irff =>

@@ -241,6 +241,19 @@ namespace ProductionRulesParser.UnitTests.Implementations
             // Assert
             Assert.IsTrue(expectedUnaryStatements.SequenceEqual(actualUnaryStatements));
         }
+        [Test]
+        public void ParseStatementCombination_ReturnsUnaryStatementWithoutBrackets()
+        {
+            // Arrange
+            string statementCombination = "(A=10)";
+            List<string> actualUnaryStatements = new List<string> { "A=10" };
+
+            // Act
+            List<string> expectedUnaryStatements = _implicationRuleParser.ParseStatementCombination(statementCombination);
+
+            // Assert
+            Assert.IsTrue(expectedUnaryStatements.SequenceEqual(actualUnaryStatements));
+        }
 
         [Test]
         public void ExtractStatementParts_ThrowsArgumentNullExceptionIfImplicationRuleIsNull()

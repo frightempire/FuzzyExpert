@@ -18,25 +18,25 @@ namespace CommonLogic.UnitTests.Implementations
         [SetUp]
         public void SetUp()
         {
-            _fileReader = new FileReader(_filePath);
+            _fileReader = new FileReader();
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfFilePathIsEmpty()
+        public void ReadFileByLines_ThrowsArgumentNullExceptionIfFilePathIsEmpty()
         {
-            Assert.Throws<ArgumentNullException>(() => new FileReader(string.Empty));
+            Assert.Throws<ArgumentNullException>(() => _fileReader.ReadFileByLines(string.Empty));
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfFilePathIsNull()
+        public void ReadFileByLines_ThrowsArgumentNullExceptionIfFilePathIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new FileReader(null));
+            Assert.Throws<ArgumentNullException>(() => _fileReader.ReadFileByLines(null));
         }
 
         [Test]
-        public void Constructor_ThrowsFileNotFoundExceptionIfFileNotExists()
+        public void ReadFileByLines_ThrowsFileNotFoundExceptionIfFileNotExists()
         {
-            Assert.Throws<FileNotFoundException>(() => new FileReader("notExistingFile.txt"));
+            Assert.Throws<FileNotFoundException>(() => _fileReader.ReadFileByLines("notExistingFile.txt"));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace CommonLogic.UnitTests.Implementations
             List<string> expectedLines = new List<string> {"line1", "line2", "line3" };
 
             // Act
-            List<string> lines = _fileReader.ReadFileByLines();
+            List<string> lines = _fileReader.ReadFileByLines(_filePath);
 
             // Assert
             Assert.IsTrue(TestHelper.ListsAreSequencualyEqual(lines, expectedLines));
@@ -55,11 +55,8 @@ namespace CommonLogic.UnitTests.Implementations
         [Test]
         public void ReadFileByLines_ReturnsEmptyList()
         {
-            // Arrange
-            _fileReader = new FileReader(_emptyFilePath);
-
             // Act
-            List<string> lines = _fileReader.ReadFileByLines();
+            List<string> lines = _fileReader.ReadFileByLines(_emptyFilePath);
 
             // Assert
             Assert.IsEmpty(lines);

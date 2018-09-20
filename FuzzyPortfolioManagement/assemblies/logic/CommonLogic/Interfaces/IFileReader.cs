@@ -4,6 +4,6 @@ namespace CommonLogic.Interfaces
 {
     public interface IFileReader
     {
-        List<string> ReadFileByLines();
+        List<string> ReadFileByLines(string filePath);
     }
 }
