@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{D6BB19F6-A79
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductionRuleSelectorAction", "assemblies\UI\WPF\ProductionRuleSelectorAction\ProductionRuleSelectorAction.csproj", "{944FDB03-657C-40D2-BF7E-7B0E3101317B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILogic.Common", "assemblies\UI\WPF\UILogic.Common\UILogic.Common.csproj", "{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{944FDB03-657C-40D2-BF7E-7B0E3101317B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{944FDB03-657C-40D2-BF7E-7B0E3101317B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{944FDB03-657C-40D2-BF7E-7B0E3101317B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{A0800D9E-08F4-49B6-B6FB-E2E295EDB0D2} = {137BA9C2-AB42-4EE8-AF85-F0D2B6A09005}
 		{D6BB19F6-A793-4564-9283-355E0D6B6DD1} = {A0800D9E-08F4-49B6-B6FB-E2E295EDB0D2}
 		{944FDB03-657C-40D2-BF7E-7B0E3101317B} = {D6BB19F6-A793-4564-9283-355E0D6B6DD1}
+		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6} = {D6BB19F6-A793-4564-9283-355E0D6B6DD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C02048F-FD3D-413C-BF07-FD63D8B77511}

@@ -1,6 +1,7 @@
-﻿using System.IO;
-using System.Windows;
-using Microsoft.Win32;
+﻿using System.Windows;
+using CommonLogic.Implementations;
+using ProductionRuleSelectorAction.ViewModels;
+using UILogic.Common.Implementations;
 
 namespace ProductionRuleSelectorAction.Panels
 {
@@ -9,24 +10,7 @@ namespace ProductionRuleSelectorAction.Panels
         public ImplicationRuleSelectorAction()
         {
             InitializeComponent();
-        }
-
-
-        private void BrowseButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                DefaultExt = ".txt",
-                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
-            };
-
-            bool? fileDialogResult = openFileDialog.ShowDialog();
-
-            if (fileDialogResult == true)
-            {
-                FilePathTextBox.Text = openFileDialog.FileName;
-                ImplicationRulesTextBox.Text = File.ReadAllText(openFileDialog.FileName);
-            }
+            DataContext = new ImplicationRuleSelectorActionModel(new ImplicationRuleFileDialogInteractor(), new FileReader());
         }
     }
 }

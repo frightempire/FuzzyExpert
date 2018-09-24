@@ -54,6 +54,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModels\ImplicationRuleSelectorActionModel.cs" />
     <Page Include="Panels\ImplicationRuleSelectorAction.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -92,6 +95,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\logic\CommonLogic\CommonLogic.csproj">
+      <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
+      <Name>CommonLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UILogic.Common\UILogic.Common.csproj">
+      <Project>{f2adf165-2aff-4c75-96aa-937ed014e1f6}</Project>
+      <Name>UILogic.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
