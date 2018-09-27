@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductionRuleSelectorActio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILogic.Common", "assemblies\UI\WPF\UILogic.Common\UILogic.Common.csproj", "{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyPortfolioManagment.Client", "assemblies\UI\WPF\FuzzyPortfolioManagment.Client\FuzzyPortfolioManagment.Client.csproj", "{D9D31040-E02D-4A26-9C09-29012AF6E6C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9D31040-E02D-4A26-9C09-29012AF6E6C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9D31040-E02D-4A26-9C09-29012AF6E6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9D31040-E02D-4A26-9C09-29012AF6E6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9D31040-E02D-4A26-9C09-29012AF6E6C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{D6BB19F6-A793-4564-9283-355E0D6B6DD1} = {A0800D9E-08F4-49B6-B6FB-E2E295EDB0D2}
 		{944FDB03-657C-40D2-BF7E-7B0E3101317B} = {D6BB19F6-A793-4564-9283-355E0D6B6DD1}
 		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6} = {D6BB19F6-A793-4564-9283-355E0D6B6DD1}
+		{D9D31040-E02D-4A26-9C09-29012AF6E6C5} = {D6BB19F6-A793-4564-9283-355E0D6B6DD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C02048F-FD3D-413C-BF07-FD63D8B77511}
