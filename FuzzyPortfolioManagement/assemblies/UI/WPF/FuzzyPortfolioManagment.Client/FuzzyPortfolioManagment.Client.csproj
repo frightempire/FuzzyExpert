@@ -104,6 +104,14 @@
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRulesParser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProductionRuleSelectorAction\ProductionRuleSelectorAction.csproj">
+      <Project>{944FDB03-657C-40D2-BF7E-7B0E3101317B}</Project>
+      <Name>ProductionRuleSelectorAction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UILogic.Common\UILogic.Common.csproj">
+      <Project>{F2ADF165-2AFF-4C75-96AA-937ED014E1F6}</Project>
+      <Name>UILogic.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

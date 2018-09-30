@@ -1,17 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using FuzzyPortfolioManagment.Client.DependencyInjection;
+using ProductionRuleSelectorAction.Panels;
+using SimpleInjector;
 
 namespace FuzzyPortfolioManagment.Client
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            SimpleInjectorContainerFactory containerFactory = new SimpleInjectorContainerFactory();
+            Container container = containerFactory.CreateSimpleInjectorContainer();
+            SimpleInjectorResolver resolver = new SimpleInjectorResolver(container);
+
+            var startUpWindow = (ImplicationRuleSelectorAction) resolver.Resolve(typeof(ImplicationRuleSelectorAction));
+            startUpWindow.Show();
+        }
     }
 }
