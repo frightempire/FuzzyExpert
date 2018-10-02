@@ -90,5 +90,118 @@ namespace ProductionRulesParser.UnitTests.Entities
             // Assert
             Assert.AreEqual(_thenUnaryStatement, actualUnaryStatement);
         }
+
+        [Test]
+        public void ToString_ReturnsCorrectStringRepresentaionSingleUnaryCase()
+        {
+            // Arrange
+            string expectedStringRepresentation = "IF (C != 2) THEN (X = 10)";
+            ImplicationRule implicationRule = new ImplicationRule(
+                new List<StatementCombination>
+                {
+                    new StatementCombination(new List<UnaryStatement>
+                    {
+                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2")
+                    })
+                },
+                new StatementCombination(new List<UnaryStatement>
+                {
+                    new UnaryStatement("X", ComparisonOperation.Equal, "10")
+                }));
+
+            // Act
+            string actualStringRepresentation = implicationRule.ToString();
+
+            // Assert
+            Assert.AreEqual(expectedStringRepresentation, actualStringRepresentation);
+        }
+
+        [Test]
+        public void ToString_ReturnsCorrectStringRepresentaionSimpleCase()
+        {
+            // Arrange
+            string expectedStringRepresentation = "IF (B != 1 & C != 2) THEN (X = 10)";
+            ImplicationRule implicationRule = new ImplicationRule(
+                new List<StatementCombination>
+                {
+                    new StatementCombination(new List<UnaryStatement>
+                    {
+                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1"),
+                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2")
+                    })
+                },
+                new StatementCombination(new List<UnaryStatement>
+                {
+                    new UnaryStatement("X", ComparisonOperation.Equal, "10")
+                }));
+
+            // Act
+            string actualStringRepresentation = implicationRule.ToString();
+
+            // Assert
+            Assert.AreEqual(expectedStringRepresentation, actualStringRepresentation);
+        }
+
+        [Test]
+        public void ToString_ReturnsCorrectStringRepresentaionComplexCase()
+        {
+            // Arrange
+            string expectedStringRepresentation = "IF ((B != 1 & C != 2) | D >= 5) THEN (X = 10 & Y = 7)";
+            ImplicationRule implicationRule = new ImplicationRule(
+                new List<StatementCombination>
+                {
+                    new StatementCombination(new List<UnaryStatement>
+                    {
+                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1"),
+                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2")
+                    }),
+                    new StatementCombination(new List<UnaryStatement>
+                    {
+                        new UnaryStatement("D", ComparisonOperation.GreaterOrEqual, "5")
+                    })
+                },
+                new StatementCombination(new List<UnaryStatement>
+                {
+                    new UnaryStatement("X", ComparisonOperation.Equal, "10"),
+                    new UnaryStatement("Y", ComparisonOperation.Equal, "7")
+                }));
+
+            // Act
+            string actualStringRepresentation = implicationRule.ToString();
+
+            // Assert
+            Assert.AreEqual(expectedStringRepresentation, actualStringRepresentation);
+        }
+
+        [Test]
+        public void ToString_ReturnsCorrectStringRepresentaionReversedComplexCase()
+        {
+            // Arrange
+            string expectedStringRepresentation = "IF (D >= 5 | (B != 1 & C != 2)) THEN (X = 10 & Y = 7)";
+            ImplicationRule implicationRule = new ImplicationRule(
+                new List<StatementCombination>
+                {
+                    new StatementCombination(new List<UnaryStatement>
+                    {
+                        new UnaryStatement("D", ComparisonOperation.GreaterOrEqual, "5")
+                    }),
+                    new StatementCombination(new List<UnaryStatement>
+                    {
+                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1"),
+                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2")
+                    })
+                },
+                new StatementCombination(new List<UnaryStatement>
+                {
+                    new UnaryStatement("X", ComparisonOperation.Equal, "10"),
+                    new UnaryStatement("Y", ComparisonOperation.Equal, "7")
+                }));
+
+            // Act
+            string actualStringRepresentation = implicationRule.ToString();
+
+            // Assert
+            Assert.AreEqual(expectedStringRepresentation, actualStringRepresentation);
+        }
     }
 }

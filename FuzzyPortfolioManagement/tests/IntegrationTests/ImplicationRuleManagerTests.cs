@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Base.UnitTests;
 using CommonLogic.Implementations;
@@ -15,38 +16,59 @@ namespace IntegrationTests
     {
         private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\ImplicationRules.txt");
 
-        private ImplicationRuleManager _implicationRuleManager;
+        private FileImplicationRuleManager _fileImplicationRuleManager;
+        private FilePathProvider _filePathProvider;
 
         [SetUp]
         public void SetUp()
         {
-            _implicationRuleManager = PrepareImplicationRuleManager();
+            PrepareImplicationRuleManager();
         }
 
-        private ImplicationRuleManager PrepareImplicationRuleManager()
+        private void PrepareImplicationRuleManager()
         {
             FileReader fileReader = new FileReader();
+            _filePathProvider = new FilePathProvider
+            {
+                FilePath = _filePath
+            };
 
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRulePreProcessor rulePreProcessor = new ImplicationRulePreProcessor();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser, rulePreProcessor);
 
-            FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(fileReader, ruleCreator)
-            {
-                FilePath = _filePath
-            };
-
-            return new ImplicationRuleManager(ruleProvider);
+            FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(fileReader, _filePathProvider, ruleCreator);
+            _fileImplicationRuleManager = new FileImplicationRuleManager(ruleProvider);
         }
 
         [Test]
-        public void ImplicationRulesGetterReturnsImplicationRulesList()
+        public void ImplicationRulesGetter_ThrowsArgumentNullExceptionIfFilePathIsNull()
+        {
+            // Arrange
+            _filePathProvider.FilePath = null;
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => { var rules = _fileImplicationRuleManager.ImplicationRules; });
+        }
+
+        [Test]
+        public void ImplicationRulesGetter_ThrowsFileNotFoundExceptionIfFilePathIsEmpty()
+        {
+            // Arrange
+            _filePathProvider.FilePath = string.Empty;
+
+            // Act & Assert
+            Assert.Throws<FileNotFoundException>(() => { var rules = _fileImplicationRuleManager.ImplicationRules; });
+        }
+
+        [Test]
+        public void ImplicationRulesGetter_ReturnsImplicationRulesList()
         {
             // Arrange
             List<ImplicationRule> expectedImplicationRules = PrepareExpectedImplicationRules();
 
             // Act
-            List<ImplicationRule> actualImplicationRules = _implicationRuleManager.ImplicationRules;
+            List<ImplicationRule> actualImplicationRules = _fileImplicationRuleManager.ImplicationRules;
 
             // Assert
             Assert.AreEqual(expectedImplicationRules.Count, actualImplicationRules.Count);

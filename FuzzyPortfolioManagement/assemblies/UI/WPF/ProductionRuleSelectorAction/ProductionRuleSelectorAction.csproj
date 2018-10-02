@@ -102,6 +102,14 @@
       <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
       <Name>CommonLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\ProductionRuleManager\ProductionRuleManager.csproj">
+      <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
+      <Name>ProductionRuleManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\ProductionRulesParser\ProductionRulesParser.csproj">
+      <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
+      <Name>ProductionRulesParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UILogic.Common\UILogic.Common.csproj">
       <Project>{f2adf165-2aff-4c75-96aa-937ed014e1f6}</Project>
       <Name>UILogic.Common</Name>

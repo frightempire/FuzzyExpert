@@ -17,6 +17,7 @@ namespace ProductionRuleManager.UnitTests.Implementations
         private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\TestFile.txt");
 
         private IFileReader _fileReaderMock;
+        private IFilePathProvider _filePathProviderMock;
         private IImplicationRuleCreator _implicationRuleCreatorMock;
 
         private FileImplicationRuleProvider _fileImplicationRuleProvider;
@@ -25,9 +26,13 @@ namespace ProductionRuleManager.UnitTests.Implementations
         public void SetUp()
         {
             _fileReaderMock = MockRepository.GenerateMock<IFileReader>();
+
+            _filePathProviderMock = MockRepository.GenerateMock<IFilePathProvider>();
+            _filePathProviderMock.Stub(x => x.FilePath).PropertyBehavior();
+
             _implicationRuleCreatorMock = MockRepository.GenerateMock<IImplicationRuleCreator>();
 
-            _fileImplicationRuleProvider = new FileImplicationRuleProvider(_fileReaderMock, _implicationRuleCreatorMock);
+            _fileImplicationRuleProvider = new FileImplicationRuleProvider(_fileReaderMock, _filePathProviderMock, _implicationRuleCreatorMock);
         }
 
         [Test]
@@ -36,7 +41,17 @@ namespace ProductionRuleManager.UnitTests.Implementations
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
-                new FileImplicationRuleProvider(null, _implicationRuleCreatorMock);
+                new FileImplicationRuleProvider(null, _filePathProviderMock, _implicationRuleCreatorMock);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfFilePathProviderIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new FileImplicationRuleProvider(_fileReaderMock, null, _implicationRuleCreatorMock);
             });
         }
 
@@ -46,35 +61,8 @@ namespace ProductionRuleManager.UnitTests.Implementations
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
-                new FileImplicationRuleProvider(_fileReaderMock, null);
+                new FileImplicationRuleProvider(_fileReaderMock, _filePathProviderMock, null);
             });
-        }
-
-        [Test]
-        public void FilePath_SetterWorksProperly()
-        {
-            // Arrange
-            string expectedFilePath = "SomeFile.txt";
-
-            // Act
-            _fileImplicationRuleProvider.FilePath = expectedFilePath;
-
-            // Assert
-            Assert.AreEqual(expectedFilePath, _fileImplicationRuleProvider.FilePath);
-        }
-
-        [Test]
-        public void FilePath_GetterReturnsValue()
-        {
-            // Arrange
-            string expectedFilePath = "SomeFile.txt";
-            _fileImplicationRuleProvider.FilePath = expectedFilePath;
-
-            // Act
-            string actualFilePath = _fileImplicationRuleProvider.FilePath;
-
-            // Assert
-            Assert.AreEqual(expectedFilePath, actualFilePath);
         }
 
         [Test]
@@ -88,7 +76,7 @@ namespace ProductionRuleManager.UnitTests.Implementations
         public void GetImplicationRules_ThrowsFileNotFoundExceptionIfFilePathIsEmpty()
         {
             // Arrange
-            _fileImplicationRuleProvider.FilePath = "";
+            _filePathProviderMock.FilePath = "";
 
             // Act & Assert
             Assert.Throws<FileNotFoundException>(() => _fileImplicationRuleProvider.GetImplicationRules());
@@ -98,7 +86,7 @@ namespace ProductionRuleManager.UnitTests.Implementations
         public void GetImplicationRules_ThrowsFileNotFoundExceptionIfFileDoesntExists()
         {
             // Arrange
-            _fileImplicationRuleProvider.FilePath = "NotExistingFile.txt";
+            _filePathProviderMock.FilePath = "NotExistingFile.txt";
 
             // Act & Assert
             Assert.Throws<FileNotFoundException>(() => _fileImplicationRuleProvider.GetImplicationRules());
@@ -108,7 +96,7 @@ namespace ProductionRuleManager.UnitTests.Implementations
         public void GetImplicationRules_ReturnsEmptyListOfRules()
         {
             // Arrange
-            _fileImplicationRuleProvider.FilePath = _filePath;
+            _filePathProviderMock.FilePath = _filePath;
             _fileReaderMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(new List<string>());
 
             // Act
@@ -122,7 +110,7 @@ namespace ProductionRuleManager.UnitTests.Implementations
         public void GetImplicationRules_ReturnsCorrectListOfRules()
         {
             // Arrange
-            _fileImplicationRuleProvider.FilePath = _filePath;
+            _filePathProviderMock.FilePath = _filePath;
 
             List<string> implicationRulesFromFile = new List<string>
             {

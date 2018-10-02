@@ -10,27 +10,29 @@ namespace ProductionRuleManager.Implementations
     public class FileImplicationRuleProvider : IImplicationRuleProvider
     {
         private readonly IFileReader _fileReader;
+        private readonly IFilePathProvider _filePathProvider;
         private readonly IImplicationRuleCreator _implicationRuleCreator;
 
         public FileImplicationRuleProvider(
             IFileReader fileReader,
+            IFilePathProvider filePathProvider,
             IImplicationRuleCreator implicationRuleCreator)
         {
             ExceptionAssert.IsNull(fileReader);
+            ExceptionAssert.IsNull(filePathProvider);
             ExceptionAssert.IsNull(implicationRuleCreator);
 
             _fileReader = fileReader;
+            _filePathProvider = filePathProvider;
             _implicationRuleCreator = implicationRuleCreator;
         }
 
-        public string FilePath { get; set; }
-
         public List<ImplicationRule> GetImplicationRules()
         {
-            ExceptionAssert.IsNull(FilePath);
-            ExceptionAssert.FileExists(FilePath);
+            ExceptionAssert.IsNull(_filePathProvider.FilePath);
+            ExceptionAssert.FileExists(_filePathProvider.FilePath);
 
-            List<string> implicationRulesFromFile = _fileReader.ReadFileByLines(FilePath);
+            List<string> implicationRulesFromFile = _fileReader.ReadFileByLines(_filePathProvider.FilePath);
 
             List<ImplicationRule> implicationRules = new List<ImplicationRule>();
             implicationRulesFromFile.ForEach(irff =>

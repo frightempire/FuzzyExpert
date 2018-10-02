@@ -41,7 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionAssert.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Implementations\FilePathProvider.cs" />
     <Compile Include="Implementations\FileReader.cs" />
+    <Compile Include="Interfaces\IFilePathProvider.cs" />
     <Compile Include="Interfaces\IFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

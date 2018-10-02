@@ -5,19 +5,18 @@ using ProductionRulesParser.Entities;
 
 namespace ProductionRuleManager.Implementations
 {
-    public class ImplicationRuleManager : IImplicationRuleManager
+    public class FileImplicationRuleManager : IImplicationRuleManager
     {
         private readonly IImplicationRuleProvider _implicationRuleProvider;
 
         private List<ImplicationRule> _implicationRules;
 
-        public ImplicationRuleManager(IImplicationRuleProvider implicationRuleProvider)
+        public FileImplicationRuleManager(IImplicationRuleProvider implicationRuleProvider)
         {
             ExceptionAssert.IsNull(implicationRuleProvider);
             _implicationRuleProvider = implicationRuleProvider;
         }
 
-        public List<ImplicationRule> ImplicationRules => 
-            _implicationRules ?? (_implicationRules = _implicationRuleProvider.GetImplicationRules());
+        public List<ImplicationRule> ImplicationRules => _implicationRules ?? (_implicationRules = _implicationRuleProvider.GetImplicationRules());
     }
 }

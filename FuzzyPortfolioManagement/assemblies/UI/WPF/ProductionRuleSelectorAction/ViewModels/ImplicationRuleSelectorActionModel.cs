@@ -1,9 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommonLogic;
 using CommonLogic.Interfaces;
+using ProductionRuleManager.Interfaces;
 using ProductionRuleSelectorAction.Annotations;
+using ProductionRulesParser.Entities;
 using UILogic.Common.Interfaces;
 
 namespace ProductionRuleSelectorAction.ViewModels
@@ -11,9 +14,11 @@ namespace ProductionRuleSelectorAction.ViewModels
     public class ImplicationRuleSelectorActionModel: INotifyPropertyChanged
     {
         private readonly IFileDialogInteractor _fileDialogInteractor;
-        private readonly IFileReader _fileReader;
+        private readonly IFilePathProvider _filePathProvider;
+        private readonly IImplicationRuleManager _implicationRuleManager;
 
         private string _filePath;
+
         public string FilePath
         {
             get => _filePath;
@@ -26,13 +31,18 @@ namespace ProductionRuleSelectorAction.ViewModels
 
         public ObservableCollection<string> ImplicationRules { get; set; }
 
-        public ImplicationRuleSelectorActionModel(IFileDialogInteractor fileDialogInteractor, IFileReader fileReader)
+        public ImplicationRuleSelectorActionModel(
+            IFileDialogInteractor fileDialogInteractor,
+            IFilePathProvider filePathProvider,
+            IImplicationRuleManager implicationRuleManager)
         {
             ExceptionAssert.IsNull(fileDialogInteractor);
-            ExceptionAssert.IsNull(fileReader);
+            ExceptionAssert.IsNull(filePathProvider);
+            ExceptionAssert.IsNull(implicationRuleManager);
 
             _fileDialogInteractor = fileDialogInteractor;
-            _fileReader = fileReader;
+            _filePathProvider = filePathProvider;
+            _implicationRuleManager = implicationRuleManager;
 
             InitializeBindingProperties();
         }
@@ -54,10 +64,11 @@ namespace ProductionRuleSelectorAction.ViewModels
                            if (!_fileDialogInteractor.OpenFileDialog()) return;
 
                            FilePath = _fileDialogInteractor.FilePath;
+                           _filePathProvider.FilePath = FilePath;
 
-                           var implicationRules = _fileReader.ReadFileByLines(FilePath);
+                           List<ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
                            ImplicationRules.Clear();
-                           implicationRules.ForEach(ir => ImplicationRules.Add(ir));
+                           implicationRules.ForEach(ir => ImplicationRules.Add(ir.ToString()));
                        }));
             }
         }

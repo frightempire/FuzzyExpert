@@ -20,12 +20,14 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
         {
             _container.RegisterInstance(typeof(IImplicationRulePreProcessor), new ImplicationRulePreProcessor());
             _container.RegisterInstance(typeof(IImplicationRuleParser), new ImplicationRuleParser());
+            _container.RegisterInstance(typeof(IFilePathProvider), new FilePathProvider());
+
             _container.Register<IImplicationRuleCreator, ImplicationRuleCreator>();
 
             _container.RegisterInstance(typeof(IFileReader), new FileReader());
             _container.Register<IImplicationRuleProvider, FileImplicationRuleProvider>();
 
-            _container.Register<IImplicationRuleManager, ImplicationRuleManager>();
+            _container.Register<IImplicationRuleManager, FileImplicationRuleManager>();
 
             _container.Register<IFileDialogInteractor, ImplicationRuleFileDialogInteractor>();
             _container.Register<ImplicationRuleSelectorActionModel>();

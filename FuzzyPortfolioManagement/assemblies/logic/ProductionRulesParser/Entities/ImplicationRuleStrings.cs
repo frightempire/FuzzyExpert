@@ -6,9 +6,7 @@ namespace ProductionRulesParser.Entities
     {
         public ImplicationRuleStrings(string ifStatement, string thenStatement)
         {
-            ExceptionAssert.IsNull(ifStatement);
             ExceptionAssert.IsEmpty(ifStatement);
-            ExceptionAssert.IsNull(thenStatement);
             ExceptionAssert.IsEmpty(thenStatement);
 
             IfStatement = ifStatement;
