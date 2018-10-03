@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Base.UnitTests;
+using Base.UnitTests.TestEntitites;
 using NUnit.Framework;
 
 namespace CommonLogic.UnitTests
