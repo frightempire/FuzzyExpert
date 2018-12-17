@@ -27,7 +27,7 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
             _container.RegisterInstance(typeof(IFileReader), new FileReader());
             _container.Register<IImplicationRuleProvider, FileImplicationRuleProvider>();
 
-            _container.Register<IImplicationRuleManager, FileImplicationRuleManager>();
+            _container.Register<IImplicationRuleManager, ImplicationRuleManager>();
 
             _container.Register<IFileDialogInteractor, ImplicationRuleFileDialogInteractor>();
             _container.Register<ImplicationRuleSelectorActionModel>();

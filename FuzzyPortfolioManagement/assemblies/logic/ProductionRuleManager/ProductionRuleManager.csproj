@@ -43,7 +43,7 @@
     <Compile Include="Implementations\FileImplicationRuleProvider.cs" />
     <Compile Include="Interfaces\IImplicationRuleManager.cs" />
     <Compile Include="Interfaces\IImplicationRuleProvider.cs" />
-    <Compile Include="Implementations\FileImplicationRuleManager.cs" />
+    <Compile Include="Implementations\ImplicationRuleManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

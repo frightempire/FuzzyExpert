@@ -13,7 +13,7 @@ namespace ProductionRuleManager.UnitTests.Implementations
         public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleProviderIsNull()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => { new FileImplicationRuleManager(null); });
+            Assert.Throws<ArgumentNullException>(() => { new ImplicationRuleManager(null); });
         }
     }
 }

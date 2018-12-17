@@ -16,7 +16,7 @@ namespace IntegrationTests
     {
         private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\ImplicationRules.txt");
 
-        private FileImplicationRuleManager _fileImplicationRuleManager;
+        private ImplicationRuleManager _implicationRuleManager;
         private FilePathProvider _filePathProvider;
 
         [SetUp]
@@ -38,7 +38,7 @@ namespace IntegrationTests
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser, rulePreProcessor);
 
             FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(fileReader, _filePathProvider, ruleCreator);
-            _fileImplicationRuleManager = new FileImplicationRuleManager(ruleProvider);
+            _implicationRuleManager = new ImplicationRuleManager(ruleProvider);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace IntegrationTests
             _filePathProvider.FilePath = null;
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => { var rules = _fileImplicationRuleManager.ImplicationRules; });
+            Assert.Throws<ArgumentNullException>(() => { var rules = _implicationRuleManager.ImplicationRules; });
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace IntegrationTests
             _filePathProvider.FilePath = string.Empty;
 
             // Act & Assert
-            Assert.Throws<FileNotFoundException>(() => { var rules = _fileImplicationRuleManager.ImplicationRules; });
+            Assert.Throws<FileNotFoundException>(() => { var rules = _implicationRuleManager.ImplicationRules; });
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace IntegrationTests
             List<ImplicationRule> expectedImplicationRules = PrepareExpectedImplicationRules();
 
             // Act
-            List<ImplicationRule> actualImplicationRules = _fileImplicationRuleManager.ImplicationRules;
+            List<ImplicationRule> actualImplicationRules = _implicationRuleManager.ImplicationRules;
 
             // Assert
             Assert.AreEqual(expectedImplicationRules.Count, actualImplicationRules.Count);
