@@ -41,10 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\MembershipFunction.cs" />
+    <Compile Include="Enums\MembershipFunctionType.cs" />
     <Compile Include="Implementations\MembershipFunctionList.cs" />
     <Compile Include="Entities\TrapezoidalMembershipFunction.cs" />
-    <Compile Include="Implementations\MembershipFunctionManager.cs" />
-    <Compile Include="Interfaces\IMembershipFunctionManager.cs" />
+    <Compile Include="Interfaces\IMembershipFunctionFactory.cs" />
+    <Compile Include="Implementations\MembershipFunctionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

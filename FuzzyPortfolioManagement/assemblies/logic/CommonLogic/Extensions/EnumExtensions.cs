@@ -11,7 +11,7 @@ namespace CommonLogic.Extensions
         {
             Type type = enumValue.GetType();
             if (!type.IsEnum)
-                throw new ArgumentException("Parameter must be an enum", nameof(enumValue));
+                throw new ArgumentException("Parameter must be an enum: ", nameof(enumValue));
             
             MemberInfo[] memberInfos = type.GetMember(enumValue.ToString());
             if (memberInfos.Length > 0)
@@ -24,6 +24,14 @@ namespace CommonLogic.Extensions
             }
 
             return enumValue.ToString();
+        }
+
+        public static T ToEnum<T>(this string enumString) where T : struct
+        {
+            if (!typeof(T).IsEnum)
+                throw new ArgumentException("Generic parameter must be an enum: ", nameof(T));
+
+            return (T) Enum.Parse(typeof(T), enumString, true);
         }
     }
 }

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Entities\MembershipFunctionTests.cs" />
     <Compile Include="Entities\TrapezoidalMembershipFunctionTests.cs" />
+    <Compile Include="Implementations\MembershipFunctionFactoryTests.cs" />
     <Compile Include="Implementations\MembershipFunctionListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestEntities\StubMembershipFunction.cs" />
@@ -62,6 +63,10 @@
     <ProjectReference Include="..\..\assemblies\logic\MembershipFunctionManager\MembershipFunctionManager.csproj">
       <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
       <Name>MembershipFunctionManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base.UnitTests\Base.UnitTests.csproj">
+      <Project>{ADB942CB-8FF7-4E8D-8ADF-AD621EE0C59E}</Project>
+      <Name>Base.UnitTests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

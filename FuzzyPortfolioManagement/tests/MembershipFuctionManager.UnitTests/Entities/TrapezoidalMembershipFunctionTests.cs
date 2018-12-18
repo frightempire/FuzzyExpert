@@ -1,4 +1,5 @@
-﻿using MembershipFunctionManager.Entities;
+﻿using System;
+using MembershipFunctionManager.Entities;
 using NUnit.Framework;
 
 namespace MembershipFuctionManager.UnitTests.Entities
@@ -17,6 +18,34 @@ namespace MembershipFuctionManager.UnitTests.Entities
         public void SetUp()
         {
             _trapezoidalMembershipFunction = new TrapezoidalMembershipFunction(LinquisticVariableName, X0, X1, X2, X3);
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentExceptionIfPointsOrderIsViolatedCase1()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => { new TrapezoidalMembershipFunction(LinquisticVariableName, X1, X0, X2, X3); });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentExceptionIfPointsOrderIsViolatedCase2()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => { new TrapezoidalMembershipFunction(LinquisticVariableName, X0, X2, X1, X3); });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentExceptionIfPointsOrderIsViolatedCase3()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => { new TrapezoidalMembershipFunction(LinquisticVariableName, X0, X1, X3, X2); });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentExceptionIfPointsOrderIsViolatedCase4()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => { new TrapezoidalMembershipFunction(LinquisticVariableName, X3, X1, X2, X0); });
         }
 
         [Test]

@@ -48,6 +48,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\assemblies\logic\MembershipFunctionManager\MembershipFunctionManager.csproj">
+      <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
+      <Name>MembershipFunctionManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\assemblies\logic\ProductionRulesParser\ProductionRulesParser.csproj">
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRulesParser</Name>

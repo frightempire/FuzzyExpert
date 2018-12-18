@@ -45,5 +45,43 @@ namespace CommonLogic.UnitTests.Extensions
             // Assert
             Assert.AreEqual(expectedDescription, actualDescription);
         }
+
+        [Test]
+        public void ToEnum_ThrowsArgumentExceptionIfOutputValueIsNotEnum()
+        {
+            // Arrange
+            string enumString = "Zero";
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => { enumString.ToEnum<TestStruct>(); });
+        }
+
+        [Test]
+        public void ToEnum_ReturnsEnumValueCase1()
+        {
+            // Arrange
+            string enumString = "Third";
+            TestEnum expectedEnum = TestEnum.Third;
+
+            // Act
+            TestEnum actualEnum = enumString.ToEnum<TestEnum>();
+
+            // Assert
+            Assert.AreEqual(expectedEnum, actualEnum);
+        }
+
+        [Test]
+        public void ToEnum_ReturnsEnumValueCase2()
+        {
+            // Arrange
+            string enumString = "Second";
+            TestEnum expectedEnum = TestEnum.Second;
+
+            // Act
+            TestEnum actualEnum = enumString.ToEnum<TestEnum>();
+
+            // Assert
+            Assert.AreEqual(expectedEnum, actualEnum);
+        }
     }
 }

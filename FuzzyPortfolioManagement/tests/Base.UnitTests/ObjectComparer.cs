@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using MembershipFunctionManager.Entities;
 using ProductionRulesParser.Entities;
 
 namespace Base.UnitTests
@@ -57,6 +59,17 @@ namespace Base.UnitTests
             return unaryStatementToCompare.LeftOperand == unaryStatementToCompareWith.LeftOperand &&
                    unaryStatementToCompare.ComparisonOperation == unaryStatementToCompareWith.ComparisonOperation &&
                    unaryStatementToCompare.RightOperand == unaryStatementToCompareWith.RightOperand;
+        }
+
+        public static bool MembershipFunctionsAreEqual(
+            MembershipFunction membershipFunctionToCompare,
+            MembershipFunction membershipFunctionToCompareWith)
+        {
+            Type membershipFunctionToCompareType = membershipFunctionToCompare.GetType();
+            Type membershipFunctionToCompareWithType = membershipFunctionToCompareWith.GetType();
+
+            return membershipFunctionToCompareType == membershipFunctionToCompareWithType &&
+                   membershipFunctionToCompare.Equals(membershipFunctionToCompareWith);
         }
     }
 }
