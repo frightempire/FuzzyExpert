@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\LinguisticVariable.cs" />
     <Compile Include="Entities\MembershipFunction.cs" />
     <Compile Include="Enums\MembershipFunctionType.cs" />
     <Compile Include="Implementations\MembershipFunctionList.cs" />

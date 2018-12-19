@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LinguisticVariableParser.Entities;
 using NUnit.Framework;
 
@@ -49,71 +50,13 @@ namespace LinguisticVariableParser.UnitTests.Entities
         }
 
         [Test]
-        public void Constructor_SetsX0Property()
+        public void Constructor_PopulatesPointsList()
         {
-            // Assert
-            Assert.AreEqual(X0, _trapezoidalMembershipFunction.X0);
-        }
-
-        [Test]
-        public void X0_GetterReturnsValue()
-        {
-            // Act
-            double actualX0 = _trapezoidalMembershipFunction.X0;
+            // Arrange
+            List<double> expectedPointsList = new List<double> {X0, X1, X2, X3};
 
             // Assert
-            Assert.AreEqual(X0, actualX0);
-        }
-
-        [Test]
-        public void Constructor_SetsX1Property()
-        {
-            // Assert
-            Assert.AreEqual(X1, _trapezoidalMembershipFunction.X1);
-        }
-
-        [Test]
-        public void X1_GetterReturnsValue()
-        {
-            // Act
-            double actualX1 = _trapezoidalMembershipFunction.X1;
-
-            // Assert
-            Assert.AreEqual(X1, actualX1);
-        }
-
-        [Test]
-        public void Constructor_SetsX2Property()
-        {
-            // Assert
-            Assert.AreEqual(X2, _trapezoidalMembershipFunction.X2);
-        }
-
-        [Test]
-        public void X2_GetterReturnsValue()
-        {
-            // Act
-            double actualX2 = _trapezoidalMembershipFunction.X2;
-
-            // Assert
-            Assert.AreEqual(X2, actualX2);
-        }
-
-        [Test]
-        public void Constructor_SetsX3Property()
-        {
-            // Assert
-            Assert.AreEqual(X3, _trapezoidalMembershipFunction.X3);
-        }
-
-        [Test]
-        public void X3_GetterReturnsValue()
-        {
-            // Act
-            double actualX3 = _trapezoidalMembershipFunction.X3;
-
-            // Assert
-            Assert.AreEqual(X3, actualX3);
+            Assert.AreEqual(expectedPointsList, _trapezoidalMembershipFunction.PointsList);
         }
     }
 }

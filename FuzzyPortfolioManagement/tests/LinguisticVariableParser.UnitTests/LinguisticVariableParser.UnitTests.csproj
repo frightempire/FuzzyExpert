@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\LinguisticVariableTests.cs" />
     <Compile Include="Entities\MembershipFunctionTests.cs" />
     <Compile Include="Entities\TrapezoidalMembershipFunctionTests.cs" />
     <Compile Include="Implementations\MembershipFunctionFactoryTests.cs" />

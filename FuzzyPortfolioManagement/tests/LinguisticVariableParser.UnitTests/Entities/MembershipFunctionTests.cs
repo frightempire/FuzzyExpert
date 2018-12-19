@@ -23,6 +23,13 @@ namespace LinguisticVariableParser.UnitTests.Entities
         }
 
         [Test]
+        public void Constructor_CreatesEmptyPointsList()
+        {
+            // Assert
+            Assert.IsEmpty(_membershipFunction.PointsList);
+        }
+
+        [Test]
         public void LinguisticVariableName_GetterReturnsValue()
         {
             // Act

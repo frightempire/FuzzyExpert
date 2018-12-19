@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LinguisticVariableParser.Entities;
+using LinguisticVariableParser.Implementations;
 using ProductionRuleParser.Entities;
 
 namespace Base.UnitTests
@@ -70,6 +71,22 @@ namespace Base.UnitTests
 
             return membershipFunctionToCompareType == membershipFunctionToCompareWithType &&
                    membershipFunctionToCompare.Equals(membershipFunctionToCompareWith);
+        }
+
+        public static bool MembershipFunctionListsAreEqual(
+            MembershipFunctionList membershipFunctionListToCompare,
+            MembershipFunctionList membershipFunctionListToCompareWith)
+        {
+            if (membershipFunctionListToCompare.Count != membershipFunctionListToCompareWith.Count)
+                return false;
+
+            for (int i = 0; i < membershipFunctionListToCompare.Count; i++)
+            {
+                if (!MembershipFunctionsAreEqual(membershipFunctionListToCompare[i], membershipFunctionListToCompareWith[i]))
+                    return false;
+            }
+
+            return true;
         }
     }
 }
