@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ADB942CB-8FF7-4E8D-8ADF-AD621EE0C59E}</ProjectGuid>
+    <ProjectGuid>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Base.UnitTests</RootNamespace>
-    <AssemblyName>Base.UnitTests</AssemblyName>
+    <RootNamespace>ProductionRuleParser</RootNamespace>
+    <AssemblyName>ProductionRuleParser</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,21 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectComparer.cs" />
-    <Compile Include="TestEntitites\TestClass.cs" />
-    <Compile Include="TestEntitites\TestEnum.cs" />
-    <Compile Include="TestEntitites\TestStruct.cs" />
-    <Compile Include="TestHelper.cs" />
+    <Compile Include="Entities\ImplicationRule.cs" />
+    <Compile Include="Entities\ImplicationRuleStrings.cs" />
+    <Compile Include="Entities\StatementCombination.cs" />
+    <Compile Include="Entities\UnaryStatement.cs" />
+    <Compile Include="Enums\ComparisonOperation.cs" />
+    <Compile Include="Enums\LogicalOperation.cs" />
+    <Compile Include="Interfaces\IImplicationRulePreProcessor.cs" />
+    <Compile Include="Implementations\ImplicationRulePreProcessor.cs" />
+    <Compile Include="Interfaces\IImplicationRuleParser.cs" />
+    <Compile Include="Interfaces\IImplicationRuleCreator.cs" />
+    <Compile Include="Implementations\ImplicationRuleCreator.cs" />
+    <Compile Include="Implementations\ImplicationRuleParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\assemblies\logic\LinguisticVariableParser\LinguisticVariableParser.csproj">
-      <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
-      <Name>LinguisticVariableParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\ProductionRuleParser\ProductionRuleParser.csproj">
-      <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
-      <Name>ProductionRuleParser</Name>
+    <ProjectReference Include="..\CommonLogic\CommonLogic.csproj">
+      <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
+      <Name>CommonLogic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

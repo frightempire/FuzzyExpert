@@ -1,9 +1,9 @@
 ﻿using CommonLogic.Implementations;
 using CommonLogic.Interfaces;
-using ProductionRuleManager.Implementations;
-using ProductionRuleManager.Interfaces;
-using ProductionRulesParser.Implementations;
-using ProductionRulesParser.Interfaces;
+using KnowledgeManager.Implementations;
+using KnowledgeManager.Interfaces;
+using ProductionRuleParser.Implementations;
+using ProductionRuleParser.Interfaces;
 using ProductionRuleSelectorAction.Panels;
 using ProductionRuleSelectorAction.ViewModels;
 using SimpleInjector;

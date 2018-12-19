@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommonLogic;
 using CommonLogic.Interfaces;
-using ProductionRuleManager.Interfaces;
+using KnowledgeManager.Interfaces;
+using ProductionRuleParser.Entities;
 using ProductionRuleSelectorAction.Annotations;
-using ProductionRulesParser.Entities;
 using UILogic.Common.Interfaces;
 
 namespace ProductionRuleSelectorAction.ViewModels

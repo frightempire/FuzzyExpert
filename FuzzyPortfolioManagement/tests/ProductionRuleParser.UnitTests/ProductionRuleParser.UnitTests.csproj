@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B0F4B692-8515-47CC-817F-84506F959AFC}</ProjectGuid>
+    <ProjectGuid>{0E197324-318D-498C-A9E3-61AE964FA0D5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IntegrationTests</RootNamespace>
-    <AssemblyName>IntegrationTests</AssemblyName>
+    <RootNamespace>ProductionRuleParser.UnitTests</RootNamespace>
+    <AssemblyName>ProductionRuleParser.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -38,7 +38,6 @@
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,34 +49,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImplicationRuleManagerTests.cs" />
+    <Compile Include="Entities\ImplicationRuleStringsTests.cs" />
+    <Compile Include="Entities\ImplicationRuleTests.cs" />
+    <Compile Include="Entities\StatementCombinationTests.cs" />
+    <Compile Include="Entities\UnaryStatementTests.cs" />
+    <Compile Include="Implementations\ImplicationRuleParserTests.cs" />
+    <Compile Include="Implementations\ImplicationRuleCreatorTests.cs" />
+    <Compile Include="Implementations\ImplicationRulePreProcessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
-      <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
-      <Name>CommonLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\KnowledgeManager\KnowledgeManager.csproj">
-      <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
-      <Name>KnowledgeManager</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\assemblies\logic\ProductionRuleParser\ProductionRuleParser.csproj">
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRuleParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\Base.UnitTests\Base.UnitTests.csproj">
-      <Project>{adb942cb-8ff7-4e8d-8adf-ad621ee0c59e}</Project>
+      <Project>{ADB942CB-8FF7-4E8D-8ADF-AD621EE0C59E}</Project>
       <Name>Base.UnitTests</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TestFiles\ImplicationRules.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

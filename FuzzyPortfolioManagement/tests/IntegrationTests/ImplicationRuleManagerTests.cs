@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using Base.UnitTests;
 using CommonLogic.Implementations;
+using KnowledgeManager.Implementations;
 using NUnit.Framework;
-using ProductionRuleManager.Implementations;
-using ProductionRulesParser.Entities;
-using ProductionRulesParser.Enums;
-using ProductionRulesParser.Implementations;
+using ProductionRuleParser.Entities;
+using ProductionRuleParser.Enums;
+using ProductionRuleParser.Implementations;
 
 namespace IntegrationTests
 {

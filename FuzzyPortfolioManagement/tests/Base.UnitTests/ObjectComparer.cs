@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MembershipFunctionManager.Entities;
-using ProductionRulesParser.Entities;
+using LinguisticVariableParser.Entities;
+using ProductionRuleParser.Entities;
 
 namespace Base.UnitTests
 {

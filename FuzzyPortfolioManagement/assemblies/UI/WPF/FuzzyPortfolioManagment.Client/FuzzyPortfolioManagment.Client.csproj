@@ -96,13 +96,13 @@
       <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
       <Name>CommonLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\logic\ProductionRuleManager\ProductionRuleManager.csproj">
+    <ProjectReference Include="..\..\..\logic\KnowledgeManager\KnowledgeManager.csproj">
       <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
-      <Name>ProductionRuleManager</Name>
+      <Name>KnowledgeManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\logic\ProductionRulesParser\ProductionRulesParser.csproj">
+    <ProjectReference Include="..\..\..\logic\ProductionRuleParser\ProductionRuleParser.csproj">
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
-      <Name>ProductionRulesParser</Name>
+      <Name>ProductionRuleParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\Actions\ProductionRuleSelectorAction\ProductionRuleSelectorAction.csproj">
       <Project>{944FDB03-657C-40D2-BF7E-7B0E3101317B}</Project>

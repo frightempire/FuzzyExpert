@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B0F4B692-8515-47CC-817F-84506F959AFC}</ProjectGuid>
+    <ProjectGuid>{FBB4B0C3-C0CB-4E51-B4C9-5B35CE220F60}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IntegrationTests</RootNamespace>
-    <AssemblyName>IntegrationTests</AssemblyName>
+    <RootNamespace>KnowledgeManager.UnitTests</RootNamespace>
+    <AssemblyName>KnowledgeManager.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -38,7 +38,6 @@
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,15 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImplicationRuleManagerTests.cs" />
+    <Compile Include="Implementations\FileImplicationRuleProviderTests.cs" />
+    <Compile Include="Implementations\ImplicationRuleManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
-      <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
+      <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
       <Name>CommonLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\assemblies\logic\KnowledgeManager\KnowledgeManager.csproj">
@@ -69,13 +66,12 @@
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRuleParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Base.UnitTests\Base.UnitTests.csproj">
-      <Project>{adb942cb-8ff7-4e8d-8adf-ad621ee0c59e}</Project>
-      <Name>Base.UnitTests</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestFiles\ImplicationRules.txt">
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestFiles\TestFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
