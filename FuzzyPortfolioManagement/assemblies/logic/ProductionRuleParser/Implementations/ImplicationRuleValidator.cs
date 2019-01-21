@@ -5,10 +5,12 @@ using ProductionRuleParser.Interfaces;
 
 namespace ProductionRuleParser.Implementations
 {
-    public class ImplicationRulePreProcessor : IImplicationRulePreProcessor
+    public class ImplicationRuleValidator : IImplicationRuleValidator
     {
         public void ValidateImplicationRule(string implicationRule)
         {
+            if (implicationRule.Contains(" "))
+                throw new ArgumentException("Implication rule string is not valid: haven't been preprocessed");
             if (!implicationRule.StartsWith("IF"))
                 throw new ArgumentException("Implication rule string is not valid: no if statement");
             if (!implicationRule.Contains("THEN"))
@@ -18,7 +20,7 @@ namespace ProductionRuleParser.Implementations
             if (brackets.Count == 0)
                 throw new ArgumentException("Implication rule string is not valid: no brackets");
             if (brackets.Count % 2 != 0)
-                throw new ArgumentException("Implication rule string is not valid: even count of brackets");
+                throw new ArgumentException("Implication rule string is not valid: odd count of brackets");
             if (brackets[0] != '(' || brackets[brackets.Count - 1] != ')')
                 throw new ArgumentException("Implication rule string is not valid: wrong opening or closing bracket");
 
@@ -26,11 +28,6 @@ namespace ProductionRuleParser.Implementations
             int closingBracketsCount = brackets.Count(b => b == ')');
             if (openingBracketsCount != closingBracketsCount)
                 throw new ArgumentException("Implication rule string is not valid: mismatching brackets");
-        }
-
-        public string PreProcessImplicationRule(string implicationRule)
-        {
-            return implicationRule.Replace(" ", string.Empty);
         }
     }
 }

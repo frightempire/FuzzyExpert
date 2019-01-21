@@ -83,5 +83,15 @@ namespace CommonLogic.UnitTests.Extensions
             // Assert
             Assert.AreEqual(expectedEnum, actualEnum);
         }
+
+        [Test]
+        public void ToEnum_ThrowsArgumentNullExceptionIfStringIsNotSupported()
+        {
+            // Arrange
+            string enumString = "Fourth";
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => { enumString.ToEnum<TestEnum>(); });
+        }
     }
 }

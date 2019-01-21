@@ -46,8 +46,8 @@
     <Compile Include="Entities\UnaryStatement.cs" />
     <Compile Include="Enums\ComparisonOperation.cs" />
     <Compile Include="Enums\LogicalOperation.cs" />
-    <Compile Include="Interfaces\IImplicationRulePreProcessor.cs" />
-    <Compile Include="Implementations\ImplicationRulePreProcessor.cs" />
+    <Compile Include="Interfaces\IImplicationRuleValidator.cs" />
+    <Compile Include="Implementations\ImplicationRuleValidator.cs" />
     <Compile Include="Interfaces\IImplicationRuleParser.cs" />
     <Compile Include="Interfaces\IImplicationRuleCreator.cs" />
     <Compile Include="Implementations\ImplicationRuleCreator.cs" />

@@ -1,9 +1,7 @@
 namespace ProductionRuleParser.Interfaces
 {
-    public interface IImplicationRulePreProcessor
+    public interface IImplicationRuleValidator
     {
         void ValidateImplicationRule(string implicationRule);
-
-        string PreProcessImplicationRule(string implicationRule);
     }
 }

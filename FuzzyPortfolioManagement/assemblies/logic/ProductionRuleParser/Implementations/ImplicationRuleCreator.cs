@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CommonLogic;
+using CommonLogic.Extensions;
 using ProductionRuleParser.Entities;
 using ProductionRuleParser.Interfaces;
 
@@ -8,24 +9,23 @@ namespace ProductionRuleParser.Implementations
     public class ImplicationRuleCreator : IImplicationRuleCreator
     {
         private readonly IImplicationRuleParser _implicationRuleParser;
-        private readonly IImplicationRulePreProcessor _implicationRulePreProcessor;
+        private readonly IImplicationRuleValidator _implicationRuleValidator;
 
         public ImplicationRuleCreator(
             IImplicationRuleParser implicationRuleParser,
-            IImplicationRulePreProcessor implicationRulePreProcessor)
+            IImplicationRuleValidator implicationRuleValidator)
         {
             ExceptionAssert.IsNull(implicationRuleParser);
-            ExceptionAssert.IsNull(implicationRulePreProcessor);
+            ExceptionAssert.IsNull(implicationRuleValidator);
 
             _implicationRuleParser = implicationRuleParser;
-            _implicationRulePreProcessor = implicationRulePreProcessor;
+            _implicationRuleValidator = implicationRuleValidator;
         }
 
         public ImplicationRuleStrings DivideImplicationRule(string implicationRule)
         {
-            _implicationRulePreProcessor.ValidateImplicationRule(implicationRule);
-
-            string preProcessedImplicationRule = _implicationRulePreProcessor.PreProcessImplicationRule(implicationRule);
+            string preProcessedImplicationRule = implicationRule.RemoveUnwantedCharacters(new List<char> { ' ' });
+            _implicationRuleValidator.ValidateImplicationRule(preProcessedImplicationRule);
             return _implicationRuleParser.ExtractStatementParts(preProcessedImplicationRule);
         }
 

@@ -18,7 +18,7 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
 
         public Container CreateSimpleInjectorContainer()
         {
-            _container.RegisterInstance(typeof(IImplicationRulePreProcessor), new ImplicationRulePreProcessor());
+            _container.RegisterInstance(typeof(IImplicationRuleValidator), new ImplicationRuleValidator());
             _container.RegisterInstance(typeof(IImplicationRuleParser), new ImplicationRuleParser());
             _container.RegisterInstance(typeof(IFilePathProvider), new FilePathProvider());
 

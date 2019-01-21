@@ -14,22 +14,22 @@ namespace ProductionRuleParser.UnitTests.Implementations
     public class ImplicationRuleCreatorTests
     {
         private IImplicationRuleParser _implicationRuleParser;
-        private IImplicationRulePreProcessor _implicationRulePreProcessor;
+        private IImplicationRuleValidator _implicationRuleValidator;
         private ImplicationRuleCreator _implicationRuleCreator;
 
         [SetUp]
         public void SetUp()
         {
             _implicationRuleParser = MockRepository.GenerateMock<IImplicationRuleParser>();
-            _implicationRulePreProcessor = MockRepository.GenerateMock<IImplicationRulePreProcessor>();
-            _implicationRuleCreator = new ImplicationRuleCreator(_implicationRuleParser, _implicationRulePreProcessor);
+            _implicationRuleValidator = MockRepository.GenerateMock<IImplicationRuleValidator>();
+            _implicationRuleCreator = new ImplicationRuleCreator(_implicationRuleParser, _implicationRuleValidator);
         }
 
         [Test]
         public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleParserIsNull()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => new ImplicationRuleCreator(null, _implicationRulePreProcessor));
+            Assert.Throws<ArgumentNullException>(() => new ImplicationRuleCreator(null, _implicationRuleValidator));
         }
 
         [Test]
@@ -48,9 +48,6 @@ namespace ProductionRuleParser.UnitTests.Implementations
                 "(A=a|(B=b&C=c))", "(D=d)");
 
             string implicationRuleAfterPreProcessing = "IF(A=a|(B=b&C=c))THEN(D=d)";
-            _implicationRulePreProcessor.Expect(irp => irp.PreProcessImplicationRule(implicationRule))
-                .Return(implicationRuleAfterPreProcessing);
-
             _implicationRuleParser.Expect(irp => irp.ExtractStatementParts(implicationRuleAfterPreProcessing))
                 .Return(expectedImplicationRuleStrings);
 

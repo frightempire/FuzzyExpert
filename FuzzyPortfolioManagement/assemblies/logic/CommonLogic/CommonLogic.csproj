@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\StringCharacter.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Implementations\FilePathProvider.cs" />
     <Compile Include="Implementations\FileReader.cs" />
     <Compile Include="Interfaces\IFilePathProvider.cs" />

@@ -52,6 +52,7 @@
     <Compile Include="Entities\LinguisticVariableTests.cs" />
     <Compile Include="Entities\MembershipFunctionTests.cs" />
     <Compile Include="Entities\TrapezoidalMembershipFunctionTests.cs" />
+    <Compile Include="Implementations\LinguisticVariableValidatorTests.cs" />
     <Compile Include="Implementations\MembershipFunctionFactoryTests.cs" />
     <Compile Include="Implementations\MembershipFunctionListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

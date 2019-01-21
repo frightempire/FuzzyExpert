@@ -43,10 +43,14 @@
     <Compile Include="Entities\LinguisticVariable.cs" />
     <Compile Include="Entities\MembershipFunction.cs" />
     <Compile Include="Enums\MembershipFunctionType.cs" />
+    <Compile Include="Implementations\LinguisticVariableParser.cs" />
     <Compile Include="Implementations\MembershipFunctionList.cs" />
     <Compile Include="Entities\TrapezoidalMembershipFunction.cs" />
+    <Compile Include="Interfaces\ILinguisticVariableParser.cs" />
+    <Compile Include="Interfaces\ILinguisticVariableValidator.cs" />
     <Compile Include="Interfaces\IMembershipFunctionFactory.cs" />
     <Compile Include="Implementations\MembershipFunctionFactory.cs" />
+    <Compile Include="Implementations\LinguisticVariableValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
