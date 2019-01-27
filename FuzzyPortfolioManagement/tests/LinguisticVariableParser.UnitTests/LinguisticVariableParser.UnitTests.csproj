@@ -49,12 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\LinguisticVariableStringsTest.cs" />
     <Compile Include="Entities\LinguisticVariableTests.cs" />
+    <Compile Include="Entities\MembershipFunctionStringsTests.cs" />
     <Compile Include="Entities\MembershipFunctionTests.cs" />
     <Compile Include="Entities\TrapezoidalMembershipFunctionTests.cs" />
+    <Compile Include="Implementations\LinguisticVariableParserTests.cs" />
     <Compile Include="Implementations\LinguisticVariableValidatorTests.cs" />
     <Compile Include="Implementations\MembershipFunctionFactoryTests.cs" />
     <Compile Include="Implementations\MembershipFunctionListTests.cs" />
+    <Compile Include="Implementations\MembershipFunctionParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestEntities\StubMembershipFunction.cs" />
   </ItemGroup>

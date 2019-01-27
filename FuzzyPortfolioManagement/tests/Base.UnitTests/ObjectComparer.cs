@@ -88,5 +88,43 @@ namespace Base.UnitTests
 
             return true;
         }
+
+        public static bool MembershipFunctionStringsAreEqual(
+            MembershipFunctionStrings membershipFunctionStringsToCompare,
+            MembershipFunctionStrings membershipFunctionStringsToCompareWith)
+        {
+            if (membershipFunctionStringsToCompare.MembershipFunctionValues.Count !=
+                membershipFunctionStringsToCompareWith.MembershipFunctionValues.Count)
+                return false;
+
+            for (int i = 0; i < membershipFunctionStringsToCompare.MembershipFunctionValues.Count; i++)
+            {
+                if (membershipFunctionStringsToCompare.MembershipFunctionValues[i] !=
+                    membershipFunctionStringsToCompareWith.MembershipFunctionValues[i])
+                    return false;
+            }
+
+            return membershipFunctionStringsToCompare.MembershipFunctionName == membershipFunctionStringsToCompareWith.MembershipFunctionName &&
+                   membershipFunctionStringsToCompare.MembershipFunctionType == membershipFunctionStringsToCompareWith.MembershipFunctionType;
+        }
+
+        public static bool LinguisticVariableStringsAreEqual(
+            LinguisticVariableStrings linguisticVariableStringsToCompare,
+            LinguisticVariableStrings linguisticVariableStringsToCompareWith)
+        {
+            if (linguisticVariableStringsToCompare.MembershipFunctions.Count != linguisticVariableStringsToCompareWith.MembershipFunctions.Count)
+                return false;
+
+            for (int i = 0; i < linguisticVariableStringsToCompare.MembershipFunctions.Count; i++)
+            {
+                if (!MembershipFunctionStringsAreEqual(
+                    linguisticVariableStringsToCompare.MembershipFunctions[i],
+                    linguisticVariableStringsToCompareWith.MembershipFunctions[i]))
+                    return false;
+            }
+
+            return linguisticVariableStringsToCompare.VariableName == linguisticVariableStringsToCompareWith.VariableName &&
+                   linguisticVariableStringsToCompare.DataOrigin == linguisticVariableStringsToCompareWith.DataOrigin;
+        }
     }
 }

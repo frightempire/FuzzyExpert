@@ -46,7 +46,7 @@ namespace ProductionRuleParser.UnitTests.Entities
         }
 
         [Test]
-        public void IfStatementGetterReturnsValue()
+        public void IfStatement_GetterReturnsValue()
         {
             // Arrange
             _implicationRuleStrings = new ImplicationRuleStrings(_ifStatement, _thenStatement);
@@ -59,7 +59,7 @@ namespace ProductionRuleParser.UnitTests.Entities
         }
 
         [Test]
-        public void ThenStatementGetterReturnsValue()
+        public void ThenStatement_GetterReturnsValue()
         {
             // Arrange
             _implicationRuleStrings = new ImplicationRuleStrings(_ifStatement, _thenStatement);

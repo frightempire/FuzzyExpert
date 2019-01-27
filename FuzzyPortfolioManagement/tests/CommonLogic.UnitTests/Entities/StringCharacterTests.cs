@@ -15,23 +15,29 @@ namespace CommonLogic.UnitTests.Entities
         }
 
         [Test]
-        public void Symbol_SetterAndGetterWorksProperly()
+        public void Symbol_GetterReturnsValue()
         {
             // Arrange
             char expectedSymbol = 'S';
 
+            // Act
+            char actualSymbol = _stringCharacter.Symbol;
+
             // Assert
-            Assert.AreEqual(expectedSymbol, _stringCharacter.Symbol);
+            Assert.AreEqual(expectedSymbol, actualSymbol);
         }
 
         [Test]
-        public void Position_SetterAndGetterWorksProperly()
+        public void Position_GetterReturnsValue()
         {
             // Arrange
             int expectedPosition = 3;
 
+            // Act
+            int actualPosition = _stringCharacter.Position;
+
             // Assert
-            Assert.AreEqual(expectedPosition, _stringCharacter.Position);
+            Assert.AreEqual(expectedPosition, actualPosition);
         }
     }
 }

@@ -87,35 +87,6 @@ namespace LinguisticVariableParser.Implementations
                     correspondingBrackets.Item2.Position + 1 != '|')
                     throw new ArgumentException("Linguistic variable membership functions are not valid: missing delimiter between functions");
             }
-
-            // parse
-
-            //List<StringCharacter> separators = new List<StringCharacter>();
-            //for (var i = 0; i < membershipFunctionsPart.Length; i++)
-            //{
-            //    char character = membershipFunctionsPart[i];
-            //    if (character == '|')
-            //        separators.Add(new StringCharacter(character, i));
-            //}
-            //int separatorsCount = separators.Count;
-
-            //List<string> membershipFunctions = new List<string>();
-            //for (var i = 0; i < separatorsCount; i++)
-            //{
-            //    if (i == 0)
-            //    {
-            //        membershipFunctions.Add(membershipFunctionsPart.Substring(0, separators[i].Position - 1));
-            //    }
-            //    else if (i == separatorsCount - 1)
-            //    {
-            //        membershipFunctions.Add(membershipFunctionsPart.Substring(separators[i-1].Position + 1, separators[i].Position - separators[i - 1].Position));
-            //        membershipFunctions.Add(membershipFunctionsPart.Substring(separators[i].Position + 1, membershipFunctionsPart.Length));
-            //    }
-            //    else
-            //    {
-            //        membershipFunctions.Add(membershipFunctionsPart.Substring(separators[i].Position + 1, separators[i+1].Position - separators[i].Position));
-            //    }
-            //}
         }
 
         private bool ColunsInMembershipFunctionsPlacedCorrectly(

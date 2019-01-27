@@ -13,7 +13,7 @@ namespace CommonLogic
                 throw new ArgumentNullException(nameof(stringToAssert));
         }
 
-        public static void IsEmpty<T>(List<T> list) where T : class
+        public static void IsEmpty<T>(List<T> list)
         {
             if (!list.Any())
                 throw new ArgumentException(nameof(list));

@@ -4,6 +4,6 @@ namespace LinguisticVariableParser.Interfaces
 {
     public interface ILinguisticVariableParser
     {
-        LinguisticVariable ParseLinguisticVariable(string linguisticVariable);
+        LinguisticVariableStrings ParseLinguisticVariable(string linguisticVariable);
     }
 }
