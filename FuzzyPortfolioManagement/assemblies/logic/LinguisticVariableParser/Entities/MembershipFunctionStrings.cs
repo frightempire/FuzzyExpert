@@ -8,7 +8,7 @@ namespace LinguisticVariableParser.Entities
         public MembershipFunctionStrings(
             string membershipFunctionName,
             string membershipFunctionType,
-            List<int> membershipFunctionValues)
+            List<double> membershipFunctionValues)
         {
             ExceptionAssert.IsEmpty(membershipFunctionName);
             ExceptionAssert.IsEmpty(membershipFunctionType);
@@ -24,6 +24,6 @@ namespace LinguisticVariableParser.Entities
 
         public string MembershipFunctionType { get; }
 
-        public List<int> MembershipFunctionValues { get; }
+        public List<double> MembershipFunctionValues { get; }
     }
 }

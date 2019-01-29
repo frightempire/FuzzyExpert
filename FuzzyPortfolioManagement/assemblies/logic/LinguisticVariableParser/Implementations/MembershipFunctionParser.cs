@@ -35,10 +35,10 @@ namespace LinguisticVariableParser.Implementations
                     closingBracketPosition - openingBracketPosition - 1);
 
                 List<string> values = membershipFunctionValuesPart.Split(',').ToList();
-                List<int> membershipFunctionValues = new List<int>();
+                List<double> membershipFunctionValues = new List<double>();
                 foreach (string value in values)
                 {
-                    membershipFunctionValues.Add(int.Parse(value));
+                    membershipFunctionValues.Add(double.Parse(value));
                 }
 
                 membershipFunctionStringsList.Add(

@@ -39,8 +39,8 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)]";
             List<MembershipFunctionStrings> expectedMembersipFunctioStringsList = new List<MembershipFunctionStrings>
             {
-                new MembershipFunctionStrings("Cold", "Trapezoidal", new List<int> {0, 20, 20, 30}),
-                new MembershipFunctionStrings("Hot", "Trapezoidal", new List<int> {50, 60, 60, 80})
+                new MembershipFunctionStrings("Cold", "Trapezoidal", new List<double> {0, 20, 20, 30}),
+                new MembershipFunctionStrings("Hot", "Trapezoidal", new List<double> {50, 60, 60, 80})
             };
             LinguisticVariableStrings expectedLinguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", expectedMembersipFunctioStringsList);
 

@@ -2,7 +2,7 @@
 {
     public enum MembershipFunctionType
     {
-        Trapesoidal,
+        Trapezoidal,
         Triangular
     }
 }

@@ -49,13 +49,15 @@
     <Compile Include="Implementations\LinguisticVariableParser.cs" />
     <Compile Include="Implementations\MembershipFunctionList.cs" />
     <Compile Include="Entities\TrapezoidalMembershipFunction.cs" />
+    <Compile Include="Interfaces\ILinguisticVariableCreator.cs" />
     <Compile Include="Interfaces\ILinguisticVariableParser.cs" />
     <Compile Include="Interfaces\ILinguisticVariableValidator.cs" />
-    <Compile Include="Interfaces\IMembershipFunctionFactory.cs" />
-    <Compile Include="Implementations\MembershipFunctionFactory.cs" />
+    <Compile Include="Interfaces\IMembershipFunctionCreator.cs" />
+    <Compile Include="Implementations\MembershipFunctionCreator.cs" />
     <Compile Include="Implementations\LinguisticVariableValidator.cs" />
     <Compile Include="Interfaces\IMembershipFunctionParser.cs" />
     <Compile Include="Implementations\MembershipFunctionParser.cs" />
+    <Compile Include="Implementations\LinguisticVariableCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

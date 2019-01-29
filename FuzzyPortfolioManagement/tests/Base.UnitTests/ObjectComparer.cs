@@ -126,5 +126,24 @@ namespace Base.UnitTests
             return linguisticVariableStringsToCompare.VariableName == linguisticVariableStringsToCompareWith.VariableName &&
                    linguisticVariableStringsToCompare.DataOrigin == linguisticVariableStringsToCompareWith.DataOrigin;
         }
+
+        public static bool LinguisticVariablesAreEqual(
+            LinguisticVariable linguisticVariableToCompare,
+            LinguisticVariable linguisticVariableToCompareWith)
+        {
+            if (linguisticVariableToCompare.MembershipFunctionList.Count != linguisticVariableToCompareWith.MembershipFunctionList.Count)
+                return false;
+
+            for (int i = 0; i < linguisticVariableToCompare.MembershipFunctionList.Count; i++)
+            {
+                if (!MembershipFunctionsAreEqual(
+                    linguisticVariableToCompare.MembershipFunctionList[i],
+                    linguisticVariableToCompareWith.MembershipFunctionList[i]))
+                    return false;
+            }
+
+            return linguisticVariableToCompare.VariableName == linguisticVariableToCompareWith.VariableName &&
+                   linguisticVariableToCompare.IsInitialData == linguisticVariableToCompareWith.IsInitialData;
+        }
     }
 }

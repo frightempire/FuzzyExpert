@@ -10,7 +10,7 @@ namespace LinguisticVariableParser.UnitTests.Entities
     {
         private const string MembershipFunctionName = "Cold";
         private const string MembershipFunctionType = "Trapezoidal";
-        private readonly List<int> MembershipFunctionValues = new List<int> {0, 20, 20, 30};
+        private readonly List<double> MembershipFunctionValues = new List<double> {0, 20, 20, 30};
         private MembershipFunctionStrings _membershipFunctionStrings;
 
         [SetUp]
@@ -76,7 +76,7 @@ namespace LinguisticVariableParser.UnitTests.Entities
             // Act & Assert
             Assert.Throws<ArgumentException>(() =>
             {
-                new MembershipFunctionStrings(MembershipFunctionName, MembershipFunctionType, new List<int>());
+                new MembershipFunctionStrings(MembershipFunctionName, MembershipFunctionType, new List<double>());
             });
         }
 
@@ -104,7 +104,7 @@ namespace LinguisticVariableParser.UnitTests.Entities
         public void MembershipFunctionValues_GetterReturnsValue()
         {
             // Act
-            List<int> actualMembershipFunctionValues = _membershipFunctionStrings.MembershipFunctionValues;
+            List<double> actualMembershipFunctionValues = _membershipFunctionStrings.MembershipFunctionValues;
 
             // Assert
             Assert.AreEqual(MembershipFunctionValues, actualMembershipFunctionValues);

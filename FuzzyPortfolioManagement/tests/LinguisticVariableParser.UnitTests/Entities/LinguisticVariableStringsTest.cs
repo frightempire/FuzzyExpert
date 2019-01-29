@@ -12,8 +12,8 @@ namespace LinguisticVariableParser.UnitTests.Entities
         private const string DataOrigin = "Initial";
         private readonly List<MembershipFunctionStrings> _membershipFunctions = new List<MembershipFunctionStrings>
         {
-            new MembershipFunctionStrings("Cold", "Trapezoidal", new List<int> {0, 20, 20, 30}),
-            new MembershipFunctionStrings("Hot", "Trapezoidal", new List<int> {50, 60, 60, 80})
+            new MembershipFunctionStrings("Cold", "Trapezoidal", new List<double> {0, 20, 20, 30}),
+            new MembershipFunctionStrings("Hot", "Trapezoidal", new List<double> {50, 60, 60, 80})
         };
         private LinguisticVariableStrings _linguisticVariableStrings;
 

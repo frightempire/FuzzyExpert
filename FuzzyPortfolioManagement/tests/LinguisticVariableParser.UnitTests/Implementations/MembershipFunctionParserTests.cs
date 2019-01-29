@@ -24,9 +24,9 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Warm:Trapezoidal:(40,40,50,50)|Hot:Triangular:(50,60,70)";
             List<MembershipFunctionStrings> expectedMembershipFunctionStrings = new List<MembershipFunctionStrings>
             {
-                new MembershipFunctionStrings("Cold", "Trapezoidal", new List<int> {0, 20, 20, 30}),
-                new MembershipFunctionStrings("Warm", "Trapezoidal", new List<int> {40, 40, 50, 50}),
-                new MembershipFunctionStrings("Hot", "Triangular", new List<int> {50, 60, 70})
+                new MembershipFunctionStrings("Cold", "Trapezoidal", new List<double> {0, 20, 20, 30}),
+                new MembershipFunctionStrings("Warm", "Trapezoidal", new List<double> {40, 40, 50, 50}),
+                new MembershipFunctionStrings("Hot", "Triangular", new List<double> {50, 60, 70})
             };
 
             // Act
