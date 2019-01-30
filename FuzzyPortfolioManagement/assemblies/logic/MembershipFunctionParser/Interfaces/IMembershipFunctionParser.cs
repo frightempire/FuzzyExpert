@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using LinguisticVariableParser.Entities;
+using MembershipFunctionParser.Entities;
 
-namespace LinguisticVariableParser.Interfaces
+namespace MembershipFunctionParser.Interfaces
 {
     public interface IMembershipFunctionParser
     {

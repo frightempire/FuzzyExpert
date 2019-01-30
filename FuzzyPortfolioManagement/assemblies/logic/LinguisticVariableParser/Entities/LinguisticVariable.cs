@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CommonLogic;
-using LinguisticVariableParser.Implementations;
+using MembershipFunctionParser.Implementations;
 
 namespace LinguisticVariableParser.Entities
 {

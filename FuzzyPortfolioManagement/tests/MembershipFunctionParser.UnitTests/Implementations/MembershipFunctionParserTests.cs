@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using Base.UnitTests;
-using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Implementations;
+using MembershipFunctionParser.Entities;
 using NUnit.Framework;
 
-namespace LinguisticVariableParser.UnitTests.Implementations
+namespace MembershipFunctionParser.UnitTests.Implementations
 {
     [TestFixture]
     public class MembershipFunctionParserTests
     {
-        private MembershipFunctionParser _membershipFunctionParser;
+        private MembershipFunctionParser.Implementations.MembershipFunctionParser _membershipFunctionParser;
 
         [SetUp]
         public void SetUp()
         {
-            _membershipFunctionParser = new MembershipFunctionParser();
+            _membershipFunctionParser = new MembershipFunctionParser.Implementations.MembershipFunctionParser();
         }
 
         [Test]

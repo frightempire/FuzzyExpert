@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LinguisticVariableParser.Entities;
+using MembershipFunctionParser.Entities;
 
-namespace LinguisticVariableParser.Implementations
+namespace MembershipFunctionParser.Implementations
 {
     public class MembershipFunctionList: List<MembershipFunction>
     {

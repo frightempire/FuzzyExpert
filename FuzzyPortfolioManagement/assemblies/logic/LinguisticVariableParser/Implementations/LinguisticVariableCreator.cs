@@ -4,6 +4,10 @@ using CommonLogic.Extensions;
 using LinguisticVariableParser.Entities;
 using LinguisticVariableParser.Enums;
 using LinguisticVariableParser.Interfaces;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Enums;
+using MembershipFunctionParser.Implementations;
+using MembershipFunctionParser.Interfaces;
 
 namespace LinguisticVariableParser.Implementations
 {

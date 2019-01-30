@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using LinguisticVariableParser.Entities;
+using MembershipFunctionParser.Entities;
 using NUnit.Framework;
 
-namespace LinguisticVariableParser.UnitTests.Entities
+namespace MembershipFunctionParser.UnitTests.Entities
 {
     [TestFixture]
     public class TrapezoidalMembershipFunctionTests

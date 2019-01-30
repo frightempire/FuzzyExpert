@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Enums;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Enums;
 
-namespace LinguisticVariableParser.Interfaces
+namespace MembershipFunctionParser.Interfaces
 {
     public interface IMembershipFunctionCreator
     {

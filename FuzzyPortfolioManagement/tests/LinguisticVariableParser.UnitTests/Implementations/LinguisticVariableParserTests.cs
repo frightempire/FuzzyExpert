@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Base.UnitTests;
 using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Implementations;
-using LinguisticVariableParser.Interfaces;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Interfaces;
 using NUnit.Framework;
 using Rhino.Mocks;
 

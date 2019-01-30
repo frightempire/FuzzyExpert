@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using LinguisticVariableParser.Entities;
 using LinguisticVariableParser.Implementations;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Implementations;
 using ProductionRuleParser.Entities;
 
 namespace Base.UnitTests

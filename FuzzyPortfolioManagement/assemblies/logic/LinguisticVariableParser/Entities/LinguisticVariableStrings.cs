@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CommonLogic;
+using MembershipFunctionParser.Entities;
 
 namespace LinguisticVariableParser.Entities
 {

@@ -42,21 +42,12 @@
   <ItemGroup>
     <Compile Include="Entities\LinguisticVariable.cs" />
     <Compile Include="Entities\LinguisticVariableStrings.cs" />
-    <Compile Include="Entities\MembershipFunction.cs" />
-    <Compile Include="Entities\MembershipFunctionStrings.cs" />
     <Compile Include="Enums\DataOriginType.cs" />
-    <Compile Include="Enums\MembershipFunctionType.cs" />
     <Compile Include="Implementations\LinguisticVariableParser.cs" />
-    <Compile Include="Implementations\MembershipFunctionList.cs" />
-    <Compile Include="Entities\TrapezoidalMembershipFunction.cs" />
     <Compile Include="Interfaces\ILinguisticVariableCreator.cs" />
     <Compile Include="Interfaces\ILinguisticVariableParser.cs" />
     <Compile Include="Interfaces\ILinguisticVariableValidator.cs" />
-    <Compile Include="Interfaces\IMembershipFunctionCreator.cs" />
-    <Compile Include="Implementations\MembershipFunctionCreator.cs" />
     <Compile Include="Implementations\LinguisticVariableValidator.cs" />
-    <Compile Include="Interfaces\IMembershipFunctionParser.cs" />
-    <Compile Include="Implementations\MembershipFunctionParser.cs" />
     <Compile Include="Implementations\LinguisticVariableCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -65,6 +56,10 @@
     <ProjectReference Include="..\CommonLogic\CommonLogic.csproj">
       <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
       <Name>CommonLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MembershipFunctionParser\MembershipFunctionParser.csproj">
+      <Project>{11CE082D-9AA8-4A49-BF2A-C4BFA577A50C}</Project>
+      <Name>MembershipFunctionParser</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

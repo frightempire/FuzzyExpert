@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using CommonLogic.Entities;
-using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Interfaces;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Interfaces;
 
-namespace LinguisticVariableParser.Implementations
+namespace MembershipFunctionParser.Implementations
 {
     public class MembershipFunctionParser : IMembershipFunctionParser
     {

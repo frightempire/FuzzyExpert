@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CommonLogic;
 
-namespace LinguisticVariableParser.Entities
+namespace MembershipFunctionParser.Entities
 {
     public abstract class MembershipFunction
     {

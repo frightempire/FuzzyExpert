@@ -1,7 +1,7 @@
-﻿using LinguisticVariableParser.UnitTests.TestEntities;
+﻿using MembershipFunctionParser.UnitTests.TestEntities;
 using NUnit.Framework;
 
-namespace LinguisticVariableParser.UnitTests.Entities
+namespace MembershipFunctionParser.UnitTests.Entities
 {
     [TestFixture]
     public class MembershipFunctionTests

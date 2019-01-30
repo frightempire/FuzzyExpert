@@ -2,6 +2,8 @@
 using CommonLogic;
 using LinguisticVariableParser.Entities;
 using LinguisticVariableParser.Interfaces;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Interfaces;
 
 namespace LinguisticVariableParser.Implementations
 {

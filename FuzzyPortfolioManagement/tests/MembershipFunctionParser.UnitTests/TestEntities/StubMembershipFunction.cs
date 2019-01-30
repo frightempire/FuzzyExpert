@@ -1,6 +1,6 @@
-﻿using LinguisticVariableParser.Entities;
+﻿using MembershipFunctionParser.Entities;
 
-namespace LinguisticVariableParser.UnitTests.TestEntities
+namespace MembershipFunctionParser.UnitTests.TestEntities
 {
     public class StubMembershipFunction: MembershipFunction
     {

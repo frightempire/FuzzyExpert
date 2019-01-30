@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Enums;
-using LinguisticVariableParser.Interfaces;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Enums;
+using MembershipFunctionParser.Interfaces;
 
-namespace LinguisticVariableParser.Implementations
+namespace MembershipFunctionParser.Implementations
 {
     public class MembershipFunctionCreator : IMembershipFunctionCreator
     {

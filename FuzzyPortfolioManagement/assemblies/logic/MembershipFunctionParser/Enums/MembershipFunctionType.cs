@@ -1,4 +1,4 @@
-﻿namespace LinguisticVariableParser.Enums
+﻿namespace MembershipFunctionParser.Enums
 {
     public enum MembershipFunctionType
     {

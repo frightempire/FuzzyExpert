@@ -1,10 +1,10 @@
 ﻿using System;
-using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Implementations;
-using LinguisticVariableParser.UnitTests.TestEntities;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Implementations;
+using MembershipFunctionParser.UnitTests.TestEntities;
 using NUnit.Framework;
 
-namespace LinguisticVariableParser.UnitTests.Implementations
+namespace MembershipFunctionParser.UnitTests.Implementations
 {
     [TestFixture]
     public class MembershipFunctionListTests

@@ -1,7 +1,8 @@
 ﻿using System;
 using Base.UnitTests;
 using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Implementations;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Implementations;
 using NUnit.Framework;
 
 namespace LinguisticVariableParser.UnitTests.Entities

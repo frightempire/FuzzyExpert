@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80E842B6-2B14-429F-97D5-29CB07EC276F}</ProjectGuid>
+    <ProjectGuid>{7BF2C304-C1FB-4FFF-935B-A029D06163E9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LinguisticVariableParser.UnitTests</RootNamespace>
-    <AssemblyName>LinguisticVariableParser.UnitTests</AssemblyName>
+    <RootNamespace>MembershipFunctionParser.UnitTests</RootNamespace>
+    <AssemblyName>MembershipFunctionParser.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -49,21 +49,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\LinguisticVariableStringsTest.cs" />
-    <Compile Include="Entities\LinguisticVariableTests.cs" />
-    <Compile Include="Implementations\LinguisticVariableCreatorTests.cs" />
-    <Compile Include="Implementations\LinguisticVariableParserTests.cs" />
-    <Compile Include="Implementations\LinguisticVariableValidatorTests.cs" />
+    <Compile Include="Entities\MembershipFunctionStringsTests.cs" />
+    <Compile Include="Entities\MembershipFunctionTests.cs" />
+    <Compile Include="Entities\TrapezoidalMembershipFunctionTests.cs" />
+    <Compile Include="Implementations\MembershipFunctionCreatorTests.cs" />
+    <Compile Include="Implementations\MembershipFunctionListTests.cs" />
+    <Compile Include="Implementations\MembershipFunctionParserTests.cs" />
+    <Compile Include="Implementations\MembershipFunctionValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestEntities\StubMembershipFunction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\assemblies\logic\LinguisticVariableParser\LinguisticVariableParser.csproj">
-      <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
-      <Name>LinguisticVariableParser</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\assemblies\logic\MembershipFunctionParser\MembershipFunctionParser.csproj">
       <Project>{11CE082D-9AA8-4A49-BF2A-C4BFA577A50C}</Project>
       <Name>MembershipFunctionParser</Name>
@@ -73,7 +72,6 @@
       <Name>Base.UnitTests</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

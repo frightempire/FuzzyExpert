@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Base.UnitTests;
-using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Enums;
-using LinguisticVariableParser.Implementations;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Enums;
+using MembershipFunctionParser.Implementations;
 using NUnit.Framework;
 
-namespace LinguisticVariableParser.UnitTests.Implementations
+namespace MembershipFunctionParser.UnitTests.Implementations
 {
     [TestFixture]
     public class MembershipFunctionCreatorTests

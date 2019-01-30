@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace LinguisticVariableParser.Entities
+namespace MembershipFunctionParser.Entities
 {
     public class TrapezoidalMembershipFunction: MembershipFunction
     {
