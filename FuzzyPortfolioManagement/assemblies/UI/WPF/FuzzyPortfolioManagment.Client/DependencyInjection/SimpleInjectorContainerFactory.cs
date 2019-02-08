@@ -2,6 +2,10 @@
 using CommonLogic.Interfaces;
 using KnowledgeManager.Implementations;
 using KnowledgeManager.Interfaces;
+using LinguisticVariableParser.Implementations;
+using LinguisticVariableParser.Interfaces;
+using MembershipFunctionParser.Implementations;
+using MembershipFunctionParser.Interfaces;
 using ProductionRuleParser.Implementations;
 using ProductionRuleParser.Interfaces;
 using ProductionRuleSelectorAction.Panels;
@@ -18,20 +22,43 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
 
         public Container CreateSimpleInjectorContainer()
         {
-            _container.RegisterInstance(typeof(IImplicationRuleValidator), new ImplicationRuleValidator());
-            _container.RegisterInstance(typeof(IImplicationRuleParser), new ImplicationRuleParser());
-            _container.RegisterInstance(typeof(IFilePathProvider), new FilePathProvider());
+            _container.Register<IFileReader, FileReader>();
 
-            _container.Register<IImplicationRuleCreator, ImplicationRuleCreator>();
+            _container.Register<IImplicationRuleValidator, ImplicationRuleValidator>(Lifestyle.Singleton);
+            _container.Register<IImplicationRuleParser, ImplicationRuleParser>(Lifestyle.Singleton);
+            _container.Register<IImplicationRuleCreator, ImplicationRuleCreator>(Lifestyle.Singleton);
 
-            _container.RegisterInstance(typeof(IFileReader), new FileReader());
-            _container.Register<IImplicationRuleProvider, FileImplicationRuleProvider>();
+            FilePathProvider implicationRulesFilePathProvider = new FilePathProvider();
+            _container.Register<IImplicationRuleProvider>(
+                () => new FileImplicationRuleProvider(
+                    _container.GetInstance<IFileReader>(),
+                    implicationRulesFilePathProvider,
+                    _container.GetInstance<IImplicationRuleCreator>()),
+                Lifestyle.Singleton);
 
-            _container.Register<IImplicationRuleManager, ImplicationRuleManager>();
+            _container.Register<IImplicationRuleManager, ImplicationRuleManager>(Lifestyle.Singleton);
+
+            _container.Register<IMembershipFunctionValidator, MembershipFunctionValidator>(Lifestyle.Singleton);
+            _container.Register<IMembershipFunctionParser, MembershipFunctionParser.Implementations.MembershipFunctionParser>(Lifestyle.Singleton);
+            _container.Register<IMembershipFunctionCreator, MembershipFunctionCreator>(Lifestyle.Singleton);
+            _container.Register<ILinguisticVariableValidator, LinguisticVariableValidator>(Lifestyle.Singleton);
+            _container.Register<ILinguisticVariableParser, LinguisticVariableParser.Implementations.LinguisticVariableParser>(Lifestyle.Singleton);
+            _container.Register<ILinguisticVariableCreator, LinguisticVariableCreator>(Lifestyle.Singleton);
+
+            FilePathProvider linguisticVariablesFilePathProvider = new FilePathProvider();
+            _container.Register<ILinguisticVariableProvider>(
+                () => new FileLinguisticVariableProvider(
+                    _container.GetInstance<ILinguisticVariableValidator>(),
+                    _container.GetInstance<ILinguisticVariableParser>(),
+                    _container.GetInstance<ILinguisticVariableCreator>(),
+                    linguisticVariablesFilePathProvider,
+                    _container.GetInstance<IFileReader>()),
+                Lifestyle.Singleton);
+
+            _container.Register<ILinguisticVariableManager, LinguisticVariableManager>(Lifestyle.Singleton);
 
             _container.Register<IFileDialogInteractor, ImplicationRuleFileDialogInteractor>();
             _container.Register<ImplicationRuleSelectorActionModel>();
-
             _container.Register<ImplicationRuleSelectorAction>();
 
             _container.Verify();

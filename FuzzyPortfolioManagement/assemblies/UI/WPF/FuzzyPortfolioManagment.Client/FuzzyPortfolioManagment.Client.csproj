@@ -100,6 +100,14 @@
       <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
       <Name>KnowledgeManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\LinguisticVariableParser\LinguisticVariableParser.csproj">
+      <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
+      <Name>LinguisticVariableParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\MembershipFunctionParser\MembershipFunctionParser.csproj">
+      <Project>{11CE082D-9AA8-4A49-BF2A-C4BFA577A50C}</Project>
+      <Name>MembershipFunctionParser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\logic\ProductionRuleParser\ProductionRuleParser.csproj">
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRuleParser</Name>

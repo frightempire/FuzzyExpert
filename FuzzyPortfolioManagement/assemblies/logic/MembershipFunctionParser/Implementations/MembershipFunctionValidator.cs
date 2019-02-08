@@ -54,7 +54,7 @@ namespace MembershipFunctionParser.Implementations
                     throw new ArgumentException("Linguistic variable membership functions are not valid: empty brackets");
 
                 if (i != correspondingBracketsList.Count - 1 &&
-                    correspondingBrackets.Item2.Position + 1 != '|')
+                    membershipFunctionsPart[correspondingBrackets.Item2.Position + 1] != '|')
                     throw new ArgumentException("Linguistic variable membership functions are not valid: missing delimiter between functions");
             }
         }

@@ -23,7 +23,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
         public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfThereAreWhitespacesInIt()
         {
             // Arrange
-            string linguisticVariable = "Water : Initial : [Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)";
+            string linguisticVariable = "Water : Initial : [Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
             string exceptionMessage = "Linguistic variable string is not valid: haven't been preprocessed";
 
             // Act & Assert
@@ -38,7 +38,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
         public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfThereIsNotEnoughBrackets()
         {
             // Arrange
-            string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)";
+            string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)";
             string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
             // Act & Assert
@@ -53,7 +53,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
         public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfOpeningBracketIsIncorrect()
         {
             // Arrange
-            string linguisticVariable = "Water:Initial:]Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)]";
+            string linguisticVariable = "Water:Initial:]Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
             string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
             // Act & Assert
@@ -68,7 +68,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
         public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfClosingBracketIsIncorrect()
         {
             // Arrange
-            string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)[";
+            string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)[";
             string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
             // Act & Assert
@@ -83,7 +83,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
         public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfFirstColunIsAfterOpeningBracket()
         {
             // Arrange
-            string linguisticVariable = "WaterInitial[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)]";
+            string linguisticVariable = "WaterInitial[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
             string exceptionMessage = "Linguistic variable string is not valid: colon delimeters placed incorrectly";
 
             // Act & Assert

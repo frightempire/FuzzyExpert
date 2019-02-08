@@ -41,15 +41,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\FileImplicationRuleProvider.cs" />
+    <Compile Include="Implementations\FileLinguisticVariableProvider.cs" />
     <Compile Include="Interfaces\IImplicationRuleManager.cs" />
     <Compile Include="Interfaces\IImplicationRuleProvider.cs" />
     <Compile Include="Implementations\ImplicationRuleManager.cs" />
+    <Compile Include="Interfaces\ILinguisticVariableManager.cs" />
+    <Compile Include="Interfaces\ILinguisticVariableProvider.cs" />
+    <Compile Include="Implementations\LinguisticVariableManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CommonLogic\CommonLogic.csproj">
       <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
       <Name>CommonLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LinguisticVariableParser\LinguisticVariableParser.csproj">
+      <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
+      <Name>LinguisticVariableParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProductionRuleParser\ProductionRuleParser.csproj">
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
