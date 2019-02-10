@@ -24,11 +24,11 @@ namespace ProductionRuleParser.UnitTests.Implementations
             string exceptionMessage = "Implication rule string is not valid: haven't been preprocessed";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); },
-                exceptionMessage
+                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -39,11 +39,11 @@ namespace ProductionRuleParser.UnitTests.Implementations
             string exceptionMessage = "Implication rule string is not valid: no if statement";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); },
-                exceptionMessage
+                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -54,11 +54,11 @@ namespace ProductionRuleParser.UnitTests.Implementations
             string exceptionMessage = "Implication rule string is not valid: no then statement";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); },
-                exceptionMessage
+                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -69,11 +69,11 @@ namespace ProductionRuleParser.UnitTests.Implementations
             string exceptionMessage = "Implication rule string is not valid: no brackets";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); },
-                exceptionMessage
+                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -84,11 +84,11 @@ namespace ProductionRuleParser.UnitTests.Implementations
             string exceptionMessage = "Implication rule string is not valid: odd count of brackets";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); },
-                exceptionMessage
+                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -99,11 +99,11 @@ namespace ProductionRuleParser.UnitTests.Implementations
             string exceptionMessage = "Implication rule string is not valid: wrong opening or closing bracket";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); },
-                exceptionMessage
+                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -114,11 +114,11 @@ namespace ProductionRuleParser.UnitTests.Implementations
             string exceptionMessage = "Implication rule string is not valid: wrong opening or closing bracket";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); },
-                exceptionMessage
+                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -129,11 +129,11 @@ namespace ProductionRuleParser.UnitTests.Implementations
             string exceptionMessage = "Implication rule string is not valid: mismatching brackets";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); },
-                exceptionMessage
+                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
     }
 }

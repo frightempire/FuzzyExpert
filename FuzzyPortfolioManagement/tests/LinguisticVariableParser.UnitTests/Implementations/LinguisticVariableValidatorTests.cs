@@ -27,11 +27,11 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             string exceptionMessage = "Linguistic variable string is not valid: haven't been preprocessed";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); },
-                exceptionMessage
+                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -42,11 +42,11 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); },
-                exceptionMessage
+                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -57,11 +57,11 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); },
-                exceptionMessage
+                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -72,11 +72,11 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); },
-                exceptionMessage
+                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -87,11 +87,11 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             string exceptionMessage = "Linguistic variable string is not valid: colon delimeters placed incorrectly";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); },
-                exceptionMessage
+                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
         [Test]
@@ -102,11 +102,11 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             string exceptionMessage = "Linguistic variable string is not valid: colon delimeters placed incorrectly";
 
             // Act & Assert
-            Assert.Throws<ArgumentException>
+            ArgumentException exception = Assert.Throws<ArgumentException>
             (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); },
-                exceptionMessage
+                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
             );
+            Assert.AreEqual(exceptionMessage, exception.Message);
         }
     }
 }

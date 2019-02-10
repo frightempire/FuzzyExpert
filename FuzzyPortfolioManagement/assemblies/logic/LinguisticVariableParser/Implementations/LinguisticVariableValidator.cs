@@ -44,7 +44,7 @@ namespace LinguisticVariableParser.Implementations
             string membershipFunctionsPart = linguisticVariable.Substring(
                 brackets[0].Position + 1, brackets[1].Position - brackets[0].Position - 1);
 
-            _membershipFunctionValidator.ValidateMembershipFunctions(membershipFunctionsPart);
+            _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionsPart);
         }
 
         private bool ColunsInLinguisticVariablePlacedCorrectly(

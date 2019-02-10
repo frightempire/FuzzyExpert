@@ -2,6 +2,6 @@
 {
     public interface IMembershipFunctionValidator
     {
-        void ValidateMembershipFunctions(string membershipFunctionsPart);
+        void ValidateMembershipFunctionsPart(string membershipFunctionsPart);
     }
 }

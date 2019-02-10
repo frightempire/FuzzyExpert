@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommonLogic.Entities;
+using CommonLogic.Extensions;
+using MembershipFunctionParser.Entities;
+using MembershipFunctionParser.Enums;
 using MembershipFunctionParser.Interfaces;
 
 namespace MembershipFunctionParser.Implementations
 {
     public class MembershipFunctionValidator : IMembershipFunctionValidator
     {
-        public void ValidateMembershipFunctions(string membershipFunctionsPart)
+        public void ValidateMembershipFunctionsPart(string membershipFunctionsPart)
         {
             List<StringCharacter> brackets = new List<StringCharacter>();
             for (var i = 0; i < membershipFunctionsPart.Length; i++)
@@ -66,10 +69,9 @@ namespace MembershipFunctionParser.Implementations
             int secondColonPosition)
         {
             return firstColonPosition >= 1 &&
-                   secondColonPosition >= 1 &&
+                   secondColonPosition >= 3 &&
                    firstColonPosition < openingBracketPosition &&
                    secondColonPosition < openingBracketPosition &&
-                   membershipFunctionsPart[firstColonPosition - 1] != 0 &&
                    membershipFunctionsPart[firstColonPosition - 1] != '|' &&
                    membershipFunctionsPart[firstColonPosition - 1] != ')' &&
                    membershipFunctionsPart[secondColonPosition - 1] != ':' &&
