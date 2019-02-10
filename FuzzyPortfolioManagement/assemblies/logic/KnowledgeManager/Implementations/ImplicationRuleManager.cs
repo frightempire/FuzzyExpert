@@ -9,7 +9,7 @@ namespace KnowledgeManager.Implementations
     {
         private readonly IImplicationRuleProvider _implicationRuleProvider;
 
-        private List<ImplicationRule> _implicationRules;
+        private Dictionary<int, ImplicationRule> _implicationRules;
 
         public ImplicationRuleManager(IImplicationRuleProvider implicationRuleProvider)
         {
@@ -17,6 +17,22 @@ namespace KnowledgeManager.Implementations
             _implicationRuleProvider = implicationRuleProvider;
         }
 
-        public List<ImplicationRule> ImplicationRules => _implicationRules ?? (_implicationRules = _implicationRuleProvider.GetImplicationRules());
+        public Dictionary<int, ImplicationRule> ImplicationRules
+        {
+            get
+            {
+                if (_implicationRules != null)
+                    return _implicationRules;
+
+                List<ImplicationRule> implicationRulesFromProvider = _implicationRuleProvider.GetImplicationRules();
+
+                Dictionary<int, ImplicationRule> implicationRules = new Dictionary<int, ImplicationRule>();
+                for (int i = 1; i <= implicationRulesFromProvider.Count; i++)
+                {
+                    implicationRules.Add(i, implicationRulesFromProvider[i-1]);
+                }
+                return _implicationRules = implicationRules;
+            }
+        }
     }
 }

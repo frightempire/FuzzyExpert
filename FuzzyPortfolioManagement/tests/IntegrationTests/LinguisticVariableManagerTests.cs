@@ -72,20 +72,20 @@ namespace IntegrationTests
         public void LinguisticVariablesGetter_ReturnsLinguisticVariablesList()
         {
             // Arrange
-            List<LinguisticVariable> expectedLinguisticVariables = PrepareExpectedLinguisticVariables();
+            Dictionary<int, LinguisticVariable> expectedLinguisticVariables = PrepareExpectedLinguisticVariables();
 
             // Act
-            List<LinguisticVariable> actuaLinguisticVariables = _linguisticVariableManager.LinguisticVariables;
+            Dictionary<int, LinguisticVariable> actuaLinguisticVariables = _linguisticVariableManager.LinguisticVariables;
 
             // Assert
             Assert.AreEqual(expectedLinguisticVariables.Count, actuaLinguisticVariables.Count);
-            for (int i = 0; i < actuaLinguisticVariables.Count; i++)
+            for (int i = 1; i <= actuaLinguisticVariables.Count; i++)
             {
                 Assert.IsTrue(ObjectComparer.LinguisticVariablesAreEqual(expectedLinguisticVariables[i], actuaLinguisticVariables[i]));
             }
         }
 
-        private List<LinguisticVariable> PrepareExpectedLinguisticVariables()
+        private Dictionary<int, LinguisticVariable> PrepareExpectedLinguisticVariables()
         {
             // Water variable
             MembershipFunctionList firstMembershipFunctionList = new MembershipFunctionList
@@ -103,7 +103,11 @@ namespace IntegrationTests
             };
             LinguisticVariable secondLinguisticVariable = new LinguisticVariable("Pressure", secondsMembershipFunctionList, isInitialData: false);
 
-            return new List<LinguisticVariable> { firstLinguisticVariable, secondLinguisticVariable };
+            return new Dictionary<int, LinguisticVariable>
+            {
+                {1, firstLinguisticVariable},
+                {2, secondLinguisticVariable}
+            };
         }
     }
 }

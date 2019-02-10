@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using CommonLogic;
 using CommonLogic.Interfaces;
@@ -66,7 +67,7 @@ namespace ProductionRuleSelectorAction.ViewModels
                            FilePath = _fileDialogInteractor.FilePath;
                            _filePathProvider.FilePath = FilePath;
 
-                           List<ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
+                           List<ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules.Values.ToList();
                            ImplicationRules.Clear();
                            implicationRules.ForEach(ir => ImplicationRules.Add(ir.ToString()));
                        }));

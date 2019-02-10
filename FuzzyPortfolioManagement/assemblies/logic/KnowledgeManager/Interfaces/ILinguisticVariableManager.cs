@@ -5,6 +5,6 @@ namespace KnowledgeManager.Interfaces
 {
     public interface ILinguisticVariableManager
     {
-        List<LinguisticVariable> LinguisticVariables { get; }
+        Dictionary<int, LinguisticVariable> LinguisticVariables { get; }
     }
 }

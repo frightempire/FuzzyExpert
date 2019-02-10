@@ -23,26 +23,26 @@ namespace KnowledgeManager.Implementations
 
         public void ValidateLinguisticVariablesNames()
         {
-            List<ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
-            List<LinguisticVariable> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
+            Dictionary<int, ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
+            Dictionary<int, LinguisticVariable> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
 
             List<string> initialVariableNames = linguisticVariables
-                .Where(lv => lv.IsInitialData)
-                .Select(lv => lv.VariableName)
+                .Where(lv => lv.Value.IsInitialData)
+                .Select(lv => lv.Value.VariableName)
                 .ToList();
             List<string> derivativeVariableNames = linguisticVariables
-                .Where(lv => !lv.IsInitialData)
-                .Select(lv => lv.VariableName)
+                .Where(lv => !lv.Value.IsInitialData)
+                .Select(lv => lv.Value.VariableName)
                 .ToList();
             List<string> allVariableNames = new List<string>();
             allVariableNames.AddRange(initialVariableNames);
             allVariableNames.AddRange(derivativeVariableNames);
 
             List<string> ifStatementsLinguisticVariableNames = implicationRules
-                .SelectMany(ir => ir.IfStatement.SelectMany(ifs => ifs.UnaryStatements.Select(us => us.LeftOperand)))
+                .SelectMany(ir => ir.Value.IfStatement.SelectMany(ifs => ifs.UnaryStatements.Select(us => us.LeftOperand)))
                 .ToList();
             List<string> thenStatementsLinguisticVariableNames = implicationRules
-                .SelectMany(ir => ir.ThenStatement.UnaryStatements.Select(us => us.LeftOperand))
+                .SelectMany(ir => ir.Value.ThenStatement.UnaryStatements.Select(us => us.LeftOperand))
                 .ToList();
             List<string> implicationRulesLinguisticVariableNames = new List<string>();
             implicationRulesLinguisticVariableNames.AddRange(ifStatementsLinguisticVariableNames);

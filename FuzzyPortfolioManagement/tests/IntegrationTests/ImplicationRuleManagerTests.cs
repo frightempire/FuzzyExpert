@@ -65,20 +65,20 @@ namespace IntegrationTests
         public void ImplicationRulesGetter_ReturnsImplicationRulesList()
         {
             // Arrange
-            List<ImplicationRule> expectedImplicationRules = PrepareExpectedImplicationRules();
+            Dictionary<int, ImplicationRule> expectedImplicationRules = PrepareExpectedImplicationRules();
 
             // Act
-            List<ImplicationRule> actualImplicationRules = _implicationRuleManager.ImplicationRules;
+            Dictionary<int, ImplicationRule> actualImplicationRules = _implicationRuleManager.ImplicationRules;
 
             // Assert
             Assert.AreEqual(expectedImplicationRules.Count, actualImplicationRules.Count);
-            for (int i = 0; i < expectedImplicationRules.Count; i++)
+            for (int i = 1; i <= expectedImplicationRules.Count; i++)
             {
                 Assert.IsTrue(ObjectComparer.ImplicationRulesAreEqual(expectedImplicationRules[i], actualImplicationRules[i]));
             }
         }
 
-        private List<ImplicationRule> PrepareExpectedImplicationRules()
+        private Dictionary<int, ImplicationRule> PrepareExpectedImplicationRules()
         {
             ImplicationRule firstImplicationRule = new ImplicationRule(
             new List<StatementCombination>
@@ -107,9 +107,10 @@ namespace IntegrationTests
                 new UnaryStatement("X", ComparisonOperation.Equal, "10")
             }));
 
-            return new List<ImplicationRule>
+            return new Dictionary<int, ImplicationRule>
             {
-                firstImplicationRule, secondImplicationRule
+                { 1, firstImplicationRule },
+                { 2, secondImplicationRule }
             };
         }
     }

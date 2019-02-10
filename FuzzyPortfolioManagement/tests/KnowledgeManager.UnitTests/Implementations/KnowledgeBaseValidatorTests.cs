@@ -31,9 +31,9 @@ namespace KnowledgeManager.UnitTests.Implementations
         public void ValidateLinguisticVariablesNames_ThrowsArgumentExceptionIfOneOfVariablesInImplicationRulesIsNotKnownToKnowledgeBase()
         {
             // Arrange
-            List<ImplicationRule> implicationRules = PrepareImplicationRules();
+            Dictionary<int, ImplicationRule> implicationRules = PrepareImplicationRules();
             _implicationRuleManagerMock.Expect(i => i.ImplicationRules).Return(implicationRules);
-            List<LinguisticVariable> linguisticVariables = PrepareLinguisticVariables();
+            Dictionary<int, LinguisticVariable> linguisticVariables = PrepareLinguisticVariables();
             _linguisticVariableManagerMock.Expect(l => l.LinguisticVariables).Return(linguisticVariables);
             string exceptionMessage = "Knowledge base: one of linguistic variables in implication rule is unknown to linguistic variable base";
 
@@ -45,7 +45,7 @@ namespace KnowledgeManager.UnitTests.Implementations
             Assert.AreEqual(exceptionMessage, exception.Message);
         }
 
-        private List<LinguisticVariable> PrepareLinguisticVariables()
+        private Dictionary<int, LinguisticVariable> PrepareLinguisticVariables()
         {
             // Water variable
             MembershipFunctionList firstMembershipFunctionList = new MembershipFunctionList
@@ -66,15 +66,15 @@ namespace KnowledgeManager.UnitTests.Implementations
             LinguisticVariable secondLinguisticVariable =
                 new LinguisticVariable("Pressure", secondsMembershipFunctionList, isInitialData: false);
 
-            List<LinguisticVariable> linguisticVariables = new List<LinguisticVariable>
+            Dictionary<int, LinguisticVariable> linguisticVariables = new Dictionary<int, LinguisticVariable>
             {
-                firstLinguisticVariable,
-                secondLinguisticVariable
+                {1, firstLinguisticVariable},
+                {2, secondLinguisticVariable}
             };
             return linguisticVariables;
         }
 
-        private List<ImplicationRule> PrepareImplicationRules()
+        private Dictionary<int, ImplicationRule> PrepareImplicationRules()
         {
             // IF(Water IS Cold) THEN (Pressure IS Low)
             ImplicationRule firstImplicationRule = new ImplicationRule(
@@ -105,10 +105,10 @@ namespace KnowledgeManager.UnitTests.Implementations
                     new UnaryStatement("Pressure", ComparisonOperation.Equal, "Medium")
                 }));
 
-            List<ImplicationRule> implicationRules = new List<ImplicationRule>
+            Dictionary<int, ImplicationRule> implicationRules = new Dictionary<int, ImplicationRule>
             {
-                firstImplicationRule,
-                secondImplicationRule
+                {1, firstImplicationRule},
+                {2, secondImplicationRule}
             };
             return implicationRules;
         }

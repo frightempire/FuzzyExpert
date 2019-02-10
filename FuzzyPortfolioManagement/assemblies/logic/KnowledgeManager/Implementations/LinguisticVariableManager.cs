@@ -9,7 +9,7 @@ namespace KnowledgeManager.Implementations
     {
         private readonly ILinguisticVariableProvider _linguisticVariableProvider;
 
-        private List<LinguisticVariable> _linguisticVariables;
+        private Dictionary<int, LinguisticVariable> _linguisticVariables;
 
         public LinguisticVariableManager(ILinguisticVariableProvider linguisticVariableProvider)
         {
@@ -17,7 +17,22 @@ namespace KnowledgeManager.Implementations
             _linguisticVariableProvider = linguisticVariableProvider;
         }
 
-        public List<LinguisticVariable> LinguisticVariables => _linguisticVariables ??
-                                                               (_linguisticVariables = _linguisticVariableProvider.GetLinguisticVariables());
+        public Dictionary<int, LinguisticVariable> LinguisticVariables
+        {
+            get
+            {
+                if (_linguisticVariables != null)
+                    return _linguisticVariables;
+
+                List<LinguisticVariable> linguisticVariablesFromProvider = _linguisticVariableProvider.GetLinguisticVariables();
+
+                Dictionary<int, LinguisticVariable> linguisticVariables = new Dictionary<int, LinguisticVariable>();
+                for (int i = 1; i <= linguisticVariablesFromProvider.Count; i++)
+                {
+                    linguisticVariables.Add(i, linguisticVariablesFromProvider[i - 1]);
+                }
+                return _linguisticVariables = linguisticVariables;
+            }
+        }
     }
 }
