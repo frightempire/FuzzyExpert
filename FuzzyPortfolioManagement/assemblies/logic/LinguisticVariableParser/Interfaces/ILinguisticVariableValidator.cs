@@ -1,7 +1,9 @@
-﻿namespace LinguisticVariableParser.Interfaces
+﻿using CommonLogic.Entities;
+
+namespace LinguisticVariableParser.Interfaces
 {
     public interface ILinguisticVariableValidator
     {
-        void ValidateLinguisticVariable(string linguisticVariable);
+        ValidationOperationResult ValidateLinguisticVariable(string linguisticVariable);
     }
 }

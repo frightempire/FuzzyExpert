@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CommonLogic;
 using CommonLogic.Entities;
 using LinguisticVariableParser.Interfaces;
@@ -17,10 +16,12 @@ namespace LinguisticVariableParser.Implementations
             _membershipFunctionValidator = membershipFunctionValidator;
         }
 
-        public void ValidateLinguisticVariable(string linguisticVariable)
+        public ValidationOperationResult ValidateLinguisticVariable(string linguisticVariable)
         {
+            ValidationOperationResult validationOperationResult = new ValidationOperationResult();
+
             if (linguisticVariable.Contains(" "))
-                throw new ArgumentException("Linguistic variable string is not valid: haven't been preprocessed");
+                validationOperationResult.AddMessage("Linguistic variable string is not valid: haven't been preprocessed");
 
             List<StringCharacter> brackets = new List<StringCharacter>();
             for (var i = 0; i < linguisticVariable.Length; i++)
@@ -30,21 +31,27 @@ namespace LinguisticVariableParser.Implementations
                     brackets.Add(new StringCharacter(character, i));
             }
             int bracketsCount = brackets.Count;
-            
+
             if (bracketsCount != 2 ||
                 brackets[0].Symbol != '[' ||
                 brackets[1].Symbol != ']')
-                throw new ArgumentException("Linguistic variable string is not valid: incorrect brackets for membership functions");
+            {
+                validationOperationResult.AddMessage("Linguistic variable string is not valid: incorrect brackets for membership functions");
+                return validationOperationResult;
+            }
 
             int firstColonPosition = linguisticVariable.IndexOf(':');
             int secondColonPosition = linguisticVariable.IndexOf(':', firstColonPosition + 1);
             if (!ColunsInLinguisticVariablePlacedCorrectly(brackets[0].Position, firstColonPosition, secondColonPosition))
-                throw new ArgumentException("Linguistic variable string is not valid: colon delimeters placed incorrectly");
+                validationOperationResult.AddMessage("Linguistic variable string is not valid: colon delimeters placed incorrectly");
 
             string membershipFunctionsPart = linguisticVariable.Substring(
                 brackets[0].Position + 1, brackets[1].Position - brackets[0].Position - 1);
+            ValidationOperationResult validationOperationResultOfMembershipFunctionsPart =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionsPart);
+            validationOperationResult.AddMessages(validationOperationResultOfMembershipFunctionsPart.GetMessages());
 
-            _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionsPart);
+            return validationOperationResult;
         }
 
         private bool ColunsInLinguisticVariablePlacedCorrectly(

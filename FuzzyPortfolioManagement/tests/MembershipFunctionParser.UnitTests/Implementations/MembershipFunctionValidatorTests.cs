@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using MembershipFunctionParser.Entities;
-using MembershipFunctionParser.Enums;
+﻿using CommonLogic.Entities;
 using MembershipFunctionParser.Implementations;
 using NUnit.Framework;
 
@@ -19,243 +16,274 @@ namespace MembershipFunctionParser.UnitTests.Implementations
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereIsOneMembershipFunction()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereIsOneMembershipFunction()
         {
             // Arrange
             string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: no enough brackets";
+            string errorMessage = "Linguistic variable membership functions are not valid: no enough brackets";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereAreOddNumberOfBrackets()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereAreOddNumberOfBrackets()
         {
             // Arrange
-            string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Warm:Trapezoidal(40,45,45,50)|Hot:Trapezoidal(50,60,60,80";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: odd count of brackets";
+            string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Warm:Trapezoidal:(40,45,45,50)|Hot:Trapezoidal:(50,60,60,80";
+            string errorMessage = "Linguistic variable membership functions are not valid: odd count of brackets";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfOpeningBracketIsIncorrect()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfOpeningBracketIsIncorrect()
         {
             // Arrange
-            string membershipFunctionPart = "Cold:Trapezoidal:)0,20,20,30)|Hot:Trapezoidal(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: first or last brackets are wrong";
+            string membershipFunctionPart = "Cold:Trapezoidal:)0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)";
+            string errorMessage = "Linguistic variable membership functions are not valid: first or last brackets are wrong";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfClosingBracketIsIncorrect()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfClosingBracketIsIncorrect()
         {
             // Arrange
-            string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80(";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: first or last brackets are wrong";
+            string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80(";
+            string errorMessage = "Linguistic variable membership functions are not valid: first or last brackets are wrong";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfBracketsAreMismatching()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfBracketsAreMismatching()
         {
             // Arrange
-            string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal)50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: mismatching brackets";
+            string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:)50,60,60,80)";
+            string errorMessage = "Linguistic variable membership functions are not valid: mismatching brackets";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereAreNoColuns()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereAreNoColuns()
         {
             // Arrange
             string membershipFunctionPart = "ColdTrapezoidal(0,20,20,30)|HotTrapezoidal(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereIsOnlyOneColun()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereIsOnlyOneColun()
         {
             // Arrange
             string membershipFunctionPart = "Cold:Trapezoidal(0,20,20,30)|HotTrapezoidal(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfFirstColonIsAfterBrackets()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfFirstColonIsAfterBrackets()
         {
             // Arrange
             string membershipFunctionPart = "ColdTrapezoidal(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfSecondColonIsAfterBrackets()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfSecondColonIsAfterBrackets()
         {
             // Arrange
             string membershipFunctionPart = "Cold:Trapezoidal(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereIsNothingBeforeFirstColun()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereIsNothingBeforeFirstColun()
         {
             // Arrange
             string membershipFunctionPart = ":Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereIsDelimeterBeforeFirstColun()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereIsDelimeterBeforeFirstColun()
         {
             // Arrange
             string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|:Trapezoidal:(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereIsClosingBracketBeforeFirstColun()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereIsClosingBracketBeforeFirstColun()
         {
             // Arrange
             string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|:Trapezoidal:(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereIsColunBeforeSecondColun()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereIsColunBeforeSecondColun()
         {
             // Arrange
             string membershipFunctionPart = "Cold::(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereIsNoOpeningBracketAfterSecondColun()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereIsNoOpeningBracketAfterSecondColun()
         {
             // Arrange
             string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:N(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
+            string errorMessage = "Linguistic variable membership functions are not valid: incorrect colun placement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPart_ThrowsArgumentExceptionIfThereAreEmptyBrackets()
+        public void ValidateMembershipFunctionsPart_ReturnsValidationResultWithErrorIfThereAreEmptyBrackets()
         {
             // Arrange
             string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:()";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: empty brackets";
+            string errorMessage = "Linguistic variable membership functions are not valid: empty brackets";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateMembershipFunctionsPartPart_ThrowsArgumentExceptionIfThereAreNotEnoughDelimeters()
+        public void ValidateMembershipFunctionsPartPart_ReturnsValidationResultWithErrorIfThereAreNotEnoughDelimeters()
         {
             // Arrange
             string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)Hot:Trapezoidal:(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable membership functions are not valid: missing delimiter between functions";
+            string errorMessage = "Linguistic variable membership functions are not valid: missing delimiter between functions";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+        }
+
+        [Test]
+        public void ValidateMembershipFunctionsPartPart_ReturnsValidationResultWithoutErrorsIfMembershipFunctionPartIsValid()
+        {
+            // Arrange
+            string membershipFunctionPart = "Cold:Trapezoidal:(0,20,20,30)|Warm:Trapezoidal:(40,45,45,50)|Hot:Trapezoidal:(50,60,60,80)";
+
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionPart);
+
+            // Assert
+            Assert.AreEqual(true, validationOperationResult.IsSuccess);
+            Assert.AreEqual(0, validationOperationResult.GetMessages().Count);
         }
     }
 }

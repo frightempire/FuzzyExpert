@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using CommonLogic.Entities;
 using CommonLogic.Interfaces;
 using KnowledgeManager.Implementations;
 using LinguisticVariableParser.Entities;
@@ -161,6 +162,10 @@ namespace KnowledgeManager.UnitTests.Implementations
         public void GetLinguisticVariables_ReturnsCorrectListOfRules()
         {
             // Arrange
+            _linguisticVariableValidatorMock
+                .Stub(x => x.ValidateLinguisticVariable(Arg<string>.Is.Anything))
+                .Return(new ValidationOperationResult());
+
             _filePathProviderMock.FilePath = _filePath;
 
             string firstLinguisticVariableStringFromFile =
@@ -195,6 +200,90 @@ namespace KnowledgeManager.UnitTests.Implementations
                 new TrapezoidalMembershipFunction("High", 80, 100, 100, 150)
             };
             LinguisticVariable secondLinguisticVariable = new LinguisticVariable("Pressure", secondsMembershipFunctionList, isInitialData:false);
+
+            List<MembershipFunctionStrings> secondMembershipFunctionStrings = new List<MembershipFunctionStrings>
+            {
+                new MembershipFunctionStrings("Low", "Trapezoidal", new List<double> {20, 50, 50, 60}),
+                new MembershipFunctionStrings("High", "Trapezoidal", new List<double> {80, 100, 100, 150})
+            };
+            LinguisticVariableStrings secondLinguisticVariableStrings = new LinguisticVariableStrings("Pressure", "Derivative", secondMembershipFunctionStrings);
+
+            List<LinguisticVariable> expectedLinguisticVariables = new List<LinguisticVariable>
+            {
+                firstLinguisticVariable, secondLinguisticVariable
+            };
+
+            // Stubs
+            _linguisticVariableParserMock
+                .Stub(x => x.ParseLinguisticVariable(firstLinguisticVariableStringFromFile))
+                .Return(firstLinguisticVariableStrings);
+            _linguisticVariableParserMock
+                .Stub(x => x.ParseLinguisticVariable(secondLinguisticVariableStringFromFile))
+                .Return(secondLinguisticVariableStrings);
+
+            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(firstLinguisticVariableStrings)).Return(firstLinguisticVariable);
+            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(secondLinguisticVariableStrings)).Return(secondLinguisticVariable);
+
+            // Act
+            List<LinguisticVariable> actuaLinguisticVariables = _fileLinguisticVariableProvider.GetLinguisticVariables();
+
+            // Assert
+            Assert.AreEqual(expectedLinguisticVariables, actuaLinguisticVariables);
+        }
+
+        [Test]
+        public void GetLinguisticVariables_ReturnsOneRuleLessIfItIsNotValid()
+        {
+            // Arrange
+            _filePathProviderMock.FilePath = _filePath;
+
+            string firstLinguisticVariableStringFromFile =
+                "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
+            string secondLinguisticVariableStringFromFile =
+                "Pressure:Derivative:[Low:Trapezoidal:(20,50,50,60)|High:Trapezoidal:(80,100,100,150)]";
+            string thirdLinguisticVariableStringFromFile =
+                "EverythingIsWrongWithThirdLinguisticVariable";
+
+            _linguisticVariableValidatorMock
+                .Stub(x => x.ValidateLinguisticVariable(firstLinguisticVariableStringFromFile))
+                .Return(new ValidationOperationResult());
+            _linguisticVariableValidatorMock
+                .Stub(x => x.ValidateLinguisticVariable(secondLinguisticVariableStringFromFile))
+                .Return(new ValidationOperationResult());
+            ValidationOperationResult validationOperationResultForThirdVariable = new ValidationOperationResult();
+            validationOperationResultForThirdVariable.AddMessage("Something is wrong with third linguistic variable");
+            _linguisticVariableValidatorMock
+                .Stub(x => x.ValidateLinguisticVariable(thirdLinguisticVariableStringFromFile))
+                .Return(validationOperationResultForThirdVariable);
+
+            List<string> linguisticVariablesFromFile = new List<string>
+            {
+                firstLinguisticVariableStringFromFile, secondLinguisticVariableStringFromFile, thirdLinguisticVariableStringFromFile
+            };
+            _fileReaderMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(linguisticVariablesFromFile);
+
+            // Water variable
+            MembershipFunctionList firstMembershipFunctionList = new MembershipFunctionList
+            {
+                new TrapezoidalMembershipFunction("Cold", 0, 20, 20, 30),
+                new TrapezoidalMembershipFunction("Hot", 50, 60, 60, 80)
+            };
+            LinguisticVariable firstLinguisticVariable = new LinguisticVariable("Water", firstMembershipFunctionList, isInitialData: true);
+
+            List<MembershipFunctionStrings> firstMembershipFunctionStrings = new List<MembershipFunctionStrings>
+            {
+                new MembershipFunctionStrings("Cold", "Trapezoidal", new List<double> {0, 20, 20, 30}),
+                new MembershipFunctionStrings("Hot", "Trapezoidal", new List<double> {50, 60, 60, 80})
+            };
+            LinguisticVariableStrings firstLinguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", firstMembershipFunctionStrings);
+
+            // Pressure variable
+            MembershipFunctionList secondsMembershipFunctionList = new MembershipFunctionList
+            {
+                new TrapezoidalMembershipFunction("Low", 20, 50, 50, 60),
+                new TrapezoidalMembershipFunction("High", 80, 100, 100, 150)
+            };
+            LinguisticVariable secondLinguisticVariable = new LinguisticVariable("Pressure", secondsMembershipFunctionList, isInitialData: false);
 
             List<MembershipFunctionStrings> secondMembershipFunctionStrings = new List<MembershipFunctionStrings>
             {

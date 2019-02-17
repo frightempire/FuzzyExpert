@@ -63,6 +63,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
+      <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
+      <Name>CommonLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\assemblies\logic\MembershipFunctionParser\MembershipFunctionParser.csproj">
       <Project>{11CE082D-9AA8-4A49-BF2A-C4BFA577A50C}</Project>
       <Name>MembershipFunctionParser</Name>

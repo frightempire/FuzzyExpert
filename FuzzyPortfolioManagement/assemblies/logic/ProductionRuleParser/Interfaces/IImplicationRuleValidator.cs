@@ -1,7 +1,9 @@
+using CommonLogic.Entities;
+
 namespace ProductionRuleParser.Interfaces
 {
     public interface IImplicationRuleValidator
     {
-        void ValidateImplicationRule(string implicationRule);
+        ValidationOperationResult ValidateImplicationRule(string implicationRule);
     }
 }

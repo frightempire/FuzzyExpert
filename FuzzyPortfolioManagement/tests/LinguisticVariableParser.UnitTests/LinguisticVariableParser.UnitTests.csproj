@@ -60,6 +60,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
+      <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
+      <Name>CommonLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\assemblies\logic\LinguisticVariableParser\LinguisticVariableParser.csproj">
       <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
       <Name>LinguisticVariableParser</Name>

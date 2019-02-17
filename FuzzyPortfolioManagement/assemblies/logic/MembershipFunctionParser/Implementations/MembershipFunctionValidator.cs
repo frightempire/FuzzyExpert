@@ -2,17 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommonLogic.Entities;
-using CommonLogic.Extensions;
-using MembershipFunctionParser.Entities;
-using MembershipFunctionParser.Enums;
 using MembershipFunctionParser.Interfaces;
 
 namespace MembershipFunctionParser.Implementations
 {
     public class MembershipFunctionValidator : IMembershipFunctionValidator
     {
-        public void ValidateMembershipFunctionsPart(string membershipFunctionsPart)
+        public ValidationOperationResult ValidateMembershipFunctionsPart(string membershipFunctionsPart)
         {
+            ValidationOperationResult validationOperationResult = new ValidationOperationResult();
+
             List<StringCharacter> brackets = new List<StringCharacter>();
             for (var i = 0; i < membershipFunctionsPart.Length; i++)
             {
@@ -23,17 +22,29 @@ namespace MembershipFunctionParser.Implementations
             int bracketsCount = brackets.Count;
 
             if (bracketsCount < 4)
-                throw new ArgumentException("Linguistic variable membership functions are not valid: no enough brackets");
+            {
+                validationOperationResult.AddMessage("Linguistic variable membership functions are not valid: no enough brackets");
+                return validationOperationResult;
+            }
             if (bracketsCount % 2 != 0)
-                throw new ArgumentException("Linguistic variable membership functions are not valid: odd count of brackets");
+            {
+                validationOperationResult.AddMessage("Linguistic variable membership functions are not valid: odd count of brackets");
+                return validationOperationResult;
+            }
             if (brackets.First().Symbol != '(' || brackets.Last().Symbol != ')')
-                throw new ArgumentException("Linguistic variable membership functions are not valid: first or last brackets are wrong");
+            {
+                validationOperationResult.AddMessage("Linguistic variable membership functions are not valid: first or last brackets are wrong");
+                return validationOperationResult;
+            }
 
             List<Tuple<StringCharacter, StringCharacter>> correspondingBracketsList = new List<Tuple<StringCharacter, StringCharacter>>();
             for (int i = 0; i < bracketsCount; i = i + 2)
             {
                 if (brackets[i].Symbol != '(' || brackets[i + 1].Symbol != ')')
-                    throw new ArgumentException("Linguistic variable membership functions are not valid: mismatching brackets");
+                {
+                    validationOperationResult.AddMessage("Linguistic variable membership functions are not valid: mismatching brackets");
+                    return validationOperationResult;
+                }
 
                 correspondingBracketsList.Add(Tuple.Create(brackets[i], brackets[i + 1]));
             }
@@ -51,15 +62,25 @@ namespace MembershipFunctionParser.Implementations
                     correspondingBrackets.Item1.Position,
                     firstColonPosition,
                     secondColonPosition))
-                    throw new ArgumentException("Linguistic variable membership functions are not valid: incorrect colun placement");
+                {
+                    validationOperationResult.AddMessage("Linguistic variable membership functions are not valid: incorrect colun placement");
+                    return validationOperationResult;
+                }
 
                 if (correspondingBrackets.Item2.Position == correspondingBrackets.Item1.Position + 1)
-                    throw new ArgumentException("Linguistic variable membership functions are not valid: empty brackets");
-
+                {
+                    validationOperationResult.AddMessage("Linguistic variable membership functions are not valid: empty brackets");
+                    return validationOperationResult;
+                }
                 if (i != correspondingBracketsList.Count - 1 &&
                     membershipFunctionsPart[correspondingBrackets.Item2.Position + 1] != '|')
-                    throw new ArgumentException("Linguistic variable membership functions are not valid: missing delimiter between functions");
+                {
+                    validationOperationResult.AddMessage("Linguistic variable membership functions are not valid: missing delimiter between functions");
+                    return validationOperationResult;
+                }
             }
+
+            return validationOperationResult;
         }
 
         private bool ColunsInMembershipFunctionsPlacedCorrectly(

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CommonLogic.Entities;
 using LinguisticVariableParser.Implementations;
 using MembershipFunctionParser.Interfaces;
 using NUnit.Framework;
@@ -16,97 +16,100 @@ namespace LinguisticVariableParser.UnitTests.Implementations
         public void SetUp()
         {
             _membershipFunctionValidatorMock = MockRepository.GenerateMock<IMembershipFunctionValidator>();
+            _membershipFunctionValidatorMock
+                .Stub(x => x.ValidateMembershipFunctionsPart(Arg<string>.Is.Anything))
+                .Return(new ValidationOperationResult());
             _linguisticVariableValidator = new LinguisticVariableValidator(_membershipFunctionValidatorMock);
         }
 
         [Test]
-        public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfThereAreWhitespacesInIt()
+        public void ValidateLinguisticVariable_ReturnsValidationResultWithErrorIfThereAreWhitespacesInIt()
         {
             // Arrange
             string linguisticVariable = "Water : Initial : [Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
-            string exceptionMessage = "Linguistic variable string is not valid: haven't been preprocessed";
+            string errorMessage = "Linguistic variable string is not valid: haven't been preprocessed";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable);
+            
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfThereIsNotEnoughBrackets()
+        public void ValidateLinguisticVariable_ReturnsValidationResultWithErrorIfThereIsNotEnoughBrackets()
         {
             // Arrange
             string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)";
-            string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
+            string errorMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfOpeningBracketIsIncorrect()
+        public void ValidateLinguisticVariable_ReturnsValidationResultWithErrorIfOpeningBracketIsIncorrect()
         {
             // Arrange
             string linguisticVariable = "Water:Initial:]Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
-            string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
+            string errorMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfClosingBracketIsIncorrect()
+        public void ValidateLinguisticVariable_ReturnsValidationResultWithErrorIfClosingBracketIsIncorrect()
         {
             // Arrange
             string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)[";
-            string exceptionMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
+            string errorMessage = "Linguistic variable string is not valid: incorrect brackets for membership functions";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfFirstColunIsAfterOpeningBracket()
+        public void ValidateLinguisticVariable_ReturnsValidationResultWithErrorIfFirstColunIsAfterOpeningBracket()
         {
             // Arrange
             string linguisticVariable = "WaterInitial[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
-            string exceptionMessage = "Linguistic variable string is not valid: colon delimeters placed incorrectly";
+            string errorMessage = "Linguistic variable string is not valid: colon delimeters placed incorrectly";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateLinguisticVariable_ThrowsArgumentExceptionIfFirstColunIsAfterClosingBracket()
+        public void ValidateLinguisticVariable_ReturnsValidationResultWithErrorIfFirstColunIsAfterClosingBracket()
         {
             // Arrange
             string linguisticVariable = "WaterInitial[ColdTrapezoidal(0,20,20,30)|HotTrapezoidal(50,60,60,80)]:";
-            string exceptionMessage = "Linguistic variable string is not valid: colon delimeters placed incorrectly";
+            string errorMessage = "Linguistic variable string is not valid: colon delimeters placed incorrectly";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariable(linguisticVariable);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
     }
 }

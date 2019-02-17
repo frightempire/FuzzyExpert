@@ -14,49 +14,20 @@ namespace ProductionRuleParser.UnitTests.Implementations
     public class ImplicationRuleCreatorTests
     {
         private IImplicationRuleParser _implicationRuleParser;
-        private IImplicationRuleValidator _implicationRuleValidator;
         private ImplicationRuleCreator _implicationRuleCreator;
 
         [SetUp]
         public void SetUp()
         {
             _implicationRuleParser = MockRepository.GenerateMock<IImplicationRuleParser>();
-            _implicationRuleValidator = MockRepository.GenerateMock<IImplicationRuleValidator>();
-            _implicationRuleCreator = new ImplicationRuleCreator(_implicationRuleParser, _implicationRuleValidator);
+            _implicationRuleCreator = new ImplicationRuleCreator(_implicationRuleParser);
         }
 
         [Test]
         public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleParserIsNull()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => new ImplicationRuleCreator(null, _implicationRuleValidator));
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfImplicationRulePreProcessorIsNull()
-        {
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => new ImplicationRuleCreator(_implicationRuleParser, null));
-        }
-
-        [Test]
-        public void DivideImplicationRule_ReturnsImplicationRuleStrings()
-        {
-            // Arrange
-            string implicationRule = "IF (A=a | (B=b & C=c)) THEN (D=d)";
-            ImplicationRuleStrings expectedImplicationRuleStrings = new ImplicationRuleStrings(
-                "(A=a|(B=b&C=c))", "(D=d)");
-
-            string implicationRuleAfterPreProcessing = "IF(A=a|(B=b&C=c))THEN(D=d)";
-            _implicationRuleParser.Expect(irp => irp.ExtractStatementParts(implicationRuleAfterPreProcessing))
-                .Return(expectedImplicationRuleStrings);
-
-            // Act
-            ImplicationRuleStrings actualImplicationRuleStrings =
-                _implicationRuleCreator.DivideImplicationRule(implicationRule);
-
-            // Assert
-            Assert.IsTrue(ObjectComparer.ImplicationRuleStringsAreEqual(expectedImplicationRuleStrings, actualImplicationRuleStrings));
+            Assert.Throws<ArgumentNullException>(() => new ImplicationRuleCreator(null));
         }
 
         [Test]
@@ -65,7 +36,6 @@ namespace ProductionRuleParser.UnitTests.Implementations
             // Arrange
             string ifStatementPart = "(A=a|(B=b&C=c))";
             string thenStatementpart = "(D=d)";
-            string implicationRule = "IF" + ifStatementPart + "THEN" + thenStatementpart;
             ImplicationRuleStrings implicationRuleStrings = new ImplicationRuleStrings(
                 ifStatementPart, thenStatementpart);
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using CommonLogic.Entities;
 using NUnit.Framework;
 using ProductionRuleParser.Implementations;
 using ProductionRuleParser.Interfaces;
@@ -17,123 +17,146 @@ namespace ProductionRuleParser.UnitTests.Implementations
         }
 
         [Test]
-        public void ValidateImplicationRule_ThrowsArgumentExceptionIfThereWhitespacesInIt()
+        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfThereWhitespacesInIt()
         {
             // Arrange
             string implicationRule = "IF (Something > 10) THEN (Anything = 5)";
-            string exceptionMessage = "Implication rule string is not valid: haven't been preprocessed";
+            string errorMessage = "Implication rule string is not valid: haven't been preprocessed";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateImplicationRule_ThrowsArgumentExceptionIfImplicationRuleDoesntStartsWithIf()
+        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleDoesntStartsWithIf()
         {
             // Arrange
             string implicationRule = "(Something>10)THEN(Anything=5)";
-            string exceptionMessage = "Implication rule string is not valid: no if statement";
+            string errorMessage = "Implication rule string is not valid: no if statement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateImplicationRule_ThrowsArgumentExceptionIfImplicationRuleDoesntContainThen()
+        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleDoesntContainThen()
         {
             // Arrange
             string implicationRule = "IF(Something>10)(Anything=5)";
-            string exceptionMessage = "Implication rule string is not valid: no then statement";
+            string errorMessage = "Implication rule string is not valid: no then statement";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateImplicationRule_ThrowsArgumentExceptionIfImplicationRuleHasNoBrackets()
+        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleHasNoBrackets()
         {
             // Arrange
             string implicationRule = "IFSomething>10THENAnything=5";
-            string exceptionMessage = "Implication rule string is not valid: no brackets";
+            string errorMessage = "Implication rule string is not valid: no brackets";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateImplicationRule_ThrowsArgumentExceptionIfImplicationRuleHasOddCountOfBrackets()
+        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleHasOddCountOfBrackets()
         {
             // Arrange
             string implicationRule = "IF(Something>10)THENAnything=5)";
-            string exceptionMessage = "Implication rule string is not valid: odd count of brackets";
+            string errorMessage = "Implication rule string is not valid: odd count of brackets";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateImplicationRule_ThrowsArgumentExceptionIfImplicationRuleFirstBracketIsClosing()
+        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleFirstBracketIsClosing()
         {
             // Arrange
             string implicationRule = "IF)Something>10)THEN(Anything=5)";
-            string exceptionMessage = "Implication rule string is not valid: wrong opening or closing bracket";
+            string errorMessage = "Implication rule string is not valid: wrong opening or closing bracket";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateImplicationRule_ThrowsArgumentExceptionIfImplicationRuleLastBracketIsOpening()
+        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleLastBracketIsOpening()
         {
             // Arrange
             string implicationRule = "IF(Something>10)THEN(Anything=5(";
-            string exceptionMessage = "Implication rule string is not valid: wrong opening or closing bracket";
+            string errorMessage = "Implication rule string is not valid: wrong opening or closing bracket";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         [Test]
-        public void ValidateImplicationRule_ThrowsArgumentExceptionIfImplicationRuleHasMismatchingBracketsCount()
+        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleHasMismatchingBracketsCount()
         {
             // Arrange
             string implicationRule = "IF(Something>10)THEN(Anything=5)))";
-            string exceptionMessage = "Implication rule string is not valid: mismatching brackets";
+            string errorMessage = "Implication rule string is not valid: mismatching brackets";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>
-            (
-                () => { _implicationRuleValidator.ValidateImplicationRule(implicationRule); }
-            );
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(false, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+        }
+
+        [Test]
+        public void ValidateImplicationRule_ReturnValidationResultWithoutErrorsIfImplicationRuleIsValid()
+        {
+            // Arrange
+            string implicationRule = "IF(Something>10)THEN(Anything=5)";
+
+            // Act
+            ValidationOperationResult validationOperationResult =
+                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+
+            // Assert
+            Assert.AreEqual(true, validationOperationResult.IsSuccess);
+            Assert.AreEqual(0, validationOperationResult.GetMessages().Count);
         }
     }
 }

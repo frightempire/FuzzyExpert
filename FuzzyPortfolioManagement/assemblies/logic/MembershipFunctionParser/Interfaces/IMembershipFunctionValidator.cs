@@ -1,7 +1,9 @@
-﻿namespace MembershipFunctionParser.Interfaces
+﻿using CommonLogic.Entities;
+
+namespace MembershipFunctionParser.Interfaces
 {
     public interface IMembershipFunctionValidator
     {
-        void ValidateMembershipFunctionsPart(string membershipFunctionsPart);
+        ValidationOperationResult ValidateMembershipFunctionsPart(string membershipFunctionsPart);
     }
 }

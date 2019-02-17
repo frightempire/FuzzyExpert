@@ -35,9 +35,14 @@ namespace IntegrationTests
 
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleValidator ruleValidator = new ImplicationRuleValidator();
-            ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser, ruleValidator);
+            ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
 
-            FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(fileReader, _filePathProvider, ruleCreator);
+            FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(
+                fileReader,
+                _filePathProvider,
+                ruleValidator,
+                ruleParser,
+                ruleCreator);
             _implicationRuleManager = new ImplicationRuleManager(ruleProvider);
         }
 

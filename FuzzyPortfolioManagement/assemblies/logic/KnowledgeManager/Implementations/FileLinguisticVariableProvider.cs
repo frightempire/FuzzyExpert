@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using CommonLogic;
+using CommonLogic.Entities;
+using CommonLogic.Extensions;
 using CommonLogic.Interfaces;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
@@ -44,13 +46,26 @@ namespace KnowledgeManager.Implementations
             List<string> linguisticVariablesFromFile = _fileReader.ReadFileByLines(linguisticVariablesFilePath);
 
             List<LinguisticVariable> linguisticVariables = new List<LinguisticVariable>();
-            linguisticVariablesFromFile.ForEach(lvff =>
+            for (var i = 0; i < linguisticVariablesFromFile.Count; i++)
             {
-                _linguisticVariableValidator.ValidateLinguisticVariable(lvff);
-                LinguisticVariableStrings linguisticVariableStrings = _linguisticVariableParser.ParseLinguisticVariable(lvff);
-                LinguisticVariable linguisticVariable = _linguisticVariableCreator.CreateLinguisticVariableEntity(linguisticVariableStrings);
-                linguisticVariables.Add(linguisticVariable);
-            });
+                string linguisticVariableFromFile = linguisticVariablesFromFile[i];
+                string preProcessedLinguisticVariable = linguisticVariableFromFile.RemoveUnwantedCharacters(new List<char> { ' ' });
+                ValidationOperationResult validationOperationResult =
+                    _linguisticVariableValidator.ValidateLinguisticVariable(preProcessedLinguisticVariable);
+                if (validationOperationResult.IsSuccess)
+                {
+                    LinguisticVariableStrings linguisticVariableStrings =
+                        _linguisticVariableParser.ParseLinguisticVariable(preProcessedLinguisticVariable);
+                    LinguisticVariable linguisticVariable =
+                        _linguisticVariableCreator.CreateLinguisticVariableEntity(linguisticVariableStrings);
+                    linguisticVariables.Add(linguisticVariable);
+                }
+                else
+                {
+                    int line = i + 1;
+                    //log line and error messages
+                }
+            }
 
             return linguisticVariables;
         }
