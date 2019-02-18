@@ -27,7 +27,7 @@ namespace IntegrationTests
 
         private void PrepareImplicationRuleManager()
         {
-            FileReader fileReader = new FileReader();
+            FileOperations fileOperations = new FileOperations();
             _filePathProvider = new FilePathProvider
             {
                 FilePath = _filePath
@@ -36,13 +36,15 @@ namespace IntegrationTests
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleValidator ruleValidator = new ImplicationRuleValidator();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
+            FileValidationOperationResultLogger fileValidationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 
             FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(
-                fileReader,
+                fileOperations,
                 _filePathProvider,
                 ruleValidator,
                 ruleParser,
-                ruleCreator);
+                ruleCreator,
+                fileValidationOperationResultLogger);
             _implicationRuleManager = new ImplicationRuleManager(ruleProvider);
         }
 

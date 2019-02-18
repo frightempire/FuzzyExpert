@@ -22,7 +22,7 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
 
         public Container CreateSimpleInjectorContainer()
         {
-            _container.Register<IFileReader, FileReader>();
+            _container.Register<IFileOperations, FileOperations>();
 
             _container.Register<IImplicationRuleValidator, ImplicationRuleValidator>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleParser, ImplicationRuleParser>(Lifestyle.Singleton);
@@ -31,9 +31,12 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
             FilePathProvider implicationRulesFilePathProvider = new FilePathProvider();
             _container.Register<IImplicationRuleProvider>(
                 () => new FileImplicationRuleProvider(
-                    _container.GetInstance<IFileReader>(),
+                    _container.GetInstance<IFileOperations>(),
                     implicationRulesFilePathProvider,
-                    _container.GetInstance<IImplicationRuleCreator>()),
+                    _container.GetInstance<IImplicationRuleValidator>(),
+                    _container.GetInstance<IImplicationRuleParser>(),
+                    _container.GetInstance<IImplicationRuleCreator>(),
+                    _container.GetInstance<IValidationOperationResultLogger>()),
                 Lifestyle.Singleton);
 
             _container.Register<IImplicationRuleManager, ImplicationRuleManager>(Lifestyle.Singleton);
@@ -52,7 +55,8 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
                     _container.GetInstance<ILinguisticVariableParser>(),
                     _container.GetInstance<ILinguisticVariableCreator>(),
                     linguisticVariablesFilePathProvider,
-                    _container.GetInstance<IFileReader>()),
+                    _container.GetInstance<IFileOperations>(),
+                    _container.GetInstance<IValidationOperationResultLogger>()),
                 Lifestyle.Singleton);
 
             _container.Register<ILinguisticVariableManager, LinguisticVariableManager>(Lifestyle.Singleton);

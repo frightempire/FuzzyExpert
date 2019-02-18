@@ -49,7 +49,11 @@ namespace LinguisticVariableParser.Implementations
                 brackets[0].Position + 1, brackets[1].Position - brackets[0].Position - 1);
             ValidationOperationResult validationOperationResultOfMembershipFunctionsPart =
                 _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionsPart);
-            validationOperationResult.AddMessages(validationOperationResultOfMembershipFunctionsPart.GetMessages());
+
+            List<string> membershipPartValidationMessages =
+                validationOperationResultOfMembershipFunctionsPart.GetMessages();
+            if (membershipPartValidationMessages.Count != 0)
+                validationOperationResult.AddMessages(membershipPartValidationMessages);
 
             return validationOperationResult;
         }

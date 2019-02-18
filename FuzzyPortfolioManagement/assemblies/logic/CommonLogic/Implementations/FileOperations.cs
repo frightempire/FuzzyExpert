@@ -5,7 +5,7 @@ using CommonLogic.Interfaces;
 
 namespace CommonLogic.Implementations
 {
-    public class FileReader : IFileReader
+    public class FileOperations : IFileOperations
     {
         public List<string> ReadFileByLines(string filePath)
         {
@@ -13,6 +13,15 @@ namespace CommonLogic.Implementations
             ExceptionAssert.FileExists(filePath);
 
             return File.ReadAllLines(filePath).ToList();
+        }
+
+        public void AppendLinesToFile(string filePath, List<string> lines)
+        {
+            ExceptionAssert.IsEmpty(filePath);
+            ExceptionAssert.IsNull(lines);
+            ExceptionAssert.IsEmpty(lines);
+
+            File.AppendAllLines(filePath, lines);
         }
     }
 }

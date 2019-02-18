@@ -44,11 +44,14 @@
     <Compile Include="Entities\ValidationOperationResult.cs" />
     <Compile Include="ExceptionAssert.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Implementations\FilePathProvider.cs" />
-    <Compile Include="Implementations\FileReader.cs" />
+    <Compile Include="Implementations\FileOperations.cs" />
+    <Compile Include="Implementations\FileValidationOperationResultLogger.cs" />
     <Compile Include="Interfaces\IFilePathProvider.cs" />
-    <Compile Include="Interfaces\IFileReader.cs" />
+    <Compile Include="Interfaces\IFileOperations.cs" />
+    <Compile Include="Interfaces\IValidationOperationResultLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

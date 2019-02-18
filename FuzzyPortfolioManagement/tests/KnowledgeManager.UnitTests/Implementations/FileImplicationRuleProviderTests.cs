@@ -17,18 +17,20 @@ namespace KnowledgeManager.UnitTests.Implementations
     {
         private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\TestFile.txt");
 
-        private IFileReader _fileReaderMock;
+        private IFileOperations _fileOperationsMock;
         private IFilePathProvider _filePathProviderMock;
         private IImplicationRuleValidator _implicationRuleValidatorMock;
         private IImplicationRuleParser _implicationRuleParserMock;
         private IImplicationRuleCreator _implicationRuleCreatorMock;
+        private IValidationOperationResultLogger _validationOperationResultLoggerMock;
 
         private FileImplicationRuleProvider _fileImplicationRuleProvider;
 
         [SetUp]
         public void SetUp()
         {
-            _fileReaderMock = MockRepository.GenerateMock<IFileReader>();
+            _fileOperationsMock = MockRepository.GenerateMock<IFileOperations>();
+            _validationOperationResultLoggerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();
 
             _filePathProviderMock = MockRepository.GenerateMock<IFilePathProvider>();
             _filePathProviderMock.Stub(x => x.FilePath).PropertyBehavior();
@@ -38,15 +40,16 @@ namespace KnowledgeManager.UnitTests.Implementations
             _implicationRuleCreatorMock = MockRepository.GenerateMock<IImplicationRuleCreator>();
 
             _fileImplicationRuleProvider = new FileImplicationRuleProvider(
-                _fileReaderMock,
+                _fileOperationsMock,
                 _filePathProviderMock,
                 _implicationRuleValidatorMock,
                 _implicationRuleParserMock,
-                _implicationRuleCreatorMock);
+                _implicationRuleCreatorMock,
+                _validationOperationResultLoggerMock);
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfFileReaderIsNull()
+        public void Constructor_ThrowsArgumentNullExceptionIfFileOperationsIsNull()
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
@@ -56,7 +59,8 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _filePathProviderMock,
                     _implicationRuleValidatorMock,
                     _implicationRuleParserMock,
-                    _implicationRuleCreatorMock);
+                    _implicationRuleCreatorMock,
+                    _validationOperationResultLoggerMock);
             });
         }
 
@@ -67,11 +71,12 @@ namespace KnowledgeManager.UnitTests.Implementations
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
-                    _fileReaderMock,
+                    _fileOperationsMock,
                     null,
                     _implicationRuleValidatorMock,
                     _implicationRuleParserMock,
-                    _implicationRuleCreatorMock);
+                    _implicationRuleCreatorMock,
+                    _validationOperationResultLoggerMock);
             });
         }
 
@@ -82,11 +87,12 @@ namespace KnowledgeManager.UnitTests.Implementations
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
-                    _fileReaderMock,
+                    _fileOperationsMock,
                     _filePathProviderMock,
                     null,
                     _implicationRuleParserMock,
-                    _implicationRuleCreatorMock);
+                    _implicationRuleCreatorMock,
+                    _validationOperationResultLoggerMock);
             });
         }
 
@@ -97,11 +103,12 @@ namespace KnowledgeManager.UnitTests.Implementations
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
-                    _fileReaderMock,
+                    _fileOperationsMock,
                     _filePathProviderMock,
                     _implicationRuleValidatorMock,
                     null,
-                    _implicationRuleCreatorMock);
+                    _implicationRuleCreatorMock,
+                    _validationOperationResultLoggerMock);
             });
         }
 
@@ -112,10 +119,27 @@ namespace KnowledgeManager.UnitTests.Implementations
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
-                    _fileReaderMock,
+                    _fileOperationsMock,
                     _filePathProviderMock,
                     _implicationRuleValidatorMock,
                     _implicationRuleParserMock,
+                    null,
+                    _validationOperationResultLoggerMock);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfValidationOperationResultLoggerIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new FileImplicationRuleProvider(
+                    _fileOperationsMock,
+                    _filePathProviderMock,
+                    _implicationRuleValidatorMock,
+                    _implicationRuleParserMock,
+                    _implicationRuleCreatorMock,
                     null);
             });
         }
@@ -152,7 +176,7 @@ namespace KnowledgeManager.UnitTests.Implementations
         {
             // Arrange
             _filePathProviderMock.FilePath = _filePath;
-            _fileReaderMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(new List<string>());
+            _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(new List<string>());
 
             // Act
             List<ImplicationRule> expectedImplicationRules = _fileImplicationRuleProvider.GetImplicationRules();
@@ -175,7 +199,7 @@ namespace KnowledgeManager.UnitTests.Implementations
                 "IF(A>10)THEN(X=5)",
                 "IF(B!=1&C!=2)THEN(X=10)"
             };
-            _fileReaderMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(implicationRulesFromFile);
+            _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(implicationRulesFromFile);
 
             // IF (A > 10) THEN (X = 5)
             ImplicationRuleStrings firstImplicationRuleStrings = new ImplicationRuleStrings("A>10", "X=5");
@@ -252,7 +276,7 @@ namespace KnowledgeManager.UnitTests.Implementations
             {
                 firstRuleFromFile, secondRuleFromFile, thirdRuleFromFile
             };
-            _fileReaderMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(implicationRulesFromFile);
+            _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(implicationRulesFromFile);
 
             // IF (A > 10) THEN (X = 5)
             ImplicationRuleStrings firstImplicationRuleStrings = new ImplicationRuleStrings("A>10", "X=5");
@@ -303,6 +327,7 @@ namespace KnowledgeManager.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(expectedImplicationRules, actualImplicationRules);
+            _validationOperationResultLoggerMock.AssertWasCalled(x => x.LogValidationOperationResultMessages(validationOperationResultForThirdRule, 3));
         }
     }
 }

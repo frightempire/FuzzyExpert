@@ -22,7 +22,8 @@ namespace KnowledgeManager.UnitTests.Implementations
         private ILinguisticVariableParser _linguisticVariableParserMock;
         private ILinguisticVariableCreator _linguisticVariableCreatorMock;
         private IFilePathProvider _filePathProviderMock;
-        private IFileReader _fileReaderMock;
+        private IFileOperations _fileOperationsMock;
+        private IValidationOperationResultLogger _validationOperationResultLoggerMock;
         private FileLinguisticVariableProvider _fileLinguisticVariableProvider;
 
         [SetUp]
@@ -33,13 +34,15 @@ namespace KnowledgeManager.UnitTests.Implementations
             _linguisticVariableCreatorMock = MockRepository.GenerateMock<ILinguisticVariableCreator>();
             _filePathProviderMock = MockRepository.GenerateMock<IFilePathProvider>();
             _filePathProviderMock.Stub(x => x.FilePath).PropertyBehavior();
-            _fileReaderMock = MockRepository.GenerateMock<IFileReader>();
+            _fileOperationsMock = MockRepository.GenerateMock<IFileOperations>();
+            _validationOperationResultLoggerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();
             _fileLinguisticVariableProvider = new FileLinguisticVariableProvider(
                 _linguisticVariableValidatorMock,
                 _linguisticVariableParserMock,
                 _linguisticVariableCreatorMock,
                 _filePathProviderMock,
-                _fileReaderMock);
+                _fileOperationsMock,
+                _validationOperationResultLoggerMock);
         }
 
         [Test]
@@ -53,7 +56,8 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _linguisticVariableParserMock,
                     _linguisticVariableCreatorMock,
                     _filePathProviderMock,
-                    _fileReaderMock);
+                    _fileOperationsMock,
+                    _validationOperationResultLoggerMock);
             });
         }
 
@@ -68,7 +72,8 @@ namespace KnowledgeManager.UnitTests.Implementations
                     null,
                     _linguisticVariableCreatorMock,
                     _filePathProviderMock,
-                    _fileReaderMock);
+                    _fileOperationsMock,
+                    _validationOperationResultLoggerMock);
             });
         }
 
@@ -83,7 +88,8 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _linguisticVariableParserMock,
                     null,
                     _filePathProviderMock,
-                    _fileReaderMock);
+                    _fileOperationsMock,
+                    _validationOperationResultLoggerMock);
             });
         }
 
@@ -98,12 +104,13 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _linguisticVariableParserMock,
                     _linguisticVariableCreatorMock,
                     null,
-                    _fileReaderMock);
+                    _fileOperationsMock,
+                    _validationOperationResultLoggerMock);
             });
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfFileReaderIsNull()
+        public void Constructor_ThrowsArgumentNullExceptionIfFileOperationsIsNull()
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
@@ -113,6 +120,23 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _linguisticVariableParserMock,
                     _linguisticVariableCreatorMock,
                     _filePathProviderMock,
+                    null,
+                    _validationOperationResultLoggerMock);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfValidationOperationResultLoggerIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new FileLinguisticVariableProvider(
+                    _linguisticVariableValidatorMock,
+                    _linguisticVariableParserMock,
+                    _linguisticVariableCreatorMock,
+                    _filePathProviderMock,
+                    _fileOperationsMock,
                     null);
             });
         }
@@ -149,7 +173,7 @@ namespace KnowledgeManager.UnitTests.Implementations
         {
             // Arrange
             _filePathProviderMock.FilePath = _filePath;
-            _fileReaderMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(new List<string>());
+            _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(new List<string>());
 
             // Act
             List<LinguisticVariable> linguisticVariables = _fileLinguisticVariableProvider.GetLinguisticVariables();
@@ -176,7 +200,7 @@ namespace KnowledgeManager.UnitTests.Implementations
             {
                 firstLinguisticVariableStringFromFile, secondLinguisticVariableStringFromFile
             };
-            _fileReaderMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(linguisticVariablesFromFile);
+            _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(linguisticVariablesFromFile);
 
             // Water variable
             MembershipFunctionList firstMembershipFunctionList = new MembershipFunctionList
@@ -260,7 +284,7 @@ namespace KnowledgeManager.UnitTests.Implementations
             {
                 firstLinguisticVariableStringFromFile, secondLinguisticVariableStringFromFile, thirdLinguisticVariableStringFromFile
             };
-            _fileReaderMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(linguisticVariablesFromFile);
+            _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(linguisticVariablesFromFile);
 
             // Water variable
             MembershipFunctionList firstMembershipFunctionList = new MembershipFunctionList
@@ -313,6 +337,7 @@ namespace KnowledgeManager.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(expectedLinguisticVariables, actuaLinguisticVariables);
+            _validationOperationResultLoggerMock.AssertWasCalled(x => x.LogValidationOperationResultMessages(validationOperationResultForThirdVariable, 3));
         }
     }
 }

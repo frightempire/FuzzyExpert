@@ -12,29 +12,33 @@ namespace KnowledgeManager.Implementations
     public class FileLinguisticVariableProvider : ILinguisticVariableProvider
     {
         private readonly IFilePathProvider _filePathProvider;
-        private readonly IFileReader _fileReader;
+        private readonly IFileOperations _fileOperations;
         private readonly ILinguisticVariableValidator _linguisticVariableValidator;
         private readonly ILinguisticVariableParser _linguisticVariableParser;
         private readonly ILinguisticVariableCreator _linguisticVariableCreator;
+        private readonly IValidationOperationResultLogger _validationOperationResultLogger;
 
         public FileLinguisticVariableProvider(
             ILinguisticVariableValidator linguisticVariableValidator,
             ILinguisticVariableParser linguisticVariableParser,
             ILinguisticVariableCreator linguisticVariableCreator,
             IFilePathProvider filePathProvider,
-            IFileReader fileReader)
+            IFileOperations fileOperations,
+            IValidationOperationResultLogger validationOperationResultLogger)
         {
             ExceptionAssert.IsNull(linguisticVariableValidator);
             ExceptionAssert.IsNull(linguisticVariableParser);
             ExceptionAssert.IsNull(linguisticVariableCreator);
             ExceptionAssert.IsNull(filePathProvider);
-            ExceptionAssert.IsNull(fileReader);
+            ExceptionAssert.IsNull(fileOperations);
+            ExceptionAssert.IsNull(validationOperationResultLogger);
 
             _linguisticVariableValidator = linguisticVariableValidator;
             _linguisticVariableParser = linguisticVariableParser;
             _linguisticVariableCreator = linguisticVariableCreator;
             _filePathProvider = filePathProvider;
-            _fileReader = fileReader;
+            _fileOperations = fileOperations;
+            _validationOperationResultLogger = validationOperationResultLogger;
         }
 
         public List<LinguisticVariable> GetLinguisticVariables()
@@ -43,7 +47,7 @@ namespace KnowledgeManager.Implementations
             ExceptionAssert.FileExists(_filePathProvider.FilePath);
 
             string linguisticVariablesFilePath = _filePathProvider.FilePath;
-            List<string> linguisticVariablesFromFile = _fileReader.ReadFileByLines(linguisticVariablesFilePath);
+            List<string> linguisticVariablesFromFile = _fileOperations.ReadFileByLines(linguisticVariablesFilePath);
 
             List<LinguisticVariable> linguisticVariables = new List<LinguisticVariable>();
             for (var i = 0; i < linguisticVariablesFromFile.Count; i++)
@@ -63,7 +67,7 @@ namespace KnowledgeManager.Implementations
                 else
                 {
                     int line = i + 1;
-                    //log line and error messages
+                    _validationOperationResultLogger.LogValidationOperationResultMessages(validationOperationResult, line);
                 }
             }
 

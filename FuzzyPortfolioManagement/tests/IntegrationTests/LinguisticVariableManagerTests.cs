@@ -37,14 +37,16 @@ namespace IntegrationTests
             MembershipFunctionCreator membershipFunctionCreator = new MembershipFunctionCreator();
             LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator);
             _filePathProvider = new FilePathProvider {FilePath = _filePath};
-            FileReader fileReader = new FileReader();
+            FileOperations fileOperations = new FileOperations();
+            FileValidationOperationResultLogger validationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 
             FileLinguisticVariableProvider linguisticVariableProvider = new FileLinguisticVariableProvider(
                 linguisticVariableValidator,
                 linguisticVariableParser,
                 linguisticVariableCreator,
                 _filePathProvider,
-                fileReader);
+                fileOperations,
+                validationOperationResultLogger);
             _linguisticVariableManager = new LinguisticVariableManager(linguisticVariableProvider);
         }
 
