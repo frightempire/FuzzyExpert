@@ -10,26 +10,11 @@ namespace KnowledgeManager.Implementations
 {
     public class KnowledgeBaseValidator : IKnowledgeBaseValidator
     {
-        private readonly IImplicationRuleManager _implicationRuleManager;
-        private readonly ILinguisticVariableManager _linguisticVariableManager;
-
-        public KnowledgeBaseValidator(
-            IImplicationRuleManager implicationRuleManager,
-            ILinguisticVariableManager linguisticVariableManager)
-        {
-            ExceptionAssert.IsNull(implicationRuleManager);
-            ExceptionAssert.IsNull(linguisticVariableManager);
-
-            _implicationRuleManager = implicationRuleManager;
-            _linguisticVariableManager = linguisticVariableManager;
-        }
-
-        public ValidationOperationResult ValidateLinguisticVariablesNames()
+        public ValidationOperationResult ValidateLinguisticVariablesNames(
+            Dictionary<int, ImplicationRule> implicationRules,
+            Dictionary<int, LinguisticVariable> linguisticVariables)
         {
             ValidationOperationResult validationOperationResult = new ValidationOperationResult();
-
-            Dictionary<int, ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
-            Dictionary<int, LinguisticVariable> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
 
             List<string> initialVariableNames = linguisticVariables
                 .Where(lv => lv.Value.IsInitialData)

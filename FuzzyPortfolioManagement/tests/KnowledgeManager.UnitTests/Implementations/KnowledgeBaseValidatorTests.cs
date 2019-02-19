@@ -1,51 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CommonLogic.Entities;
 using KnowledgeManager.Implementations;
-using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
 using MembershipFunctionParser.Entities;
 using MembershipFunctionParser.Implementations;
 using NUnit.Framework;
 using ProductionRuleParser.Entities;
 using ProductionRuleParser.Enums;
-using Rhino.Mocks;
 
 namespace KnowledgeManager.UnitTests.Implementations
 {
     [TestFixture]
     public class KnowledgeBaseValidatorTests
     {
-        private IImplicationRuleManager _implicationRuleManagerMock;
-        private ILinguisticVariableManager _linguisticVariableManagerMock;
         private KnowledgeBaseValidator _knowledgeBaseValidator;
 
         [SetUp]
         public void SetUp()
         {
-            _implicationRuleManagerMock = MockRepository.GenerateMock<IImplicationRuleManager>();
-            _linguisticVariableManagerMock = MockRepository.GenerateMock<ILinguisticVariableManager>();
-            _knowledgeBaseValidator = new KnowledgeBaseValidator(_implicationRuleManagerMock, _linguisticVariableManagerMock);
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleManagerIsNull()
-        {
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new KnowledgeBaseValidator(null, _linguisticVariableManagerMock);
-            });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfLinguisticVariableManagerIsNull()
-        {
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new KnowledgeBaseValidator(_implicationRuleManagerMock, null);
-            });
+            _knowledgeBaseValidator = new KnowledgeBaseValidator();
         }
 
         [Test]
@@ -53,13 +26,12 @@ namespace KnowledgeManager.UnitTests.Implementations
         {
             // Arrange
             Dictionary<int, ImplicationRule> implicationRules = PrepareImplicationRules();
-            _implicationRuleManagerMock.Expect(i => i.ImplicationRules).Return(implicationRules);
             Dictionary<int, LinguisticVariable> linguisticVariables = PrepareLinguisticVariables();
-            _linguisticVariableManagerMock.Expect(l => l.LinguisticVariables).Return(linguisticVariables);
             string errorMessage = "Knowledge base: one of linguistic variables in implication rule is unknown to linguistic variable base";
 
             // Act
-            ValidationOperationResult validationOperationResult = _knowledgeBaseValidator.ValidateLinguisticVariablesNames();
+            ValidationOperationResult validationOperationResult = _knowledgeBaseValidator.ValidateLinguisticVariablesNames(
+                implicationRules, linguisticVariables);
 
             // Assert
             Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
