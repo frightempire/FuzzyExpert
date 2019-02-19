@@ -1,7 +1,9 @@
-﻿namespace KnowledgeManager.Interfaces
+﻿using CommonLogic.Entities;
+
+namespace KnowledgeManager.Interfaces
 {
     public interface IKnowledgeBaseValidator
     {
-        void ValidateLinguisticVariablesNames();
+        ValidationOperationResult ValidateLinguisticVariablesNames();
     }
 }

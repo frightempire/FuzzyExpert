@@ -63,10 +63,10 @@ namespace LinguisticVariableParser.UnitTests.Entities
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentExceptionIfMembershipFunctionListIsEmpty()
+        public void Constructor_ThrowsArgumentNullExceptionIfMembershipFunctionListIsEmpty()
         {
             // Act & Assert
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 new LinguisticVariable(VariableName, new MembershipFunctionList(), IsInitialData);
             });

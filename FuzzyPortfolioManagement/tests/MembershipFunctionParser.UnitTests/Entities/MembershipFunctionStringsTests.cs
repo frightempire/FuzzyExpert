@@ -71,10 +71,10 @@ namespace MembershipFunctionParser.UnitTests.Entities
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentExceptionIfMembershipFunctionValuesIsEmpty()
+        public void Constructor_ThrowsArgumentNullExceptionIfMembershipFunctionValuesIsEmpty()
         {
             // Act & Assert
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 new MembershipFunctionStrings(MembershipFunctionName, MembershipFunctionType, new List<double>());
             });

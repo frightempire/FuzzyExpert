@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CommonLogic;
+using CommonLogic.Entities;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
 using ProductionRuleParser.Entities;
@@ -13,16 +13,21 @@ namespace KnowledgeManager.Implementations
         private readonly IImplicationRuleManager _implicationRuleManager;
         private readonly ILinguisticVariableManager _linguisticVariableManager;
 
-        public KnowledgeBaseValidator(IImplicationRuleManager implicationRuleManager, ILinguisticVariableManager linguisticVariableManager)
+        public KnowledgeBaseValidator(
+            IImplicationRuleManager implicationRuleManager,
+            ILinguisticVariableManager linguisticVariableManager)
         {
             ExceptionAssert.IsNull(implicationRuleManager);
             ExceptionAssert.IsNull(linguisticVariableManager);
+
             _implicationRuleManager = implicationRuleManager;
             _linguisticVariableManager = linguisticVariableManager;
         }
 
-        public void ValidateLinguisticVariablesNames()
+        public ValidationOperationResult ValidateLinguisticVariablesNames()
         {
+            ValidationOperationResult validationOperationResult = new ValidationOperationResult();
+
             Dictionary<int, ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
             Dictionary<int, LinguisticVariable> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
 
@@ -51,9 +56,10 @@ namespace KnowledgeManager.Implementations
             foreach (string implicationRulesLinguisticVariableName in implicationRulesLinguisticVariableNames)
             {
                 if (!allVariableNames.Contains(implicationRulesLinguisticVariableName))
-                    throw new ArgumentException(
-                        "Knowledge base: one of linguistic variables in implication rule is unknown to linguistic variable base");
+                    validationOperationResult.AddMessage("Knowledge base: one of linguistic variables in implication rule is unknown to linguistic variable base");
             }
+
+            return validationOperationResult;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommonLogic.Entities;
 using KnowledgeManager.Implementations;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
@@ -28,21 +29,40 @@ namespace KnowledgeManager.UnitTests.Implementations
         }
 
         [Test]
-        public void ValidateLinguisticVariablesNames_ThrowsArgumentExceptionIfOneOfVariablesInImplicationRulesIsNotKnownToKnowledgeBase()
+        public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleManagerIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new KnowledgeBaseValidator(null, _linguisticVariableManagerMock);
+            });
+        }
+
+        [Test]
+        public void Constructor_ThrowsArgumentNullExceptionIfLinguisticVariableManagerIsNull()
+        {
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new KnowledgeBaseValidator(_implicationRuleManagerMock, null);
+            });
+        }
+
+        [Test]
+        public void ValidateLinguisticVariablesNames_ReturnValidationOperationResultWithErrorIfOneOfVariablesInImplicationRulesIsNotKnownToKnowledgeBase()
         {
             // Arrange
             Dictionary<int, ImplicationRule> implicationRules = PrepareImplicationRules();
             _implicationRuleManagerMock.Expect(i => i.ImplicationRules).Return(implicationRules);
             Dictionary<int, LinguisticVariable> linguisticVariables = PrepareLinguisticVariables();
             _linguisticVariableManagerMock.Expect(l => l.LinguisticVariables).Return(linguisticVariables);
-            string exceptionMessage = "Knowledge base: one of linguistic variables in implication rule is unknown to linguistic variable base";
+            string errorMessage = "Knowledge base: one of linguistic variables in implication rule is unknown to linguistic variable base";
 
-            // Act & Assert
-            ArgumentException exception = Assert.Throws<ArgumentException>(() =>
-            {
-                _knowledgeBaseValidator.ValidateLinguisticVariablesNames();
-            });
-            Assert.AreEqual(exceptionMessage, exception.Message);
+            // Act
+            ValidationOperationResult validationOperationResult = _knowledgeBaseValidator.ValidateLinguisticVariablesNames();
+
+            // Assert
+            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
         }
 
         private Dictionary<int, LinguisticVariable> PrepareLinguisticVariables()

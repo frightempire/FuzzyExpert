@@ -23,7 +23,7 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
         public Container CreateSimpleInjectorContainer()
         {
             _container.Register<IFileOperations, FileOperations>();
-
+            _container.Register<IValidationOperationResultLogger, FileValidationOperationResultLogger>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleValidator, ImplicationRuleValidator>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleParser, ImplicationRuleParser>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleCreator, ImplicationRuleCreator>(Lifestyle.Singleton);

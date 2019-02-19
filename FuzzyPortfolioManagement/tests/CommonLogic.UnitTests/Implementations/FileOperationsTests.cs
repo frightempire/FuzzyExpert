@@ -95,7 +95,7 @@ namespace CommonLogic.UnitTests.Implementations
         public void AppendLinesToFile_ThrowsArgumentNullExceptionIfLinesAreEmpty()
         {
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _fileOperations.AppendLinesToFile(_writeFilePath, new List<string>()));
+            Assert.Throws<ArgumentNullException>(() => _fileOperations.AppendLinesToFile(_writeFilePath, new List<string>()));
         }
 
         [Test]

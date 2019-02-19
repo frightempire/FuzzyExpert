@@ -24,10 +24,10 @@ namespace CommonLogic.UnitTests
         }
 
         [Test]
-        public void IsEmpty_ThrowsArgumentExceptionIfListToAssertIsEmpty()
+        public void IsEmpty_ThrowsArgumentNullExceptionIfListToAssertIsEmpty()
         {
             // Act & Assert
-            Assert.Throws<ArgumentException>(delegate { ExceptionAssert.IsEmpty(new List<TestClass>()); });
+            Assert.Throws<ArgumentNullException>(delegate { ExceptionAssert.IsEmpty(new List<TestClass>()); });
         }
 
         [Test]

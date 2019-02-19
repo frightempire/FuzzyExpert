@@ -16,7 +16,7 @@ namespace CommonLogic
         public static void IsEmpty<T>(List<T> list)
         {
             if (!list.Any())
-                throw new ArgumentException(nameof(list));
+                throw new ArgumentNullException(nameof(list));
         }
 
         public static void FileExists(string filePath)

@@ -18,13 +18,13 @@ namespace ProductionRuleParser.UnitTests.Entities
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentExceptionIfUnaryStatementsIsEmpty()
+        public void Constructor_ThrowsArgumentNullExceptionIfUnaryStatementsIsEmpty()
         {
             // Arrange
             List<UnaryStatement> unaryStatements = new List<UnaryStatement>();
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => new StatementCombination(unaryStatements));
+            Assert.Throws<ArgumentNullException>(() => new StatementCombination(unaryStatements));
         }
 
         [Test]
