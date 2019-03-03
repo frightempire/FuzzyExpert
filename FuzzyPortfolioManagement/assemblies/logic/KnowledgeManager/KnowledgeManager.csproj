@@ -40,16 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ImplicationRuleRelations.cs" />
+    <Compile Include="Entities\ImplicationRulesConnection.cs" />
     <Compile Include="Implementations\FileImplicationRuleProvider.cs" />
     <Compile Include="Implementations\FileLinguisticVariableProvider.cs" />
     <Compile Include="Interfaces\IImplicationRuleManager.cs" />
     <Compile Include="Interfaces\IImplicationRuleProvider.cs" />
     <Compile Include="Implementations\ImplicationRuleManager.cs" />
+    <Compile Include="Interfaces\IImplicationRuleRelationsInitializer.cs" />
+    <Compile Include="Interfaces\IKnowledgeBaseManager.cs" />
     <Compile Include="Interfaces\IKnowledgeBaseValidator.cs" />
     <Compile Include="Interfaces\ILinguisticVariableManager.cs" />
     <Compile Include="Interfaces\ILinguisticVariableProvider.cs" />
     <Compile Include="Implementations\LinguisticVariableManager.cs" />
     <Compile Include="Implementations\KnowledgeBaseValidator.cs" />
+    <Compile Include="Implementations\ImplicationRuleRelationsInitializer.cs" />
+    <Compile Include="Implementations\KnowledgeBaseManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

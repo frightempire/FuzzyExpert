@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using KnowledgeManager.Entities;
 using LinguisticVariableParser.Entities;
-using LinguisticVariableParser.Implementations;
 using MembershipFunctionParser.Entities;
 using MembershipFunctionParser.Implementations;
 using ProductionRuleParser.Entities;
@@ -146,6 +146,56 @@ namespace Base.UnitTests
 
             return linguisticVariableToCompare.VariableName == linguisticVariableToCompareWith.VariableName &&
                    linguisticVariableToCompare.IsInitialData == linguisticVariableToCompareWith.IsInitialData;
+        }
+
+        public static bool ImplicationRuleRelationsAreEqual(
+            ImplicationRuleRelations implicationRuleRelationsToCompare,
+            ImplicationRuleRelations implicationRuleRelationsToCompareWith)
+        {
+            if (implicationRuleRelationsToCompare.AntecedentRuleNumbers.Count !=
+                implicationRuleRelationsToCompareWith.AntecedentRuleNumbers.Count ||
+                implicationRuleRelationsToCompare.DecendentRuleNumbers.Count !=
+                implicationRuleRelationsToCompareWith.DecendentRuleNumbers.Count)
+                return false;
+
+            for (int i = 0; i < implicationRuleRelationsToCompare.AntecedentRuleNumbers.Count; i++)
+            {
+                if (!ImplicationRulesConnectionsAreEqual(
+                    implicationRuleRelationsToCompare.AntecedentRuleNumbers[i],
+                    implicationRuleRelationsToCompareWith.AntecedentRuleNumbers[i]))
+                    return false;
+            }
+
+            for (int i = 0; i < implicationRuleRelationsToCompare.DecendentRuleNumbers.Count; i++)
+            {
+                if (!ImplicationRulesConnectionsAreEqual(
+                    implicationRuleRelationsToCompare.DecendentRuleNumbers[i],
+                    implicationRuleRelationsToCompareWith.DecendentRuleNumbers[i]))
+                    return false;
+            }
+
+            if (implicationRuleRelationsToCompare.LinguisticVariableNumbers.Count !=
+                implicationRuleRelationsToCompareWith.LinguisticVariableNumbers.Count)
+                return false;
+
+            for (int i = 0; i < implicationRuleRelationsToCompare.LinguisticVariableNumbers.Count; i++)
+            {
+                if (implicationRuleRelationsToCompare.LinguisticVariableNumbers[i] !=
+                    implicationRuleRelationsToCompareWith.LinguisticVariableNumbers[i])
+                    return false;
+            }
+
+            return implicationRuleRelationsToCompare.ImplicationRuleNumber ==
+                   implicationRuleRelationsToCompareWith.ImplicationRuleNumber;
+
+        }
+
+        public static bool ImplicationRulesConnectionsAreEqual(
+            ImplicationRulesConnection implicationRulesConnectionToCompare,
+            ImplicationRulesConnection implicationRulesConnectionToCompareWith)
+        {
+            return implicationRulesConnectionToCompare.ConnectedRuleNumber == implicationRulesConnectionToCompareWith.ConnectedRuleNumber &&
+                   implicationRulesConnectionToCompare.IsReached == implicationRulesConnectionToCompareWith.IsReached;
         }
     }
 }

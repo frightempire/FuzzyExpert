@@ -1,0 +1,6 @@
+﻿Temperature:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]
+Pressure:Derivative:[Low:Trapezoidal:(20,50,50,60)|High:Trapezoidal:(80,100,100,150)]
+Volume:Initial:[Small:Trapezoidal:(100,200,200,600)|Big:Trapezoidal:(800,1000,1000,1500)]
+Color:Initial:[Blue:Trapezoidal:(5,10,10,20)|Red:Trapezoidal:(50,60,60,80)]
+Danger:Derivative:[Low:Trapezoidal:(5,10,10,20)|High:Trapezoidal:(50,60,60,80)]
+Evacuate:Derivative:[True:Trapezoidal:(5,10,10,20)|False:Trapezoidal:(50,60,60,80)]

@@ -25,8 +25,19 @@ namespace CommonLogic.Implementations
             string separatorHeader = DateTime.Now.ToLongTimeString();
             errorMessagesWithLines.Insert(0, separatorHeader);
 
-            string pathToFile = AppDomain.CurrentDomain.BaseDirectory + @"\ErrorLog.txt";
+            string pathToFile = AppDomain.CurrentDomain.BaseDirectory + @"\KnowledgeBaseValidationLog.txt";
             _fileOperations.AppendLinesToFile(pathToFile, errorMessagesWithLines);
+        }
+
+        public void LogValidationOperationResultMessages(ValidationOperationResult validationOperationResult)
+        {
+            List<string> errorMessages = validationOperationResult.GetMessages();
+
+            string separatorHeader = DateTime.Now.ToLongTimeString();
+            errorMessages.Insert(0, separatorHeader);
+
+            string pathToFile = AppDomain.CurrentDomain.BaseDirectory + @"\KnowledgeBaseValidationLog.txt";
+            _fileOperations.AppendLinesToFile(pathToFile, errorMessages);
         }
     }
 }
