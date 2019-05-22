@@ -10,6 +10,7 @@ namespace ProductionRuleParser.Implementations
 {
     public class ImplicationRuleParser : IImplicationRuleParser
     {
+        // Simplifies implication rule string. As the result we have list of statements divided by OR.
         public List<string> ParseImplicationRule(ref string implicationRuleString)
         {
             List<string> ruleParts = new List<string>();

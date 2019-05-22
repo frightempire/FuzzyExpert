@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CommonLogic;
 using CommonLogic.Entities;
 using CommonLogic.Extensions;
@@ -70,7 +71,33 @@ namespace KnowledgeManager.Implementations
                 }
             }
 
-            return implicationRules;
+            List<ImplicationRule> grownImplicationRules = DivideComplexImplicationRules(implicationRules);
+            return grownImplicationRules;
+        }
+
+        private List<ImplicationRule> DivideComplexImplicationRules(List<ImplicationRule> implicationRules)
+        {
+            List<ImplicationRule> grownRuleList = new List<ImplicationRule>();
+
+            foreach (var implicationRule in implicationRules)
+            {
+                if (implicationRule.IfStatement.Count > 1)
+                {
+                    foreach (var statementCombination in implicationRule.IfStatement)
+                    {
+                        ImplicationRule dividedImplicationRule =
+                            new ImplicationRule(new List<StatementCombination> {statementCombination},
+                                implicationRule.ThenStatement);
+                        grownRuleList.Add(dividedImplicationRule);
+                    }
+                }
+                else
+                {
+                    grownRuleList.Add(implicationRule);
+                }
+            }
+
+            return grownRuleList;
         }
     }
 }

@@ -5,8 +5,7 @@ namespace ProductionRuleParser.Entities
 {
     public class StatementCombination
     {
-        // List of statement combinations - OR
-        // List of unary statements - AND
+        // List of statement combinations - divided by OR
 
         public StatementCombination(List<UnaryStatement> unaryStatements)
         {
@@ -16,6 +15,7 @@ namespace ProductionRuleParser.Entities
             UnaryStatements = unaryStatements;
         }
 
+        // List of unary statements - divided by AND
         public List<UnaryStatement> UnaryStatements { get; }
     }
 }

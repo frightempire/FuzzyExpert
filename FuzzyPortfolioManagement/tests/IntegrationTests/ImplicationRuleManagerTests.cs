@@ -87,6 +87,7 @@ namespace IntegrationTests
 
         private Dictionary<int, ImplicationRule> PrepareExpectedImplicationRules()
         {
+            // IF (A > 10) THEN (X = 5)
             ImplicationRule firstImplicationRule = new ImplicationRule(
             new List<StatementCombination>
             {
@@ -100,6 +101,7 @@ namespace IntegrationTests
                 new UnaryStatement("X", ComparisonOperation.Equal, "5")
             }));
 
+            // IF (B != 1 & C != 2) THEN (X = 10)
             ImplicationRule secondImplicationRule = new ImplicationRule(
             new List<StatementCombination>
             {
@@ -114,10 +116,40 @@ namespace IntegrationTests
                 new UnaryStatement("X", ComparisonOperation.Equal, "10")
             }));
 
+            // IF ((A = 5 | B = 10) & C = 6) THEN (X = 7)
+            ImplicationRule thirdImplicationRule = new ImplicationRule(
+                new List<StatementCombination>
+                {
+                    new StatementCombination(new List<UnaryStatement>
+                    {
+                        new UnaryStatement("A", ComparisonOperation.Equal, "5"),
+                        new UnaryStatement("C", ComparisonOperation.Equal, "6")
+                    })
+                },
+                new StatementCombination(new List<UnaryStatement>
+                {
+                    new UnaryStatement("X", ComparisonOperation.Equal, "7")
+                }));
+            ImplicationRule fourthImplicationRule = new ImplicationRule(
+                new List<StatementCombination>
+                {
+                    new StatementCombination(new List<UnaryStatement>
+                    {
+                        new UnaryStatement("B", ComparisonOperation.Equal, "10"),
+                        new UnaryStatement("C", ComparisonOperation.Equal, "6")
+                    }),
+                },
+                new StatementCombination(new List<UnaryStatement>
+                {
+                    new UnaryStatement("X", ComparisonOperation.Equal, "7")
+                }));
+
             return new Dictionary<int, ImplicationRule>
             {
                 { 1, firstImplicationRule },
-                { 2, secondImplicationRule }
+                { 2, secondImplicationRule },
+                { 3, thirdImplicationRule },
+                { 4, fourthImplicationRule }
             };
         }
     }

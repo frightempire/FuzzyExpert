@@ -17,6 +17,7 @@ namespace ProductionRuleParser.Entities
             ThenStatement = thenStatement;
         }
 
+        // Divided by OR
         public List<StatementCombination> IfStatement { get; }
 
         public StatementCombination ThenStatement { get; }
