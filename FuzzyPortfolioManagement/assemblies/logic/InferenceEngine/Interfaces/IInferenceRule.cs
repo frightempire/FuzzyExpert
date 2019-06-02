@@ -1,11 +1,9 @@
-﻿using InferenceEngine.Enums;
-
-namespace InferenceEngine.Interfaces
+﻿namespace InferenceEngine.Interfaces
 {
     public interface IInferenceRule
     {
-        void UpdateStatus(string nodeName, Status newStatus);
+        bool? Status { get; }
 
-        bool IsActive();
+        void UpdateStatus(string nodeName, bool? newStatus);
     }
 }

@@ -1,18 +1,27 @@
-﻿using InferenceEngine.Enums;
+﻿using System.Collections.Generic;
 using InferenceEngine.Interfaces;
 
 namespace InferenceEngine.Implementations
 {
     public class GraphNode : IInferenceNode
     {
-        public void AddRelatedRule(GraphRule rule)
+        private readonly List<IInferenceRule> _relatedInferenceRules = new List<IInferenceRule>();
+
+        public GraphNode(string name)
         {
-            throw new System.NotImplementedException();
+            Name = name;
         }
 
-        public void UpdateStatus(Status newStatus)
+        public string Name { get; }
+
+        public bool? Status { get; private set; }
+
+        public void AddRelatedRule(IInferenceRule rule) => _relatedInferenceRules.Add(rule);
+
+        public void UpdateStatus(bool? newStatus)
         {
-            throw new System.NotImplementedException();
+            Status = newStatus;
+            foreach (IInferenceRule rule in _relatedInferenceRules) rule.UpdateStatus(Name, Status);
         }
     }
 }

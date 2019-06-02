@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\Status.cs" />
     <Compile Include="Implementations\InferenceGraph.cs" />
     <Compile Include="Implementations\GraphNode.cs" />
     <Compile Include="Implementations\GraphRule.cs" />
@@ -49,6 +48,15 @@
     <Compile Include="Interfaces\IInferenceRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLogic\CommonLogic.csproj">
+      <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
+      <Name>CommonLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProductionRuleParser\ProductionRuleParser.csproj">
+      <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
+      <Name>ProductionRuleParser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

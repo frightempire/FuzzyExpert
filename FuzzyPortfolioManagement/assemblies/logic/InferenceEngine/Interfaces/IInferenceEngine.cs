@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using InferenceEngine.Implementations;
+using ProductionRuleParser.Enums;
 
 namespace InferenceEngine.Interfaces
 {
     public interface IInferenceEngine
     {
-        void AddRule(GraphRule rule);
+        void AddRule(List<string> ifNodeNames, LogicalOperation operation, List<string> thenNodeNames);
 
-        void StartInference(List<GraphNode> trueNodes, List<GraphNode> falseNodes);
+        void StartInference(List<string> trueNodes, List<string> falseNodes);
     }
 }

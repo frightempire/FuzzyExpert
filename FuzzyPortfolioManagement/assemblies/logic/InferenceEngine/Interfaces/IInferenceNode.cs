@@ -1,12 +1,13 @@
-﻿using InferenceEngine.Enums;
-using InferenceEngine.Implementations;
-
-namespace InferenceEngine.Interfaces
+﻿namespace InferenceEngine.Interfaces
 {
     public interface IInferenceNode
     {
-        void AddRelatedRule(GraphRule rule);
+        string Name { get; }
 
-        void UpdateStatus(Status newStatus);
+        bool? Status { get; }
+
+        void AddRelatedRule(IInferenceRule rule);
+
+        void UpdateStatus(bool? newStatus);
     }
 }
