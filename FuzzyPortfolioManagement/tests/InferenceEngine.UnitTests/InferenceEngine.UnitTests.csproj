@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FBB4B0C3-C0CB-4E51-B4C9-5B35CE220F60}</ProjectGuid>
+    <ProjectGuid>{B4329D16-ABA5-495C-B3A4-6B8B25732849}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KnowledgeManager.UnitTests</RootNamespace>
-    <AssemblyName>KnowledgeManager.UnitTests</AssemblyName>
+    <RootNamespace>InferenceEngine.UnitTests</RootNamespace>
+    <AssemblyName>InferenceEngine.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -49,47 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\FileImplicationRuleProviderTests.cs" />
-    <Compile Include="Implementations\FileLinguisticVariableProviderTests.cs" />
-    <Compile Include="Implementations\ImplicationRuleManagerTests.cs" />
-    <Compile Include="Implementations\KnowledgeBaseManagerTests.cs" />
-    <Compile Include="Implementations\KnowledgeBaseValidatorTests.cs" />
-    <Compile Include="Implementations\LinguisticVariableManagerTests.cs" />
+    <Compile Include="Implementations\GraphNodeTests.cs" />
+    <Compile Include="Implementations\GraphRuleTests.cs" />
+    <Compile Include="Implementations\InferenceGraphTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
-      <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
-      <Name>CommonLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\KnowledgeManager\KnowledgeManager.csproj">
-      <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
-      <Name>KnowledgeManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\LinguisticVariableParser\LinguisticVariableParser.csproj">
-      <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
-      <Name>LinguisticVariableParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\MembershipFunctionParser\MembershipFunctionParser.csproj">
-      <Project>{11CE082D-9AA8-4A49-BF2A-C4BFA577A50C}</Project>
-      <Name>MembershipFunctionParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\ProductionRuleParser\ProductionRuleParser.csproj">
-      <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
-      <Name>ProductionRuleParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Base.UnitTests\Base.UnitTests.csproj">
-      <Project>{ADB942CB-8FF7-4E8D-8ADF-AD621EE0C59E}</Project>
-      <Name>Base.UnitTests</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestFiles\TestFile.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\..\assemblies\logic\InferenceEngine\InferenceEngine.csproj">
+      <Project>{3947BBA1-CFD7-4408-8F48-8FCF255CD3AA}</Project>
+      <Name>InferenceEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\assemblies\logic\ProductionRuleParser\ProductionRuleParser.csproj">
+      <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
+      <Name>ProductionRuleParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

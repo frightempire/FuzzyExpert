@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImplicationRuleManagerTests.cs" />
+    <Compile Include="InferenceGraphTests.cs" />
     <Compile Include="KnowledgeBaseManagerTests.cs" />
     <Compile Include="LinguisticVariableManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,6 +63,10 @@
     <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
       <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
       <Name>CommonLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\assemblies\logic\InferenceEngine\InferenceEngine.csproj">
+      <Project>{3947BBA1-CFD7-4408-8F48-8FCF255CD3AA}</Project>
+      <Name>InferenceEngine</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\assemblies\logic\KnowledgeManager\KnowledgeManager.csproj">
       <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>

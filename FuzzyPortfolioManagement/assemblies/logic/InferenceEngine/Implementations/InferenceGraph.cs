@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CommonLogic.Extensions;
 using InferenceEngine.Interfaces;
 using ProductionRuleParser.Enums;
 
@@ -9,13 +8,15 @@ namespace InferenceEngine.Implementations
 {
     public class InferenceGraph : IInferenceEngine
     {
+        private readonly List<string> _activationOrder = new List<string>();
+
         private readonly List<IInferenceRule> _rules = new List<IInferenceRule>();
         private readonly List<IInferenceNode> _nodes = new List<IInferenceNode>();
 
         public void AddRule(List<string> ifNodeNames, LogicalOperation operation, List<string> thenNodeNames)
         {
-            if (ifNodeNames == null || ifNodeNames.Count == 0) throw new ArgumentException(nameof(ifNodeNames));
-            if (thenNodeNames == null || thenNodeNames.Count == 0) throw new ArgumentException(nameof(thenNodeNames));
+            if (ifNodeNames == null || ifNodeNames.Count == 0) throw new ArgumentNullException(nameof(ifNodeNames));
+            if (thenNodeNames == null || thenNodeNames.Count == 0) throw new ArgumentNullException(nameof(thenNodeNames));
 
             foreach (var nodeName in thenNodeNames) UpdateNodeList(nodeName);
             foreach (var nodeName in ifNodeNames) UpdateNodeList(nodeName);
@@ -24,20 +25,19 @@ namespace InferenceEngine.Implementations
             var rule = new GraphRule(ifNodes, operation, GetNodes(thenNodeNames));
             _rules.Add(rule);
 
-            ifNodes.ForEach(ifn => ifn.AddRelatedRule(rule));
+            ifNodes.ForEach(ifn => ifn.RelatedRules.Add(rule));
         }
 
-        public void StartInference(List<string> trueNodes, List<string> falseNodes)
+        public List<string> GetInferenceResults(List<string> trueNodes)
         {
-            if (trueNodes.Intersect(falseNodes)) throw new ArgumentException("True and false nodes are intersecting.");
-            GetNodes(trueNodes).ForEach(tn => tn.UpdateStatus(newStatus: true));
-            GetNodes(falseNodes).ForEach(fn => fn.UpdateStatus(newStatus: false));
+            GetNodes(trueNodes).ForEach(tn => tn.ActivateNode());
+            return _activationOrder;
         }
 
         private void UpdateNodeList(string nodeName)
         {
             IInferenceNode matchingNode = _nodes.FirstOrDefault(n => n.Name == nodeName);
-            if (matchingNode == null) _nodes.Add(new GraphNode(nodeName));
+            if (matchingNode == null) _nodes.Add(new GraphNode(nodeName, _activationOrder));
         }
 
         private List<IInferenceNode> GetNodes(List<string> nodeNames) => 

@@ -4,6 +4,6 @@
     {
         bool? Status { get; }
 
-        void UpdateStatus(string nodeName, bool? newStatus);
+        void UpdateStatus();
     }
 }

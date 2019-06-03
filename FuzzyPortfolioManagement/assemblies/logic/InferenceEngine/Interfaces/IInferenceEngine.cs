@@ -7,6 +7,6 @@ namespace InferenceEngine.Interfaces
     {
         void AddRule(List<string> ifNodeNames, LogicalOperation operation, List<string> thenNodeNames);
 
-        void StartInference(List<string> trueNodes, List<string> falseNodes);
+        List<string> GetInferenceResults(List<string> trueNodes);
     }
 }

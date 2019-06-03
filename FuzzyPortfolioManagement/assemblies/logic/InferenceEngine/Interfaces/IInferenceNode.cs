@@ -1,13 +1,15 @@
-﻿namespace InferenceEngine.Interfaces
+﻿using System.Collections.Generic;
+
+namespace InferenceEngine.Interfaces
 {
     public interface IInferenceNode
     {
         string Name { get; }
 
-        bool? Status { get; }
+        bool Active { get; }
 
-        void AddRelatedRule(IInferenceRule rule);
+        List<IInferenceRule> RelatedRules { get; }
 
-        void UpdateStatus(bool? newStatus);
+        void ActivateNode();
     }
 }

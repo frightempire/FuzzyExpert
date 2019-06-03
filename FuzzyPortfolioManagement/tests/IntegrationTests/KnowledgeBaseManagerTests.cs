@@ -2,7 +2,6 @@
 using System.IO;
 using Base.UnitTests;
 using CommonLogic.Implementations;
-using KnowledgeManager.Entities;
 using KnowledgeManager.Implementations;
 using LinguisticVariableParser.Implementations;
 using MembershipFunctionParser.Implementations;
@@ -68,51 +67,9 @@ namespace IntegrationTests
                 fileValidationOperationResultLogger);
             LinguisticVariableManager linguisticVariableManager = new LinguisticVariableManager(linguisticVariableProvider);
 
+            // TODO: Will need adjustment after InferenceEngine is finished
             // Knowledge base manager
             KnowledgeBaseValidator knowledgeBaseValidator = new KnowledgeBaseValidator();
-            ImplicationRuleRelationsInitializer implicationRuleRelationsInitializer = new ImplicationRuleRelationsInitializer();
-            _knowledgeBaseManager = new KnowledgeBaseManager(
-                implicationRuleManager,
-                linguisticVariableManager,
-                knowledgeBaseValidator,
-                implicationRuleRelationsInitializer,
-                fileValidationOperationResultLogger);
-        }
-
-        [Test]
-        public void GetImplicationRulesMap_ReturnsCorrectListOfImplicationRuleRelations()
-        {
-            // Arrange
-            List<ImplicationRuleRelations> expectedImplicationRuleRelations = new List<ImplicationRuleRelations>
-            {
-                new ImplicationRuleRelations(
-                    1,
-                    new List<ImplicationRulesConnection>(),
-                    new List<ImplicationRulesConnection> { new ImplicationRulesConnection(3) },
-                    new List<int> {1, 2}),
-                new ImplicationRuleRelations(
-                    2,
-                    new List<ImplicationRulesConnection>(),
-                    new List<ImplicationRulesConnection> { new ImplicationRulesConnection(3) },
-                    new List<int> {3, 4, 5}),
-                new ImplicationRuleRelations(
-                    3,
-                    new List<ImplicationRulesConnection> { new ImplicationRulesConnection(1), new ImplicationRulesConnection(2) },
-                    new List<ImplicationRulesConnection>(),
-                    new List<int> {2, 5, 6})
-            };
-
-            // Act
-            List<ImplicationRuleRelations> actualImplicationRuleRelations = _knowledgeBaseManager.GetImplicationRulesMap();
-
-            // Assert
-            Assert.AreEqual(expectedImplicationRuleRelations.Count, actualImplicationRuleRelations.Count);
-            for (int i = 0; i < expectedImplicationRuleRelations.Count; i++)
-            {
-                Assert.IsTrue(ObjectComparer.ImplicationRuleRelationsAreEqual(
-                    expectedImplicationRuleRelations[i],
-                    actualImplicationRuleRelations[i]));
-            }
         }
     }
 }

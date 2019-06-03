@@ -15,7 +15,6 @@ namespace KnowledgeManager.UnitTests.Implementations
         private IImplicationRuleManager _implicationRuleManagerMock;
         private ILinguisticVariableManager _linguisticVariableManagerMock;
         private IKnowledgeBaseValidator _knowledgeBaseValidatorMock;
-        private IImplicationRuleRelationsInitializer _implicationRuleRelationsInitializerMock;
         private IValidationOperationResultLogger _validationOperationResultLoggerMock;
 
         private KnowledgeBaseManager _knowledgeBaseManager;
@@ -26,15 +25,12 @@ namespace KnowledgeManager.UnitTests.Implementations
             _implicationRuleManagerMock = MockRepository.GenerateMock<IImplicationRuleManager>();
             _linguisticVariableManagerMock = MockRepository.GenerateMock<ILinguisticVariableManager>();
             _knowledgeBaseValidatorMock = MockRepository.GenerateMock<IKnowledgeBaseValidator>();
-            _implicationRuleRelationsInitializerMock =
-                MockRepository.GenerateMock<IImplicationRuleRelationsInitializer>();
             _validationOperationResultLoggerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();
 
             _knowledgeBaseManager = new KnowledgeBaseManager(
                 _implicationRuleManagerMock,
                 _linguisticVariableManagerMock,
                 _knowledgeBaseValidatorMock,
-                _implicationRuleRelationsInitializerMock,
                 _validationOperationResultLoggerMock);
         }
 
@@ -48,7 +44,6 @@ namespace KnowledgeManager.UnitTests.Implementations
                     null,
                     _linguisticVariableManagerMock,
                     _knowledgeBaseValidatorMock,
-                    _implicationRuleRelationsInitializerMock,
                     _validationOperationResultLoggerMock);
             });
         }
@@ -63,7 +58,6 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _implicationRuleManagerMock,
                     null,
                     _knowledgeBaseValidatorMock,
-                    _implicationRuleRelationsInitializerMock,
                     _validationOperationResultLoggerMock);
             });
         }
@@ -77,22 +71,6 @@ namespace KnowledgeManager.UnitTests.Implementations
                 new KnowledgeBaseManager(
                     _implicationRuleManagerMock,
                     _linguisticVariableManagerMock,
-                    null,
-                    _implicationRuleRelationsInitializerMock,
-                    _validationOperationResultLoggerMock);
-            });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleRelationsInitializerIsNull()
-        {
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new KnowledgeBaseManager(
-                    _implicationRuleManagerMock,
-                    _linguisticVariableManagerMock,
-                    _knowledgeBaseValidatorMock,
                     null,
                     _validationOperationResultLoggerMock);
             });
@@ -108,7 +86,6 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _implicationRuleManagerMock,
                     _linguisticVariableManagerMock,
                     _knowledgeBaseValidatorMock,
-                    _implicationRuleRelationsInitializerMock,
                     null);
             });
         }

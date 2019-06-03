@@ -1,27 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using InferenceEngine.Interfaces;
 
 namespace InferenceEngine.Implementations
 {
     public class GraphNode : IInferenceNode
     {
-        private readonly List<IInferenceRule> _relatedInferenceRules = new List<IInferenceRule>();
+        private readonly List<string> _activationOrder;
 
-        public GraphNode(string name)
+        public GraphNode(string name, List<string> activationOrder)
         {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
+            if (activationOrder == null) throw new ArgumentNullException(nameof(activationOrder));
+
             Name = name;
+            _activationOrder = activationOrder;
         }
 
         public string Name { get; }
 
-        public bool? Status { get; private set; }
+        public bool Active { get; private set; }
 
-        public void AddRelatedRule(IInferenceRule rule) => _relatedInferenceRules.Add(rule);
+        public List<IInferenceRule> RelatedRules { get; } = new List<IInferenceRule>();
 
-        public void UpdateStatus(bool? newStatus)
+        public void ActivateNode()
         {
-            Status = newStatus;
-            foreach (IInferenceRule rule in _relatedInferenceRules) rule.UpdateStatus(Name, Status);
+            if (!Active)
+            {
+                Active = true;
+                _activationOrder.Add(Name);
+            }
+
+            foreach (IInferenceRule rule in RelatedRules) rule.UpdateStatus();
         }
     }
 }
