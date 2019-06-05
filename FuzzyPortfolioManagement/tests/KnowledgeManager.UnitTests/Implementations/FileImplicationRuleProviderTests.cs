@@ -4,6 +4,7 @@ using System.IO;
 using CommonLogic.Entities;
 using CommonLogic.Interfaces;
 using KnowledgeManager.Implementations;
+using KnowledgeManager.Interfaces;
 using NUnit.Framework;
 using ProductionRuleParser.Entities;
 using ProductionRuleParser.Enums;
@@ -22,6 +23,7 @@ namespace KnowledgeManager.UnitTests.Implementations
         private IImplicationRuleValidator _implicationRuleValidatorMock;
         private IImplicationRuleParser _implicationRuleParserMock;
         private IImplicationRuleCreator _implicationRuleCreatorMock;
+        private INameSupervisor _nameSupervisorMock;
         private IValidationOperationResultLogger _validationOperationResultLoggerMock;
 
         private FileImplicationRuleProvider _fileImplicationRuleProvider;
@@ -39,17 +41,20 @@ namespace KnowledgeManager.UnitTests.Implementations
             _implicationRuleParserMock = MockRepository.GenerateMock<IImplicationRuleParser>();
             _implicationRuleCreatorMock = MockRepository.GenerateMock<IImplicationRuleCreator>();
 
+            _nameSupervisorMock = MockRepository.GenerateMock<INameSupervisor>();
+
             _fileImplicationRuleProvider = new FileImplicationRuleProvider(
                 _fileOperationsMock,
                 _filePathProviderMock,
                 _implicationRuleValidatorMock,
                 _implicationRuleParserMock,
                 _implicationRuleCreatorMock,
+                _nameSupervisorMock,
                 _validationOperationResultLoggerMock);
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfFileOperationsIsNull()
+        public void Constructor_ThrowsArgumentNullExceptionIfOneOfInputParametersIsNull()
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
@@ -60,14 +65,9 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _implicationRuleValidatorMock,
                     _implicationRuleParserMock,
                     _implicationRuleCreatorMock,
+                    _nameSupervisorMock,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfFilePathProviderIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
@@ -76,14 +76,9 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _implicationRuleValidatorMock,
                     _implicationRuleParserMock,
                     _implicationRuleCreatorMock,
+                    _nameSupervisorMock,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleValidatorIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
@@ -92,14 +87,9 @@ namespace KnowledgeManager.UnitTests.Implementations
                     null,
                     _implicationRuleParserMock,
                     _implicationRuleCreatorMock,
+                    _nameSupervisorMock,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleParserIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
@@ -108,14 +98,9 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _implicationRuleValidatorMock,
                     null,
                     _implicationRuleCreatorMock,
+                    _nameSupervisorMock,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleCreatorIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
@@ -124,14 +109,9 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _implicationRuleValidatorMock,
                     _implicationRuleParserMock,
                     null,
+                    _nameSupervisorMock,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfValidationOperationResultLoggerIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileImplicationRuleProvider(
@@ -140,6 +120,18 @@ namespace KnowledgeManager.UnitTests.Implementations
                     _implicationRuleValidatorMock,
                     _implicationRuleParserMock,
                     _implicationRuleCreatorMock,
+                    null,
+                    _validationOperationResultLoggerMock);
+            });
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                new FileImplicationRuleProvider(
+                    _fileOperationsMock,
+                    _filePathProviderMock,
+                    _implicationRuleValidatorMock,
+                    _implicationRuleParserMock,
+                    _implicationRuleCreatorMock,
+                    _nameSupervisorMock,
                     null);
             });
         }

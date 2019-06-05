@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Base.UnitTests;
 using CommonLogic.Implementations;
+using KnowledgeManager.Helpers;
 using KnowledgeManager.Implementations;
 using NUnit.Framework;
 using ProductionRuleParser.Entities;
@@ -36,6 +37,7 @@ namespace IntegrationTests
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleValidator ruleValidator = new ImplicationRuleValidator();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
+            NameSupervisor nameSupervisor = new NameSupervisor(new UniqueNameProvider());
             FileValidationOperationResultLogger fileValidationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 
             FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(
@@ -44,6 +46,7 @@ namespace IntegrationTests
                 ruleValidator,
                 ruleParser,
                 ruleCreator,
+                nameSupervisor,
                 fileValidationOperationResultLogger);
             _implicationRuleManager = new ImplicationRuleManager(ruleProvider);
         }

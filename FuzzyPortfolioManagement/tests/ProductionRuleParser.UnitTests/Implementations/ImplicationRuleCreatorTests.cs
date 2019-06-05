@@ -24,7 +24,7 @@ namespace ProductionRuleParser.UnitTests.Implementations
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfImplicationRuleParserIsNull()
+        public void Constructor_ThrowsArgumentNullExceptionIfOneOfInputParametersIsNull()
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => new ImplicationRuleCreator(null));
@@ -44,7 +44,7 @@ namespace ProductionRuleParser.UnitTests.Implementations
             {
                 new StatementCombination(new List<UnaryStatement>
                 {
-                    new UnaryStatement("A", ComparisonOperation.Equal, "a"),
+                    new UnaryStatement("A", ComparisonOperation.Equal, "a")
                 }),
                 new StatementCombination(new List<UnaryStatement>
                 {

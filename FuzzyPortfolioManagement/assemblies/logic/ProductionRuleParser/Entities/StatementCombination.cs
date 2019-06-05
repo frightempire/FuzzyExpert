@@ -6,7 +6,6 @@ namespace ProductionRuleParser.Entities
     public class StatementCombination
     {
         // List of statement combinations - divided by OR
-
         public StatementCombination(List<UnaryStatement> unaryStatements)
         {
             ExceptionAssert.IsNull(unaryStatements);

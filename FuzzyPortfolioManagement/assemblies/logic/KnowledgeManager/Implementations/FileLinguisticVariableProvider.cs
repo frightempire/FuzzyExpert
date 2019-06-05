@@ -54,14 +54,11 @@ namespace KnowledgeManager.Implementations
             {
                 string linguisticVariableFromFile = linguisticVariablesFromFile[i];
                 string preProcessedLinguisticVariable = linguisticVariableFromFile.RemoveUnwantedCharacters(new List<char> { ' ' });
-                ValidationOperationResult validationOperationResult =
-                    _linguisticVariableValidator.ValidateLinguisticVariable(preProcessedLinguisticVariable);
+                ValidationOperationResult validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariable(preProcessedLinguisticVariable);
                 if (validationOperationResult.IsSuccess)
                 {
-                    LinguisticVariableStrings linguisticVariableStrings =
-                        _linguisticVariableParser.ParseLinguisticVariable(preProcessedLinguisticVariable);
-                    LinguisticVariable linguisticVariable =
-                        _linguisticVariableCreator.CreateLinguisticVariableEntity(linguisticVariableStrings);
+                    LinguisticVariableStrings linguisticVariableStrings = _linguisticVariableParser.ParseLinguisticVariable(preProcessedLinguisticVariable);
+                    LinguisticVariable linguisticVariable = _linguisticVariableCreator.CreateLinguisticVariableEntity(linguisticVariableStrings);
                     linguisticVariables.Add(linguisticVariable);
                 }
                 else

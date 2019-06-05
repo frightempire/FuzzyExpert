@@ -1,4 +1,5 @@
 ﻿using System;
+using CommonLogic.Extensions;
 using NUnit.Framework;
 using ProductionRuleParser.Entities;
 using ProductionRuleParser.Enums;
@@ -10,6 +11,7 @@ namespace ProductionRuleParser.UnitTests.Entities
     {
         private UnaryStatement _unaryStatement;
 
+        private string _expectedName = "A1";
         private string _expectedLeftOperand = "leftOperand";
         private ComparisonOperation _expectedComparisonOperation = ComparisonOperation.Equal;
         private string _expectedRightOperand = "rightOperand";
@@ -17,53 +19,30 @@ namespace ProductionRuleParser.UnitTests.Entities
         [SetUp]
         public void SetUp()
         {
-            _unaryStatement = new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, _expectedRightOperand);
+            _unaryStatement = new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, _expectedRightOperand)
+            { Name = _expectedName};
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfLeftOperandIsEmpty()
+        public void Constructor_ThrowsArgumentNullExceptionIfOneOfInputParametersIsIncorrect()
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
                 new UnaryStatement(string.Empty, _expectedComparisonOperation, _expectedRightOperand);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfLeftOperandIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
                 new UnaryStatement(null, _expectedComparisonOperation, _expectedRightOperand);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfRightOperandIsEmpty()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
                 new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, string.Empty);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfRightOperandIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
                 new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, null);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfIfStatementIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(delegate
             {
                 new UnaryStatement(null, _expectedComparisonOperation, _expectedRightOperand);
@@ -119,6 +98,39 @@ namespace ProductionRuleParser.UnitTests.Entities
 
             // Assert
             Assert.AreEqual(_expectedRightOperand, actualRightOperand);
+        }
+
+        [Test]
+        public void Name_SetterWorksProperly()
+        {
+            // Act
+            _unaryStatement.Name = _expectedName;
+
+            // Assert
+            Assert.AreEqual(_expectedName, _unaryStatement.Name);
+        }
+
+        [Test]
+        public void Name_GetterWorksProperly()
+        {
+            // Act
+            string actualName = _unaryStatement.Name;
+
+            // Assert
+            Assert.AreEqual(_expectedName, actualName);
+        }
+
+        [Test]
+        public void ToString_ReturnsCorrectRepresentation()
+        {
+            // Arrange
+            string expectedString = $"{_expectedLeftOperand} {_expectedComparisonOperation.GetDescription()} {_expectedRightOperand}";
+
+            // Act
+            string actualString = _unaryStatement.ToString();
+
+            // Assert
+            Assert.AreEqual(expectedString, actualString);
         }
     }
 }

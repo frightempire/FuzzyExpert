@@ -51,7 +51,9 @@
     <Compile Include="Implementations\FileValidationOperationResultLogger.cs" />
     <Compile Include="Interfaces\IFilePathProvider.cs" />
     <Compile Include="Interfaces\IFileOperations.cs" />
+    <Compile Include="Interfaces\INameProvider.cs" />
     <Compile Include="Interfaces\IValidationOperationResultLogger.cs" />
+    <Compile Include="Implementations\UniqueNameProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

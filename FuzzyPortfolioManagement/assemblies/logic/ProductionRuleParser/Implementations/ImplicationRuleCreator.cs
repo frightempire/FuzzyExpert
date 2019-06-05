@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CommonLogic;
+using CommonLogic.Interfaces;
 using ProductionRuleParser.Entities;
 using ProductionRuleParser.Interfaces;
 
@@ -9,8 +10,7 @@ namespace ProductionRuleParser.Implementations
     {
         private readonly IImplicationRuleParser _implicationRuleParser;
 
-        public ImplicationRuleCreator(
-            IImplicationRuleParser implicationRuleParser)
+        public ImplicationRuleCreator(IImplicationRuleParser implicationRuleParser)
         {
             ExceptionAssert.IsNull(implicationRuleParser);
             _implicationRuleParser = implicationRuleParser;

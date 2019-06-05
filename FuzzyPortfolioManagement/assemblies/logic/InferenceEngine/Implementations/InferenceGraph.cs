@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CommonLogic;
 using InferenceEngine.Interfaces;
 using ProductionRuleParser.Enums;
 
@@ -15,8 +16,10 @@ namespace InferenceEngine.Implementations
 
         public void AddRule(List<string> ifNodeNames, LogicalOperation operation, List<string> thenNodeNames)
         {
-            if (ifNodeNames == null || ifNodeNames.Count == 0) throw new ArgumentNullException(nameof(ifNodeNames));
-            if (thenNodeNames == null || thenNodeNames.Count == 0) throw new ArgumentNullException(nameof(thenNodeNames));
+            ExceptionAssert.IsNull(ifNodeNames);
+            ExceptionAssert.IsNull(thenNodeNames);
+            ExceptionAssert.IsEmpty(ifNodeNames);
+            ExceptionAssert.IsEmpty(thenNodeNames);
 
             foreach (var nodeName in thenNodeNames) UpdateNodeList(nodeName);
             foreach (var nodeName in ifNodeNames) UpdateNodeList(nodeName);

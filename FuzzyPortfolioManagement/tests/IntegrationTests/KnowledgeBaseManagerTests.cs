@@ -2,6 +2,7 @@
 using System.IO;
 using Base.UnitTests;
 using CommonLogic.Implementations;
+using KnowledgeManager.Helpers;
 using KnowledgeManager.Implementations;
 using LinguisticVariableParser.Implementations;
 using MembershipFunctionParser.Implementations;
@@ -39,12 +40,14 @@ namespace IntegrationTests
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleValidator ruleValidator = new ImplicationRuleValidator();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
+            NameSupervisor nameSupervisor = new NameSupervisor(new UniqueNameProvider());
             FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(
                 fileOperations,
                 _filePathProviderForImplicationRules,
                 ruleValidator,
                 ruleParser,
                 ruleCreator,
+                nameSupervisor,
                 fileValidationOperationResultLogger);
             ImplicationRuleManager implicationRuleManager = new ImplicationRuleManager(ruleProvider);
 

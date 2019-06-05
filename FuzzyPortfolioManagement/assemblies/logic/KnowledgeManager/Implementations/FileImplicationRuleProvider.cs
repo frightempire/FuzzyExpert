@@ -17,6 +17,7 @@ namespace KnowledgeManager.Implementations
         private readonly IImplicationRuleCreator _implicationRuleCreator;
         private readonly IImplicationRuleParser _implicationRuleParser;
         private readonly IImplicationRuleValidator _implicationRuleValidator;
+        private readonly INameSupervisor _nameSupervisor;
         private readonly IValidationOperationResultLogger _validationOperationResultLoger;
 
         public FileImplicationRuleProvider(
@@ -25,6 +26,7 @@ namespace KnowledgeManager.Implementations
             IImplicationRuleValidator implicationRuleValidator,
             IImplicationRuleParser implicationRuleParser,
             IImplicationRuleCreator implicationRuleCreator,
+            INameSupervisor nameSupervisor,
             IValidationOperationResultLogger validationOperationResultLoger)
         {
             ExceptionAssert.IsNull(fileOperations);
@@ -32,6 +34,7 @@ namespace KnowledgeManager.Implementations
             ExceptionAssert.IsNull(implicationRuleValidator);
             ExceptionAssert.IsNull(implicationRuleParser);
             ExceptionAssert.IsNull(implicationRuleCreator);
+            ExceptionAssert.IsNull(nameSupervisor);
             ExceptionAssert.IsNull(validationOperationResultLoger);
 
             _fileOperations = fileOperations;
@@ -39,6 +42,7 @@ namespace KnowledgeManager.Implementations
             _implicationRuleValidator = implicationRuleValidator;
             _implicationRuleParser = implicationRuleParser;
             _implicationRuleCreator = implicationRuleCreator;
+            _nameSupervisor = nameSupervisor;
             _validationOperationResultLoger = validationOperationResultLoger;
         }
 
@@ -54,14 +58,11 @@ namespace KnowledgeManager.Implementations
             {
                 var implicationRuleFromFile = implicationRulesFromFile[i];
                 string preProcessedImplicationRule = implicationRuleFromFile.RemoveUnwantedCharacters(new List<char> {' '});
-                ValidationOperationResult validationOperationResult =
-                    _implicationRuleValidator.ValidateImplicationRule(preProcessedImplicationRule);
+                ValidationOperationResult validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(preProcessedImplicationRule);
                 if (validationOperationResult.IsSuccess)
                 {
-                    ImplicationRuleStrings implicationRuleStrings =
-                        _implicationRuleParser.ExtractStatementParts(preProcessedImplicationRule);
-                    ImplicationRule implicationRule =
-                        _implicationRuleCreator.CreateImplicationRuleEntity(implicationRuleStrings);
+                    ImplicationRuleStrings implicationRuleStrings = _implicationRuleParser.ExtractStatementParts(preProcessedImplicationRule);
+                    ImplicationRule implicationRule = _implicationRuleCreator.CreateImplicationRuleEntity(implicationRuleStrings);
                     implicationRules.Add(implicationRule);
                 }
                 else
@@ -71,8 +72,9 @@ namespace KnowledgeManager.Implementations
                 }
             }
 
-            List<ImplicationRule> grownImplicationRules = DivideComplexImplicationRules(implicationRules);
-            return grownImplicationRules;
+            List<ImplicationRule> separatedImplicationRules = DivideComplexImplicationRules(implicationRules);
+            SetNamesForUnatyStatements(separatedImplicationRules);
+            return separatedImplicationRules;
         }
 
         private List<ImplicationRule> DivideComplexImplicationRules(List<ImplicationRule> implicationRules)
@@ -98,6 +100,13 @@ namespace KnowledgeManager.Implementations
             }
 
             return grownRuleList;
+        }
+
+        private void SetNamesForUnatyStatements(List<ImplicationRule> implicationRules)
+        {
+            List<UnaryStatement> statements = implicationRules.SelectMany(ir => ir.IfStatement.SelectMany(ifs => ifs.UnaryStatements)).ToList();
+            statements.AddRange(implicationRules.SelectMany(ir => ir.ThenStatement.UnaryStatements).ToList());
+            _nameSupervisor.AssignNames(statements);
         }
     }
 }

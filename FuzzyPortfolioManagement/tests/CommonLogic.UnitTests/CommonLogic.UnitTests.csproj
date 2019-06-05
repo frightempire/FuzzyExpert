@@ -57,6 +57,7 @@
     <Compile Include="Implementations\FilePathProviderTests.cs" />
     <Compile Include="Implementations\FileOperationsTests.cs" />
     <Compile Include="Implementations\FileValidationOperationResultLoggerTests.cs" />
+    <Compile Include="Implementations\UniqueNameProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

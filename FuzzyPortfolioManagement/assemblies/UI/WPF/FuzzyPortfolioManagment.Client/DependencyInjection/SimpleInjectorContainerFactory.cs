@@ -1,5 +1,6 @@
 ﻿using CommonLogic.Implementations;
 using CommonLogic.Interfaces;
+using KnowledgeManager.Helpers;
 using KnowledgeManager.Implementations;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Implementations;
@@ -27,6 +28,7 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
             _container.Register<IImplicationRuleValidator, ImplicationRuleValidator>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleParser, ImplicationRuleParser>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleCreator, ImplicationRuleCreator>(Lifestyle.Singleton);
+            _container.Register<INameSupervisor, NameSupervisor>(Lifestyle.Singleton);
 
             FilePathProvider implicationRulesFilePathProvider = new FilePathProvider();
             _container.Register<IImplicationRuleProvider>(
@@ -36,6 +38,7 @@ namespace FuzzyPortfolioManagment.Client.DependencyInjection
                     _container.GetInstance<IImplicationRuleValidator>(),
                     _container.GetInstance<IImplicationRuleParser>(),
                     _container.GetInstance<IImplicationRuleCreator>(),
+                    _container.GetInstance<INameSupervisor>(),
                     _container.GetInstance<IValidationOperationResultLogger>()),
                 Lifestyle.Singleton);
 

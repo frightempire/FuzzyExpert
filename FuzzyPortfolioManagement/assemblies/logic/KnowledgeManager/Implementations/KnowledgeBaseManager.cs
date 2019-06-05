@@ -34,6 +34,7 @@ namespace KnowledgeManager.Implementations
         }
 
         // TODO: Needs work
+        // TODO: Dictionaries might not be needed
         public List<string> GetImplicationRulesMap()
         {
             Dictionary<int, ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;

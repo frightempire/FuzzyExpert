@@ -40,12 +40,8 @@ namespace ProductionRuleParser.Entities
                 UnaryStatement lastIfUnaryStatement = statementCombination.UnaryStatements.Last();
                 foreach (UnaryStatement unaryStatement in statementCombination.UnaryStatements)
                 {
-                    ifStatementStringBuilder.Append(unaryStatement.LeftOperand);
-                    ifStatementStringBuilder.Append(" ");
-                    ifStatementStringBuilder.Append(unaryStatement.ComparisonOperation.GetDescription());
-                    ifStatementStringBuilder.Append(" ");
-                    ifStatementStringBuilder.Append(unaryStatement.RightOperand);
-
+                    ifStatementStringBuilder.Append($"[{unaryStatement.Name}] ");
+                    ifStatementStringBuilder.Append(unaryStatement);
                     if (unaryStatement != lastIfUnaryStatement)
                         ifStatementStringBuilder.Append(" & ");
                 }
@@ -68,12 +64,8 @@ namespace ProductionRuleParser.Entities
             UnaryStatement lastThenUnaryStatement = ThenStatement.UnaryStatements.Last();
             foreach (UnaryStatement unaryStatement in ThenStatement.UnaryStatements)
             {
-                thenStatementStringBuilder.Append(unaryStatement.LeftOperand);
-                thenStatementStringBuilder.Append(" ");
-                thenStatementStringBuilder.Append(unaryStatement.ComparisonOperation.GetDescription());
-                thenStatementStringBuilder.Append(" ");
-                thenStatementStringBuilder.Append(unaryStatement.RightOperand);
-
+                thenStatementStringBuilder.Append($"[{unaryStatement.Name}] ");
+                thenStatementStringBuilder.Append(unaryStatement);
                 if (unaryStatement != lastThenUnaryStatement)
                     thenStatementStringBuilder.Append(" & ");
             }

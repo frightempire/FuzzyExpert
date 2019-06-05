@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\INameSupervisor.cs" />
+    <Compile Include="Helpers\NameSupervisor.cs" />
     <Compile Include="Implementations\FileImplicationRuleProvider.cs" />
     <Compile Include="Implementations\FileLinguisticVariableProvider.cs" />
     <Compile Include="Interfaces\IImplicationRuleManager.cs" />

@@ -1,4 +1,6 @@
+using System.Text;
 using CommonLogic;
+using CommonLogic.Extensions;
 using ProductionRuleParser.Enums;
 
 namespace ProductionRuleParser.Entities
@@ -20,5 +22,12 @@ namespace ProductionRuleParser.Entities
         public ComparisonOperation ComparisonOperation { get; }
 
         public string RightOperand { get; }
+
+        public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return $"{LeftOperand} {ComparisonOperation.GetDescription()} {RightOperand}";
+        }
     }
 }
