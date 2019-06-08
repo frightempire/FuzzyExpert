@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KnowledgeManager.Entities;
 using LinguisticVariableParser.Entities;
 using MembershipFunctionParser.Entities;
 using MembershipFunctionParser.Implementations;
@@ -145,6 +146,28 @@ namespace Base.UnitTests
 
             return linguisticVariableToCompare.VariableName == linguisticVariableToCompareWith.VariableName &&
                    linguisticVariableToCompare.IsInitialData == linguisticVariableToCompareWith.IsInitialData;
+        }
+
+        public static bool LinguisticVariableRelationsAreEqual(
+            LinguisticVariableRelations linguisticVariableRelationsToCompare,
+            LinguisticVariableRelations linguisticVariableRelationsToCompareWith)
+        {
+            if (linguisticVariableRelationsToCompare.LinguisticVariableNumber !=
+                linguisticVariableRelationsToCompareWith.LinguisticVariableNumber)
+                return false;
+
+            if (linguisticVariableRelationsToCompare.RelatedUnaryStatementNames.Count !=
+                linguisticVariableRelationsToCompareWith.RelatedUnaryStatementNames.Count)
+                return false;
+
+            for (int i = 0; i < linguisticVariableRelationsToCompare.RelatedUnaryStatementNames.Count; i++)
+            {
+                if (linguisticVariableRelationsToCompare.RelatedUnaryStatementNames[i] !=
+                    linguisticVariableRelationsToCompareWith.RelatedUnaryStatementNames[i])
+                    return false;
+            }
+
+            return true;
         }
     }
 }

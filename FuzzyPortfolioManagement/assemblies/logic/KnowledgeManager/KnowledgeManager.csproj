@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\LinguisticVariableRelations.cs" />
+    <Compile Include="Interfaces\ILinguisticVariableRelationsInitializer.cs" />
     <Compile Include="Interfaces\INameSupervisor.cs" />
     <Compile Include="Helpers\NameSupervisor.cs" />
     <Compile Include="Implementations\FileImplicationRuleProvider.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="Implementations\LinguisticVariableManager.cs" />
     <Compile Include="Implementations\KnowledgeBaseValidator.cs" />
     <Compile Include="Implementations\KnowledgeBaseManager.cs" />
+    <Compile Include="Implementations\LinguisticVariableRelationsInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

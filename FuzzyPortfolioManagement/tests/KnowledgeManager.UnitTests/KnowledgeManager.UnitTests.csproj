@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\LinguisticVariableRelationsTests.cs" />
     <Compile Include="Helpers\NameSupervisorTests.cs" />
     <Compile Include="Implementations\FileImplicationRuleProviderTests.cs" />
     <Compile Include="Implementations\FileLinguisticVariableProviderTests.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Implementations\KnowledgeBaseManagerTests.cs" />
     <Compile Include="Implementations\KnowledgeBaseValidatorTests.cs" />
     <Compile Include="Implementations\LinguisticVariableManagerTests.cs" />
+    <Compile Include="Implementations\LinguisticVariableRelationsInitializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

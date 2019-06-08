@@ -104,9 +104,12 @@ namespace KnowledgeManager.Implementations
 
         private void SetNamesForUnatyStatements(List<ImplicationRule> implicationRules)
         {
-            List<UnaryStatement> statements = implicationRules.SelectMany(ir => ir.IfStatement.SelectMany(ifs => ifs.UnaryStatements)).ToList();
-            statements.AddRange(implicationRules.SelectMany(ir => ir.ThenStatement.UnaryStatements).ToList());
-            _nameSupervisor.AssignNames(statements);
+            List<UnaryStatement> ifUnaryStatements = implicationRules.SelectMany(ir => ir.IfStatement.SelectMany(ifs => ifs.UnaryStatements)).ToList();
+            List<UnaryStatement> thenUnaryStatements = implicationRules.SelectMany(ir => ir.ThenStatement.UnaryStatements).ToList();
+            List<UnaryStatement> allUnaryStatements = new List<UnaryStatement>();
+            allUnaryStatements.AddRange(ifUnaryStatements);
+            allUnaryStatements.AddRange(thenUnaryStatements);
+            _nameSupervisor.AssignNames(allUnaryStatements);
         }
     }
 }

@@ -8,7 +8,6 @@ using ProductionRuleParser.Entities;
 
 namespace KnowledgeManager.Implementations
 {
-    // Might be rename to work with InferenceEngine
     public class KnowledgeBaseManager : IKnowledgeBaseManager
     {
         private readonly IImplicationRuleManager _implicationRuleManager;
@@ -34,7 +33,6 @@ namespace KnowledgeManager.Implementations
         }
 
         // TODO: Needs work
-        // TODO: Dictionaries might not be needed
         public List<string> GetImplicationRulesMap()
         {
             Dictionary<int, ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
