@@ -2,6 +2,7 @@
 using CommonLogic;
 using CommonLogic.Entities;
 using CommonLogic.Interfaces;
+using KnowledgeManager.Entities;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
 using ProductionRuleParser.Entities;
@@ -13,27 +14,30 @@ namespace KnowledgeManager.Implementations
         private readonly IImplicationRuleManager _implicationRuleManager;
         private readonly ILinguisticVariableManager _linguisticVariableManager;
         private readonly IKnowledgeBaseValidator _knowledgeBaseValidator;
+        private readonly ILinguisticVariableRelationsInitializer _linguisticVariableRelationsInitializer;
         private readonly IValidationOperationResultLogger _validationOperationResultLogger;
 
         public KnowledgeBaseManager(
             IImplicationRuleManager implicationRuleManager,
             ILinguisticVariableManager linguisticVariableManager,
             IKnowledgeBaseValidator knowledgeBaseValidator,
+            ILinguisticVariableRelationsInitializer linguisticVariableRelationsInitializer,
             IValidationOperationResultLogger validationOperationResultLogger)
         {
             ExceptionAssert.IsNull(implicationRuleManager);
             ExceptionAssert.IsNull(linguisticVariableManager);
             ExceptionAssert.IsNull(knowledgeBaseValidator);
+            ExceptionAssert.IsNull(linguisticVariableRelationsInitializer);
             ExceptionAssert.IsNull(validationOperationResultLogger);
 
             _implicationRuleManager = implicationRuleManager;
             _linguisticVariableManager = linguisticVariableManager;
             _knowledgeBaseValidator = knowledgeBaseValidator;
+            _linguisticVariableRelationsInitializer = linguisticVariableRelationsInitializer;
             _validationOperationResultLogger = validationOperationResultLogger;
         }
 
-        // TODO: Needs work
-        public List<string> GetImplicationRulesMap()
+        public KnowledgeBase GetKnowledgeBase()
         {
             Dictionary<int, ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
             Dictionary<int, LinguisticVariable> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
@@ -43,13 +47,13 @@ namespace KnowledgeManager.Implementations
 
             if (validationOperationResult.IsSuccess)
             {
-            }
-            else
-            {
-                _validationOperationResultLogger.LogValidationOperationResultMessages(validationOperationResult);
+                List<LinguisticVariableRelations> linguisticVariablesRelations = 
+                    _linguisticVariableRelationsInitializer.FormRelations(implicationRules, linguisticVariables);
+                return new KnowledgeBase(implicationRules, linguisticVariables, linguisticVariablesRelations);
             }
 
-            return new List<string>();
+            _validationOperationResultLogger.LogValidationOperationResultMessages(validationOperationResult);
+            return null;
         }
     }
 }

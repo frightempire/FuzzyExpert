@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\KnowledgeBase.cs" />
     <Compile Include="Entities\LinguisticVariableRelations.cs" />
     <Compile Include="Interfaces\ILinguisticVariableRelationsInitializer.cs" />
     <Compile Include="Interfaces\INameSupervisor.cs" />

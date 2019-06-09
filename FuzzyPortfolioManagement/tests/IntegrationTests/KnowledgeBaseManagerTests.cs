@@ -2,6 +2,7 @@
 using System.IO;
 using Base.UnitTests;
 using CommonLogic.Implementations;
+using KnowledgeManager.Entities;
 using KnowledgeManager.Helpers;
 using KnowledgeManager.Implementations;
 using LinguisticVariableParser.Implementations;
@@ -70,9 +71,40 @@ namespace IntegrationTests
                 fileValidationOperationResultLogger);
             LinguisticVariableManager linguisticVariableManager = new LinguisticVariableManager(linguisticVariableProvider);
 
-            // TODO: Will need adjustment after InferenceEngine is finished
             // Knowledge base manager
             KnowledgeBaseValidator knowledgeBaseValidator = new KnowledgeBaseValidator();
+            LinguisticVariableRelationsInitializer relationsInitializer = new LinguisticVariableRelationsInitializer();
+            _knowledgeBaseManager = new KnowledgeBaseManager(
+                implicationRuleManager,
+                linguisticVariableManager,
+                knowledgeBaseValidator,
+                relationsInitializer,
+                fileValidationOperationResultLogger);
+        }
+
+        [Test]
+        public void GetKnowledgeBase_ReturnsCorrectLinguisticVariablesRelations()
+        {
+            // Arrange
+            List<LinguisticVariableRelations> expectedRelations = new List<LinguisticVariableRelations>
+            {
+                new LinguisticVariableRelations(1, new List<string> {"A1"}),
+                new LinguisticVariableRelations(2, new List<string> {"A4"}),
+                new LinguisticVariableRelations(3, new List<string> {"A2"}),
+                new LinguisticVariableRelations(4, new List<string> {"A3"}),
+                new LinguisticVariableRelations(5, new List<string> {"A5"}),
+                new LinguisticVariableRelations(6, new List<string> {"A6"})
+            };
+
+            // Act
+            List<LinguisticVariableRelations> actualRelations = _knowledgeBaseManager.GetKnowledgeBase().LinguisticVariablesRelations;
+
+            // Assert
+            Assert.AreEqual(expectedRelations.Count, actualRelations.Count);
+            for (int i = 0; i < expectedRelations.Count; i++)
+            {
+                Assert.IsTrue(ObjectComparer.LinguisticVariableRelationsAreEqual(expectedRelations[i], actualRelations[i]));
+            }
         }
     }
 }
