@@ -22,10 +22,5 @@ namespace Fuzzification.Implementaions
 
             return function;
         }
-
-        public double Defuzzify()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
