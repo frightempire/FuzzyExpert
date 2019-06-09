@@ -16,5 +16,7 @@ namespace MembershipFunctionParser.Entities
         public string LinguisticVariableName { get; }
 
         public List<double> PointsList { get; }
+
+        public abstract double MembershipDegree(double value);
     }
 }

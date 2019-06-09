@@ -4,15 +4,14 @@ namespace MembershipFunctionParser.Entities
 {
     public class TrapezoidalMembershipFunction: MembershipFunction
     {
-        /// <param name="linguisticVariableName">The name that identificates the linguistic variable.</param>
+        /// <param name="linguisticVariableName">The name that identificates linguistic variable.</param>
         /// <param name="x0">The value of the (x0, 0) point.</param>
         /// <param name="x1">The value of the (x1, 1) point.</param>
         /// <param name="x2">The value of the (x2, 1) point.</param>
         /// <param name="x3">The value of the (x3, 0) point.</param>
         public TrapezoidalMembershipFunction(string linguisticVariableName, double x0, double x1, double x2, double x3): base(linguisticVariableName)
         {
-            if (x0 > x1 || x1 > x2 || x2 > x3)
-                throw new ArgumentException("Points order is violated.");
+            if (x0 > x1 || x1 > x2 || x2 > x3) throw new ArgumentException("Points order is violated.");
 
             PointsList.Add(x0);
             PointsList.Add(x1);
@@ -20,6 +19,13 @@ namespace MembershipFunctionParser.Entities
             PointsList.Add(x3);
         }
 
+        public override double MembershipDegree(double value)
+        {
+            if (PointsList[0] <= value && value < PointsList[1]) return (value - PointsList[0]) / (PointsList[1] - PointsList[0]);
+            if (PointsList[1] <= value && value <= PointsList[2]) return 1;
+            if (PointsList[2] < value && value <= PointsList[3]) return (PointsList[3] - value) / (PointsList[3] - PointsList[2]);
+            return 0;
+        }
 
         #region Equals/GetHashCode
 
