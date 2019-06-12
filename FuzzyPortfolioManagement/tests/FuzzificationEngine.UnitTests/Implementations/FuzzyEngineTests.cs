@@ -1,10 +1,10 @@
-﻿using Fuzzification.Implementaions;
+﻿using FuzzificationEngine.Implementaions;
 using LinguisticVariableParser.Entities;
 using MembershipFunctionParser.Entities;
 using MembershipFunctionParser.Implementations;
 using NUnit.Framework;
 
-namespace Fuzzification.UnitTests.Implementations
+namespace FuzzificationEngine.UnitTests.Implementations
 {
     [TestFixture]
     public class FuzzyEngineTests

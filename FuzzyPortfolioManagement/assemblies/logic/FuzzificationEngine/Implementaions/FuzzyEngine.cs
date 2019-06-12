@@ -1,8 +1,8 @@
-using Fuzzification.Interfaces;
+using FuzzificationEngine.Interfaces;
 using LinguisticVariableParser.Entities;
 using MembershipFunctionParser.Entities;
 
-namespace Fuzzification.Implementaions
+namespace FuzzificationEngine.Implementaions
 {
     public class FuzzyEngine : IFuzzyEngine
     {

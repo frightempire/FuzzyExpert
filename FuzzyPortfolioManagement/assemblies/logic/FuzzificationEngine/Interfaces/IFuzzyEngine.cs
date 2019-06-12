@@ -1,7 +1,7 @@
 ﻿using LinguisticVariableParser.Entities;
 using MembershipFunctionParser.Entities;
 
-namespace Fuzzification.Interfaces
+namespace FuzzificationEngine.Interfaces
 {
     public interface IFuzzyEngine
     {
