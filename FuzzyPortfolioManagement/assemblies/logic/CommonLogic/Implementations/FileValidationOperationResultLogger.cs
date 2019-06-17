@@ -25,7 +25,7 @@ namespace CommonLogic.Implementations
             string separatorHeader = DateTime.Now.ToLongTimeString();
             errorMessagesWithLines.Insert(0, separatorHeader);
 
-            string pathToFile = AppDomain.CurrentDomain.BaseDirectory + @"\KnowledgeBaseValidationLog.txt";
+            string pathToFile = AppDomain.CurrentDomain.BaseDirectory + @"\ValidationLog.txt";
             _fileOperations.AppendLinesToFile(pathToFile, errorMessagesWithLines);
         }
 
@@ -36,7 +36,7 @@ namespace CommonLogic.Implementations
             string separatorHeader = DateTime.Now.ToLongTimeString();
             errorMessages.Insert(0, separatorHeader);
 
-            string pathToFile = AppDomain.CurrentDomain.BaseDirectory + @"\KnowledgeBaseValidationLog.txt";
+            string pathToFile = AppDomain.CurrentDomain.BaseDirectory + @"\ValidationLog.txt";
             _fileOperations.AppendLinesToFile(pathToFile, errorMessages);
         }
     }

@@ -49,10 +49,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\CsvDataProviderTests.cs" />
+    <Compile Include="Implementations\CsvFileParserTests.cs" />
+    <Compile Include="Implementations\ParsingResultValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestFiles\InitialData.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
+      <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
+      <Name>CommonLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\assemblies\logic\DataProvider\DataProvider.csproj">
+      <Project>{0564A426-5D14-434E-AB64-E1DB6D287256}</Project>
+      <Name>DataProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
