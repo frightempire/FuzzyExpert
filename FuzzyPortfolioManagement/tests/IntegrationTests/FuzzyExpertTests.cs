@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Base.UnitTests;
 using CommonLogic.Implementations;
-using KnowledgeManager.Entities;
+using DataProvider.Implementations;
+using FuzzificationEngine.Implementaions;
+using InferenceEngine.Implementations;
+using InferenceExpert.Implementations;
 using KnowledgeManager.Helpers;
 using KnowledgeManager.Implementations;
 using LinguisticVariableParser.Implementations;
@@ -13,19 +15,29 @@ using ProductionRuleParser.Implementations;
 namespace IntegrationTests
 {
     [TestFixture]
-    public class KnowledgeBaseManagerTests
+    public class FuzzyExpertTests
     {
         private readonly string _filePathImplicationRules =
-            Path.Combine(TestContext.CurrentContext.TestDirectory, @"TestFiles\KnowledgeBaseManager\ImplicationRules.txt");
+            Path.Combine(TestContext.CurrentContext.TestDirectory, @"TestFiles\FuzzyExpert\ImplicationRules.txt");
         private readonly string _filePathLinguisticVariables =
-            Path.Combine(TestContext.CurrentContext.TestDirectory, @"TestFiles\KnowledgeBaseManager\LinguisticVariables.txt");
+            Path.Combine(TestContext.CurrentContext.TestDirectory, @"TestFiles\FuzzyExpert\LinguisticVariables.txt");
+        private readonly string _initialDataFilePath =
+            Path.Combine(TestContext.CurrentContext.TestDirectory, @"TestFiles\FuzzyExpert\InitialData.csv");
 
         private KnowledgeBaseManager _knowledgeBaseManager;
+        private CsvDataProvider _initialDataProvider;
+        private FuzzyEngine _fuzzyEngine;
+        private InferenceGraph _inferenceGraph;
+        private FuzzyExpert _fuzzyExpert;
 
         [SetUp]
         public void SetUp()
         {
             PrepareKnowledgeBaseManager();
+            PrepareInitialDataProvider();
+            _fuzzyEngine = new FuzzyEngine();
+            _inferenceGraph = new InferenceGraph();
+            _fuzzyExpert = new FuzzyExpert(_initialDataProvider, _knowledgeBaseManager, _inferenceGraph, _fuzzyEngine);
         }
 
         private void PrepareKnowledgeBaseManager()
@@ -79,29 +91,26 @@ namespace IntegrationTests
                 fileValidationOperationResultLogger);
         }
 
+        private void PrepareInitialDataProvider()
+        {
+            CsvFileParser csvParser = new CsvFileParser();
+            ParsingResultValidator validator = new ParsingResultValidator();
+            FilePathProvider filePathProviderMock = new FilePathProvider { FilePath = _initialDataFilePath };
+            FileValidationOperationResultLogger resultLogger = new FileValidationOperationResultLogger(new FileOperations());
+            _initialDataProvider = new CsvDataProvider(csvParser, validator, filePathProviderMock, resultLogger);
+        }
+
         [Test]
-        public void GetKnowledgeBase_ReturnsCorrectLinguisticVariablesRelations()
+        public void GetResult_ReturnsCorrectResult()
         {
             // Arrange
-            List<LinguisticVariableRelations> expectedRelations = new List<LinguisticVariableRelations>
-            {
-                new LinguisticVariableRelations(1, new List<string> {"A1"}),
-                new LinguisticVariableRelations(2, new List<string> {"A4"}),
-                new LinguisticVariableRelations(3, new List<string> {"A2"}),
-                new LinguisticVariableRelations(4, new List<string> {"A3"}),
-                new LinguisticVariableRelations(5, new List<string> {"A5"}),
-                new LinguisticVariableRelations(6, new List<string> {"A6"})
-            };
+            var expectedResult = new List<string> {"A1", "A4", "A2", "A3", "A5", "A6"};
 
             // Act
-            List<LinguisticVariableRelations> actualRelations = _knowledgeBaseManager.GetKnowledgeBase().LinguisticVariablesRelations;
+            var actualResult = _fuzzyExpert.GetResult();
 
             // Assert
-            Assert.AreEqual(expectedRelations.Count, actualRelations.Count);
-            for (int i = 0; i < expectedRelations.Count; i++)
-            {
-                Assert.IsTrue(ObjectComparer.LinguisticVariableRelationsAreEqual(expectedRelations[i], actualRelations[i]));
-            }
+            Assert.AreEqual(expectedResult, actualResult);
         }
     }
 }

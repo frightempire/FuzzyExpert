@@ -54,7 +54,7 @@ namespace InferenceEngine.Implementations
                     min_max = new Tuple<int, int>(1, ifNodesCount);
                     break;
                 case LogicalOperation.None:
-                    if (ifNodesCount != 1) throw new ArgumentException($"Operation is {operation}; if nodes count is {ifNodesCount} and should be 1.");
+                    if (ifNodesCount != 1) throw new ArgumentException($"Operation is {operation}; if nodes count is {ifNodesCount} it should be 1.");
                     min_max = new Tuple<int, int>(1, 1);
                     break;
                 default:

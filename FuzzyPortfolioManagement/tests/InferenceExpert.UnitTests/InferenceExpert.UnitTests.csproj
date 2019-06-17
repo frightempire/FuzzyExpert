@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B0F4B692-8515-47CC-817F-84506F959AFC}</ProjectGuid>
+    <ProjectGuid>{868B4BE9-98E0-4E9E-9C22-CCD817415B3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IntegrationTests</RootNamespace>
-    <AssemblyName>IntegrationTests</AssemblyName>
+    <RootNamespace>InferenceExpert.UnitTests</RootNamespace>
+    <AssemblyName>InferenceExpert.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -38,7 +38,6 @@
     </Reference>
     <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,24 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FuzzyExpertTests.cs" />
-    <Compile Include="ImplicationRuleManagerTests.cs" />
-    <Compile Include="InferenceGraphTests.cs" />
-    <Compile Include="KnowledgeBaseManagerTests.cs" />
-    <Compile Include="LinguisticVariableManagerTests.cs" />
+    <Compile Include="Implementations\FuzzyExpertTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="TestFiles\FuzzyExpert\InitialData.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\assemblies\logic\CommonLogic\CommonLogic.csproj">
-      <Project>{d6731ae6-8d18-4889-9b1d-40cc28ccd273}</Project>
-      <Name>CommonLogic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\assemblies\logic\DataProvider\DataProvider.csproj">
       <Project>{0564A426-5D14-434E-AB64-E1DB6D287256}</Project>
       <Name>DataProvider</Name>
@@ -88,42 +76,6 @@
       <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
       <Name>KnowledgeManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\LinguisticVariableParser\LinguisticVariableParser.csproj">
-      <Project>{4BC3AC2D-84C7-4B9E-81FA-C01168FC72A1}</Project>
-      <Name>LinguisticVariableParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\MembershipFunctionParser\MembershipFunctionParser.csproj">
-      <Project>{11CE082D-9AA8-4A49-BF2A-C4BFA577A50C}</Project>
-      <Name>MembershipFunctionParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\assemblies\logic\ProductionRuleParser\ProductionRuleParser.csproj">
-      <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
-      <Name>ProductionRuleParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Base.UnitTests\Base.UnitTests.csproj">
-      <Project>{adb942cb-8ff7-4e8d-8adf-ad621ee0c59e}</Project>
-      <Name>Base.UnitTests</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TestFiles\ImplicationRules.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestFiles\FuzzyExpert\ImplicationRules.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestFiles\KnowledgeBaseManager\ImplicationRules.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestFiles\LinguisticVariables.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestFiles\FuzzyExpert\LinguisticVariables.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TestFiles\KnowledgeBaseManager\LinguisticVariables.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

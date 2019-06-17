@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Text;
 using CommonLogic;
-using CommonLogic.Extensions;
 
 namespace ProductionRuleParser.Entities
 {
