@@ -94,7 +94,7 @@ namespace IntegrationTests
             };
 
             // Act
-            List<LinguisticVariableRelations> actualRelations = _knowledgeBaseManager.GetKnowledgeBase().LinguisticVariablesRelations;
+            List<LinguisticVariableRelations> actualRelations = _knowledgeBaseManager.GetKnowledgeBase().Value.LinguisticVariablesRelations;
 
             // Assert
             Assert.AreEqual(expectedRelations.Count, actualRelations.Count);

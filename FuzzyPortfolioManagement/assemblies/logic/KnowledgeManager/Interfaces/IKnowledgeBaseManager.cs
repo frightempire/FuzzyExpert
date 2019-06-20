@@ -1,9 +1,10 @@
-﻿using KnowledgeManager.Entities;
+﻿using CommonLogic.Entities;
+using KnowledgeManager.Entities;
 
 namespace KnowledgeManager.Interfaces
 {
     public interface IKnowledgeBaseManager
     {
-        KnowledgeBase GetKnowledgeBase();
+        Optional<KnowledgeBase> GetKnowledgeBase();
     }
 }

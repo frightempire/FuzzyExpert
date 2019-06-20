@@ -30,7 +30,7 @@ namespace DataProvider.Implementations
             _validationOperationResultLoger = validationOperationResultLoger;
         }
 
-        public Dictionary<string, double> GetInitialData()
+        public Optional<Dictionary<string, double>> GetInitialData()
         {
             ExceptionAssert.FileExists(_filePathProvider.FilePath);
 
@@ -38,17 +38,15 @@ namespace DataProvider.Implementations
             List<string[]> parsingResult = _csvParser.ParseFile(initialDataFilePath);
             ValidationOperationResult operationResult = _validator.Validate(parsingResult);
 
-            Dictionary<string, double> initialData = new Dictionary<string, double>();
             if (operationResult.IsSuccess)
             {
+                Dictionary<string, double> initialData = new Dictionary<string, double>();
                 foreach (string[] strings in parsingResult) initialData[strings[0]] = double.Parse(strings[1]);
-            }
-            else
-            {
-                _validationOperationResultLoger.LogValidationOperationResultMessages(operationResult);
+                return Optional<Dictionary<string, double>>.For(initialData);
             }
 
-            return initialData;
+            _validationOperationResultLoger.LogValidationOperationResultMessages(operationResult);
+            return Optional<Dictionary<string, double>>.Empty();
         }
     }
 }

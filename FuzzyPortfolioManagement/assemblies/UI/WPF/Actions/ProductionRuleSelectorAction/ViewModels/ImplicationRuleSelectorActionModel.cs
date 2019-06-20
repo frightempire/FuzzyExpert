@@ -67,7 +67,7 @@ namespace ProductionRuleSelectorAction.ViewModels
                            FilePath = _fileDialogInteractor.FilePath;
                            _filePathProvider.FilePath = FilePath;
 
-                           List<ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules.Values.ToList();
+                           List<ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules.Value.Values.ToList();
                            ImplicationRules.Clear();
                            implicationRules.ForEach(ir => ImplicationRules.Add(ir.ToString()));
                        }));

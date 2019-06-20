@@ -4,6 +4,7 @@ using CommonLogic.Implementations;
 using DataProvider.Implementations;
 using FuzzificationEngine.Implementaions;
 using InferenceEngine.Implementations;
+using InferenceExpert.Entities;
 using InferenceExpert.Implementations;
 using KnowledgeManager.Helpers;
 using KnowledgeManager.Implementations;
@@ -105,12 +106,15 @@ namespace IntegrationTests
         {
             // Arrange
             var expectedResult = new List<string> {"A1", "A4", "A2", "A3", "A5", "A6"};
+            ExpertOpinion expectedOpinion = new ExpertOpinion();
+            expectedOpinion.AddResults(expectedResult);
 
             // Act
-            var actualResult = _fuzzyExpert.GetResult();
+            ExpertOpinion actualOpinion = _fuzzyExpert.GetResult();
 
             // Assert
-            Assert.AreEqual(expectedResult, actualResult);
+            Assert.IsTrue(actualOpinion.IsSuccess);
+            Assert.AreEqual(actualOpinion.Result, actualOpinion.Result);
         }
     }
 }

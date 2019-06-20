@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Base.UnitTests;
+using CommonLogic.Entities;
 using CommonLogic.Implementations;
 using KnowledgeManager.Helpers;
 using KnowledgeManager.Implementations;
@@ -75,16 +76,18 @@ namespace IntegrationTests
         public void ImplicationRulesGetter_ReturnsImplicationRulesList()
         {
             // Arrange
-            Dictionary<int, ImplicationRule> expectedImplicationRules = PrepareExpectedImplicationRules();
+            Optional<Dictionary<int, ImplicationRule>> expectedImplicationRules =
+                Optional<Dictionary<int, ImplicationRule>>.For(PrepareExpectedImplicationRules());
 
             // Act
-            Dictionary<int, ImplicationRule> actualImplicationRules = _implicationRuleManager.ImplicationRules;
+            Optional<Dictionary<int, ImplicationRule>> actualImplicationRules = _implicationRuleManager.ImplicationRules;
 
             // Assert
-            Assert.AreEqual(expectedImplicationRules.Count, actualImplicationRules.Count);
-            for (int i = 1; i <= expectedImplicationRules.Count; i++)
+            Assert.IsTrue(actualImplicationRules.IsPresent);
+            Assert.AreEqual(expectedImplicationRules.Value.Count, actualImplicationRules.Value.Count);
+            for (int i = 1; i <= expectedImplicationRules.Value.Count; i++)
             {
-                Assert.IsTrue(ObjectComparer.ImplicationRulesAreEqual(expectedImplicationRules[i], actualImplicationRules[i]));
+                Assert.IsTrue(ObjectComparer.ImplicationRulesAreEqual(expectedImplicationRules.Value[i], actualImplicationRules.Value[i]));
             }
         }
 

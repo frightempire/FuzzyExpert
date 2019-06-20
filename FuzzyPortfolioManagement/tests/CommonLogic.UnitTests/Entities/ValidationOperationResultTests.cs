@@ -19,7 +19,7 @@ namespace CommonLogic.UnitTests.Entities
         public void Constructor_InitiatesEmptyMessagesList()
         {
             // Assert
-            Assert.AreEqual(0, _validationOperationResult.GetMessages().Count);
+            Assert.AreEqual(0, _validationOperationResult.Messages.Count);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace CommonLogic.UnitTests.Entities
             _validationOperationResult.AddMessage(messageToAdd);
 
             // Assert
-            Assert.AreEqual(expectedMessageList, _validationOperationResult.GetMessages());
+            Assert.AreEqual(expectedMessageList, _validationOperationResult.Messages);
             Assert.AreEqual(false, _validationOperationResult.IsSuccess);
         }
 
@@ -56,7 +56,7 @@ namespace CommonLogic.UnitTests.Entities
             _validationOperationResult.AddMessages(expectedMessageList);
 
             // Assert
-            Assert.AreEqual(expectedMessageList, _validationOperationResult.GetMessages());
+            Assert.AreEqual(expectedMessageList, _validationOperationResult.Messages);
             Assert.AreEqual(false, _validationOperationResult.IsSuccess);
         }
 
@@ -71,7 +71,7 @@ namespace CommonLogic.UnitTests.Entities
             _validationOperationResult.AddMessage(secondMessageToAdd);
 
             // Act
-            List<string> actualMessageList = _validationOperationResult.GetMessages();
+            List<string> actualMessageList = _validationOperationResult.Messages;
 
             // Assert
             Assert.AreEqual(expectedMessageList, actualMessageList);

@@ -27,7 +27,7 @@ namespace DataProvider.UnitTests.Implementations
 
             // Assert
             Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual(result.GetMessages().Count, 1);
+            Assert.AreEqual(result.Messages.Count, 1);
         }
 
         [Test]
@@ -46,8 +46,8 @@ namespace DataProvider.UnitTests.Implementations
 
             // Assert
             Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual(result.GetMessages().Count, 1);
-            Assert.IsTrue(result.GetMessages()[0].Contains(faltedValue));
+            Assert.AreEqual(result.Messages.Count, 1);
+            Assert.IsTrue(result.Messages[0].Contains(faltedValue));
         }
 
         [Test]
@@ -66,8 +66,8 @@ namespace DataProvider.UnitTests.Implementations
 
             // Assert
             Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual(result.GetMessages().Count, 1);
-            Assert.IsTrue(result.GetMessages()[0].Contains(faltedValue));
+            Assert.AreEqual(result.Messages.Count, 1);
+            Assert.IsTrue(result.Messages[0].Contains(faltedValue));
         }
 
         [Test]
@@ -86,8 +86,8 @@ namespace DataProvider.UnitTests.Implementations
 
             // Assert
             Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual(result.GetMessages().Count, 1);
-            Assert.IsTrue(result.GetMessages()[0].Contains(faltedValue));
+            Assert.AreEqual(result.Messages.Count, 1);
+            Assert.IsTrue(result.Messages[0].Contains(faltedValue));
         }
     }
 }

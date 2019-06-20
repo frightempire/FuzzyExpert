@@ -34,7 +34,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
             
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace LinguisticVariableParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
     }
 }

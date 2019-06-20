@@ -164,17 +164,17 @@ namespace KnowledgeManager.UnitTests.Implementations
         }
 
         [Test]
-        public void GetImplicationRules_ReturnsEmptyListOfRules()
+        public void GetImplicationRules_ReturnsEmptyOptional()
         {
             // Arrange
             _filePathProviderMock.FilePath = _filePath;
             _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(new List<string>());
 
             // Act
-            List<ImplicationRule> expectedImplicationRules = _fileImplicationRuleProvider.GetImplicationRules();
+            Optional<List<ImplicationRule>> expectedImplicationRules = _fileImplicationRuleProvider.GetImplicationRules();
 
             // Assert
-            Assert.IsEmpty(expectedImplicationRules);
+            Assert.IsFalse(expectedImplicationRules.IsPresent);
         }
 
         [Test]
@@ -236,12 +236,14 @@ namespace KnowledgeManager.UnitTests.Implementations
             {
                 firstImplicationRule, secondImplicationRule
             };
+            Optional<List<ImplicationRule>> expectedOptional = Optional<List<ImplicationRule>>.For(expectedImplicationRules);
 
             // Act
-            List<ImplicationRule> actualImplicationRules = _fileImplicationRuleProvider.GetImplicationRules();
+            Optional<List<ImplicationRule>> actualOptional = _fileImplicationRuleProvider.GetImplicationRules();
 
             // Assert
-            Assert.AreEqual(expectedImplicationRules, actualImplicationRules);
+            Assert.IsTrue(actualOptional.IsPresent);
+            Assert.AreEqual(expectedOptional.Value, actualOptional.Value);
         }
 
         [Test]
@@ -313,12 +315,14 @@ namespace KnowledgeManager.UnitTests.Implementations
             {
                 firstImplicationRule, secondImplicationRule
             };
+            Optional<List<ImplicationRule>> expectedOptional = Optional<List<ImplicationRule>>.For(expectedImplicationRules);
 
             // Act
-            List<ImplicationRule> actualImplicationRules = _fileImplicationRuleProvider.GetImplicationRules();
+            Optional<List<ImplicationRule>> actualOptional = _fileImplicationRuleProvider.GetImplicationRules();
 
             // Assert
-            Assert.AreEqual(expectedImplicationRules, actualImplicationRules);
+            Assert.IsTrue(actualOptional.IsPresent);
+            Assert.AreEqual(expectedOptional.Value, actualOptional.Value);
             _validationOperationResultLoggerMock.AssertWasCalled(x => x.LogValidationOperationResultMessages(validationOperationResultForThirdRule, 3));
         }
     }

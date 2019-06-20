@@ -51,7 +51,7 @@ namespace LinguisticVariableParser.Implementations
                 _membershipFunctionValidator.ValidateMembershipFunctionsPart(membershipFunctionsPart);
 
             List<string> membershipPartValidationMessages =
-                validationOperationResultOfMembershipFunctionsPart.GetMessages();
+                validationOperationResultOfMembershipFunctionsPart.Messages;
             if (membershipPartValidationMessages.Count != 0)
                 validationOperationResult.AddMessages(membershipPartValidationMessages);
 

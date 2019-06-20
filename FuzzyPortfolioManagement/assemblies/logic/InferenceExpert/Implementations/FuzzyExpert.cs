@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CommonLogic;
+using CommonLogic.Entities;
 using DataProvider.Interfaces;
 using FuzzificationEngine.Interfaces;
 using InferenceEngine.Interfaces;
+using InferenceExpert.Entities;
 using InferenceExpert.Interfaces;
 using KnowledgeManager.Entities;
 using KnowledgeManager.Interfaces;
@@ -37,24 +39,26 @@ namespace InferenceExpert.Implementations
             _fuzzyEngine = fuzzyEngine;
         }
 
-        // TODO: Add IsPresent<T> to avoid null checks
-        public List<string> GetResult()
+        // TODO: Validate initial data names against knowledge base
+        public ExpertOpinion GetResult()
         {
-            Dictionary<string, double> initialData = _initialDataProvider.GetInitialData();
-            KnowledgeBase knowledgeBase = _knowledgeManager.GetKnowledgeBase();
+            Optional<Dictionary<string, double>> initialData = _initialDataProvider.GetInitialData();
+            Optional<KnowledgeBase> knowledgeBase = _knowledgeManager.GetKnowledgeBase();
 
-            foreach (var implicationRule in knowledgeBase.ImplicationRules)
-            {
-                List<string> ifNodeNames = implicationRule.Value.IfStatement
-                    .SelectMany(ifs => ifs.UnaryStatements.Select(us => us.Name))
-                    .ToList();
-                LogicalOperation operation = ifNodeNames.Count == 1 ? LogicalOperation.None : LogicalOperation.And;
-                List<string> thenNodeNames = implicationRule.Value.ThenStatement.UnaryStatements
-                    .Select(us => us.Name)
-                    .ToList();
-                _inferenceEngine.AddRule(ifNodeNames, operation, thenNodeNames);
-            }
+            ExpertOpinion opinion = new ExpertOpinion();
+            if (!initialData.IsPresent) opinion.AddErrorMessage("Initial data is not consistent. Check logs for more information.");
+            if (!knowledgeBase.IsPresent) opinion.AddErrorMessage("Knowledge base is not consistent. Check logs for more information.");
+            if (!opinion.IsSuccess) return opinion;
 
+            FillInferenceEngineRules(knowledgeBase.Value);
+            List<string> activatedNodes = GetActivatedNodes(knowledgeBase.Value, initialData.Value);
+
+            opinion.AddResults(_inferenceEngine.GetInferenceResults(activatedNodes));
+            return opinion;
+        }
+
+        private List<string> GetActivatedNodes(KnowledgeBase knowledgeBase, Dictionary<string, double> initialData)
+        {
             List<UnaryStatement> ifUnaryStatements = knowledgeBase.ImplicationRules
                 .SelectMany(ir => ir.Value.IfStatement.SelectMany(ifs => ifs.UnaryStatements))
                 .ToList();
@@ -74,12 +78,27 @@ namespace InferenceExpert.Implementations
                 foreach (var name in relatedStatementNames)
                 {
                     UnaryStatement matchingStatement = ifUnaryStatements
-                        .FirstOrDefault(ius => ius.Name == name && ius.RightOperand == membershipFunction.LinguisticVariableName);
+                        .FirstOrDefault(
+                            ius => ius.Name == name && ius.RightOperand == membershipFunction.LinguisticVariableName);
                     if (matchingStatement != null) activatedNodes.Add(name);
                 }
             }
+            return activatedNodes;
+        }
 
-            return _inferenceEngine.GetInferenceResults(activatedNodes);
+        private void FillInferenceEngineRules(KnowledgeBase knowledgeBase)
+        {
+            foreach (var implicationRule in knowledgeBase.ImplicationRules)
+            {
+                List<string> ifNodeNames = implicationRule.Value.IfStatement
+                    .SelectMany(ifs => ifs.UnaryStatements.Select(us => us.Name))
+                    .ToList();
+                LogicalOperation operation = ifNodeNames.Count == 1 ? LogicalOperation.None : LogicalOperation.And;
+                List<string> thenNodeNames = implicationRule.Value.ThenStatement.UnaryStatements
+                    .Select(us => us.Name)
+                    .ToList();
+                _inferenceEngine.AddRule(ifNodeNames, operation, thenNodeNames);
+            }
         }
     }
 }

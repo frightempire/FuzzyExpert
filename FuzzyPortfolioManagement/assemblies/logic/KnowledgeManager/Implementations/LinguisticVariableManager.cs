@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CommonLogic;
+using CommonLogic.Entities;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
 
@@ -9,29 +10,29 @@ namespace KnowledgeManager.Implementations
     {
         private readonly ILinguisticVariableProvider _linguisticVariableProvider;
 
-        private Dictionary<int, LinguisticVariable> _linguisticVariables;
-
         public LinguisticVariableManager(ILinguisticVariableProvider linguisticVariableProvider)
         {
             ExceptionAssert.IsNull(linguisticVariableProvider);
             _linguisticVariableProvider = linguisticVariableProvider;
         }
 
-        public Dictionary<int, LinguisticVariable> LinguisticVariables
+        private Optional<Dictionary<int, LinguisticVariable>> _linguisticVariables = Optional<Dictionary<int, LinguisticVariable>>.Empty();
+
+        public Optional<Dictionary<int, LinguisticVariable>> LinguisticVariables
         {
             get
             {
-                if (_linguisticVariables != null)
-                    return _linguisticVariables;
+                if (_linguisticVariables.IsPresent) return _linguisticVariables;
 
-                List<LinguisticVariable> linguisticVariablesFromProvider = _linguisticVariableProvider.GetLinguisticVariables();
+                Optional<List<LinguisticVariable>> linguisticVariablesFromProvider = _linguisticVariableProvider.GetLinguisticVariables();
+                if (!linguisticVariablesFromProvider.IsPresent) return Optional<Dictionary<int, LinguisticVariable>>.Empty();
 
                 Dictionary<int, LinguisticVariable> linguisticVariables = new Dictionary<int, LinguisticVariable>();
-                for (int i = 1; i <= linguisticVariablesFromProvider.Count; i++)
+                for (int i = 1; i <= linguisticVariablesFromProvider.Value.Count; i++)
                 {
-                    linguisticVariables.Add(i, linguisticVariablesFromProvider[i - 1]);
+                    linguisticVariables.Add(i, linguisticVariablesFromProvider.Value[i - 1]);
                 }
-                return _linguisticVariables = linguisticVariables;
+                return _linguisticVariables = Optional<Dictionary<int, LinguisticVariable>>.For(linguisticVariables);
             }
         }
     }

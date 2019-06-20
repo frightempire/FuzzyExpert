@@ -64,7 +64,7 @@ namespace DataProvider.UnitTests.Implementations
         }
 
         [Test]
-        public void GetInitialData_ReturnsEmptyDictionary_IfValidationFails()
+        public void GetInitialData_ReturnsEmptyOptional_IfValidationFails()
         {
             // Arrange
             _filePathProviderMock.Stub(x => x.FilePath).Return(_csvFilePath);
@@ -73,10 +73,10 @@ namespace DataProvider.UnitTests.Implementations
             _validatorMock.Stub(x => x.Validate(Arg<List<string[]>>.Is.Anything)).Return(expectedValidationResult);
 
             // Act
-            Dictionary<string, double> initialData = _csvDataProvider.GetInitialData();
+            Optional<Dictionary<string, double>> initialData = _csvDataProvider.GetInitialData();
 
             // Assert
-            Assert.IsEmpty(initialData);
+            Assert.IsFalse(initialData.IsPresent);
             _validationOperationResultLogerMock.AssertWasCalled(x => x.LogValidationOperationResultMessages(expectedValidationResult));
         }
 
@@ -96,7 +96,7 @@ namespace DataProvider.UnitTests.Implementations
             _csvParserMock.Stub(x => x.ParseFile(_csvFilePath)).Return(expectedParsingResult);
             ValidationOperationResult expectedValidationResult = new ValidationOperationResult();
             _validatorMock.Stub(x => x.Validate(Arg<List<string[]>>.Is.Anything)).Return(expectedValidationResult);
-            Dictionary<string, double> expectedResult = new Dictionary<string, double>
+            Dictionary<string, double> expectedData = new Dictionary<string, double>
             {
                 { "I1_1", 55 },
                 { "I1_2", 10.5 },
@@ -104,12 +104,14 @@ namespace DataProvider.UnitTests.Implementations
                 { "Init4", 1 },
                 { "Init5", 2 },
             };
+            Optional<Dictionary<string, double>> expectedResult = Optional<Dictionary<string, double>>.For(expectedData);
 
             // Act
-            Dictionary<string, double> actualResult = _csvDataProvider.GetInitialData();
+            Optional<Dictionary<string, double>> actualResult = _csvDataProvider.GetInitialData();
 
             // Assert
-            Assert.AreEqual(expectedResult, actualResult);
+            Assert.IsTrue(actualResult.IsPresent);
+            Assert.AreEqual(expectedResult.Value, actualResult.Value);
             _validationOperationResultLogerMock.AssertWasNotCalled(x => x.LogValidationOperationResultMessages(expectedValidationResult));
         }
     }

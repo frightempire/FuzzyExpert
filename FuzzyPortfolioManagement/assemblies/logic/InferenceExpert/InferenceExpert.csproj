@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ExpertOpinion.cs" />
     <Compile Include="Implementations\FuzzyExpert.cs" />
     <Compile Include="Interfaces\IExpert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -34,7 +34,7 @@ namespace KnowledgeManager.UnitTests.Implementations
                 implicationRules, linguisticVariables);
 
             // Assert
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         private Dictionary<int, LinguisticVariable> PrepareLinguisticVariables()

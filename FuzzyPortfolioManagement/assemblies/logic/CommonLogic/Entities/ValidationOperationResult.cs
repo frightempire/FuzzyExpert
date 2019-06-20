@@ -4,7 +4,7 @@ namespace CommonLogic.Entities
 {
     public class ValidationOperationResult
     {
-        private List<string> Messages { get; }
+        public List<string> Messages { get; }
 
         public bool IsSuccess { get; private set; }
 
@@ -25,7 +25,5 @@ namespace CommonLogic.Entities
             Messages.AddRange(messages);
             IsSuccess = false;
         }
-
-        public List<string> GetMessages() => Messages;
     }
 }

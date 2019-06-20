@@ -1,10 +1,11 @@
 ﻿using LinguisticVariableParser.Entities;
 using System.Collections.Generic;
+using CommonLogic.Entities;
 
 namespace KnowledgeManager.Interfaces
 {
     public interface ILinguisticVariableProvider
     {
-        List<LinguisticVariable> GetLinguisticVariables();
+        Optional<List<LinguisticVariable>> GetLinguisticVariables();
     }
 }

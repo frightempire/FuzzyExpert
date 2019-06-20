@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Base.UnitTests;
+using CommonLogic.Entities;
 using CommonLogic.Implementations;
 using KnowledgeManager.Implementations;
 using LinguisticVariableParser.Entities;
@@ -74,16 +75,18 @@ namespace IntegrationTests
         public void LinguisticVariablesGetter_ReturnsLinguisticVariablesList()
         {
             // Arrange
-            Dictionary<int, LinguisticVariable> expectedLinguisticVariables = PrepareExpectedLinguisticVariables();
+            Optional<Dictionary<int, LinguisticVariable>> expectedLinguisticVariables =
+                Optional<Dictionary<int, LinguisticVariable>>.For(PrepareExpectedLinguisticVariables());
 
             // Act
-            Dictionary<int, LinguisticVariable> actuaLinguisticVariables = _linguisticVariableManager.LinguisticVariables;
+            Optional<Dictionary<int, LinguisticVariable>> actuaLinguisticVariables = _linguisticVariableManager.LinguisticVariables;
 
             // Assert
-            Assert.AreEqual(expectedLinguisticVariables.Count, actuaLinguisticVariables.Count);
-            for (int i = 1; i <= actuaLinguisticVariables.Count; i++)
+            Assert.IsTrue(actuaLinguisticVariables.IsPresent);
+            Assert.AreEqual(expectedLinguisticVariables.Value.Count, actuaLinguisticVariables.Value.Count);
+            for (int i = 1; i <= actuaLinguisticVariables.Value.Count; i++)
             {
-                Assert.IsTrue(ObjectComparer.LinguisticVariablesAreEqual(expectedLinguisticVariables[i], actuaLinguisticVariables[i]));
+                Assert.IsTrue(ObjectComparer.LinguisticVariablesAreEqual(expectedLinguisticVariables.Value[i], actuaLinguisticVariables.Value[i]));
             }
         }
 

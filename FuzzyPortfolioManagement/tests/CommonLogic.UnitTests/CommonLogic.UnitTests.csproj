@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\OptionalTests.cs" />
     <Compile Include="Entities\StringCharacterTests.cs" />
     <Compile Include="Entities\ValidationOperationResultTests.cs" />
     <Compile Include="ExceptionAssertTests.cs" />

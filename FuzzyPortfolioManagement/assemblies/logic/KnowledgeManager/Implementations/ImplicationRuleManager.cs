@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using CommonLogic;
+using CommonLogic.Entities;
 using KnowledgeManager.Interfaces;
 using ProductionRuleParser.Entities;
 
@@ -9,7 +10,7 @@ namespace KnowledgeManager.Implementations
     {
         private readonly IImplicationRuleProvider _implicationRuleProvider;
 
-        private Dictionary<int, ImplicationRule> _implicationRules;
+        private Optional<Dictionary<int, ImplicationRule>> _implicationRules = Optional<Dictionary<int, ImplicationRule>>.Empty();
 
         public ImplicationRuleManager(IImplicationRuleProvider implicationRuleProvider)
         {
@@ -17,21 +18,21 @@ namespace KnowledgeManager.Implementations
             _implicationRuleProvider = implicationRuleProvider;
         }
 
-        public Dictionary<int, ImplicationRule> ImplicationRules
+        public Optional<Dictionary<int, ImplicationRule>> ImplicationRules
         {
             get
             {
-                if (_implicationRules != null)
-                    return _implicationRules;
+                if (_implicationRules.IsPresent) return _implicationRules;
 
-                List<ImplicationRule> implicationRulesFromProvider = _implicationRuleProvider.GetImplicationRules();
+                Optional<List<ImplicationRule>> implicationRulesFromProvider = _implicationRuleProvider.GetImplicationRules();
+                if (!implicationRulesFromProvider.IsPresent) return Optional<Dictionary<int, ImplicationRule>>.Empty();
 
                 Dictionary<int, ImplicationRule> implicationRules = new Dictionary<int, ImplicationRule>();
-                for (int i = 1; i <= implicationRulesFromProvider.Count; i++)
+                for (int i = 1; i <= implicationRulesFromProvider.Value.Count; i++)
                 {
-                    implicationRules.Add(i, implicationRulesFromProvider[i-1]);
+                    implicationRules.Add(i, implicationRulesFromProvider.Value[i-1]);
                 }
-                return _implicationRules = implicationRules;
+                return _implicationRules = Optional<Dictionary<int, ImplicationRule>>.For(implicationRules);
             }
         }
     }

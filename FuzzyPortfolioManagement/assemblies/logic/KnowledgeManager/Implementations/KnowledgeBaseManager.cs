@@ -37,23 +37,25 @@ namespace KnowledgeManager.Implementations
             _validationOperationResultLogger = validationOperationResultLogger;
         }
 
-        public KnowledgeBase GetKnowledgeBase()
+        public Optional<KnowledgeBase> GetKnowledgeBase()
         {
-            Dictionary<int, ImplicationRule> implicationRules = _implicationRuleManager.ImplicationRules;
-            Dictionary<int, LinguisticVariable> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
+            Optional<Dictionary<int, ImplicationRule>> implicationRules = _implicationRuleManager.ImplicationRules;
+            Optional<Dictionary<int, LinguisticVariable>> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
+
+            if (!implicationRules.IsPresent || !linguisticVariables.IsPresent) return Optional<KnowledgeBase>.Empty();
 
             ValidationOperationResult validationOperationResult =
-                _knowledgeBaseValidator.ValidateLinguisticVariablesNames(implicationRules, linguisticVariables);
+                _knowledgeBaseValidator.ValidateLinguisticVariablesNames(implicationRules.Value, linguisticVariables.Value);
 
             if (validationOperationResult.IsSuccess)
             {
                 List<LinguisticVariableRelations> linguisticVariablesRelations = 
-                    _linguisticVariableRelationsInitializer.FormRelations(implicationRules, linguisticVariables);
-                return new KnowledgeBase(implicationRules, linguisticVariables, linguisticVariablesRelations);
+                    _linguisticVariableRelationsInitializer.FormRelations(implicationRules.Value, linguisticVariables.Value);         
+                return Optional<KnowledgeBase>.For(new KnowledgeBase(implicationRules.Value, linguisticVariables.Value, linguisticVariablesRelations));
             }
 
             _validationOperationResultLogger.LogValidationOperationResultMessages(validationOperationResult);
-            return null;
+            return Optional<KnowledgeBase>.Empty();
         }
     }
 }

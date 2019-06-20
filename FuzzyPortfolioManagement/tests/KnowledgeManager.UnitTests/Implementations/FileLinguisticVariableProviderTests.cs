@@ -169,17 +169,17 @@ namespace KnowledgeManager.UnitTests.Implementations
         }
 
         [Test]
-        public void GetImplicationRules_ReturnsEmptyListOfRules()
+        public void GetImplicationRules_ReturnsEmptyOptional()
         {
             // Arrange
             _filePathProviderMock.FilePath = _filePath;
             _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(new List<string>());
 
             // Act
-            List<LinguisticVariable> linguisticVariables = _fileLinguisticVariableProvider.GetLinguisticVariables();
+            Optional<List<LinguisticVariable>> linguisticVariables = _fileLinguisticVariableProvider.GetLinguisticVariables();
 
             // Assert
-            Assert.IsEmpty(linguisticVariables);
+            Assert.IsFalse(linguisticVariables.IsPresent);
         }
 
         [Test]
@@ -236,6 +236,7 @@ namespace KnowledgeManager.UnitTests.Implementations
             {
                 firstLinguisticVariable, secondLinguisticVariable
             };
+            Optional<List<LinguisticVariable>> expectedOptional = Optional<List<LinguisticVariable>>.For(expectedLinguisticVariables);
 
             // Stubs
             _linguisticVariableParserMock
@@ -249,10 +250,11 @@ namespace KnowledgeManager.UnitTests.Implementations
             _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(secondLinguisticVariableStrings)).Return(secondLinguisticVariable);
 
             // Act
-            List<LinguisticVariable> actuaLinguisticVariables = _fileLinguisticVariableProvider.GetLinguisticVariables();
+            Optional<List<LinguisticVariable>> actualOptional = _fileLinguisticVariableProvider.GetLinguisticVariables();
 
             // Assert
-            Assert.AreEqual(expectedLinguisticVariables, actuaLinguisticVariables);
+            Assert.IsTrue(expectedOptional.IsPresent);
+            Assert.AreEqual(expectedOptional.Value, actualOptional.Value);
         }
 
         [Test]
@@ -320,6 +322,7 @@ namespace KnowledgeManager.UnitTests.Implementations
             {
                 firstLinguisticVariable, secondLinguisticVariable
             };
+            Optional<List<LinguisticVariable>> expectedOptional = Optional<List<LinguisticVariable>>.For(expectedLinguisticVariables);
 
             // Stubs
             _linguisticVariableParserMock
@@ -333,10 +336,11 @@ namespace KnowledgeManager.UnitTests.Implementations
             _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(secondLinguisticVariableStrings)).Return(secondLinguisticVariable);
 
             // Act
-            List<LinguisticVariable> actuaLinguisticVariables = _fileLinguisticVariableProvider.GetLinguisticVariables();
+            Optional<List<LinguisticVariable>> actualOptional = _fileLinguisticVariableProvider.GetLinguisticVariables();
 
             // Assert
-            Assert.AreEqual(expectedLinguisticVariables, actuaLinguisticVariables);
+            Assert.IsTrue(expectedOptional.IsPresent);
+            Assert.AreEqual(expectedOptional.Value, actualOptional.Value);
             _validationOperationResultLoggerMock.AssertWasCalled(x => x.LogValidationOperationResultMessages(validationOperationResultForThirdVariable, 3));
         }
     }

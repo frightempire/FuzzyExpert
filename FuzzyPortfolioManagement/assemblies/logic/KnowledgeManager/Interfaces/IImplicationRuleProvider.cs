@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using CommonLogic.Entities;
 using ProductionRuleParser.Entities;
 
 namespace KnowledgeManager.Interfaces
 {
     public interface IImplicationRuleProvider
     {
-        List<ImplicationRule> GetImplicationRules();
+        Optional<List<ImplicationRule>> GetImplicationRules();
     }
 }

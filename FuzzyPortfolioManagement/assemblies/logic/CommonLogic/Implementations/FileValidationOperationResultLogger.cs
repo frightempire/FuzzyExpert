@@ -19,7 +19,7 @@ namespace CommonLogic.Implementations
         public void LogValidationOperationResultMessages(ValidationOperationResult validationOperationResult, int errorLine)
         {
             string errorLineString = $"Line {errorLine}";
-            List<string> errorMessages = validationOperationResult.GetMessages();
+            List<string> errorMessages = validationOperationResult.Messages;
             List<string> errorMessagesWithLines = errorMessages.AppendToEachString(errorLineString);
 
             string separatorHeader = DateTime.Now.ToLongTimeString();
@@ -31,7 +31,7 @@ namespace CommonLogic.Implementations
 
         public void LogValidationOperationResultMessages(ValidationOperationResult validationOperationResult)
         {
-            List<string> errorMessages = validationOperationResult.GetMessages();
+            List<string> errorMessages = validationOperationResult.Messages;
 
             string separatorHeader = DateTime.Now.ToLongTimeString();
             errorMessages.Insert(0, separatorHeader);

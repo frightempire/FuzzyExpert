@@ -41,7 +41,7 @@ namespace KnowledgeManager.Implementations
             _validationOperationResultLogger = validationOperationResultLogger;
         }
 
-        public List<LinguisticVariable> GetLinguisticVariables()
+        public Optional<List<LinguisticVariable>> GetLinguisticVariables()
         {
             ExceptionAssert.IsNull(_filePathProvider.FilePath);
             ExceptionAssert.FileExists(_filePathProvider.FilePath);
@@ -68,7 +68,9 @@ namespace KnowledgeManager.Implementations
                 }
             }
 
-            return linguisticVariables;
+            return linguisticVariables.Count == 0 ?
+                Optional<List<LinguisticVariable>>.Empty() :
+                Optional<List<LinguisticVariable>>.For(linguisticVariables);
         }
     }
 }

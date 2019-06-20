@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using CommonLogic.Entities;
 
 namespace DataProvider.Interfaces
 {
     public interface IDataProvider
     {
-        Dictionary<string, double> GetInitialData();
+        Optional<Dictionary<string, double>> GetInitialData();
     }
 }

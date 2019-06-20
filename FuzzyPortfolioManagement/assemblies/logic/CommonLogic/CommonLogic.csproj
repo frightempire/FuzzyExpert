@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Optional.cs" />
     <Compile Include="Entities\StringCharacter.cs" />
     <Compile Include="Entities\ValidationOperationResult.cs" />
     <Compile Include="ExceptionAssert.cs" />

@@ -46,7 +46,7 @@ namespace KnowledgeManager.Implementations
             _validationOperationResultLoger = validationOperationResultLoger;
         }
 
-        public List<ImplicationRule> GetImplicationRules()
+        public Optional<List<ImplicationRule>> GetImplicationRules()
         {
             ExceptionAssert.IsNull(_filePathProvider.FilePath);
             ExceptionAssert.FileExists(_filePathProvider.FilePath);
@@ -72,9 +72,11 @@ namespace KnowledgeManager.Implementations
                 }
             }
 
+            if (implicationRules.Count == 0) return Optional<List<ImplicationRule>>.Empty();
+
             List<ImplicationRule> separatedImplicationRules = DivideComplexImplicationRules(implicationRules);
             SetNamesForUnatyStatements(separatedImplicationRules);
-            return separatedImplicationRules;
+            return Optional<List<ImplicationRule>>.For(separatedImplicationRules);
         }
 
         private List<ImplicationRule> DivideComplexImplicationRules(List<ImplicationRule> implicationRules)

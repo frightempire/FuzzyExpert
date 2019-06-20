@@ -28,7 +28,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -92,7 +92,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -188,7 +188,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -204,7 +204,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -220,7 +220,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -236,7 +236,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -252,7 +252,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -268,7 +268,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.GetMessages().Contains(errorMessage));
+            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
         [Test]
@@ -283,7 +283,7 @@ namespace MembershipFunctionParser.UnitTests.Implementations
 
             // Assert
             Assert.AreEqual(true, validationOperationResult.IsSuccess);
-            Assert.AreEqual(0, validationOperationResult.GetMessages().Count);
+            Assert.AreEqual(0, validationOperationResult.Messages.Count);
         }
     }
 }
