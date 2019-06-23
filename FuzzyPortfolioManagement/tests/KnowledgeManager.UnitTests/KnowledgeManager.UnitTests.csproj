@@ -53,6 +53,8 @@
     <Compile Include="Helpers\NameSupervisorTests.cs" />
     <Compile Include="Implementations\FileImplicationRuleProviderTests.cs" />
     <Compile Include="Implementations\FileLinguisticVariableProviderTests.cs" />
+    <Compile Include="Implementations\LinguisticVariableFilePathProviderTests.cs" />
+    <Compile Include="Implementations\ImplicationRuleFilePathProviderTests.cs" />
     <Compile Include="Implementations\ImplicationRuleManagerTests.cs" />
     <Compile Include="Implementations\KnowledgeBaseManagerTests.cs" />
     <Compile Include="Implementations\KnowledgeBaseValidatorTests.cs" />

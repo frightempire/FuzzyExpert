@@ -10,13 +10,13 @@ namespace DataProvider.Implementations
     {
         private readonly IFileParser<List<string[]>> _csvParser;
         private readonly IParsingResultValidator _validator;
-        private readonly IFilePathProvider _filePathProvider;
+        private readonly IDataFilePathProvider _filePathProvider;
         private readonly IValidationOperationResultLogger _validationOperationResultLoger;
 
         public CsvDataProvider(
             IFileParser<List<string[]>> csvParser,
             IParsingResultValidator validator,
-            IFilePathProvider filePathProvider,
+            IDataFilePathProvider filePathProvider,
             IValidationOperationResultLogger validationOperationResultLoger)
         {
             ExceptionAssert.IsNull(csvParser);

@@ -4,6 +4,7 @@ using System.IO;
 using CommonLogic.Entities;
 using CommonLogic.Interfaces;
 using KnowledgeManager.Implementations;
+using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
 using LinguisticVariableParser.Interfaces;
 using MembershipFunctionParser.Entities;
@@ -21,7 +22,7 @@ namespace KnowledgeManager.UnitTests.Implementations
         private ILinguisticVariableValidator _linguisticVariableValidatorMock;
         private ILinguisticVariableParser _linguisticVariableParserMock;
         private ILinguisticVariableCreator _linguisticVariableCreatorMock;
-        private IFilePathProvider _filePathProviderMock;
+        private ILinguisticVariableFilePathProvider _filePathProviderMock;
         private IFileOperations _fileOperationsMock;
         private IValidationOperationResultLogger _validationOperationResultLoggerMock;
         private FileLinguisticVariableProvider _fileLinguisticVariableProvider;
@@ -32,7 +33,7 @@ namespace KnowledgeManager.UnitTests.Implementations
             _linguisticVariableValidatorMock = MockRepository.GenerateMock<ILinguisticVariableValidator>();
             _linguisticVariableParserMock = MockRepository.GenerateMock<ILinguisticVariableParser>();
             _linguisticVariableCreatorMock = MockRepository.GenerateMock<ILinguisticVariableCreator>();
-            _filePathProviderMock = MockRepository.GenerateMock<IFilePathProvider>();
+            _filePathProviderMock = MockRepository.GenerateMock<ILinguisticVariableFilePathProvider>();
             _filePathProviderMock.Stub(x => x.FilePath).PropertyBehavior();
             _fileOperationsMock = MockRepository.GenerateMock<IFileOperations>();
             _validationOperationResultLoggerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();

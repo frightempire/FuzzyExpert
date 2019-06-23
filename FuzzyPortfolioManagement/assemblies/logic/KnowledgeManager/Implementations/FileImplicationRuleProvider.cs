@@ -13,7 +13,7 @@ namespace KnowledgeManager.Implementations
     public class FileImplicationRuleProvider : IImplicationRuleProvider
     {
         private readonly IFileOperations _fileOperations;
-        private readonly IFilePathProvider _filePathProvider;
+        private readonly IImplicationRuleFilePathProvider _filePathProvider;
         private readonly IImplicationRuleCreator _implicationRuleCreator;
         private readonly IImplicationRuleParser _implicationRuleParser;
         private readonly IImplicationRuleValidator _implicationRuleValidator;
@@ -22,7 +22,7 @@ namespace KnowledgeManager.Implementations
 
         public FileImplicationRuleProvider(
             IFileOperations fileOperations,
-            IFilePathProvider filePathProvider,
+            IImplicationRuleFilePathProvider filePathProvider,
             IImplicationRuleValidator implicationRuleValidator,
             IImplicationRuleParser implicationRuleParser,
             IImplicationRuleCreator implicationRuleCreator,

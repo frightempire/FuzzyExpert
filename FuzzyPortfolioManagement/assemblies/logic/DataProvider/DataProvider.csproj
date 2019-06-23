@@ -43,8 +43,10 @@
   <ItemGroup>
     <Compile Include="Implementations\CsvFileParser.cs" />
     <Compile Include="Implementations\CsvDataProvider.cs" />
+    <Compile Include="Implementations\InitialDataFilePathProvider.cs" />
     <Compile Include="Interfaces\IDataProvider.cs" />
     <Compile Include="Interfaces\IFileParser.cs" />
+    <Compile Include="Interfaces\IDataFilePathProvider.cs" />
     <Compile Include="Interfaces\IParsingResultValidator.cs" />
     <Compile Include="Implementations\ParsingResultValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Implementations\CsvDataProviderTests.cs" />
     <Compile Include="Implementations\CsvFileParserTests.cs" />
+    <Compile Include="Implementations\InitialDataFilePathProviderTests.cs" />
     <Compile Include="Implementations\ParsingResultValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -68,6 +69,10 @@
     <ProjectReference Include="..\..\assemblies\logic\DataProvider\DataProvider.csproj">
       <Project>{0564A426-5D14-434E-AB64-E1DB6D287256}</Project>
       <Name>DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\assemblies\logic\KnowledgeManager\KnowledgeManager.csproj">
+      <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
+      <Name>KnowledgeManager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

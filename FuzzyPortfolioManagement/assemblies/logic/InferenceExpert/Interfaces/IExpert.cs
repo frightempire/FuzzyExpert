@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using InferenceExpert.Entities;
+﻿using InferenceExpert.Entities;
 
 namespace InferenceExpert.Interfaces
 {

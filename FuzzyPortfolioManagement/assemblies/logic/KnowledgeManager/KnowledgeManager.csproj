@@ -42,6 +42,10 @@
   <ItemGroup>
     <Compile Include="Entities\KnowledgeBase.cs" />
     <Compile Include="Entities\LinguisticVariableRelations.cs" />
+    <Compile Include="Implementations\ImplicationRuleFilePathProvider.cs" />
+    <Compile Include="Implementations\LinguisticVariableFilePathProvider.cs" />
+    <Compile Include="Interfaces\IImplicationRuleFilePathProvider.cs" />
+    <Compile Include="Interfaces\ILinguisticVariableFilePathProvider.cs" />
     <Compile Include="Interfaces\ILinguisticVariableRelationsInitializer.cs" />
     <Compile Include="Interfaces\INameSupervisor.cs" />
     <Compile Include="Helpers\NameSupervisor.cs" />

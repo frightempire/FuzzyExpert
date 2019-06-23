@@ -19,7 +19,7 @@ namespace KnowledgeManager.UnitTests.Implementations
         private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\TestFile.txt");
 
         private IFileOperations _fileOperationsMock;
-        private IFilePathProvider _filePathProviderMock;
+        private IImplicationRuleFilePathProvider _filePathProviderMock;
         private IImplicationRuleValidator _implicationRuleValidatorMock;
         private IImplicationRuleParser _implicationRuleParserMock;
         private IImplicationRuleCreator _implicationRuleCreatorMock;
@@ -34,7 +34,7 @@ namespace KnowledgeManager.UnitTests.Implementations
             _fileOperationsMock = MockRepository.GenerateMock<IFileOperations>();
             _validationOperationResultLoggerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();
 
-            _filePathProviderMock = MockRepository.GenerateMock<IFilePathProvider>();
+            _filePathProviderMock = MockRepository.GenerateMock<IImplicationRuleFilePathProvider>();
             _filePathProviderMock.Stub(x => x.FilePath).PropertyBehavior();
 
             _implicationRuleValidatorMock = MockRepository.GenerateMock<IImplicationRuleValidator>();

@@ -11,7 +11,7 @@ namespace KnowledgeManager.Implementations
 {
     public class FileLinguisticVariableProvider : ILinguisticVariableProvider
     {
-        private readonly IFilePathProvider _filePathProvider;
+        private readonly ILinguisticVariableFilePathProvider _filePathProvider;
         private readonly IFileOperations _fileOperations;
         private readonly ILinguisticVariableValidator _linguisticVariableValidator;
         private readonly ILinguisticVariableParser _linguisticVariableParser;
@@ -22,7 +22,7 @@ namespace KnowledgeManager.Implementations
             ILinguisticVariableValidator linguisticVariableValidator,
             ILinguisticVariableParser linguisticVariableParser,
             ILinguisticVariableCreator linguisticVariableCreator,
-            IFilePathProvider filePathProvider,
+            ILinguisticVariableFilePathProvider filePathProvider,
             IFileOperations fileOperations,
             IValidationOperationResultLogger validationOperationResultLogger)
         {

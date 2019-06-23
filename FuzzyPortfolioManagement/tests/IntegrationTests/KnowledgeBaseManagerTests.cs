@@ -34,7 +34,7 @@ namespace IntegrationTests
             FileValidationOperationResultLogger fileValidationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 
             // Implication rule manager
-            FilePathProvider filePathProviderForImplicationRules = new FilePathProvider { FilePath = _filePathImplicationRules };
+            ImplicationRuleFilePathProvider filePathProviderForImplicationRules = new ImplicationRuleFilePathProvider { FilePath = _filePathImplicationRules };
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleValidator ruleValidator = new ImplicationRuleValidator();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
@@ -58,7 +58,7 @@ namespace IntegrationTests
                 new LinguisticVariableParser.Implementations.LinguisticVariableParser(membershipFunctionParser);
             MembershipFunctionCreator membershipFunctionCreator = new MembershipFunctionCreator();
             LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator);
-            FilePathProvider filePathProviderForLinguisticVariables = new FilePathProvider { FilePath = _filePathLinguisticVariables };
+            LinguisticVariableFilePathProvider filePathProviderForLinguisticVariables = new LinguisticVariableFilePathProvider { FilePath = _filePathLinguisticVariables };
             FileLinguisticVariableProvider linguisticVariableProvider = new FileLinguisticVariableProvider(
                 linguisticVariableValidator,
                 linguisticVariableParser,

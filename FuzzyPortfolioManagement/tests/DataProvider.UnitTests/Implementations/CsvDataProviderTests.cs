@@ -17,7 +17,7 @@ namespace DataProvider.UnitTests.Implementations
 
         private IFileParser<List<string[]>> _csvParserMock;
         private IParsingResultValidator _validatorMock;
-        private IFilePathProvider _filePathProviderMock;
+        private IDataFilePathProvider _filePathProviderMock;
         private IValidationOperationResultLogger _validationOperationResultLogerMock;
         private CsvDataProvider _csvDataProvider;
 
@@ -26,7 +26,7 @@ namespace DataProvider.UnitTests.Implementations
         {
             _csvParserMock = MockRepository.GenerateMock<IFileParser<List<string[]>>>();
             _validatorMock = MockRepository.GenerateMock<IParsingResultValidator>();
-            _filePathProviderMock = MockRepository.GenerateMock<IFilePathProvider>();
+            _filePathProviderMock = MockRepository.GenerateMock<IDataFilePathProvider>();
             _validationOperationResultLogerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();
             _csvDataProvider = new CsvDataProvider(_csvParserMock, _validatorMock, _filePathProviderMock, _validationOperationResultLogerMock);
         }

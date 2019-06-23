@@ -61,6 +61,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InferenceExpert", "assembli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InferenceExpert.UnitTests", "tests\InferenceExpert.UnitTests\InferenceExpert.UnitTests.csproj", "{868B4BE9-98E0-4E9E-9C22-CCD817415B3F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{2B79862A-3948-444D-AB3F-A2B0E9B050BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyPortfolioManagement.Console.Client", "assemblies\UI\Console\FuzzyPortfolioManagement.Console.Client\FuzzyPortfolioManagement.Console.Client.csproj", "{7B63845B-5C64-4321-A7C0-13754014427B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +163,10 @@ Global
 		{868B4BE9-98E0-4E9E-9C22-CCD817415B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{868B4BE9-98E0-4E9E-9C22-CCD817415B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{868B4BE9-98E0-4E9E-9C22-CCD817415B3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B63845B-5C64-4321-A7C0-13754014427B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B63845B-5C64-4321-A7C0-13754014427B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B63845B-5C64-4321-A7C0-13754014427B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B63845B-5C64-4321-A7C0-13754014427B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -191,6 +199,8 @@ Global
 		{D0F3D70F-1D8F-4224-B770-A3DEB42206CF} = {818DD658-EF38-4EC9-9192-000D58FFA287}
 		{50DC820E-A48B-4625-ACAB-7F93BFF87AF3} = {968359FD-E8AC-4BB6-855D-BCD3F78EA9FA}
 		{868B4BE9-98E0-4E9E-9C22-CCD817415B3F} = {818DD658-EF38-4EC9-9192-000D58FFA287}
+		{2B79862A-3948-444D-AB3F-A2B0E9B050BE} = {A0800D9E-08F4-49B6-B6FB-E2E295EDB0D2}
+		{7B63845B-5C64-4321-A7C0-13754014427B} = {2B79862A-3948-444D-AB3F-A2B0E9B050BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C02048F-FD3D-413C-BF07-FD63D8B77511}

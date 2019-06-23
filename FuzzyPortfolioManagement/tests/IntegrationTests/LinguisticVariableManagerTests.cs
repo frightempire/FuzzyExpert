@@ -17,7 +17,7 @@ namespace IntegrationTests
     public class LinguisticVariableManagerTests
     {
         private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\LinguisticVariables.txt");
-        private FilePathProvider _filePathProvider;
+        private LinguisticVariableFilePathProvider _filePathProvider;
 
         private LinguisticVariableManager _linguisticVariableManager;
 
@@ -37,7 +37,7 @@ namespace IntegrationTests
                 new LinguisticVariableParser.Implementations.LinguisticVariableParser(membershipFunctionParser);
             MembershipFunctionCreator membershipFunctionCreator = new MembershipFunctionCreator();
             LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator);
-            _filePathProvider = new FilePathProvider {FilePath = _filePath};
+            _filePathProvider = new LinguisticVariableFilePathProvider {FilePath = _filePath};
             FileOperations fileOperations = new FileOperations();
             FileValidationOperationResultLogger validationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 

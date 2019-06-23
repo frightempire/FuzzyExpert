@@ -1,17 +1,17 @@
-﻿using CommonLogic.Implementations;
+﻿using DataProvider.Implementations;
 using NUnit.Framework;
 
-namespace CommonLogic.UnitTests.Implementations
+namespace DataProvider.UnitTests.Implementations
 {
     [TestFixture]
-    public class FilePathProviderTests
+    public class InitialDataFilePathProviderTests
     {
-        private FilePathProvider _filePathProvider;
+        private InitialDataFilePathProvider _filePathProvider;
 
         [SetUp]
         public void SetUp()
         {
-            _filePathProvider = new FilePathProvider();
+            _filePathProvider = new InitialDataFilePathProvider();
         }
 
         [Test]

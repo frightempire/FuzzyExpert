@@ -15,7 +15,7 @@ namespace ProductionRuleSelectorAction.ViewModels
     public class ImplicationRuleSelectorActionModel: INotifyPropertyChanged
     {
         private readonly IFileDialogInteractor _fileDialogInteractor;
-        private readonly IFilePathProvider _filePathProvider;
+        private readonly IImplicationRuleFilePathProvider _filePathProvider;
         private readonly IImplicationRuleManager _implicationRuleManager;
 
         private string _filePath;
@@ -34,7 +34,7 @@ namespace ProductionRuleSelectorAction.ViewModels
 
         public ImplicationRuleSelectorActionModel(
             IFileDialogInteractor fileDialogInteractor,
-            IFilePathProvider filePathProvider,
+            IImplicationRuleFilePathProvider filePathProvider,
             IImplicationRuleManager implicationRuleManager)
         {
             ExceptionAssert.IsNull(fileDialogInteractor);

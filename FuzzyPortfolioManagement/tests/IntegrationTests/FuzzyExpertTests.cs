@@ -47,7 +47,7 @@ namespace IntegrationTests
             FileValidationOperationResultLogger fileValidationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 
             // Implication rule manager
-            FilePathProvider filePathProviderForImplicationRules = new FilePathProvider { FilePath = _filePathImplicationRules };
+            ImplicationRuleFilePathProvider filePathProviderForImplicationRules = new ImplicationRuleFilePathProvider { FilePath = _filePathImplicationRules };
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleValidator ruleValidator = new ImplicationRuleValidator();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
@@ -71,7 +71,7 @@ namespace IntegrationTests
                 new LinguisticVariableParser.Implementations.LinguisticVariableParser(membershipFunctionParser);
             MembershipFunctionCreator membershipFunctionCreator = new MembershipFunctionCreator();
             LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator);
-            FilePathProvider filePathProviderForLinguisticVariables = new FilePathProvider { FilePath = _filePathLinguisticVariables };
+            LinguisticVariableFilePathProvider filePathProviderForLinguisticVariables = new LinguisticVariableFilePathProvider { FilePath = _filePathLinguisticVariables };
             FileLinguisticVariableProvider linguisticVariableProvider = new FileLinguisticVariableProvider(
                 linguisticVariableValidator,
                 linguisticVariableParser,
@@ -96,7 +96,7 @@ namespace IntegrationTests
         {
             CsvFileParser csvParser = new CsvFileParser();
             ParsingResultValidator validator = new ParsingResultValidator();
-            FilePathProvider filePathProviderMock = new FilePathProvider { FilePath = _initialDataFilePath };
+            InitialDataFilePathProvider filePathProviderMock = new InitialDataFilePathProvider { FilePath = _initialDataFilePath };
             FileValidationOperationResultLogger resultLogger = new FileValidationOperationResultLogger(new FileOperations());
             _initialDataProvider = new CsvDataProvider(csvParser, validator, filePathProviderMock, resultLogger);
         }

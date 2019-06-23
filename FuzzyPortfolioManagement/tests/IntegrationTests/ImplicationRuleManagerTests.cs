@@ -19,7 +19,7 @@ namespace IntegrationTests
         private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\ImplicationRules.txt");
 
         private ImplicationRuleManager _implicationRuleManager;
-        private FilePathProvider _filePathProvider;
+        private ImplicationRuleFilePathProvider _filePathProvider;
 
         [SetUp]
         public void SetUp()
@@ -30,7 +30,7 @@ namespace IntegrationTests
         private void PrepareImplicationRuleManager()
         {
             FileOperations fileOperations = new FileOperations();
-            _filePathProvider = new FilePathProvider
+            _filePathProvider = new ImplicationRuleFilePathProvider
             {
                 FilePath = _filePath
             };
