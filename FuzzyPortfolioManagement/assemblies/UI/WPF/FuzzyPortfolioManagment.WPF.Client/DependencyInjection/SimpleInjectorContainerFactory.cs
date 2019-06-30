@@ -15,7 +15,7 @@ using SimpleInjector;
 using UILogic.Common.Implementations;
 using UILogic.Common.Interfaces;
 
-namespace FuzzyPortfolioManagment.Client.DependencyInjection
+namespace FuzzyPortfolioManagment.WPF.Client.DependencyInjection
 {
     public class SimpleInjectorContainerFactory
     {

@@ -2,7 +2,7 @@
 using CommonLogic;
 using SimpleInjector;
 
-namespace FuzzyPortfolioManagment.Client.DependencyInjection
+namespace FuzzyPortfolioManagment.WPF.Client.DependencyInjection
 {
     public class SimpleInjectorResolver
     {

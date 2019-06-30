@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using FuzzyPortfolioManagment.Client.DependencyInjection;
+using FuzzyPortfolioManagment.WPF.Client.DependencyInjection;
 using ProductionRuleSelectorAction.Panels;
 using SimpleInjector;
 
-namespace FuzzyPortfolioManagment.Client
+namespace FuzzyPortfolioManagment.WPF.Client
 {
     public partial class App : Application
     {

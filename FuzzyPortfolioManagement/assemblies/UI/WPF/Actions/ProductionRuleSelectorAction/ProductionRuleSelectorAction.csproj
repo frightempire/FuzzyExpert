@@ -110,7 +110,7 @@
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRuleParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\UILogic.Common\UILogic.Common.csproj">
+    <ProjectReference Include="..\..\..\UILogic.Common\UILogic.Common.csproj">
       <Project>{f2adf165-2aff-4c75-96aa-937ed014e1f6}</Project>
       <Name>UILogic.Common</Name>
     </ProjectReference>

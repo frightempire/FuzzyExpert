@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using CommonLogic;
-using CommonLogic.Interfaces;
 using KnowledgeManager.Interfaces;
 using ProductionRuleParser.Entities;
 using ProductionRuleSelectorAction.Annotations;
