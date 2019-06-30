@@ -17,7 +17,7 @@ namespace FuzzyPortfolioManagment.WPF.Client
             Container container = containerFactory.CreateSimpleInjectorContainer();
             SimpleInjectorResolver resolver = new SimpleInjectorResolver(container);
 
-            var startUpWindow = (ImplicationRuleSelectorAction) resolver.Resolve(typeof(ImplicationRuleSelectorAction));
+            var startUpWindow = (InferenceAction) resolver.Resolve(typeof(InferenceAction));
             startUpWindow.Show();
         }
 

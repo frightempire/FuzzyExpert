@@ -96,6 +96,22 @@
       <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
       <Name>CommonLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\DataProvider\DataProvider.csproj">
+      <Project>{0564A426-5D14-434E-AB64-E1DB6D287256}</Project>
+      <Name>DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\FuzzificationEngine\FuzzificationEngine.csproj">
+      <Project>{5CFB7C0E-4F21-4657-A26C-888B8679D2A6}</Project>
+      <Name>FuzzificationEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\InferenceEngine\InferenceEngine.csproj">
+      <Project>{3947BBA1-CFD7-4408-8F48-8FCF255CD3AA}</Project>
+      <Name>InferenceEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\InferenceExpert\InferenceExpert.csproj">
+      <Project>{50DC820E-A48B-4625-ACAB-7F93BFF87AF3}</Project>
+      <Name>InferenceExpert</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\logic\KnowledgeManager\KnowledgeManager.csproj">
       <Project>{67D42C31-9FF5-47BD-B3EA-DC8AE79FB4DC}</Project>
       <Name>KnowledgeManager</Name>

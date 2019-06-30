@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\ImplicationRuleFileDialogInteractor.cs" />
+    <Compile Include="Implementations\FileDialogInteractor.cs" />
     <Compile Include="Interfaces\IFileDialogInteractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -3,7 +3,7 @@ using UILogic.Common.Interfaces;
 
 namespace UILogic.Common.Implementations
 {
-    public class ImplicationRuleFileDialogInteractor: IFileDialogInteractor
+    public class FileDialogInteractor: IFileDialogInteractor
     {
         public string FilePath { get; set; }
 
@@ -11,8 +11,7 @@ namespace UILogic.Common.Implementations
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                DefaultExt = ".txt",
-                Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"
+                DefaultExt = ".txt|.csv"
             };
 
             bool? fileDialogResult = openFileDialog.ShowDialog();

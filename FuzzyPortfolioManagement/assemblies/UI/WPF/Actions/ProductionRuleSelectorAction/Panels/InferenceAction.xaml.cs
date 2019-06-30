@@ -3,9 +3,9 @@ using ProductionRuleSelectorAction.ViewModels;
 
 namespace ProductionRuleSelectorAction.Panels
 {
-    public partial class ImplicationRuleSelectorAction : Window
+    public partial class InferenceAction : Window
     {
-        public ImplicationRuleSelectorAction(ImplicationRuleSelectorActionModel viewModel)
+        public InferenceAction(InferenceActionModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
