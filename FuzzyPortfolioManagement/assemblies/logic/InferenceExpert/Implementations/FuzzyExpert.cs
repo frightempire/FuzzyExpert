@@ -2,6 +2,7 @@
 using System.Linq;
 using CommonLogic;
 using CommonLogic.Entities;
+using DataProvider.Entities;
 using DataProvider.Interfaces;
 using FuzzificationEngine.Interfaces;
 using InferenceEngine.Interfaces;
@@ -39,36 +40,52 @@ namespace InferenceExpert.Implementations
             _fuzzyEngine = fuzzyEngine;
         }
 
-        // TODO: Validate initial data names against knowledge base
         public ExpertOpinion GetResult()
         {
-            Optional<Dictionary<string, double>> initialData = _initialDataProvider.GetInitialData();
+            Optional<List<InitialData>> initialData = _initialDataProvider.GetInitialData();
             Optional<KnowledgeBase> knowledgeBase = _knowledgeManager.GetKnowledgeBase();
 
             ExpertOpinion opinion = new ExpertOpinion();
             if (!initialData.IsPresent) opinion.AddErrorMessage("Initial data is not consistent. Check logs for more information.");
             if (!knowledgeBase.IsPresent) opinion.AddErrorMessage("Knowledge base is not consistent. Check logs for more information.");
+            ValidateInitialDataAgainstKnowledgeBase(initialData, knowledgeBase, opinion);
+
             if (!opinion.IsSuccess) return opinion;
 
             FillInferenceEngineRules(knowledgeBase.Value);
-            List<string> activatedNodes = GetActivatedNodes(knowledgeBase.Value, initialData.Value);
-
+            List<InitialData> activatedNodes = GetInitialNodes(knowledgeBase.Value, initialData.Value);
             opinion.AddResults(_inferenceEngine.GetInferenceResults(activatedNodes));
             return opinion;
         }
 
-        private List<string> GetActivatedNodes(KnowledgeBase knowledgeBase, Dictionary<string, double> initialData)
+        private void ValidateInitialDataAgainstKnowledgeBase(
+            Optional<List<InitialData>> initialData,
+            Optional<KnowledgeBase> knowledgeBase,
+            ExpertOpinion opinion)
+        {
+            foreach (var data in initialData.Value)
+            {
+                KeyValuePair<int, LinguisticVariable> matchingVariable =
+                    knowledgeBase.Value.LinguisticVariables.SingleOrDefault(lv => lv.Value.VariableName == data.Name);
+                if (matchingVariable.Value == null)
+                {
+                    opinion.AddErrorMessage($"Initial data {data.Name} is not present in lingustic variables base.");
+                }
+            }
+        }
+
+        private List<InitialData> GetInitialNodes(KnowledgeBase knowledgeBase, List<InitialData> initialData)
         {
             List<UnaryStatement> ifUnaryStatements = knowledgeBase.ImplicationRules
                 .SelectMany(ir => ir.Value.IfStatement.SelectMany(ifs => ifs.UnaryStatements))
                 .ToList();
 
-            List<string> activatedNodes = new List<string>();
+            List<InitialData> activatedNodes = new List<InitialData>();
 
             foreach (var data in initialData)
             {
                 KeyValuePair<int, LinguisticVariable> matchingVariable = knowledgeBase.LinguisticVariables
-                    .SingleOrDefault(lv => lv.Value.VariableName == data.Key);
+                    .SingleOrDefault(lv => lv.Value.VariableName == data.Name);
                 List<string> relatedStatementNames = knowledgeBase.LinguisticVariablesRelations
                     .SingleOrDefault(lvr => lvr.LinguisticVariableNumber == matchingVariable.Key)
                     ?.RelatedUnaryStatementNames;
@@ -78,9 +95,8 @@ namespace InferenceExpert.Implementations
                 foreach (var name in relatedStatementNames)
                 {
                     UnaryStatement matchingStatement = ifUnaryStatements
-                        .FirstOrDefault(
-                            ius => ius.Name == name && ius.RightOperand == membershipFunction.LinguisticVariableName);
-                    if (matchingStatement != null) activatedNodes.Add(name);
+                        .FirstOrDefault(ius => ius.Name == name && ius.RightOperand == membershipFunction.LinguisticVariableName);
+                    if (matchingStatement != null) activatedNodes.Add(new InitialData(name, data.Value, data.ConfidenceFactor));
                 }
             }
             return activatedNodes;

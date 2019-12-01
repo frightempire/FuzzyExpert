@@ -6,10 +6,10 @@ namespace InferenceEngine.Interfaces
     {
         string Name { get; }
 
-        bool Active { get; }
+        double ConfidenceFactor { get; }
 
         List<IInferenceRule> RelatedRules { get; }
 
-        void ActivateNode();
+        void UpdateConfidenceFactor(double confidenceFactor);
     }
 }

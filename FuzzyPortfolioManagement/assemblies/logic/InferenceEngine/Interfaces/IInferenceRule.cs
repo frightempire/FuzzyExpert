@@ -2,8 +2,8 @@
 {
     public interface IInferenceRule
     {
-        bool? Status { get; }
+        double ConfidenceFactor { get; }
 
-        void UpdateStatus();
+        void UpdateConfidenceFactor();
     }
 }

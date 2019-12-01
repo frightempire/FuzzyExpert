@@ -18,6 +18,8 @@ using MembershipFunctionParser.Implementations;
 using MembershipFunctionParser.Interfaces;
 using ProductionRuleParser.Implementations;
 using ProductionRuleParser.Interfaces;
+using ResultLogging.Implementations;
+using ResultLogging.Interfaces;
 using SimpleInjector;
 
 namespace FuzzyPortfolioManagement.Console.Client.DependencyInjection
@@ -64,6 +66,9 @@ namespace FuzzyPortfolioManagement.Console.Client.DependencyInjection
             _container.Register<IInferenceEngine, InferenceGraph>(Lifestyle.Singleton);
             _container.Register<IFuzzyEngine, FuzzyEngine>(Lifestyle.Singleton);
             _container.Register<IExpert, FuzzyExpert>(Lifestyle.Singleton);
+
+            // Logging
+            _container.Register<IInferenceResultLogger, InferenceResultLogger>(Lifestyle.Singleton);
 
             _container.Verify();
             return _container;

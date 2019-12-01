@@ -9,6 +9,7 @@ namespace InferenceEngine.Implementations
     public class GraphRule : IInferenceRule
     {
         private readonly List<IInferenceNode> _ifNodes;
+        private readonly LogicalOperation _operation;
         private readonly List<IInferenceNode> _thenNodes;
 
         public GraphRule(List<IInferenceNode> ifNodes, LogicalOperation operation, List<IInferenceNode> thenNodes)
@@ -17,50 +18,38 @@ namespace InferenceEngine.Implementations
             if (thenNodes == null || thenNodes.Count == 0) throw new ArgumentNullException(nameof(thenNodes));
 
             _ifNodes = ifNodes;
+            _operation = operation;
             _thenNodes = thenNodes;
-
-            MinMax = CalculateNeededNumberOfActivatedNodes(operation, ifNodes.Count);
         }
 
-        public bool? Status { get; private set; }
+        public double ConfidenceFactor { get; private set; }
 
-        public Tuple<int, int> MinMax { get; }
-
-        public void UpdateStatus()
+        public void UpdateConfidenceFactor()
         {
-            if (Status == true) return;
+            int activeNodesCount = _ifNodes.Count(ifn => ifn.ConfidenceFactor != 0);
+            if (activeNodesCount != _ifNodes.Count) return;
 
-            Status = ReavaluateStatus();
-            if (Status != true) return;
+            double confidenceFactor = ReavaluateConfidenceFactor();
 
-            _thenNodes.ForEach(tn => tn.ActivateNode());
+            if (confidenceFactor > ConfidenceFactor && ConfidenceFactor != 0) return;
+
+            ConfidenceFactor = confidenceFactor;
+            _thenNodes.ForEach(tn => tn.UpdateConfidenceFactor(ConfidenceFactor));
         }
 
-        private bool? ReavaluateStatus()
+        private double ReavaluateConfidenceFactor()
         {
-            int activeNodesCount = _ifNodes.Count(ifn => ifn.Active);
-            return activeNodesCount >= MinMax.Item1 && activeNodesCount <= MinMax.Item2;
-        }
-
-        private Tuple<int, int> CalculateNeededNumberOfActivatedNodes(LogicalOperation operation, int ifNodesCount)
-        {
-            Tuple<int, int> min_max;
-            switch (operation)
+            switch (_operation)
             {
                 case LogicalOperation.And:
-                    min_max = new Tuple<int, int>(ifNodesCount, ifNodesCount);
-                    break;
+                    return _ifNodes.Select(ifn => ifn.ConfidenceFactor).Min();
                 case LogicalOperation.Or:
-                    min_max = new Tuple<int, int>(1, ifNodesCount);
-                    break;
+                    return _ifNodes.Select(ifn => ifn.ConfidenceFactor).Max();
                 case LogicalOperation.None:
-                    if (ifNodesCount != 1) throw new ArgumentException($"Operation is {operation}; if nodes count is {ifNodesCount} it should be 1.");
-                    min_max = new Tuple<int, int>(1, 1);
-                    break;
+                    return _ifNodes.Select(ifn => ifn.ConfidenceFactor).First();
                 default:
-                    throw new ArgumentException($"Operaiton {operation} is not recognized.");
+                    throw new ArgumentException($"Operaiton {_operation} is not recognized.");
             }
-            return min_max;
         }
     }
 }

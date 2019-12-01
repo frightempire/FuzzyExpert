@@ -25,9 +25,10 @@ namespace KnowledgeManager.UnitTests.Implementations
         public void ValidateLinguisticVariablesNames_ReturnValidationOperationResultWithErrorIfOneOfVariablesInImplicationRulesIsNotKnownToKnowledgeBase()
         {
             // Arrange
+            string expectedVariable = "Air";
             Dictionary<int, ImplicationRule> implicationRules = PrepareImplicationRules();
             Dictionary<int, LinguisticVariable> linguisticVariables = PrepareLinguisticVariables();
-            string errorMessage = "Knowledge base: one of linguistic variables in implication rule is unknown to linguistic variable base";
+            string errorMessage = $"Knowledge base: linguistic variable {expectedVariable} is unknown to linguistic variable base";
 
             // Act
             ValidationOperationResult validationOperationResult = _knowledgeBaseValidator.ValidateLinguisticVariablesNames(

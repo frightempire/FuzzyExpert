@@ -3,6 +3,7 @@ using FuzzyPortfolioManagement.Console.Client.DependencyInjection;
 using InferenceExpert.Entities;
 using InferenceExpert.Interfaces;
 using KnowledgeManager.Interfaces;
+using ResultLogging.Interfaces;
 using SimpleInjector;
 using SystemConsole = System.Console;
 
@@ -17,7 +18,6 @@ namespace FuzzyPortfolioManagement.Console.Client
             string implicationRulesPath = SystemConsole.ReadLine();
             SystemConsole.WriteLine("Linguistic variables :");
             string linguisticVariablesPath = SystemConsole.ReadLine();
-
             SystemConsole.WriteLine("Specify initial data :");
             string initialDataPath = SystemConsole.ReadLine();
             SystemConsole.WriteLine();
@@ -29,22 +29,19 @@ namespace FuzzyPortfolioManagement.Console.Client
             var linguisticVariableFilePathProvider = (ILinguisticVariableFilePathProvider)containerResolver.Resolve(typeof(ILinguisticVariableFilePathProvider));
             var initialDataFilePathProvider = (IDataFilePathProvider)containerResolver.Resolve(typeof(IDataFilePathProvider));
             var knowledgeBaseManager = (IKnowledgeBaseManager) containerResolver.Resolve(typeof(IKnowledgeBaseManager));
+            var resultLogging = (IInferenceResultLogger) containerResolver.Resolve(typeof(IInferenceResultLogger));
 
             implicationRuleFilePathProvider.FilePath = implicationRulesPath;
             linguisticVariableFilePathProvider.FilePath = linguisticVariablesPath;
             initialDataFilePathProvider.FilePath = initialDataPath;
 
+            resultLogging.LogImplicationRules(knowledgeBaseManager.GetKnowledgeBase().Value.ImplicationRules);
+
             ExpertOpinion expertOpinion = expert.GetResult();
-
-            foreach (var implicationRule in knowledgeBaseManager.GetKnowledgeBase().Value.ImplicationRules)
-            {
-                SystemConsole.WriteLine($"Implication rule {implicationRule.Key} : {implicationRule.Value}");
-            }
-
             if (expertOpinion.IsSuccess)
             {
                 SystemConsole.WriteLine("Inference successfull!\n");
-                SystemConsole.WriteLine(string.Join(" ", expertOpinion.Result));
+                resultLogging.LogInferenceResult(expertOpinion.Result);
             }
             else
             {

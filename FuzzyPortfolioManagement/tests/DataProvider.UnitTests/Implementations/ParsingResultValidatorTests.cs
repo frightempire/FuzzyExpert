@@ -37,8 +37,9 @@ namespace DataProvider.UnitTests.Implementations
             string faltedValue = "init2";
             List<string[]> input = new List<string[]>
             {
-                new []{ "init1", "1" },
-                new []{ faltedValue }
+                new []{ "init1", "1", "0.1" },
+                new []{ faltedValue, "0.1" },
+                new []{ "init3", "2", "0.1" }
             };
 
             // Act
@@ -57,8 +58,9 @@ namespace DataProvider.UnitTests.Implementations
             string faltedValue = "init2";
             List<string[]> input = new List<string[]>
             {
-                new []{ "init1", "1" },
-                new []{ faltedValue, "1", "not_needed" }
+                new []{ "init1", "1", "0.1" },
+                new []{ faltedValue, "1", "0.1", "not_needed" },
+                new []{ "init3", "2", "0.1" }
             };
 
             // Act
@@ -77,8 +79,28 @@ namespace DataProvider.UnitTests.Implementations
             string faltedValue = "init2";
             List<string[]> input = new List<string[]>
             {
-                new []{ "init1", "1" },
-                new []{ faltedValue, "not_numerical", }
+                new []{ "init1", "1", "0.1" },
+                new []{ faltedValue, "not_numerical", "0.1" }
+            };
+
+            // Act
+            ValidationOperationResult result = _validator.Validate(input);
+
+            // Assert
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual(result.Messages.Count, 1);
+            Assert.IsTrue(result.Messages[0].Contains(faltedValue));
+        }
+
+        [Test]
+        public void Validate_ReturnsFalse_IfThirdValueIsNotInRange()
+        {
+            // Arrange
+            string faltedValue = "init2";
+            List<string[]> input = new List<string[]>
+            {
+                new []{ "init1", "1", "0.1" },
+                new []{ faltedValue, "2", "10" }
             };
 
             // Act

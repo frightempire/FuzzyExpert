@@ -91,6 +91,10 @@
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRuleParser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\ResultLogging\ResultLogging.csproj">
+      <Project>{1e216570-3e0b-4c06-8d55-aade92ad44ed}</Project>
+      <Name>ResultLogging</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

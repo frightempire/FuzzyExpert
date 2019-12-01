@@ -105,7 +105,15 @@ namespace IntegrationTests
         public void GetResult_ReturnsCorrectResult()
         {
             // Arrange
-            var expectedResult = new List<string> {"A1", "A4", "A2", "A3", "A5", "A6"};
+            var expectedResult = new Dictionary<string, double>
+            {
+                {"A1", 0 },
+                {"A4", 0 },
+                {"A2", 0 },
+                {"A3", 0 },
+                {"A5", 0 },
+                {"A6", 0 }
+            };
             ExpertOpinion expectedOpinion = new ExpertOpinion();
             expectedOpinion.AddResults(expectedResult);
 

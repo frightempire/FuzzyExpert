@@ -88,7 +88,7 @@ namespace ProductionRuleSelectorAction.ViewModels
                            {
                                foreach (var result in expertOpinion.Result)
                                {
-                                   ExpertResult.Add(result);
+                                   ExpertResult.Add(result.Key);
                                }
                            }
                            else

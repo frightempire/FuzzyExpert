@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DataProvider.Entities;
 using KnowledgeManager.Entities;
 using LinguisticVariableParser.Entities;
 using MembershipFunctionParser.Entities;
@@ -168,6 +169,15 @@ namespace Base.UnitTests
             }
 
             return true;
+        }
+
+        public static bool InitialDatasAreEqueal(
+            InitialData initialDataToCompare,
+            InitialData initialDataToComapreWith)
+        {
+            return initialDataToCompare.Name == initialDataToComapreWith.Name &&
+                   initialDataToCompare.Value == initialDataToComapreWith.Value &&
+                   initialDataToCompare.ConfidenceFactor == initialDataToComapreWith.ConfidenceFactor;
         }
     }
 }

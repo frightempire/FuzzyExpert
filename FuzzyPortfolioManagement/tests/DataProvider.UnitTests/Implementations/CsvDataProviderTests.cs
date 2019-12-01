@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Base.UnitTests;
 using CommonLogic.Entities;
 using CommonLogic.Interfaces;
+using DataProvider.Entities;
 using DataProvider.Implementations;
 using DataProvider.Interfaces;
 using NUnit.Framework;
@@ -73,7 +75,7 @@ namespace DataProvider.UnitTests.Implementations
             _validatorMock.Stub(x => x.Validate(Arg<List<string[]>>.Is.Anything)).Return(expectedValidationResult);
 
             // Act
-            Optional<Dictionary<string, double>> initialData = _csvDataProvider.GetInitialData();
+            Optional<List<InitialData>> initialData = _csvDataProvider.GetInitialData();
 
             // Assert
             Assert.IsFalse(initialData.IsPresent);
@@ -87,31 +89,35 @@ namespace DataProvider.UnitTests.Implementations
             _filePathProviderMock.Stub(x => x.FilePath).Return(_csvFilePath);
             List<string[]> expectedParsingResult = new List<string[]>
             {
-                new []{ "I1_1", "55" },
-                new []{ "I1_2", "10,5" },
-                new []{ "Init3", "0,55" },
-                new []{ "Init4", "1" },
-                new []{ "Init5", "2" }
+                new []{ "I1_1", "55", "0.1" },
+                new []{ "I1_2", "10.5", "0.1" },
+                new []{ "Init3", "0.55", "0.1" },
+                new []{ "Init4", "1", "0.1" },
+                new []{ "Init5", "2", "0.1" }
             };
             _csvParserMock.Stub(x => x.ParseFile(_csvFilePath)).Return(expectedParsingResult);
             ValidationOperationResult expectedValidationResult = new ValidationOperationResult();
             _validatorMock.Stub(x => x.Validate(Arg<List<string[]>>.Is.Anything)).Return(expectedValidationResult);
-            Dictionary<string, double> expectedData = new Dictionary<string, double>
+            List<InitialData> expectedData = new List<InitialData>
             {
-                { "I1_1", 55 },
-                { "I1_2", 10.5 },
-                { "Init3", 0.55 },
-                { "Init4", 1 },
-                { "Init5", 2 },
+                new InitialData("I1_1", 55, 0.1),
+                new InitialData("I1_2", 10.5, 0.1),
+                new InitialData("Init3", 0.55, 0.1),
+                new InitialData("Init4", 1, 0.1),
+                new InitialData("Init5", 2, 0.1)
             };
-            Optional<Dictionary<string, double>> expectedResult = Optional<Dictionary<string, double>>.For(expectedData);
+            Optional<List<InitialData>> expectedResult = Optional<List<InitialData>>.For(expectedData);
 
             // Act
-            Optional<Dictionary<string, double>> actualResult = _csvDataProvider.GetInitialData();
+            Optional<List<InitialData>> actualResult = _csvDataProvider.GetInitialData();
 
             // Assert
             Assert.IsTrue(actualResult.IsPresent);
-            Assert.AreEqual(expectedResult.Value, actualResult.Value);
+            Assert.AreEqual(expectedResult.Value.Count, actualResult.Value.Count);
+            for (int i = 0; i < actualResult.Value.Count; i++)
+            {
+                Assert.IsTrue(ObjectComparer.InitialDatasAreEqueal(expectedResult.Value[i], actualResult.Value[i]));
+            }
             _validationOperationResultLogerMock.AssertWasNotCalled(x => x.LogValidationOperationResultMessages(expectedValidationResult));
         }
     }

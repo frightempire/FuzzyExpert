@@ -16,33 +16,34 @@ namespace InferenceEngine.UnitTests.Implementations
         [SetUp]
         public void SetUp()
         {
-            _graphNode = new GraphNode(NodeName, new List<string>());
+            _graphNode = new GraphNode(NodeName, new Dictionary<string, double> ());
         }
 
         [Test]
         public void Constructor_ThrowsArgumentNullExceptionIfOneOfInputParametersIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => { new GraphNode(null, new List<string>()); });
-            Assert.Throws<ArgumentNullException>(() => { new GraphNode(string.Empty, new List<string>()); });
+            Assert.Throws<ArgumentNullException>(() => { new GraphNode(null, new Dictionary<string, double> ()); });
+            Assert.Throws<ArgumentNullException>(() => { new GraphNode(string.Empty, new Dictionary<string, double>()); });
             Assert.Throws<ArgumentNullException>(() => { new GraphNode(NodeName, null); });
         }
 
         [Test]
         public void Properties_DefaultValues()
         {
-            Assert.IsFalse(_graphNode.Active);
+            Assert.AreEqual(0, _graphNode.ConfidenceFactor);
             Assert.IsNotNull(_graphNode.RelatedRules);
             Assert.AreEqual(_graphNode.RelatedRules.Count, 0);
         }
 
         [Test]
-        public void Status_GetterReturnsValue()
+        public void ConfidenceFactor_GetterReturnsValue()
         {
             // Arrange
-            _graphNode.ActivateNode();
+            double expectedConfidenceFactor = 10;
+            _graphNode.UpdateConfidenceFactor(expectedConfidenceFactor);
 
             // Assert
-            Assert.IsTrue(_graphNode.Active);
+            Assert.AreEqual(expectedConfidenceFactor, _graphNode.ConfidenceFactor);
         }
 
         [Test]
@@ -67,18 +68,19 @@ namespace InferenceEngine.UnitTests.Implementations
         }
 
         [Test]
-        public void UpdateStatus_UpdatesStatuses()
+        public void UpdateConfidenceFactor_UpdatesConfidenceFactor()
         {
             // Arrange
+            double expectedConfidenceFactor = 10;
             var inferenceRuleMock = MockRepository.GenerateMock<IInferenceRule>();
             _graphNode.RelatedRules.Add(inferenceRuleMock);
 
             // Act
-            _graphNode.ActivateNode();
+            _graphNode.UpdateConfidenceFactor(expectedConfidenceFactor);
 
             // Assert
-            Assert.IsTrue(_graphNode.Active);
-            inferenceRuleMock.AssertWasCalled(x => x.UpdateStatus());
+            Assert.AreEqual(expectedConfidenceFactor, _graphNode.ConfidenceFactor);
+            inferenceRuleMock.AssertWasCalled(x => x.UpdateConfidenceFactor());
         }
     }
 }

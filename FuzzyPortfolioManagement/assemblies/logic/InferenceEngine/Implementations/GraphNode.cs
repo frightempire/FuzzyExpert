@@ -6,9 +6,9 @@ namespace InferenceEngine.Implementations
 {
     public class GraphNode : IInferenceNode
     {
-        private readonly List<string> _activationOrder;
+        private readonly Dictionary<string, double> _activationOrder;
 
-        public GraphNode(string name, List<string> activationOrder)
+        public GraphNode(string name, Dictionary<string, double> activationOrder)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             if (activationOrder == null) throw new ArgumentNullException(nameof(activationOrder));
@@ -19,19 +19,19 @@ namespace InferenceEngine.Implementations
 
         public string Name { get; }
 
-        public bool Active { get; private set; }
+        public double ConfidenceFactor { get; private set; }
 
         public List<IInferenceRule> RelatedRules { get; } = new List<IInferenceRule>();
 
-        public void ActivateNode()
+        public void UpdateConfidenceFactor(double confidenceFactor)
         {
-            if (!Active)
+            if (ConfidenceFactor == 0)
             {
-                Active = true;
-                _activationOrder.Add(Name);
+                ConfidenceFactor = confidenceFactor;
+                _activationOrder.Add(Name, ConfidenceFactor);
             }
 
-            foreach (IInferenceRule rule in RelatedRules) rule.UpdateStatus();
+            foreach (IInferenceRule rule in RelatedRules) rule.UpdateConfidenceFactor();
         }
     }
 }

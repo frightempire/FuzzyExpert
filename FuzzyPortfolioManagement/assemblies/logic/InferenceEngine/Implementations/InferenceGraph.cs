@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CommonLogic;
+using DataProvider.Entities;
 using InferenceEngine.Interfaces;
 using ProductionRuleParser.Enums;
 
@@ -8,7 +9,7 @@ namespace InferenceEngine.Implementations
 {
     public class InferenceGraph : IInferenceEngine
     {
-        private readonly List<string> _activationOrder = new List<string>();
+        private readonly Dictionary<string, double> _activationOrder = new Dictionary<string, double>();
 
         private readonly List<IInferenceRule> _rules = new List<IInferenceRule>();
         private readonly List<IInferenceNode> _nodes = new List<IInferenceNode>();
@@ -30,9 +31,10 @@ namespace InferenceEngine.Implementations
             ifNodes.ForEach(ifn => ifn.RelatedRules.Add(rule));
         }
 
-        public List<string> GetInferenceResults(List<string> trueNodes)
+        public Dictionary<string, double> GetInferenceResults(List<InitialData> initialData)
         {
-            GetNodes(trueNodes).ForEach(tn => tn.ActivateNode());
+            var nodes = GetNodes(initialData.Select(id => id.Name).ToList());
+            nodes.ForEach(n => n.UpdateConfidenceFactor(initialData.First(id => id.Name == n.Name).ConfidenceFactor));
             return _activationOrder;
         }
 
@@ -42,7 +44,6 @@ namespace InferenceEngine.Implementations
             if (matchingNode == null) _nodes.Add(new GraphNode(nodeName, _activationOrder));
         }
 
-        private List<IInferenceNode> GetNodes(List<string> nodeNames) => 
-            _nodes.Where(n => nodeNames.Contains(n.Name)).Select(n => n).ToList();
+        private List<IInferenceNode> GetNodes(List<string> nodeNames) => _nodes.Where(n => nodeNames.Contains(n.Name)).Select(n => n).ToList();
     }
 }

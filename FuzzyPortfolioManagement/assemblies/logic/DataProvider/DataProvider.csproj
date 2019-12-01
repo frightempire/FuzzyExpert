@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\InitialData.cs" />
     <Compile Include="Implementations\CsvFileParser.cs" />
     <Compile Include="Implementations\CsvDataProvider.cs" />
     <Compile Include="Implementations\InitialDataFilePathProvider.cs" />
@@ -57,5 +58,6 @@
       <Name>CommonLogic</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace InferenceExpert.Entities
 {
@@ -6,14 +7,14 @@ namespace InferenceExpert.Entities
     {
         public List<string> ErrorMessages { get; }
 
-        public List<string> Result { get; }
+        public Dictionary<string, double> Result { get; }
 
         public bool IsSuccess { get; private set; }
 
         public ExpertOpinion()
         {
             ErrorMessages = new List<string>();
-            Result = new List<string>();
+            Result = new Dictionary<string, double>();
             IsSuccess = true;
         }
 
@@ -29,14 +30,17 @@ namespace InferenceExpert.Entities
             IsSuccess = false;
         }
 
-        public void AddResult(string result)
+        public void AddResult(KeyValuePair<string, double> result)
         {
-            Result.Add(result);
+            Result.Add(result.Key, result.Value);
         }
 
-        public void AddResults(List<string> results)
+        public void AddResults(Dictionary<string, double> results)
         {
-            Result.AddRange(results);
+            foreach (var result in results)
+            {
+                Result.Add(result.Key, result.Value);
+            }
         }
     }
 }

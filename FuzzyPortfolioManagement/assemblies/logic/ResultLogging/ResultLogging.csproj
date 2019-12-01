@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3947BBA1-CFD7-4408-8F48-8FCF255CD3AA}</ProjectGuid>
+    <ProjectGuid>{1E216570-3E0B-4C06-8D55-AADE92AD44ED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InferenceEngine</RootNamespace>
-    <AssemblyName>InferenceEngine</AssemblyName>
+    <RootNamespace>ResultLogging</RootNamespace>
+    <AssemblyName>ResultLogging</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,22 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\InferenceGraph.cs" />
-    <Compile Include="Implementations\GraphNode.cs" />
-    <Compile Include="Implementations\GraphRule.cs" />
-    <Compile Include="Interfaces\IInferenceEngine.cs" />
-    <Compile Include="Interfaces\IInferenceNode.cs" />
-    <Compile Include="Interfaces\IInferenceRule.cs" />
+    <Compile Include="Interfaces\IInferenceResultLogger.cs" />
+    <Compile Include="Implementations\InferenceResultLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CommonLogic\CommonLogic.csproj">
       <Project>{D6731AE6-8D18-4889-9B1D-40CC28CCD273}</Project>
       <Name>CommonLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataProvider\DataProvider.csproj">
-      <Project>{0564A426-5D14-434E-AB64-E1DB6D287256}</Project>
-      <Name>DataProvider</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProductionRuleParser\ProductionRuleParser.csproj">
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>

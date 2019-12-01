@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DataProvider.Entities;
 using ProductionRuleParser.Enums;
 
 namespace InferenceEngine.Interfaces
@@ -7,6 +8,6 @@ namespace InferenceEngine.Interfaces
     {
         void AddRule(List<string> ifNodeNames, LogicalOperation operation, List<string> thenNodeNames);
 
-        List<string> GetInferenceResults(List<string> trueNodes);
+        Dictionary<string, double> GetInferenceResults(List<InitialData> initialData);
     }
 }

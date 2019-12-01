@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using CommonLogic;
 using CommonLogic.Entities;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
@@ -41,7 +40,8 @@ namespace KnowledgeManager.Implementations
             foreach (string implicationRulesLinguisticVariableName in implicationRulesLinguisticVariableNames)
             {
                 if (!allVariableNames.Contains(implicationRulesLinguisticVariableName))
-                    validationOperationResult.AddMessage("Knowledge base: one of linguistic variables in implication rule is unknown to linguistic variable base");
+                    validationOperationResult.AddMessage(
+                        $"Knowledge base: linguistic variable {implicationRulesLinguisticVariableName} is unknown to linguistic variable base");
             }
 
             return validationOperationResult;

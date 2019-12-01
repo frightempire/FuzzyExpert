@@ -42,76 +42,9 @@ namespace InferenceEngine.UnitTests.Implementations
         }
 
         [Test]
-        public void Constructor_CalculatesMinMaxForAndOperation()
-        {
-            // Arrange
-            var node1 = MockRepository.GenerateMock<IInferenceNode>();
-            var node2 = MockRepository.GenerateMock<IInferenceNode>();
-            var ifNodes = new List<IInferenceNode> { node1, node2 };
-            var operation = LogicalOperation.And;
-            var thenNodes = new List<IInferenceNode> { node1 };
-            Tuple<int, int> expectedMinMax = new Tuple<int, int>(ifNodes.Count, ifNodes.Count);
-
-            // Act
-            var graphRule = new GraphRule(ifNodes, operation, thenNodes);
-
-            // Assert
-            Assert.AreEqual(expectedMinMax, graphRule.MinMax);
-        }
-
-        [Test]
-        public void Constructor_CalculatesMinMaxForOrOperation()
-        {
-            // Arrange
-            var node1 = MockRepository.GenerateMock<IInferenceNode>();
-            var node2 = MockRepository.GenerateMock<IInferenceNode>();
-            var ifNodes = new List<IInferenceNode> { node1, node2 };
-            var operation = LogicalOperation.Or;
-            var thenNodes = new List<IInferenceNode> { node1 };
-            Tuple<int, int> expectedMinMax = new Tuple<int, int>(1, ifNodes.Count);
-
-            // Act
-            var graphRule = new GraphRule(ifNodes, operation, thenNodes);
-
-            // Assert
-            Assert.AreEqual(expectedMinMax, graphRule.MinMax);
-        }
-
-        [Test]
-        public void Constructor_CalculatesMinMaxForNoneOperation()
-        {
-            // Arrange
-            var node = MockRepository.GenerateMock<IInferenceNode>();
-            var ifNodes = new List<IInferenceNode> { node };
-            var operation = LogicalOperation.None;
-            var thenNodes = new List<IInferenceNode> { node };
-            Tuple<int, int> expectedMinMax = new Tuple<int, int>(1, 1);
-
-            // Act
-            var graphRule = new GraphRule(ifNodes, operation, thenNodes);
-
-            // Assert
-            Assert.AreEqual(expectedMinMax, graphRule.MinMax);
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentException_IfCalculatesMinMaxForNoneOperationHasInvalidIfPart()
-        {
-            // Arrange
-            var node1 = MockRepository.GenerateMock<IInferenceNode>();
-            var node2 = MockRepository.GenerateMock<IInferenceNode>();
-            var ifNodes = new List<IInferenceNode> { node1, node2 };
-            var operation = LogicalOperation.None;
-            var thenNodes = new List<IInferenceNode> { node1 };
-
-            // Act & Assert
-            Assert.Throws<ArgumentException>(() => { new GraphRule(ifNodes, operation, thenNodes); });
-        }
-
-        [Test]
         public void Properties_DefaultValues()
         {
-            Assert.IsNull(_graphRule.Status);
+            Assert.AreEqual(0, _graphRule.ConfidenceFactor);
         }
     }
 }

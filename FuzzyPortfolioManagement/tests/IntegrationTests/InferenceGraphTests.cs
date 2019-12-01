@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DataProvider.Entities;
 using InferenceEngine.Implementations;
 using NUnit.Framework;
 using ProductionRuleParser.Enums;
@@ -17,9 +18,18 @@ namespace IntegrationTests
         }
 
         [Test]
-        public void GetInferenceResults_ReturnsCorrectListOfStatusChanges()
+        public void GetInferenceResults_ReturnsCorrectInferenceResult_Case1()
         {
             // Arrange
+            List<InitialData> initialData = new List<InitialData>
+            {
+                new InitialData("init1_1", 100, 0.1),
+                new InitialData("init1_2", 100, 0.9),
+                new InitialData("init2_1", 100, 0.4),
+                new InitialData("init3_1", 100, 0.3),
+                new InitialData("init4_1", 100, 0.9)
+            };
+
             _inferenceGraph.AddRule(new List<string> { "init1_1", "init1_2" }, LogicalOperation.And, new List<string> { "A1" });
             _inferenceGraph.AddRule(new List<string> { "init2_1" }, LogicalOperation.None, new List<string> { "A2" });
             _inferenceGraph.AddRule(new List<string> { "init1_1" }, LogicalOperation.None, new List<string> { "A3" });
@@ -34,16 +44,33 @@ namespace IntegrationTests
             _inferenceGraph.AddRule(new List<string> { "init2_1", "B4" }, LogicalOperation.And, new List<string> { "F1" });
             _inferenceGraph.AddRule(new List<string> { "B5", "B3" }, LogicalOperation.And, new List<string> { "F3" });
 
-            List<string> expectedsStatusChanges = new List<string>
+            Dictionary<string, double> expectedInferenceResult = new Dictionary<string, double>
             {
-                "init1_1", "A3", "B4", "init2_1", "A2", "B3", "F1", "F6"
+                {"init1_1" , 0.1 },
+                {"A3" , 0.1 },
+                {"init1_2" , 0.9 },
+                {"A1" , 0.1 },
+                {"init2_1" , 0.4 },
+                {"A2" , 0.4 },
+                {"B2" , 0.1 },
+                {"B5" , 0.1 },
+                {"B3" , 0.1 },
+                {"F1" , 0.1 },
+                {"F6" , 0.1 },
+                {"F3" , 0.1 },
+                {"init3_1" , 0.3 },
+                {"A4" , 0.9 },
+                {"B4" , 0.9 },
+                {"init4_1" , 0.9 },
+                {"B1" , 0.4 },
+                {"F2" , 0.4 }
             };
 
             // Act
-            List<string> actualStatusChanges = _inferenceGraph.GetInferenceResults(new List<string> {"init1_1", "init2_1"});
+            Dictionary<string, double> actualInferenceResult = _inferenceGraph.GetInferenceResults(initialData);
 
             // Assert
-            Assert.AreEqual(expectedsStatusChanges, actualStatusChanges);
+            Assert.AreEqual(expectedInferenceResult, actualInferenceResult);
         }
     }
 }
