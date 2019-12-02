@@ -40,6 +40,7 @@ namespace InferenceExpert.Implementations
             _fuzzyEngine = fuzzyEngine;
         }
 
+        // TODO: Move validators to a separate assembly
         public ExpertOpinion GetResult()
         {
             Optional<List<InitialData>> initialData = _initialDataProvider.GetInitialData();
@@ -69,7 +70,7 @@ namespace InferenceExpert.Implementations
                     knowledgeBase.Value.LinguisticVariables.SingleOrDefault(lv => lv.Value.VariableName == data.Name);
                 if (matchingVariable.Value == null)
                 {
-                    opinion.AddErrorMessage($"Initial data {data.Name} is not present in lingustic variables base.");
+                    opinion.AddErrorMessage($"Initial data {data.Name} is not present in linguistic variables base.");
                 }
             }
         }

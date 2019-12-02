@@ -9,6 +9,7 @@ using NUnit.Framework;
 using ProductionRuleParser.Entities;
 using ProductionRuleParser.Enums;
 using ProductionRuleParser.Interfaces;
+using ResultLogging.Interfaces;
 using Rhino.Mocks;
 
 namespace KnowledgeManager.UnitTests.Implementations

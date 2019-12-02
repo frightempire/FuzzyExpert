@@ -68,7 +68,7 @@ namespace FuzzyPortfolioManagement.Console.Client.DependencyInjection
             _container.Register<IExpert, FuzzyExpert>(Lifestyle.Singleton);
 
             // Logging
-            _container.Register<IInferenceResultLogger, InferenceResultLogger>(Lifestyle.Singleton);
+            _container.Register<IInferenceResultLogger, FileInferenceResultLogger>(Lifestyle.Singleton);
 
             _container.Verify();
             return _container;

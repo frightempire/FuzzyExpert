@@ -8,6 +8,7 @@ using DataProvider.Entities;
 using DataProvider.Implementations;
 using DataProvider.Interfaces;
 using NUnit.Framework;
+using ResultLogging.Interfaces;
 using Rhino.Mocks;
 
 namespace DataProvider.UnitTests.Implementations
@@ -20,7 +21,7 @@ namespace DataProvider.UnitTests.Implementations
         private IFileParser<List<string[]>> _csvParserMock;
         private IParsingResultValidator _validatorMock;
         private IDataFilePathProvider _filePathProviderMock;
-        private IValidationOperationResultLogger _validationOperationResultLogerMock;
+        private IValidationOperationResultLogger _validationOperationResultLoggerMock;
         private CsvDataProvider _csvDataProvider;
 
         [SetUp]
@@ -29,8 +30,8 @@ namespace DataProvider.UnitTests.Implementations
             _csvParserMock = MockRepository.GenerateMock<IFileParser<List<string[]>>>();
             _validatorMock = MockRepository.GenerateMock<IParsingResultValidator>();
             _filePathProviderMock = MockRepository.GenerateMock<IDataFilePathProvider>();
-            _validationOperationResultLogerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();
-            _csvDataProvider = new CsvDataProvider(_csvParserMock, _validatorMock, _filePathProviderMock, _validationOperationResultLogerMock);
+            _validationOperationResultLoggerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();
+            _csvDataProvider = new CsvDataProvider(_csvParserMock, _validatorMock, _filePathProviderMock, _validationOperationResultLoggerMock);
         }
 
         [Test]
@@ -39,15 +40,15 @@ namespace DataProvider.UnitTests.Implementations
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
-                new CsvDataProvider(null, _validatorMock, _filePathProviderMock, _validationOperationResultLogerMock);
+                new CsvDataProvider(null, _validatorMock, _filePathProviderMock, _validationOperationResultLoggerMock);
             });
             Assert.Throws<ArgumentNullException>(() =>
             {
-                new CsvDataProvider(_csvParserMock, null, _filePathProviderMock, _validationOperationResultLogerMock);
+                new CsvDataProvider(_csvParserMock, null, _filePathProviderMock, _validationOperationResultLoggerMock);
             });
             Assert.Throws<ArgumentNullException>(() =>
             {
-                new CsvDataProvider(_csvParserMock, _validatorMock, null, _validationOperationResultLogerMock);
+                new CsvDataProvider(_csvParserMock, _validatorMock, null, _validationOperationResultLoggerMock);
             });
             Assert.Throws<ArgumentNullException>(() =>
             {
@@ -79,7 +80,7 @@ namespace DataProvider.UnitTests.Implementations
 
             // Assert
             Assert.IsFalse(initialData.IsPresent);
-            _validationOperationResultLogerMock.AssertWasCalled(x => x.LogValidationOperationResultMessages(expectedValidationResult));
+            _validationOperationResultLoggerMock.AssertWasCalled(x => x.LogValidationOperationResultMessages(expectedValidationResult));
         }
 
         [Test]
@@ -118,7 +119,7 @@ namespace DataProvider.UnitTests.Implementations
             {
                 Assert.IsTrue(ObjectComparer.InitialDatasAreEqueal(expectedResult.Value[i], actualResult.Value[i]));
             }
-            _validationOperationResultLogerMock.AssertWasNotCalled(x => x.LogValidationOperationResultMessages(expectedValidationResult));
+            _validationOperationResultLoggerMock.AssertWasNotCalled(x => x.LogValidationOperationResultMessages(expectedValidationResult));
         }
     }
 }

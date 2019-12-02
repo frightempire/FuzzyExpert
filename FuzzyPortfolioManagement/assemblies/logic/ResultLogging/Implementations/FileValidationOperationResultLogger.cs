@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommonLogic;
 using CommonLogic.Entities;
 using CommonLogic.Extensions;
 using CommonLogic.Interfaces;
+using ResultLogging.Interfaces;
 
-namespace CommonLogic.Implementations
+namespace ResultLogging.Implementations
 {
     public class FileValidationOperationResultLogger : IValidationOperationResultLogger
     {

@@ -6,6 +6,7 @@ using CommonLogic.Interfaces;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
 using LinguisticVariableParser.Interfaces;
+using ResultLogging.Interfaces;
 
 namespace KnowledgeManager.Implementations
 {

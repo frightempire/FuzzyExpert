@@ -7,6 +7,7 @@ using CommonLogic.Interfaces;
 using KnowledgeManager.Interfaces;
 using ProductionRuleParser.Entities;
 using ProductionRuleParser.Interfaces;
+using ResultLogging.Interfaces;
 
 namespace KnowledgeManager.Implementations
 {
@@ -18,7 +19,7 @@ namespace KnowledgeManager.Implementations
         private readonly IImplicationRuleParser _implicationRuleParser;
         private readonly IImplicationRuleValidator _implicationRuleValidator;
         private readonly INameSupervisor _nameSupervisor;
-        private readonly IValidationOperationResultLogger _validationOperationResultLoger;
+        private readonly IValidationOperationResultLogger _validationOperationResultLogger;
 
         public FileImplicationRuleProvider(
             IFileOperations fileOperations,
@@ -27,7 +28,7 @@ namespace KnowledgeManager.Implementations
             IImplicationRuleParser implicationRuleParser,
             IImplicationRuleCreator implicationRuleCreator,
             INameSupervisor nameSupervisor,
-            IValidationOperationResultLogger validationOperationResultLoger)
+            IValidationOperationResultLogger validationOperationResultLogger)
         {
             ExceptionAssert.IsNull(fileOperations);
             ExceptionAssert.IsNull(filePathProvider);
@@ -35,7 +36,7 @@ namespace KnowledgeManager.Implementations
             ExceptionAssert.IsNull(implicationRuleParser);
             ExceptionAssert.IsNull(implicationRuleCreator);
             ExceptionAssert.IsNull(nameSupervisor);
-            ExceptionAssert.IsNull(validationOperationResultLoger);
+            ExceptionAssert.IsNull(validationOperationResultLogger);
 
             _fileOperations = fileOperations;
             _filePathProvider = filePathProvider;
@@ -43,7 +44,7 @@ namespace KnowledgeManager.Implementations
             _implicationRuleParser = implicationRuleParser;
             _implicationRuleCreator = implicationRuleCreator;
             _nameSupervisor = nameSupervisor;
-            _validationOperationResultLoger = validationOperationResultLoger;
+            _validationOperationResultLogger = validationOperationResultLogger;
         }
 
         public Optional<List<ImplicationRule>> GetImplicationRules()
@@ -68,7 +69,7 @@ namespace KnowledgeManager.Implementations
                 else
                 {
                     int line = i + 1;
-                    _validationOperationResultLoger.LogValidationOperationResultMessages(validationOperationResult, line);
+                    _validationOperationResultLogger.LogValidationOperationResultMessages(validationOperationResult, line);
                 }
             }
 

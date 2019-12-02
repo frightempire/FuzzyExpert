@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using CommonLogic;
 using InferenceExpert.Entities;
@@ -9,6 +11,7 @@ using KnowledgeManager.Interfaces;
 using ProductionRuleParser.Entities;
 using ProductionRuleSelectorAction.Annotations;
 using ProductionRuleSelectorAction.Panels;
+using ResultLogging.Interfaces;
 
 namespace ProductionRuleSelectorAction.ViewModels
 {
@@ -17,23 +20,27 @@ namespace ProductionRuleSelectorAction.ViewModels
         private readonly DataSelectorAction _dataSelectorAction;
         private readonly IExpert _expert;
         private readonly IKnowledgeBaseManager _knowledgeBaseManager;
+        private readonly IInferenceResultLogger _inferenceResultLogger;
 
         public ObservableCollection<string> ImplicationRules { get; set; }
 
-        public ObservableCollection<string> ExpertResult { get; set; }
+        private ExpertOpinion ExpertOpinion { get; set; }
 
         public InferenceActionModel(
             DataSelectorAction dataSelectorAction,
             IExpert expert,
-            IKnowledgeBaseManager knowledgeBaseManager)
+            IKnowledgeBaseManager knowledgeBaseManager,
+            IInferenceResultLogger inferenceResultLogger)
         {
             ExceptionAssert.IsNull(dataSelectorAction);
             ExceptionAssert.IsNull(expert);
             ExceptionAssert.IsNull(knowledgeBaseManager);
+            ExceptionAssert.IsNull(inferenceResultLogger);
 
             _dataSelectorAction = dataSelectorAction;
             _expert = expert;
             _knowledgeBaseManager = knowledgeBaseManager;
+            _inferenceResultLogger = inferenceResultLogger;
 
             InitializeBindingProperties();
         }
@@ -41,15 +48,17 @@ namespace ProductionRuleSelectorAction.ViewModels
         private void InitializeBindingProperties()
         {
             StartInferenceButtonEnable = "False";
+            OpenResultFileButtonEnable = "False";
             ImplicationRules = new ObservableCollection<string>();
-            ExpertResult = new ObservableCollection<string>();
+            ExpertOpinion = new ExpertOpinion();
         }
 
         private void ResetBindingProperties()
         {
             StartInferenceButtonEnable = "False";
+            OpenResultFileButtonEnable = "False";
             ImplicationRules.Clear();
-            ExpertResult.Clear();
+            ExpertOpinion = new ExpertOpinion();
         }
 
         private RelayCommand _getDataCommand;
@@ -82,22 +91,34 @@ namespace ProductionRuleSelectorAction.ViewModels
                 return _startInferenceCommand ??
                        (_startInferenceCommand = new RelayCommand(obj =>
                        {
-                           ExpertOpinion expertOpinion = _expert.GetResult();
-                           ExpertResult.Clear();
-                           if (expertOpinion.IsSuccess)
+                           ExpertOpinion = _expert.GetResult();
+                           if (ExpertOpinion.IsSuccess)
                            {
-                               foreach (var result in expertOpinion.Result)
-                               {
-                                   ExpertResult.Add(result.Key);
-                               }
+                               OpenResultFileButtonEnable = "True";
+                           }
+                       }));
+            }
+        }
+
+        private RelayCommand _openResultFileCommand;
+        public RelayCommand OpenResultFileCommand
+        {
+            get
+            {
+                return _openResultFileCommand ??
+                       (_openResultFileCommand = new RelayCommand(obj =>
+                       {
+                           File.Delete(_inferenceResultLogger.LogPath);
+                           _inferenceResultLogger.LogImplicationRules(_knowledgeBaseManager.GetKnowledgeBase().Value.ImplicationRules);
+                           if (ExpertOpinion.IsSuccess)
+                           {
+                               _inferenceResultLogger.LogInferenceResult(ExpertOpinion.Result);
                            }
                            else
                            {
-                               foreach (var error in expertOpinion.ErrorMessages)
-                               {
-                                   ExpertResult.Add(error);
-                               }
+                               _inferenceResultLogger.LogInferenceErrors(ExpertOpinion.ErrorMessages);
                            }
+                           Process.Start(_inferenceResultLogger.LogPath);
                        }));
             }
         }
@@ -110,6 +131,17 @@ namespace ProductionRuleSelectorAction.ViewModels
             {
                 _startInferenceButtonEnable = value;
                 OnPropertyChanged(nameof(StartInferenceButtonEnable));
+            }
+        }
+
+        private string _openResultFileButtonEnable;
+        public string OpenResultFileButtonEnable
+        {
+            get => _openResultFileButtonEnable;
+            set
+            {
+                _openResultFileButtonEnable = value;
+                OnPropertyChanged(nameof(OpenResultFileButtonEnable));
             }
         }
 

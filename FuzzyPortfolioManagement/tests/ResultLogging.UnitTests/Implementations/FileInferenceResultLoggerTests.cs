@@ -1,29 +1,29 @@
 ﻿using System;
-using CommonLogic.Implementations;
 using CommonLogic.Interfaces;
 using NUnit.Framework;
+using ResultLogging.Implementations;
 using Rhino.Mocks;
 
-namespace CommonLogic.UnitTests.Implementations
+namespace ResultLogging.UnitTests.Implementations
 {
     [TestFixture]
-    public class FileValidationOperationResultLoggerTests
+    public class FileInferenceResultLoggerTests
     {
         private IFileOperations _fileOperations;
-        private FileValidationOperationResultLogger _fileValidationOperationResultLogger;
+        private FileInferenceResultLogger _fileInferenceResultLogger;
 
         [SetUp]
         public void SetUp()
         {
             _fileOperations = MockRepository.GenerateMock<IFileOperations>();
-            _fileValidationOperationResultLogger = new FileValidationOperationResultLogger(_fileOperations);
+            _fileInferenceResultLogger = new FileInferenceResultLogger(_fileOperations);
         }
 
         [Test]
         public void Constructor_ThrowsArgumentNullExceptionIfFileOperationsIsNull()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => { new FileValidationOperationResultLogger(null); });
+            Assert.Throws<ArgumentNullException>(() => { new FileInferenceResultLogger(null); });
         }
     }
 }

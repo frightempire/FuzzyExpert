@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\FileValidationOperationResultLogger.cs" />
     <Compile Include="Interfaces\IInferenceResultLogger.cs" />
-    <Compile Include="Implementations\InferenceResultLogger.cs" />
+    <Compile Include="Implementations\FileInferenceResultLogger.cs" />
+    <Compile Include="Interfaces\IValidationOperationResultLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

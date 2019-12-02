@@ -10,6 +10,7 @@ using LinguisticVariableParser.Implementations;
 using MembershipFunctionParser.Entities;
 using MembershipFunctionParser.Implementations;
 using NUnit.Framework;
+using ResultLogging.Implementations;
 
 namespace IntegrationTests
 {

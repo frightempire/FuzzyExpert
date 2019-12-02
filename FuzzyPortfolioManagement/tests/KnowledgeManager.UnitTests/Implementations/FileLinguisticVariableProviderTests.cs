@@ -10,6 +10,7 @@ using LinguisticVariableParser.Interfaces;
 using MembershipFunctionParser.Entities;
 using MembershipFunctionParser.Implementations;
 using NUnit.Framework;
+using ResultLogging.Interfaces;
 using Rhino.Mocks;
 
 namespace KnowledgeManager.UnitTests.Implementations

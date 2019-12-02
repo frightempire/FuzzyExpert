@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D9D31040-E02D-4A26-9C09-29012AF6E6C5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>FuzzyPortfolioManagment.WPF.Client</RootNamespace>
-    <AssemblyName>FuzzyPortfolioManagment.WPF.Client</AssemblyName>
+    <RootNamespace>FuzzyPortfolioManagement.WPF.Client</RootNamespace>
+    <AssemblyName>FuzzyPortfolioManagement.WPF.Client</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -127,6 +127,10 @@
     <ProjectReference Include="..\..\..\logic\ProductionRuleParser\ProductionRuleParser.csproj">
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRuleParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\logic\ResultLogging\ResultLogging.csproj">
+      <Project>{1E216570-3E0B-4C06-8D55-AADE92AD44ED}</Project>
+      <Name>ResultLogging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\UILogic.Common\UILogic.Common.csproj">
       <Project>{f2adf165-2aff-4c75-96aa-937ed014e1f6}</Project>

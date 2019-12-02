@@ -1,8 +1,8 @@
 ﻿using System;
-using CommonLogic.Interfaces;
 using KnowledgeManager.Implementations;
 using KnowledgeManager.Interfaces;
 using NUnit.Framework;
+using ResultLogging.Interfaces;
 using Rhino.Mocks;
 
 namespace KnowledgeManager.UnitTests.Implementations

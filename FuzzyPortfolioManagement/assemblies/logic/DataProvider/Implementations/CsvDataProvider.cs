@@ -6,6 +6,7 @@ using CommonLogic.Entities;
 using CommonLogic.Interfaces;
 using DataProvider.Entities;
 using DataProvider.Interfaces;
+using ResultLogging.Interfaces;
 
 namespace DataProvider.Implementations
 {
@@ -14,23 +15,23 @@ namespace DataProvider.Implementations
         private readonly IFileParser<List<string[]>> _csvParser;
         private readonly IParsingResultValidator _validator;
         private readonly IDataFilePathProvider _filePathProvider;
-        private readonly IValidationOperationResultLogger _validationOperationResultLoger;
+        private readonly IValidationOperationResultLogger _validationOperationResultLogger;
 
         public CsvDataProvider(
             IFileParser<List<string[]>> csvParser,
             IParsingResultValidator validator,
             IDataFilePathProvider filePathProvider,
-            IValidationOperationResultLogger validationOperationResultLoger)
+            IValidationOperationResultLogger validationOperationResultLogger)
         {
             ExceptionAssert.IsNull(csvParser);
             ExceptionAssert.IsNull(filePathProvider);
             ExceptionAssert.IsNull(validator);
-            ExceptionAssert.IsNull(validationOperationResultLoger);
+            ExceptionAssert.IsNull(validationOperationResultLogger);
 
             _csvParser = csvParser;
             _validator = validator;
             _filePathProvider = filePathProvider;
-            _validationOperationResultLoger = validationOperationResultLoger;
+            _validationOperationResultLogger = validationOperationResultLogger;
         }
 
         public Optional<List<InitialData>> GetInitialData()
@@ -52,7 +53,7 @@ namespace DataProvider.Implementations
                 return Optional<List<InitialData>>.For(initialData);
             }
 
-            _validationOperationResultLoger.LogValidationOperationResultMessages(operationResult);
+            _validationOperationResultLogger.LogValidationOperationResultMessages(operationResult);
             return Optional<List<InitialData>>.Empty();
         }
     }

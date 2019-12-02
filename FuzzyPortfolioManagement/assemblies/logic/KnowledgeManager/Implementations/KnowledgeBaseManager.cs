@@ -6,6 +6,7 @@ using KnowledgeManager.Entities;
 using KnowledgeManager.Interfaces;
 using LinguisticVariableParser.Entities;
 using ProductionRuleParser.Entities;
+using ResultLogging.Interfaces;
 
 namespace KnowledgeManager.Implementations
 {

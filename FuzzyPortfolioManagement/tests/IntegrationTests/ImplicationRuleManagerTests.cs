@@ -10,6 +10,7 @@ using NUnit.Framework;
 using ProductionRuleParser.Entities;
 using ProductionRuleParser.Enums;
 using ProductionRuleParser.Implementations;
+using ResultLogging.Implementations;
 
 namespace IntegrationTests
 {

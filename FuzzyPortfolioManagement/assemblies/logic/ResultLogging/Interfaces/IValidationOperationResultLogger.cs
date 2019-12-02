@@ -1,6 +1,6 @@
 ﻿using CommonLogic.Entities;
 
-namespace CommonLogic.Interfaces
+namespace ResultLogging.Interfaces
 {
     public interface IValidationOperationResultLogger
     {

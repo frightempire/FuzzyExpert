@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILogic.Common", "assemblie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResultLogging", "assemblies\logic\ResultLogging\ResultLogging.csproj", "{1E216570-3E0B-4C06-8D55-AADE92AD44ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResultLogging.UnitTests", "tests\ResultLogging.UnitTests\ResultLogging.UnitTests.csproj", "{AEF1396A-224A-4944-A918-0F61ECD4B70D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,10 @@ Global
 		{1E216570-3E0B-4C06-8D55-AADE92AD44ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E216570-3E0B-4C06-8D55-AADE92AD44ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E216570-3E0B-4C06-8D55-AADE92AD44ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF1396A-224A-4944-A918-0F61ECD4B70D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF1396A-224A-4944-A918-0F61ECD4B70D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF1396A-224A-4944-A918-0F61ECD4B70D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF1396A-224A-4944-A918-0F61ECD4B70D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -208,6 +214,7 @@ Global
 		{D9D31040-E02D-4A26-9C09-29012AF6E6C5} = {D6BB19F6-A793-4564-9283-355E0D6B6DD1}
 		{F2ADF165-2AFF-4C75-96AA-937ED014E1F6} = {A0800D9E-08F4-49B6-B6FB-E2E295EDB0D2}
 		{1E216570-3E0B-4C06-8D55-AADE92AD44ED} = {968359FD-E8AC-4BB6-855D-BCD3F78EA9FA}
+		{AEF1396A-224A-4944-A918-0F61ECD4B70D} = {818DD658-EF38-4EC9-9192-000D58FFA287}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C02048F-FD3D-413C-BF07-FD63D8B77511}

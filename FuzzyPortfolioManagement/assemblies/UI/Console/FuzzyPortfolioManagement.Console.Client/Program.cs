@@ -1,4 +1,5 @@
-﻿using DataProvider.Interfaces;
+﻿using System.IO;
+using DataProvider.Interfaces;
 using FuzzyPortfolioManagement.Console.Client.DependencyInjection;
 using InferenceExpert.Entities;
 using InferenceExpert.Interfaces;
@@ -35,18 +36,19 @@ namespace FuzzyPortfolioManagement.Console.Client
             linguisticVariableFilePathProvider.FilePath = linguisticVariablesPath;
             initialDataFilePathProvider.FilePath = initialDataPath;
 
+            File.Delete(resultLogging.LogPath);
             resultLogging.LogImplicationRules(knowledgeBaseManager.GetKnowledgeBase().Value.ImplicationRules);
 
             ExpertOpinion expertOpinion = expert.GetResult();
             if (expertOpinion.IsSuccess)
             {
-                SystemConsole.WriteLine("Inference successfull!\n");
+                SystemConsole.WriteLine("Inference successful!\n");
                 resultLogging.LogInferenceResult(expertOpinion.Result);
             }
             else
             {
                 SystemConsole.WriteLine("Inference failed!\n");
-                SystemConsole.WriteLine(string.Join("\n", expertOpinion.ErrorMessages));
+                resultLogging.LogInferenceErrors(expertOpinion.ErrorMessages);
             }
 
             SystemConsole.ReadKey();

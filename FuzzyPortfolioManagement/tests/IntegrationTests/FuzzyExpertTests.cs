@@ -12,6 +12,7 @@ using LinguisticVariableParser.Implementations;
 using MembershipFunctionParser.Implementations;
 using NUnit.Framework;
 using ProductionRuleParser.Implementations;
+using ResultLogging.Implementations;
 
 namespace IntegrationTests
 {

@@ -20,9 +20,11 @@ using ProductionRuleParser.Implementations;
 using ProductionRuleParser.Interfaces;
 using ProductionRuleSelectorAction.Panels;
 using ProductionRuleSelectorAction.ViewModels;
+using ResultLogging.Implementations;
+using ResultLogging.Interfaces;
 using SimpleInjector;
 
-namespace FuzzyPortfolioManagment.WPF.Client.DependencyInjection
+namespace FuzzyPortfolioManagement.WPF.Client.DependencyInjection
 {
     // TODO: Move DI to separate project
     public class SimpleInjectorContainerFactory
@@ -72,6 +74,9 @@ namespace FuzzyPortfolioManagment.WPF.Client.DependencyInjection
             _container.Register<DataSelectorAction>(Lifestyle.Singleton);
             _container.Register<InferenceActionModel>(Lifestyle.Singleton);
             _container.Register<InferenceAction>(Lifestyle.Singleton);
+
+            // Logging
+            _container.Register<IInferenceResultLogger, FileInferenceResultLogger>(Lifestyle.Singleton);
 
             _container.Verify();
             return _container;

@@ -100,6 +100,10 @@
       <Project>{F56D71D5-F5D0-45B9-AFAE-BAB233229C23}</Project>
       <Name>ProductionRuleParser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\assemblies\logic\ResultLogging\ResultLogging.csproj">
+      <Project>{1E216570-3E0B-4C06-8D55-AADE92AD44ED}</Project>
+      <Name>ResultLogging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Base.UnitTests\Base.UnitTests.csproj">
       <Project>{adb942cb-8ff7-4e8d-8adf-ad621ee0c59e}</Project>
       <Name>Base.UnitTests</Name>

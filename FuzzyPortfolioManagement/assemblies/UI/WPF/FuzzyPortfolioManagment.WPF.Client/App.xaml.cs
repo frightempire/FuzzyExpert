@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using FuzzyPortfolioManagment.WPF.Client.DependencyInjection;
+using FuzzyPortfolioManagement.WPF.Client.DependencyInjection;
 using ProductionRuleSelectorAction.Panels;
 using SimpleInjector;
 
