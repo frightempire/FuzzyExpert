@@ -17,29 +17,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{C868
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{2B79862A-3948-444D-AB3F-A2B0E9B050BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Core", "assemblies\logic\FuzzyExpert.Core\FuzzyExpert.Core.csproj", "{F391999C-8933-4B3C-947C-28FE6D116A9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Core", "..\assemblies\logic\FuzzyExpert.Core\FuzzyExpert.Core.csproj", "{F391999C-8933-4B3C-947C-28FE6D116A9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Application", "assemblies\logic\FuzzyExpert.Application\FuzzyExpert.Application.csproj", "{16E3E7EA-9F3B-4701-A30C-6F52FC8DDB4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Application", "..\assemblies\logic\FuzzyExpert.Application\FuzzyExpert.Application.csproj", "{16E3E7EA-9F3B-4701-A30C-6F52FC8DDB4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Infrastructure", "assemblies\logic\FuzzyExpert.Infrastructure\FuzzyExpert.Infrastructure.csproj", "{C82A3455-593B-416C-8056-9D89743F5257}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Infrastructure", "..\assemblies\logic\FuzzyExpert.Infrastructure\FuzzyExpert.Infrastructure.csproj", "{C82A3455-593B-416C-8056-9D89743F5257}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Base.UnitTests", "tests\FuzzyExpert.Base.UnitTests\FuzzyExpert.Base.UnitTests.csproj", "{94487AE9-F9E0-4468-AB8F-09A393BEF807}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Base.UnitTests", "..\tests\FuzzyExpert.Base.UnitTests\FuzzyExpert.Base.UnitTests.csproj", "{94487AE9-F9E0-4468-AB8F-09A393BEF807}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Core.UnitTests", "tests\FuzzyExpert.Core.UnitTests\FuzzyExpert.Core.UnitTests.csproj", "{8C5C641C-89A6-4578-9517-AFD5F1571A36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Core.UnitTests", "..\tests\FuzzyExpert.Core.UnitTests\FuzzyExpert.Core.UnitTests.csproj", "{8C5C641C-89A6-4578-9517-AFD5F1571A36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Application.UnitTests", "tests\FuzzyExpert.Application.UnitTests\FuzzyExpert.Application.UnitTests.csproj", "{83C972F1-2B6F-4553-9F45-575A119E6047}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Application.UnitTests", "..\tests\FuzzyExpert.Application.UnitTests\FuzzyExpert.Application.UnitTests.csproj", "{83C972F1-2B6F-4553-9F45-575A119E6047}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Infrastructure.UnitTests", "tests\FuzzyExpert.Infrastructure.UnitTests\FuzzyExpert.Infrastructure.UnitTests.csproj", "{9EE1D1FB-7D89-4FD8-B662-F6907E5BFCC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Infrastructure.UnitTests", "..\tests\FuzzyExpert.Infrastructure.UnitTests\FuzzyExpert.Infrastructure.UnitTests.csproj", "{9EE1D1FB-7D89-4FD8-B662-F6907E5BFCC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.IntegrationTests", "tests\FuzzyExpert.IntegrationTests\FuzzyExpert.IntegrationTests.csproj", "{CD1D4E42-EB6C-49AD-A00A-25B5DAD5CC81}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.IntegrationTests", "..\tests\FuzzyExpert.IntegrationTests\FuzzyExpert.IntegrationTests.csproj", "{CD1D4E42-EB6C-49AD-A00A-25B5DAD5CC81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.CommonUILogic", "assemblies\UI\FuzzyExpert.CommonUILogic\FuzzyExpert.CommonUILogic.csproj", "{B874082C-7FC3-4071-9F74-4C5FBEFE7635}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.CommonUILogic", "..\assemblies\UI\FuzzyExpert.CommonUILogic\FuzzyExpert.CommonUILogic.csproj", "{B874082C-7FC3-4071-9F74-4C5FBEFE7635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.ConsoleClient", "assemblies\UI\Console\FuzzyExpert.ConsoleClient\FuzzyExpert.ConsoleClient.csproj", "{C66B1010-C29A-40CF-9378-53418E4F7481}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.ConsoleClient", "..\assemblies\UI\Console\FuzzyExpert.ConsoleClient\FuzzyExpert.ConsoleClient.csproj", "{C66B1010-C29A-40CF-9378-53418E4F7481}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.ImplicationRuleSelectorAction", "assemblies\UI\WPF\Actions\FuzzyExpert.ImplicationRuleSelectorAction\FuzzyExpert.ImplicationRuleSelectorAction.csproj", "{3495B356-9237-4F76-B6FB-688444850464}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.ImplicationRuleSelectorAction", "..\assemblies\UI\WPF\Actions\FuzzyExpert.ImplicationRuleSelectorAction\FuzzyExpert.ImplicationRuleSelectorAction.csproj", "{3495B356-9237-4F76-B6FB-688444850464}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.WpfClient", "assemblies\UI\WPF\FuzzyExpert.WpfClient\FuzzyExpert.WpfClient.csproj", "{D9D31040-E02D-4A26-9C09-29012AF6E6C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.WpfClient", "..\assemblies\UI\WPF\FuzzyExpert.WpfClient\FuzzyExpert.WpfClient.csproj", "{D9D31040-E02D-4A26-9C09-29012AF6E6C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
