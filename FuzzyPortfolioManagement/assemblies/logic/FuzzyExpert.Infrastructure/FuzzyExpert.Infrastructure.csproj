@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C82A3455-593B-416C-8056-9D89743F5257}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FuzzyExpert.Infrastructure</RootNamespace>
+    <AssemblyName>FuzzyExpert.Infrastructure</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InitialDataProviding\Implementations\CsvDataProvider.cs" />
+    <Compile Include="InitialDataProviding\Implementations\CsvFileParser.cs" />
+    <Compile Include="InitialDataProviding\Implementations\InitialDataFilePathProvider.cs" />
+    <Compile Include="InitialDataProviding\Implementations\ParsingResultValidator.cs" />
+    <Compile Include="InitialDataProviding\Interfaces\IDataFilePathProvider.cs" />
+    <Compile Include="InitialDataProviding\Interfaces\IFileParser.cs" />
+    <Compile Include="InitialDataProviding\Interfaces\IParsingResultValidator.cs" />
+    <Compile Include="KnowledgeManager\Helpers\NameSupervisor.cs" />
+    <Compile Include="KnowledgeManager\Implementations\FileImplicationRuleProvider.cs" />
+    <Compile Include="KnowledgeManager\Implementations\FileLinguisticVariableProvider.cs" />
+    <Compile Include="KnowledgeManager\Implementations\ImplicationRuleFilePathProvider.cs" />
+    <Compile Include="KnowledgeManager\Implementations\ImplicationRuleManager.cs" />
+    <Compile Include="KnowledgeManager\Implementations\KnowledgeBaseManager.cs" />
+    <Compile Include="KnowledgeManager\Implementations\KnowledgeBaseValidator.cs" />
+    <Compile Include="KnowledgeManager\Implementations\LinguisticVariableFilePathProvider.cs" />
+    <Compile Include="KnowledgeManager\Implementations\LinguisticVariableManager.cs" />
+    <Compile Include="KnowledgeManager\Implementations\LinguisticVariableRelationsInitializer.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\IImplicationRuleFilePathProvider.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\IImplicationRuleManager.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\IImplicationRuleProvider.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\IKnowledgeBaseValidator.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableFilePathProvider.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableManager.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableProvider.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableRelationsInitializer.cs" />
+    <Compile Include="KnowledgeManager\Interfaces\INameSupervisor.cs" />
+    <Compile Include="LinguisticVariableParsing\Entities\LinguisticVariableStrings.cs" />
+    <Compile Include="LinguisticVariableParsing\Implementations\LinguisticVariableCreator.cs" />
+    <Compile Include="LinguisticVariableParsing\Implementations\LinguisticVariableParser.cs" />
+    <Compile Include="LinguisticVariableParsing\Implementations\LinguisticVariableValidator.cs" />
+    <Compile Include="LinguisticVariableParsing\Interfaces\ILinguisticVariableCreator.cs" />
+    <Compile Include="LinguisticVariableParsing\Interfaces\ILinguisticVariableParser.cs" />
+    <Compile Include="LinguisticVariableParsing\Interfaces\ILinguisticVariableValidator.cs" />
+    <Compile Include="MembershipFunctionParsing\Entities\MembershipFunctionStrings.cs" />
+    <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionCreator.cs" />
+    <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionParser.cs" />
+    <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionValidator.cs" />
+    <Compile Include="MembershipFunctionParsing\Interfaces\IMembershipFunctionCreator.cs" />
+    <Compile Include="MembershipFunctionParsing\Interfaces\IMembershipFunctionParser.cs" />
+    <Compile Include="MembershipFunctionParsing\Interfaces\IMembershipFunctionValidator.cs" />
+    <Compile Include="ProductionRuleParsing\Entities\ImplicationRuleStrings.cs" />
+    <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleCreator.cs" />
+    <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleParser.cs" />
+    <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleValidator.cs" />
+    <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleCreator.cs" />
+    <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleParser.cs" />
+    <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleValidator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultLogging\Implementations\FileInferenceResultLogger.cs" />
+    <Compile Include="ResultLogging\Implementations\FileValidationOperationResultLogger.cs" />
+    <Compile Include="ResultLogging\Interfaces\IInferenceResultLogger.cs" />
+    <Compile Include="ResultLogging\Interfaces\IValidationOperationResultLogger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FuzzyExpert.Application\FuzzyExpert.Application.csproj">
+      <Project>{16E3E7EA-9F3B-4701-A30C-6F52FC8DDB4B}</Project>
+      <Name>FuzzyExpert.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FuzzyExpert.Core\FuzzyExpert.Core.csproj">
+      <Project>{F391999C-8933-4B3C-947C-28FE6D116A9F}</Project>
+      <Name>FuzzyExpert.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

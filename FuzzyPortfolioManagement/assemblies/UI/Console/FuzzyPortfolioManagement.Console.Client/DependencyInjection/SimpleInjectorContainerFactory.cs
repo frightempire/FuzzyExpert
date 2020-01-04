@@ -1,25 +1,25 @@
 ﻿using System.Collections.Generic;
-using CommonLogic.Implementations;
-using CommonLogic.Interfaces;
-using DataProvider.Implementations;
-using DataProvider.Interfaces;
-using FuzzificationEngine.Implementaions;
-using FuzzificationEngine.Interfaces;
-using InferenceEngine.Implementations;
-using InferenceEngine.Interfaces;
-using InferenceExpert.Implementations;
-using InferenceExpert.Interfaces;
-using KnowledgeManager.Helpers;
-using KnowledgeManager.Implementations;
-using KnowledgeManager.Interfaces;
-using LinguisticVariableParser.Implementations;
-using LinguisticVariableParser.Interfaces;
-using MembershipFunctionParser.Implementations;
-using MembershipFunctionParser.Interfaces;
-using ProductionRuleParser.Implementations;
-using ProductionRuleParser.Interfaces;
-using ResultLogging.Implementations;
-using ResultLogging.Interfaces;
+using FuzzyExpert.Application.Common.Implementations;
+using FuzzyExpert.Application.Common.Interfaces;
+using FuzzyExpert.Application.Contracts;
+using FuzzyExpert.Application.InferenceExpert.Interfaces;
+using FuzzyExpert.Core.FuzzificationEngine.Implementations;
+using FuzzyExpert.Core.FuzzificationEngine.Interfaces;
+using FuzzyExpert.Core.InferenceEngine.Implementations;
+using FuzzyExpert.Core.InferenceEngine.Interfaces;
+using FuzzyExpert.Infrastructure.InitialDataProviding.Implementations;
+using FuzzyExpert.Infrastructure.InitialDataProviding.Interfaces;
+using FuzzyExpert.Infrastructure.KnowledgeManager.Helpers;
+using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
+using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
+using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations;
+using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces;
+using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Implementations;
+using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Interfaces;
+using FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations;
+using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
+using FuzzyExpert.Infrastructure.ResultLogging.Implementations;
+using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
 using SimpleInjector;
 
 namespace FuzzyPortfolioManagement.Console.Client.DependencyInjection
@@ -43,10 +43,10 @@ namespace FuzzyPortfolioManagement.Console.Client.DependencyInjection
             _container.Register<IImplicationRuleManager, ImplicationRuleManager>(Lifestyle.Singleton);
 
             _container.Register<IMembershipFunctionValidator, MembershipFunctionValidator>(Lifestyle.Singleton);
-            _container.Register<IMembershipFunctionParser, MembershipFunctionParser.Implementations.MembershipFunctionParser>(Lifestyle.Singleton);
+            _container.Register<IMembershipFunctionParser, MembershipFunctionParser>(Lifestyle.Singleton);
             _container.Register<IMembershipFunctionCreator, MembershipFunctionCreator>(Lifestyle.Singleton);
             _container.Register<ILinguisticVariableValidator, LinguisticVariableValidator>(Lifestyle.Singleton);
-            _container.Register<ILinguisticVariableParser, LinguisticVariableParser.Implementations.LinguisticVariableParser>(Lifestyle.Singleton);
+            _container.Register<ILinguisticVariableParser, LinguisticVariableParser>(Lifestyle.Singleton);
             _container.Register<ILinguisticVariableCreator, LinguisticVariableCreator>(Lifestyle.Singleton);
             _container.Register<ILinguisticVariableFilePathProvider, LinguisticVariableFilePathProvider>(Lifestyle.Singleton);
             _container.Register<ILinguisticVariableProvider, FileLinguisticVariableProvider>(Lifestyle.Singleton);
@@ -65,7 +65,7 @@ namespace FuzzyPortfolioManagement.Console.Client.DependencyInjection
             // FuzzyExpert
             _container.Register<IInferenceEngine, InferenceGraph>(Lifestyle.Singleton);
             _container.Register<IFuzzyEngine, FuzzyEngine>(Lifestyle.Singleton);
-            _container.Register<IExpert, FuzzyExpert>(Lifestyle.Singleton);
+            _container.Register<IExpert, FuzzyExpert.Application.InferenceExpert.Implementations.FuzzyExpert>(Lifestyle.Singleton);
 
             // Logging
             _container.Register<IInferenceResultLogger, FileInferenceResultLogger>(Lifestyle.Singleton);

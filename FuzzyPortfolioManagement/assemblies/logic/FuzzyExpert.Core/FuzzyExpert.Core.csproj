@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F391999C-8933-4B3C-947C-28FE6D116A9F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FuzzyExpert.Core</RootNamespace>
+    <AssemblyName>FuzzyExpert.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\ImplicationRule.cs" />
+    <Compile Include="Entities\InitialData.cs" />
+    <Compile Include="Entities\LinguisticVariable.cs" />
+    <Compile Include="Entities\MembershipFunction.cs" />
+    <Compile Include="Entities\MembershipFunctionList.cs" />
+    <Compile Include="Entities\StatementCombination.cs" />
+    <Compile Include="Entities\TrapezoidalMembershipFunction.cs" />
+    <Compile Include="Entities\UnaryStatement.cs" />
+    <Compile Include="Enums\ComparisonOperation.cs" />
+    <Compile Include="Enums\DataOriginType.cs" />
+    <Compile Include="Enums\LogicalOperation.cs" />
+    <Compile Include="Enums\MembershipFunctionType.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FuzzificationEngine\Implementations\FuzzyEngine.cs" />
+    <Compile Include="FuzzificationEngine\Interfaces\IFuzzyEngine.cs" />
+    <Compile Include="InferenceEngine\Implementations\GraphNode.cs" />
+    <Compile Include="InferenceEngine\Implementations\GraphRule.cs" />
+    <Compile Include="InferenceEngine\Implementations\InferenceGraph.cs" />
+    <Compile Include="InferenceEngine\Interfaces\IInferenceEngine.cs" />
+    <Compile Include="InferenceEngine\Interfaces\IInferenceNode.cs" />
+    <Compile Include="InferenceEngine\Interfaces\IInferenceRule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

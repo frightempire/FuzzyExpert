@@ -1,10 +1,11 @@
 ﻿using System.IO;
-using DataProvider.Interfaces;
+using FuzzyExpert.Application.Contracts;
+using FuzzyExpert.Application.InferenceExpert.Entities;
+using FuzzyExpert.Application.InferenceExpert.Interfaces;
+using FuzzyExpert.Infrastructure.InitialDataProviding.Interfaces;
+using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
+using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
 using FuzzyPortfolioManagement.Console.Client.DependencyInjection;
-using InferenceExpert.Entities;
-using InferenceExpert.Interfaces;
-using KnowledgeManager.Interfaces;
-using ResultLogging.Interfaces;
 using SimpleInjector;
 using SystemConsole = System.Console;
 

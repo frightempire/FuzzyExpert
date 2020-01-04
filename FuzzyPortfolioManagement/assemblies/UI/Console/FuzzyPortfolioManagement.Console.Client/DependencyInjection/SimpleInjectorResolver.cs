@@ -1,5 +1,4 @@
 ﻿using System;
-using CommonLogic;
 using SimpleInjector;
 
 namespace FuzzyPortfolioManagement.Console.Client.DependencyInjection
@@ -10,9 +9,7 @@ namespace FuzzyPortfolioManagement.Console.Client.DependencyInjection
 
         public SimpleInjectorResolver(Container simpleInjectorContainer)
         {
-            ExceptionAssert.IsNull(simpleInjectorContainer);
-
-            _simpleInjectorContainer = simpleInjectorContainer;
+            _simpleInjectorContainer = simpleInjectorContainer ?? throw new ArgumentNullException(nameof(simpleInjectorContainer));
         }
 
         public object Resolve(Type itemType)
