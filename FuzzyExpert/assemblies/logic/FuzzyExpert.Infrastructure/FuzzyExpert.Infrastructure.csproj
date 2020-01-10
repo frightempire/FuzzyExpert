@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\..\..\solutions\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -89,6 +92,9 @@
     <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleCreator.cs" />
     <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleParser.cs" />
     <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleValidator.cs" />
+    <Compile Include="ProfileManaging\Entities\InferenceProfile.cs" />
+    <Compile Include="ProfileManaging\Implementations\ProfileRepository.cs" />
+    <Compile Include="ProfileManaging\Interfaces\IProfileRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultLogging\Implementations\FileInferenceResultLogger.cs" />
     <Compile Include="ResultLogging\Implementations\FileValidationOperationResultLogger.cs" />
@@ -104,6 +110,9 @@
       <Project>{F391999C-8933-4B3C-947C-28FE6D116A9F}</Project>
       <Name>FuzzyExpert.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
