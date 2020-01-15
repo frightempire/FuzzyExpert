@@ -1,0 +1,21 @@
+﻿<Window x:Class="FuzzyExpert.WpfClient.FuzzyExpertActions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FuzzyExpert.WpfClient"
+        xmlns:ProfilingViews="clr-namespace:FuzzyExpert.Profiling.Views;assembly=FuzzyExpert.Profiling"
+        xmlns:InferencingViews="clr-namespace:FuzzyExpert.Inferencing.Views;assembly=FuzzyExpert.Inferencing"
+        mc:Ignorable="d"
+        Title="Fuzzy Expert" Height="450" Width="800">
+    <Grid>
+        <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TabItem Header="Profiling">
+                <ProfilingViews:ProfilingActions></ProfilingViews:ProfilingActions>
+            </TabItem>
+            <TabItem Header="Inferencing">
+                <InferencingViews:InferencingActions></InferencingViews:InferencingActions>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

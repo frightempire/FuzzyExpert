@@ -9,6 +9,7 @@ using FuzzyExpert.Core.InferenceEngine.Implementations;
 using FuzzyExpert.Core.InferenceEngine.Interfaces;
 using FuzzyExpert.ImplicationRuleSelectorAction.Panels;
 using FuzzyExpert.ImplicationRuleSelectorAction.ViewModels;
+using FuzzyExpert.Inferencing.Views;
 using FuzzyExpert.Infrastructure.InitialDataProviding.Implementations;
 using FuzzyExpert.Infrastructure.InitialDataProviding.Interfaces;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Helpers;
@@ -22,6 +23,7 @@ using FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Implementations;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
+using FuzzyExpert.Profiling.Views;
 using SimpleInjector;
 
 namespace FuzzyExpert.WpfClient.DependencyInjection
@@ -69,10 +71,15 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<IFuzzyEngine, FuzzyEngine>(Lifestyle.Singleton);
             _container.Register<IExpert, FuzzyExpert.Application.InferenceExpert.Implementations.FuzzyExpert>(Lifestyle.Singleton);
 
+            // !!! Will change
             _container.Register<DataSelectorActionModel>(Lifestyle.Singleton);
             _container.Register<DataSelectorAction>(Lifestyle.Singleton);
             _container.Register<InferenceActionModel>(Lifestyle.Singleton);
             _container.Register<InferenceAction>(Lifestyle.Singleton);
+
+            _container.Register<ProfilingActions>(Lifestyle.Singleton);
+            _container.Register<InferencingActions>(Lifestyle.Singleton);
+            _container.Register<FuzzyExpertActions>(Lifestyle.Singleton);
 
             // Logging
             _container.Register<IInferenceResultLogger, FileInferenceResultLogger>(Lifestyle.Singleton);

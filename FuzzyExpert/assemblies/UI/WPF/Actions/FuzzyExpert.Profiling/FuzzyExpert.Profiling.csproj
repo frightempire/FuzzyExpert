@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D9D31040-E02D-4A26-9C09-29012AF6E6C5}</ProjectGuid>
+    <ProjectGuid>{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>FuzzyExpert.WpfClient</RootNamespace>
-    <AssemblyName>FuzzyExpert.WpfClient</AssemblyName>
+    <RootNamespace>FuzzyExpert.Profiling</RootNamespace>
+    <AssemblyName>FuzzyExpert.Profiling</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleInjector, Version=4.6.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\solutions\packages\SimpleInjector.4.6.0\lib\net45\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -57,17 +55,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Views\AddImplicationRuleAction.xaml.cs">
+      <DependentUpon>AddImplicationRuleAction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddProfileAction.xaml.cs">
+      <DependentUpon>AddProfileAction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProfilingActions.xaml.cs">
+      <DependentUpon>ProfilingActions.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DependencyInjection\SimpleInjectorContainerFactory.cs" />
-    <Compile Include="DependencyInjection\SimpleInjectorResolver.cs" />
-    <Compile Include="FuzzyExpertActions.xaml.cs">
-      <DependentUpon>FuzzyExpertActions.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,7 +88,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -95,36 +97,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\logic\FuzzyExpert.Application\FuzzyExpert.Application.csproj">
-      <Project>{16E3E7EA-9F3B-4701-A30C-6F52FC8DDB4B}</Project>
-      <Name>FuzzyExpert.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\logic\FuzzyExpert.Core\FuzzyExpert.Core.csproj">
-      <Project>{F391999C-8933-4B3C-947C-28FE6D116A9F}</Project>
-      <Name>FuzzyExpert.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\logic\FuzzyExpert.Infrastructure\FuzzyExpert.Infrastructure.csproj">
-      <Project>{C82A3455-593B-416C-8056-9D89743F5257}</Project>
-      <Name>FuzzyExpert.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Actions\FuzzyExpert.ImplicationRuleSelectorAction\FuzzyExpert.ImplicationRuleSelectorAction.csproj">
-      <Project>{3495B356-9237-4F76-B6FB-688444850464}</Project>
-      <Name>FuzzyExpert.ImplicationRuleSelectorAction</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Actions\FuzzyExpert.Inferencing\FuzzyExpert.Inferencing.csproj">
-      <Project>{33BC4540-18D7-4646-9F2F-8AA2E1899654}</Project>
-      <Name>FuzzyExpert.Inferencing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Actions\FuzzyExpert.Profiling\FuzzyExpert.Profiling.csproj">
-      <Project>{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3}</Project>
-      <Name>FuzzyExpert.Profiling</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="FuzzyExpertActions.xaml">
+    <Page Include="Views\AddImplicationRuleAction.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AddProfileAction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProfilingActions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

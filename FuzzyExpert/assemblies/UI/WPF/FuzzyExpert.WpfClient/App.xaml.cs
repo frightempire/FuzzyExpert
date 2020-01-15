@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using FuzzyExpert.ImplicationRuleSelectorAction.Panels;
 using FuzzyExpert.WpfClient.DependencyInjection;
 using SimpleInjector;
 
@@ -17,7 +16,7 @@ namespace FuzzyExpert.WpfClient
             Container container = containerFactory.CreateSimpleInjectorContainer();
             SimpleInjectorResolver resolver = new SimpleInjectorResolver(container);
 
-            var startUpWindow = (InferenceAction) resolver.Resolve(typeof(InferenceAction));
+            var startUpWindow = (FuzzyExpertActions) resolver.Resolve(typeof(FuzzyExpertActions));
             startUpWindow.Show();
         }
 

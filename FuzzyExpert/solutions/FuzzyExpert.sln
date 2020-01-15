@@ -41,6 +41,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.ImplicationRule
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.WpfClient", "..\assemblies\UI\WPF\FuzzyExpert.WpfClient\FuzzyExpert.WpfClient.csproj", "{D9D31040-E02D-4A26-9C09-29012AF6E6C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Profiling", "..\assemblies\UI\WPF\Actions\FuzzyExpert.Profiling\FuzzyExpert.Profiling.csproj", "{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuzzyExpert.Inferencing", "..\assemblies\UI\WPF\Actions\FuzzyExpert.Inferencing\FuzzyExpert.Inferencing.csproj", "{33BC4540-18D7-4646-9F2F-8AA2E1899654}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +99,14 @@ Global
 		{D9D31040-E02D-4A26-9C09-29012AF6E6C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9D31040-E02D-4A26-9C09-29012AF6E6C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9D31040-E02D-4A26-9C09-29012AF6E6C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33BC4540-18D7-4646-9F2F-8AA2E1899654}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33BC4540-18D7-4646-9F2F-8AA2E1899654}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33BC4540-18D7-4646-9F2F-8AA2E1899654}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33BC4540-18D7-4646-9F2F-8AA2E1899654}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +129,8 @@ Global
 		{C66B1010-C29A-40CF-9378-53418E4F7481} = {2B79862A-3948-444D-AB3F-A2B0E9B050BE}
 		{3495B356-9237-4F76-B6FB-688444850464} = {C868CF98-9AC6-4E3C-9512-77C073334368}
 		{D9D31040-E02D-4A26-9C09-29012AF6E6C5} = {D6BB19F6-A793-4564-9283-355E0D6B6DD1}
+		{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3} = {C868CF98-9AC6-4E3C-9512-77C073334368}
+		{33BC4540-18D7-4646-9F2F-8AA2E1899654} = {C868CF98-9AC6-4E3C-9512-77C073334368}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7C02048F-FD3D-413C-BF07-FD63D8B77511}
