@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,52 +7,118 @@ using System.Runtime.CompilerServices;
 using FuzzyExpert.Application.Contracts;
 using FuzzyExpert.Application.InferenceExpert.Entities;
 using FuzzyExpert.Application.InferenceExpert.Interfaces;
-using FuzzyExpert.Core.Entities;
-using FuzzyExpert.ImplicationRuleSelectorAction.Panels;
-using FuzzyExpert.ImplicationRuleSelectorAction.Properties;
+using FuzzyExpert.CommonUILogic.Implementations;
+using FuzzyExpert.Inferencing.Properties;
+using FuzzyExpert.Infrastructure.ProfileManaging.Entities;
+using FuzzyExpert.Infrastructure.ProfileManaging.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
 
-namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
+namespace FuzzyExpert.Inferencing.ViewModels
 {
-    public class InferenceActionModel : INotifyPropertyChanged
+    public class InferencingActionsModel : INotifyPropertyChanged
     {
-        private readonly DataSelectorAction _dataSelectorAction;
+        private readonly IProfileRepository _profileRepository;
         private readonly IExpert _expert;
         private readonly IKnowledgeBaseManager _knowledgeBaseManager;
         private readonly IInferenceResultLogger _inferenceResultLogger;
 
-        public ObservableCollection<string> ImplicationRules { get; set; }
-
-        private ExpertOpinion ExpertOpinion { get; set; }
-
-        public InferenceActionModel(
-            DataSelectorAction dataSelectorAction,
+        public InferencingActionsModel(
+            IProfileRepository profileRepository,
             IExpert expert,
             IKnowledgeBaseManager knowledgeBaseManager,
             IInferenceResultLogger inferenceResultLogger)
         {
-            _dataSelectorAction = dataSelectorAction ?? throw new ArgumentNullException(nameof(dataSelectorAction));
+            _profileRepository = profileRepository ?? throw new ArgumentNullException(nameof(profileRepository));
             _expert = expert ?? throw new ArgumentNullException(nameof(expert));
             _knowledgeBaseManager = knowledgeBaseManager ?? throw new ArgumentNullException(nameof(knowledgeBaseManager));
             _inferenceResultLogger = inferenceResultLogger ?? throw new ArgumentNullException(nameof(inferenceResultLogger));
 
             InitializeBindingProperties();
+            InitializeCollectionValues();
         }
+
+        private ExpertOpinion ExpertOpinion { get; set; }
+
+        public ObservableCollection<InferenceProfile> Profiles { get; set; }
 
         private void InitializeBindingProperties()
         {
-            StartInferenceButtonEnable = "False";
-            OpenResultFileButtonEnable = "False";
-            ImplicationRules = new ObservableCollection<string>();
+            StartInferenceButtonEnable = false;
+            OpenResultFileButtonEnable = false;
+            Profiles = new ObservableCollection<InferenceProfile>();
             ExpertOpinion = new ExpertOpinion();
         }
 
         private void ResetBindingProperties()
         {
-            StartInferenceButtonEnable = "False";
-            OpenResultFileButtonEnable = "False";
-            ImplicationRules.Clear();
+            StartInferenceButtonEnable = false;
+            OpenResultFileButtonEnable = false;
+            Profiles.Clear();
             ExpertOpinion = new ExpertOpinion();
+        }
+
+        private void InitializeCollectionValues()
+        {
+            var profiles = _profileRepository.GetProfiles();
+            if (profiles == null)
+            {
+                return;
+            }
+
+            foreach (var profile in profiles.Value)
+            {
+                Profiles.Add(profile);
+            }
+        }
+
+        private bool _startInferenceButtonEnable;
+        public bool StartInferenceButtonEnable
+        {
+            get => _startInferenceButtonEnable;
+            set
+            {
+                _startInferenceButtonEnable = value;
+                OnPropertyChanged(nameof(StartInferenceButtonEnable));
+            }
+        }
+
+        private bool _openResultFileButtonEnable;
+        public bool OpenResultFileButtonEnable
+        {
+            get => _openResultFileButtonEnable;
+            set
+            {
+                _openResultFileButtonEnable = value;
+                OnPropertyChanged(nameof(OpenResultFileButtonEnable));
+            }
+        }
+
+        private string _dataFilePath;
+        public string DataFilePath
+        {
+            get => _dataFilePath;
+            set
+            {
+                _dataFilePath = value;
+                OnPropertyChanged(nameof(DataFilePath));
+            }
+        }
+
+        private InferenceProfile _selectedProfile;
+        public InferenceProfile SelectedProfile
+        {
+            get => _selectedProfile;
+            set
+            {
+                if (value == _selectedProfile)
+                {
+                    return;
+                }
+
+                _selectedProfile = value;
+                UpdateStartInferenceButtonStatus();
+                OnPropertyChanged(nameof(SelectedProfile));
+            }
         }
 
         private RelayCommand _getDataCommand;
@@ -64,16 +129,13 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
                 return _getDataCommand ??
                        (_getDataCommand = new RelayCommand(obj =>
                        {
-                           ResetBindingProperties();
-                           if (_dataSelectorAction.ShowDialog() != false) return;
-
-                           Dictionary<int, ImplicationRule> implicationRules = _knowledgeBaseManager.GetKnowledgeBase("STUB").Value.ImplicationRules;
-                           ImplicationRules.Clear();
-                           foreach (var rule in implicationRules)
+                           var dialog = new FileDialogInteractor();
+                           if (!dialog.OpenFileDialog())
                            {
-                               ImplicationRules.Add(rule.Value.ToString());
+                               return;
                            }
-                           StartInferenceButtonEnable = "True";
+                           DataFilePath = dialog.FilePath;
+                           UpdateStartInferenceButtonStatus();
                        }));
             }
         }
@@ -89,7 +151,7 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
                            ExpertOpinion = _expert.GetResult("STUB");
                            if (ExpertOpinion.IsSuccess)
                            {
-                               OpenResultFileButtonEnable = "True";
+                               OpenResultFileButtonEnable = true;
                            }
                        }));
             }
@@ -118,26 +180,9 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
             }
         }
 
-        private string _startInferenceButtonEnable;
-        public string StartInferenceButtonEnable
+        private void UpdateStartInferenceButtonStatus()
         {
-            get => _startInferenceButtonEnable;
-            set
-            {
-                _startInferenceButtonEnable = value;
-                OnPropertyChanged(nameof(StartInferenceButtonEnable));
-            }
-        }
-
-        private string _openResultFileButtonEnable;
-        public string OpenResultFileButtonEnable
-        {
-            get => _openResultFileButtonEnable;
-            set
-            {
-                _openResultFileButtonEnable = value;
-                OnPropertyChanged(nameof(OpenResultFileButtonEnable));
-            }
+            StartInferenceButtonEnable = !string.IsNullOrEmpty(DataFilePath) && SelectedProfile != null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

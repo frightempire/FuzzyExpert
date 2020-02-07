@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace FuzzyExpert.ImplicationRuleSelectorAction
+namespace FuzzyExpert.Inferencing
 {
     public class RelayCommand: ICommand
     {

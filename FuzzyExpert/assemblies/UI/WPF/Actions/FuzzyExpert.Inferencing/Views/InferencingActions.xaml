@@ -13,15 +13,42 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2.5*"/>
         </Grid.ColumnDefinitions>
 
-        <ComboBox Grid.Row="0" Grid.Column="0"
-                Name="ProfileSelectionBox" Cursor="Hand"
-                Width="100" Height="50"
-                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0"
+                   Content="DATA"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10"
+                     IsEnabled="False"
+                     Text="{Binding DataFilePath, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Row="0" Grid.Column="2"
+                    Content="..." Cursor="Hand"
+                    Width="30"
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"
+                    Command="{Binding GetDataCommand}"/>
+
+            <ComboBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"
+                      ItemsSource="{Binding Profiles}"    
+                      SelectedItem="{Binding SelectedProfile}"  
+                      DisplayMemberPath="ProfileName"/>
+        </Grid>
+
         <Label Grid.Row="0" Grid.Column="1"
                Content="=>" FontSize="30"
                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>

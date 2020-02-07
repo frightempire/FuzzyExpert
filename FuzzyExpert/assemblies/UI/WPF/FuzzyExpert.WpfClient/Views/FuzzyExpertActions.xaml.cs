@@ -12,6 +12,7 @@ namespace FuzzyExpert.WpfClient.Views
 
             InitializeComponent();
             ProfilingTab.Content = model.ProfilingActions;
+            InferencingTab.Content = model.InferencingActions;
         }
     }
 }

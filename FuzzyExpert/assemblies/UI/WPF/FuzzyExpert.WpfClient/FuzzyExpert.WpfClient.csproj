@@ -109,10 +109,6 @@
       <Project>{C82A3455-593B-416C-8056-9D89743F5257}</Project>
       <Name>FuzzyExpert.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Actions\FuzzyExpert.ImplicationRuleSelectorAction\FuzzyExpert.ImplicationRuleSelectorAction.csproj">
-      <Project>{3495B356-9237-4F76-B6FB-688444850464}</Project>
-      <Name>FuzzyExpert.ImplicationRuleSelectorAction</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Actions\FuzzyExpert.Inferencing\FuzzyExpert.Inferencing.csproj">
       <Project>{33BC4540-18D7-4646-9F2F-8AA2E1899654}</Project>
       <Name>FuzzyExpert.Inferencing</Name>
