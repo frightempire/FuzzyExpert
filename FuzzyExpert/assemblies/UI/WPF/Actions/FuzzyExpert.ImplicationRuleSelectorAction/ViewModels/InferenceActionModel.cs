@@ -67,7 +67,7 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
                            ResetBindingProperties();
                            if (_dataSelectorAction.ShowDialog() != false) return;
 
-                           Dictionary<int, ImplicationRule> implicationRules = _knowledgeBaseManager.GetKnowledgeBase().Value.ImplicationRules;
+                           Dictionary<int, ImplicationRule> implicationRules = _knowledgeBaseManager.GetKnowledgeBase("STUB").Value.ImplicationRules;
                            ImplicationRules.Clear();
                            foreach (var rule in implicationRules)
                            {
@@ -86,7 +86,7 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
                 return _startInferenceCommand ??
                        (_startInferenceCommand = new RelayCommand(obj =>
                        {
-                           ExpertOpinion = _expert.GetResult();
+                           ExpertOpinion = _expert.GetResult("STUB");
                            if (ExpertOpinion.IsSuccess)
                            {
                                OpenResultFileButtonEnable = "True";
@@ -104,7 +104,7 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
                        (_openResultFileCommand = new RelayCommand(obj =>
                        {
                            File.Delete(_inferenceResultLogger.LogPath);
-                           _inferenceResultLogger.LogImplicationRules(_knowledgeBaseManager.GetKnowledgeBase().Value.ImplicationRules);
+                           _inferenceResultLogger.LogImplicationRules(_knowledgeBaseManager.GetKnowledgeBase("STUB").Value.ImplicationRules);
                            if (ExpertOpinion.IsSuccess)
                            {
                                _inferenceResultLogger.LogInferenceResult(ExpertOpinion.Result);

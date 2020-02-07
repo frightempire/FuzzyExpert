@@ -15,24 +15,17 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
             _linguisticVariableProvider = linguisticVariableProvider ?? throw new ArgumentNullException(nameof(linguisticVariableProvider));
         }
 
-        private Optional<Dictionary<int, LinguisticVariable>> _linguisticVariables = Optional<Dictionary<int, LinguisticVariable>>.Empty();
-
-        public Optional<Dictionary<int, LinguisticVariable>> LinguisticVariables
+        public Optional<Dictionary<int, LinguisticVariable>> GetLinguisticVariables(string profileName)
         {
-            get
+            Optional<List<LinguisticVariable>> linguisticVariablesFromProvider = _linguisticVariableProvider.GetLinguisticVariables(profileName);
+            if (!linguisticVariablesFromProvider.IsPresent) return Optional<Dictionary<int, LinguisticVariable>>.Empty();
+
+            Dictionary<int, LinguisticVariable> linguisticVariables = new Dictionary<int, LinguisticVariable>();
+            for (int i = 1; i <= linguisticVariablesFromProvider.Value.Count; i++)
             {
-                if (_linguisticVariables.IsPresent) return _linguisticVariables;
-
-                Optional<List<LinguisticVariable>> linguisticVariablesFromProvider = _linguisticVariableProvider.GetLinguisticVariables();
-                if (!linguisticVariablesFromProvider.IsPresent) return Optional<Dictionary<int, LinguisticVariable>>.Empty();
-
-                Dictionary<int, LinguisticVariable> linguisticVariables = new Dictionary<int, LinguisticVariable>();
-                for (int i = 1; i <= linguisticVariablesFromProvider.Value.Count; i++)
-                {
-                    linguisticVariables.Add(i, linguisticVariablesFromProvider.Value[i - 1]);
-                }
-                return _linguisticVariables = Optional<Dictionary<int, LinguisticVariable>>.For(linguisticVariables);
+                linguisticVariables.Add(i, linguisticVariablesFromProvider.Value[i - 1]);
             }
+            return Optional<Dictionary<int, LinguisticVariable>>.For(linguisticVariables);
         }
     }
 }

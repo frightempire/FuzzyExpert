@@ -49,8 +49,7 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<IImplicationRuleCreator, ImplicationRuleCreator>(Lifestyle.Singleton);
             _container.Register<INameProvider, UniqueNameProvider>(Lifestyle.Singleton);
             _container.Register<INameSupervisor, NameSupervisor>(Lifestyle.Singleton);
-            _container.Register<IImplicationRuleFilePathProvider, ImplicationRuleFilePathProvider>(Lifestyle.Singleton);
-            _container.Register<IImplicationRuleProvider, FileImplicationRuleProvider>(Lifestyle.Singleton);
+            _container.Register<IImplicationRuleProvider, DatabaseImplicationRuleProvider>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleManager, ImplicationRuleManager>(Lifestyle.Singleton);
 
             _container.Register<IMembershipFunctionValidator, MembershipFunctionValidator>(Lifestyle.Singleton);
@@ -59,8 +58,7 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<ILinguisticVariableValidator, LinguisticVariableValidator>(Lifestyle.Singleton);
             _container.Register<ILinguisticVariableParser, LinguisticVariableParser>(Lifestyle.Singleton);
             _container.Register<ILinguisticVariableCreator, LinguisticVariableCreator>(Lifestyle.Singleton);
-            _container.Register<ILinguisticVariableFilePathProvider, LinguisticVariableFilePathProvider>(Lifestyle.Singleton);
-            _container.Register<ILinguisticVariableProvider, FileLinguisticVariableProvider>(Lifestyle.Singleton);
+            _container.Register<ILinguisticVariableProvider, DatabaseLinguisticVariableProvider>(Lifestyle.Singleton);
             _container.Register<ILinguisticVariableManager, LinguisticVariableManager>(Lifestyle.Singleton);
 
             _container.Register<IKnowledgeBaseValidator, KnowledgeBaseValidator>(Lifestyle.Singleton);
@@ -76,7 +74,7 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             // FuzzyExpert
             _container.Register<IInferenceEngine, InferenceGraph>(Lifestyle.Singleton);
             _container.Register<IFuzzyEngine, FuzzyEngine>(Lifestyle.Singleton);
-            _container.Register<IExpert, FuzzyExpert.Application.InferenceExpert.Implementations.FuzzyExpert>(Lifestyle.Singleton);
+            _container.Register<IExpert, Application.InferenceExpert.Implementations.FuzzyExpert>(Lifestyle.Singleton);
 
             // !!! Will change
             _container.Register<DataSelectorActionModel>(Lifestyle.Singleton);

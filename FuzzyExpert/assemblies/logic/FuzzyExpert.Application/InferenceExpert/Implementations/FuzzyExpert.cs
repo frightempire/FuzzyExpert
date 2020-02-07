@@ -32,10 +32,10 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
             _fuzzyEngine = fuzzyEngine ?? throw new ArgumentNullException(nameof(fuzzyEngine));
         }
 
-        public ExpertOpinion GetResult()
+        public ExpertOpinion GetResult(string profileName)
         {
             Optional<List<InitialData>> initialData = _initialDataProvider.GetInitialData();
-            Optional<KnowledgeBase> knowledgeBase = _knowledgeManager.GetKnowledgeBase();
+            Optional<KnowledgeBase> knowledgeBase = _knowledgeManager.GetKnowledgeBase(profileName);
 
             ExpertOpinion opinion = new ExpertOpinion();
             if (!initialData.IsPresent) opinion.AddErrorMessage("Initial data is not consistent. Check logs for more information.");

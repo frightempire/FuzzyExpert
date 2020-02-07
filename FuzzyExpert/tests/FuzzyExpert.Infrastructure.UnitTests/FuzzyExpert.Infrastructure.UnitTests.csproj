@@ -58,13 +58,11 @@
     <Compile Include="InitialDataProviding\Implementations\InitialDataFilePathProviderTests.cs" />
     <Compile Include="InitialDataProviding\Implementations\ParsingResultValidatorTests.cs" />
     <Compile Include="KnowledgeManager\Helpers\NameSupervisorTests.cs" />
-    <Compile Include="KnowledgeManager\Implementations\FileImplicationRuleProviderTests.cs" />
-    <Compile Include="KnowledgeManager\Implementations\FileLinguisticVariableProviderTests.cs" />
-    <Compile Include="KnowledgeManager\Implementations\ImplicationRuleFilePathProviderTests.cs" />
+    <Compile Include="KnowledgeManager\Implementations\DatabaseImplicationRuleProviderTests.cs" />
+    <Compile Include="KnowledgeManager\Implementations\DatabaseLinguisticVariableProviderTests.cs" />
     <Compile Include="KnowledgeManager\Implementations\ImplicationRuleManagerTests.cs" />
     <Compile Include="KnowledgeManager\Implementations\KnowledgeBaseManagerTests.cs" />
     <Compile Include="KnowledgeManager\Implementations\KnowledgeBaseValidatorTests.cs" />
-    <Compile Include="KnowledgeManager\Implementations\LinguisticVariableFilePathProviderTests.cs" />
     <Compile Include="KnowledgeManager\Implementations\LinguisticVariableManagerTests.cs" />
     <Compile Include="KnowledgeManager\Implementations\LinguisticVariableRelationsInitializerTests.cs" />
     <Compile Include="LinguisticVariableParsing\Entities\LinguisticVariableStringsTest.cs" />

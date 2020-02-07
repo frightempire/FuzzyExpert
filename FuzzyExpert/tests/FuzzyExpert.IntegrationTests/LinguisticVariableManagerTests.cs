@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using FuzzyExpert.Application.Common.Entities;
-using FuzzyExpert.Application.Common.Implementations;
 using FuzzyExpert.Base.UnitTests;
 using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Implementations;
-using FuzzyExpert.Infrastructure.ResultLogging.Implementations;
+using FuzzyExpert.Infrastructure.ProfileManaging.Entities;
+using FuzzyExpert.Infrastructure.ProfileManaging.Implementations;
 using NUnit.Framework;
 
 namespace FuzzyExpert.IntegrationTests
@@ -16,57 +14,54 @@ namespace FuzzyExpert.IntegrationTests
     [TestFixture]
     public class LinguisticVariableManagerTests
     {
-        private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\LinguisticVariables.txt");
-        private LinguisticVariableFilePathProvider _filePathProvider;
-
+        private readonly string _profileName = "profile_name";
+        private ProfileRepository _profileRepository;
         private LinguisticVariableManager _linguisticVariableManager;
 
         [SetUp]
         public void SetUp()
         {
+            PrepareProfileRepository();
             PrepareLinguisticVariableManager();
+        }
+
+        private void PrepareProfileRepository()
+        {
+            _profileRepository = new ProfileRepository();
+            var profile = new InferenceProfile
+            {
+                ProfileName = _profileName,
+                Variables = new List<string>
+                {
+                    "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]",
+                    "Pressure:Derivative:[Low:Trapezoidal:(20,50,50,60)|High:Trapezoidal:(80,100,100,150)]"
+                }
+            };
+            _profileRepository.SaveProfile(profile);
         }
 
         private void PrepareLinguisticVariableManager()
         {
-            MembershipFunctionValidator membershipFunctionValidator = new MembershipFunctionValidator(); 
-            LinguisticVariableValidator linguisticVariableValidator = new LinguisticVariableValidator(membershipFunctionValidator);
             MembershipFunctionParser membershipFunctionParser = new MembershipFunctionParser();
             LinguisticVariableParser linguisticVariableParser = new LinguisticVariableParser(membershipFunctionParser);
             MembershipFunctionCreator membershipFunctionCreator = new MembershipFunctionCreator();
             LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator, linguisticVariableParser);
-            _filePathProvider = new LinguisticVariableFilePathProvider {FilePath = _filePath};
-            FileOperations fileOperations = new FileOperations();
-            FileValidationOperationResultLogger validationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 
-            FileLinguisticVariableProvider linguisticVariableProvider = new FileLinguisticVariableProvider(
-                linguisticVariableValidator,
-                linguisticVariableCreator,
-                _filePathProvider,
-                fileOperations,
-                validationOperationResultLogger);
+            DatabaseLinguisticVariableProvider linguisticVariableProvider = new DatabaseLinguisticVariableProvider(
+                _profileRepository,
+                linguisticVariableCreator);
             _linguisticVariableManager = new LinguisticVariableManager(linguisticVariableProvider);
         }
 
         [Test]
-        public void LinguisticVariablesGetter_ThrowsFileNotFoundExceptionIfFilePathIsEmpty()
-        {
-            // Arrange
-            _filePathProvider.FilePath = string.Empty;
-
-            // Act & Assert
-            Assert.Throws<FileNotFoundException>(() => { var rules = _linguisticVariableManager.LinguisticVariables; });
-        }
-
-        [Test]
-        public void LinguisticVariablesGetter_ReturnsLinguisticVariablesList()
+        public void GetLinguisticVariables_ReturnsLinguisticVariablesList()
         {
             // Arrange
             Optional<Dictionary<int, LinguisticVariable>> expectedLinguisticVariables =
                 Optional<Dictionary<int, LinguisticVariable>>.For(PrepareExpectedLinguisticVariables());
 
             // Act
-            Optional<Dictionary<int, LinguisticVariable>> actualLinguisticVariables = _linguisticVariableManager.LinguisticVariables;
+            Optional<Dictionary<int, LinguisticVariable>> actualLinguisticVariables = _linguisticVariableManager.GetLinguisticVariables(_profileName);
 
             // Assert
             Assert.IsTrue(actualLinguisticVariables.IsPresent);

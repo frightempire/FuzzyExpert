@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using FuzzyExpert.Application.Common.Entities;
 using FuzzyExpert.Application.Common.Implementations;
 using FuzzyExpert.Base.UnitTests;
@@ -9,7 +7,8 @@ using FuzzyExpert.Core.Enums;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Helpers;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations;
-using FuzzyExpert.Infrastructure.ResultLogging.Implementations;
+using FuzzyExpert.Infrastructure.ProfileManaging.Entities;
+using FuzzyExpert.Infrastructure.ProfileManaging.Implementations;
 using NUnit.Framework;
 
 namespace FuzzyExpert.IntegrationTests
@@ -17,60 +16,55 @@ namespace FuzzyExpert.IntegrationTests
     [TestFixture]
     public class ImplicationRuleManagerTests
     {
-        private readonly string _filePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles\\ImplicationRules.txt");
-
+        private readonly string _profileName = "profile_name";
+        private ProfileRepository _profileRepository;
         private ImplicationRuleManager _implicationRuleManager;
-        private ImplicationRuleFilePathProvider _filePathProvider;
 
         [SetUp]
         public void SetUp()
         {
+            PrepareProfileRepository();
             PrepareImplicationRuleManager();
+        }
+
+        private void PrepareProfileRepository()
+        {
+            _profileRepository = new ProfileRepository();
+            var profile = new InferenceProfile
+            {
+                ProfileName = _profileName,
+                Rules = new List<string>
+                {
+                    "IF(A>10)THEN(X=5)",
+                    "IF(B!=1&C!=2)THEN(X=10)",
+                    "IF((A=5|B=10)&C=6)THEN(X=7)"
+                }
+            };
+            _profileRepository.SaveProfile(profile);
         }
 
         private void PrepareImplicationRuleManager()
         {
-            FileOperations fileOperations = new FileOperations();
-            _filePathProvider = new ImplicationRuleFilePathProvider
-            {
-                FilePath = _filePath
-            };
-
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
-            ImplicationRuleValidator ruleValidator = new ImplicationRuleValidator();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
             NameSupervisor nameSupervisor = new NameSupervisor(new UniqueNameProvider());
-            FileValidationOperationResultLogger fileValidationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 
-            FileImplicationRuleProvider ruleProvider = new FileImplicationRuleProvider(
-                fileOperations,
-                _filePathProvider,
-                ruleValidator,
+            DatabaseImplicationRuleProvider ruleProvider = new DatabaseImplicationRuleProvider(
+                _profileRepository,
                 ruleCreator,
-                nameSupervisor,
-                fileValidationOperationResultLogger);
+                nameSupervisor);
             _implicationRuleManager = new ImplicationRuleManager(ruleProvider);
         }
 
         [Test]
-        public void ImplicationRulesGetter_ThrowsFileNotFoundExceptionIfFilePathIsEmpty()
-        {
-            // Arrange
-            _filePathProvider.FilePath = string.Empty;
-
-            // Act & Assert
-            Assert.Throws<FileNotFoundException>(() => { var rules = _implicationRuleManager.ImplicationRules; });
-        }
-
-        [Test]
-        public void ImplicationRulesGetter_ReturnsImplicationRulesList()
+        public void GetImplicationRules_ReturnsImplicationRulesList()
         {
             // Arrange
             Optional<Dictionary<int, ImplicationRule>> expectedImplicationRules =
                 Optional<Dictionary<int, ImplicationRule>>.For(PrepareExpectedImplicationRules());
 
             // Act
-            Optional<Dictionary<int, ImplicationRule>> actualImplicationRules = _implicationRuleManager.ImplicationRules;
+            Optional<Dictionary<int, ImplicationRule>> actualImplicationRules = _implicationRuleManager.GetImplicationRules(_profileName);
 
             // Assert
             Assert.IsTrue(actualImplicationRules.IsPresent);

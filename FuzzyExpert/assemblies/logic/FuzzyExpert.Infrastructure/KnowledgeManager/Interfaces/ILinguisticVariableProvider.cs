@@ -6,6 +6,6 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces
 {
     public interface ILinguisticVariableProvider
     {
-        Optional<List<LinguisticVariable>> GetLinguisticVariables();
+        Optional<List<LinguisticVariable>> GetLinguisticVariables(string profileName);
     }
 }

@@ -10,17 +10,11 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
 {
     public class DataSelectorActionModel : INotifyPropertyChanged
     {
-        private readonly IImplicationRuleFilePathProvider _implicationRuleFilePathProvider;
-        private readonly ILinguisticVariableFilePathProvider _linguisticVariableFilePathProvider;
         private readonly IDataFilePathProvider _dataFilePathProvider;
 
         public DataSelectorActionModel(
-            IImplicationRuleFilePathProvider implicationRuleFilePathProvider,
-            ILinguisticVariableFilePathProvider linguisticVariableFilePathProvider,
             IDataFilePathProvider dataFilePathProvider)
         {
-            _implicationRuleFilePathProvider = implicationRuleFilePathProvider ?? throw new ArgumentNullException(nameof(implicationRuleFilePathProvider));
-            _linguisticVariableFilePathProvider = linguisticVariableFilePathProvider ?? throw new ArgumentNullException(nameof(linguisticVariableFilePathProvider));
             _dataFilePathProvider = dataFilePathProvider ?? throw new ArgumentNullException(nameof(dataFilePathProvider));
 
             InitializeBindingProperties();
@@ -91,7 +85,6 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
                        {
                            var dialog = new FileDialogInteractor();
                            if (!dialog.OpenFileDialog()) return;
-                           _implicationRuleFilePathProvider.FilePath = dialog.FilePath;
                            ImplicationRuleFilePath = dialog.FilePath;
                            UpdateCloseButtonStatus();
                        }));
@@ -108,7 +101,6 @@ namespace FuzzyExpert.ImplicationRuleSelectorAction.ViewModels
                        {
                            var dialog = new FileDialogInteractor();
                            if (!dialog.OpenFileDialog()) return;
-                           _linguisticVariableFilePathProvider.FilePath = dialog.FilePath;
                            LinguisticVariableFilePath = dialog.FilePath;
                            UpdateCloseButtonStatus();
                        }));

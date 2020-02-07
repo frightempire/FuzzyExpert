@@ -32,10 +32,10 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
             _validationOperationResultLogger = validationOperationResultLogger ?? throw new ArgumentNullException(nameof(implicationRuleManager));
         }
 
-        public Optional<KnowledgeBase> GetKnowledgeBase()
+        public Optional<KnowledgeBase> GetKnowledgeBase(string profileName)
         {
-            Optional<Dictionary<int, ImplicationRule>> implicationRules = _implicationRuleManager.ImplicationRules;
-            Optional<Dictionary<int, LinguisticVariable>> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
+            Optional<Dictionary<int, ImplicationRule>> implicationRules = _implicationRuleManager.GetImplicationRules(profileName);
+            Optional<Dictionary<int, LinguisticVariable>> linguisticVariables = _linguisticVariableManager.GetLinguisticVariables(profileName);
 
             if (!implicationRules.IsPresent || !linguisticVariables.IsPresent)
             {

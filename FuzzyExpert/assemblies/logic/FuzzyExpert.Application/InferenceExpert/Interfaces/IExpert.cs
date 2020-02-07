@@ -4,6 +4,6 @@ namespace FuzzyExpert.Application.InferenceExpert.Interfaces
 {
     public interface IExpert
     {
-        ExpertOpinion GetResult();
+        ExpertOpinion GetResult(string profileName);
     }
 }

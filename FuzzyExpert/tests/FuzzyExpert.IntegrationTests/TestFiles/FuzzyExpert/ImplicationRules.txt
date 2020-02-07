@@ -1,3 +1,0 @@
-﻿IF (Temperature = HOT) THEN (Pressure = HIGH)
-IF (Volume = BIG & Color = RED) THEN (Danger = HIGH)
-IF (Pressure = HIGH & Danger = HIGH) THEN (Evacuate = TRUE)

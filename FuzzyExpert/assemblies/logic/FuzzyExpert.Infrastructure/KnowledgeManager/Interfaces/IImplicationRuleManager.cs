@@ -6,6 +6,6 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces
 {
     public interface IImplicationRuleManager
     {
-        Optional<Dictionary<int, ImplicationRule>> ImplicationRules { get; }
+        Optional<Dictionary<int, ImplicationRule>> GetImplicationRules(string profileName);
     }
 }

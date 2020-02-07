@@ -5,6 +5,6 @@ namespace FuzzyExpert.Application.Contracts
 {
     public interface IKnowledgeBaseManager
     {
-        Optional<KnowledgeBase> GetKnowledgeBase();
+        Optional<KnowledgeBase> GetKnowledgeBase(string profileName);
     }
 }
