@@ -21,9 +21,14 @@ using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Implementations;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Interfaces;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
+using FuzzyExpert.Infrastructure.ProfileManaging.Implementations;
+using FuzzyExpert.Infrastructure.ProfileManaging.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Implementations;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
+using FuzzyExpert.Profiling.ViewModels;
 using FuzzyExpert.Profiling.Views;
+using FuzzyExpert.WpfClient.ViewModels;
+using FuzzyExpert.WpfClient.Views;
 using SimpleInjector;
 
 namespace FuzzyExpert.WpfClient.DependencyInjection
@@ -34,6 +39,8 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
 
         public Container CreateSimpleInjectorContainer()
         {
+            _container.Register<IProfileRepository, ProfileRepository>(Lifestyle.Singleton);
+
             // KnowledgeBaseManager
             _container.Register<IFileOperations, FileOperations>(Lifestyle.Singleton);
             _container.Register<IValidationOperationResultLogger, FileValidationOperationResultLogger>(Lifestyle.Singleton);
@@ -77,8 +84,12 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<InferenceActionModel>(Lifestyle.Singleton);
             _container.Register<InferenceAction>(Lifestyle.Singleton);
 
+            _container.Register<ProfilingActionsModel>(Lifestyle.Singleton);
             _container.Register<ProfilingActions>(Lifestyle.Singleton);
+            _container.Register<AddProfileActionModel>(Lifestyle.Singleton);
+            _container.Register<AddProfileAction>(Lifestyle.Singleton);
             _container.Register<InferencingActions>(Lifestyle.Singleton);
+            _container.Register<FuzzyExpertActionsModel>(Lifestyle.Singleton);
             _container.Register<FuzzyExpertActions>(Lifestyle.Singleton);
 
             // Logging

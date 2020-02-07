@@ -46,7 +46,6 @@ namespace FuzzyExpert.IntegrationTests
                 fileOperations,
                 _filePathProvider,
                 ruleValidator,
-                ruleParser,
                 ruleCreator,
                 nameSupervisor,
                 fileValidationOperationResultLogger);

@@ -37,8 +37,10 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
             // Arrange
             string ifStatementPart = "(A=a|(B=b&C=c))";
             string thenStatementPart = "(D=d)";
-            ImplicationRuleStrings implicationRuleStrings = new ImplicationRuleStrings(
-                ifStatementPart, thenStatementPart);
+            string implicationRule = $"IF{ifStatementPart}THEN{thenStatementPart}";
+            ImplicationRuleStrings implicationRuleStrings = new ImplicationRuleStrings(ifStatementPart, thenStatementPart);
+
+            _implicationRuleParser.Expect(x => x.ExtractStatementParts(implicationRule)).Return(implicationRuleStrings);
 
             // (A=a|(B=b&C=c))
             List<StatementCombination> ifStatementCombinations = new List<StatementCombination>
@@ -82,8 +84,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
             _implicationRuleParser.Expect(irp => irp.ParseUnaryStatement("D=d")).Return(dUnaryStatement);
 
             // Act
-            ImplicationRule actualImplicationRule =
-                _implicationRuleCreator.CreateImplicationRuleEntity(implicationRuleStrings);
+            ImplicationRule actualImplicationRule = _implicationRuleCreator.CreateImplicationRuleEntity(implicationRule);
 
             // Assert
             Assert.IsTrue(ObjectComparer.ImplicationRulesAreEqual(expectedImplicationRule, actualImplicationRule));

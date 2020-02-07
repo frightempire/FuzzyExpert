@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using FuzzyExpert.WpfClient.DependencyInjection;
+using FuzzyExpert.WpfClient.Views;
 using SimpleInjector;
 
 namespace FuzzyExpert.WpfClient

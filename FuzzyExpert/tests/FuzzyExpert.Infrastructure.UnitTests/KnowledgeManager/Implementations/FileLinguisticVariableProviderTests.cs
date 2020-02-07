@@ -41,7 +41,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             _validationOperationResultLoggerMock = MockRepository.GenerateMock<IValidationOperationResultLogger>();
             _fileLinguisticVariableProvider = new FileLinguisticVariableProvider(
                 _linguisticVariableValidatorMock,
-                _linguisticVariableParserMock,
                 _linguisticVariableCreatorMock,
                 _filePathProviderMock,
                 _fileOperationsMock,
@@ -49,94 +48,49 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfLinguisticVariableValidatorIsNull()
+        public void Constructor_ExpectedBehavior()
         {
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileLinguisticVariableProvider(
-                    null,
-                    _linguisticVariableParserMock,
-                    _linguisticVariableCreatorMock,
-                    _filePathProviderMock,
-                    _fileOperationsMock,
-                    _validationOperationResultLoggerMock);
-            });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfLinguisticVariableParserIsNull()
-        {
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new FileLinguisticVariableProvider(
-                    _linguisticVariableValidatorMock,
                     null,
                     _linguisticVariableCreatorMock,
                     _filePathProviderMock,
                     _fileOperationsMock,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfLinguisticVariableCreatorIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileLinguisticVariableProvider(
                     _linguisticVariableValidatorMock,
-                    _linguisticVariableParserMock,
                     null,
                     _filePathProviderMock,
                     _fileOperationsMock,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfFilePathProviderIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileLinguisticVariableProvider(
                     _linguisticVariableValidatorMock,
-                    _linguisticVariableParserMock,
                     _linguisticVariableCreatorMock,
                     null,
                     _fileOperationsMock,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfFileOperationsIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileLinguisticVariableProvider(
                     _linguisticVariableValidatorMock,
-                    _linguisticVariableParserMock,
                     _linguisticVariableCreatorMock,
                     _filePathProviderMock,
                     null,
                     _validationOperationResultLoggerMock);
             });
-        }
-
-        [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfValidationOperationResultLoggerIsNull()
-        {
-            // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new FileLinguisticVariableProvider(
                     _linguisticVariableValidatorMock,
-                    _linguisticVariableParserMock,
                     _linguisticVariableCreatorMock,
                     _filePathProviderMock,
                     _fileOperationsMock,
@@ -220,7 +174,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             };
             LinguisticVariableStrings firstLinguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", firstMembershipFunctionStrings);
 
-            // Pressure vatiable
+            // Pressure variable
             MembershipFunctionList secondsMembershipFunctionList = new MembershipFunctionList
             {
                 new TrapezoidalMembershipFunction("Low", 20, 50, 50, 60),
@@ -249,8 +203,10 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 .Stub(x => x.ParseLinguisticVariable(secondLinguisticVariableStringFromFile))
                 .Return(secondLinguisticVariableStrings);
 
-            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(firstLinguisticVariableStrings)).Return(firstLinguisticVariable);
-            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(secondLinguisticVariableStrings)).Return(secondLinguisticVariable);
+            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(firstLinguisticVariableStringFromFile))
+                .Return(firstLinguisticVariable);
+            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(secondLinguisticVariableStringFromFile))
+                .Return(secondLinguisticVariable);
 
             // Act
             Optional<List<LinguisticVariable>> actualOptional = _fileLinguisticVariableProvider.GetLinguisticVariables();
@@ -335,8 +291,10 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 .Stub(x => x.ParseLinguisticVariable(secondLinguisticVariableStringFromFile))
                 .Return(secondLinguisticVariableStrings);
 
-            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(firstLinguisticVariableStrings)).Return(firstLinguisticVariable);
-            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(secondLinguisticVariableStrings)).Return(secondLinguisticVariable);
+            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(firstLinguisticVariableStringFromFile))
+                .Return(firstLinguisticVariable);
+            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(secondLinguisticVariableStringFromFile))
+                .Return(secondLinguisticVariable);
 
             // Act
             Optional<List<LinguisticVariable>> actualOptional = _fileLinguisticVariableProvider.GetLinguisticVariables();

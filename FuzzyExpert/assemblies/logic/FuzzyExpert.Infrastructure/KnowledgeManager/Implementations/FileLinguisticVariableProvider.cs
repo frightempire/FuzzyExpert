@@ -7,7 +7,6 @@ using FuzzyExpert.Application.Entities;
 using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.Extensions;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
-using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Entities;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
 
@@ -18,20 +17,17 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
         private readonly ILinguisticVariableFilePathProvider _filePathProvider;
         private readonly IFileOperations _fileOperations;
         private readonly ILinguisticVariableValidator _linguisticVariableValidator;
-        private readonly ILinguisticVariableParser _linguisticVariableParser;
         private readonly ILinguisticVariableCreator _linguisticVariableCreator;
         private readonly IValidationOperationResultLogger _validationOperationResultLogger;
 
         public FileLinguisticVariableProvider(
             ILinguisticVariableValidator linguisticVariableValidator,
-            ILinguisticVariableParser linguisticVariableParser,
             ILinguisticVariableCreator linguisticVariableCreator,
             ILinguisticVariableFilePathProvider filePathProvider,
             IFileOperations fileOperations,
             IValidationOperationResultLogger validationOperationResultLogger)
         {
             _linguisticVariableValidator = linguisticVariableValidator ?? throw new ArgumentNullException(nameof(linguisticVariableValidator));
-            _linguisticVariableParser = linguisticVariableParser ?? throw new ArgumentNullException(nameof(linguisticVariableValidator));
             _linguisticVariableCreator = linguisticVariableCreator ?? throw new ArgumentNullException(nameof(linguisticVariableValidator));
             _filePathProvider = filePathProvider ?? throw new ArgumentNullException(nameof(linguisticVariableValidator));
             _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(linguisticVariableValidator));
@@ -53,8 +49,7 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
                 ValidationOperationResult validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariable(preProcessedLinguisticVariable);
                 if (validationOperationResult.IsSuccess)
                 {
-                    LinguisticVariableStrings linguisticVariableStrings = _linguisticVariableParser.ParseLinguisticVariable(preProcessedLinguisticVariable);
-                    LinguisticVariable linguisticVariable = _linguisticVariableCreator.CreateLinguisticVariableEntity(linguisticVariableStrings);
+                    LinguisticVariable linguisticVariable = _linguisticVariableCreator.CreateLinguisticVariableEntity(preProcessedLinguisticVariable);
                     linguisticVariables.Add(linguisticVariable);
                 }
                 else

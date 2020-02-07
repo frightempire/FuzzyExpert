@@ -44,7 +44,6 @@ namespace FuzzyExpert.IntegrationTests
                 fileOperations,
                 filePathProviderForImplicationRules,
                 ruleValidator,
-                ruleParser,
                 ruleCreator,
                 nameSupervisor,
                 fileValidationOperationResultLogger);
@@ -56,11 +55,10 @@ namespace FuzzyExpert.IntegrationTests
             MembershipFunctionParser membershipFunctionParser = new MembershipFunctionParser();
             LinguisticVariableParser linguisticVariableParser = new LinguisticVariableParser(membershipFunctionParser);
             MembershipFunctionCreator membershipFunctionCreator = new MembershipFunctionCreator();
-            LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator);
+            LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator, linguisticVariableParser);
             LinguisticVariableFilePathProvider filePathProviderForLinguisticVariables = new LinguisticVariableFilePathProvider { FilePath = _filePathLinguisticVariables };
             FileLinguisticVariableProvider linguisticVariableProvider = new FileLinguisticVariableProvider(
                 linguisticVariableValidator,
-                linguisticVariableParser,
                 linguisticVariableCreator,
                 filePathProviderForLinguisticVariables,
                 fileOperations,

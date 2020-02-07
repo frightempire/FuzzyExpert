@@ -8,10 +8,10 @@ namespace FuzzyExpert.Infrastructure.ProfileManaging.Entities
         [BsonId]
         public string ProfileName { get; set; }
 
+        public string Description { get; set; }
+
         public List<string> Rules { get; set; }
 
         public List<string> Variables { get; set; }
-
-        public List<string> Functions { get; set; }
     }
 }

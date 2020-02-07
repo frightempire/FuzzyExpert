@@ -15,8 +15,9 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
             _implicationRuleParser = implicationRuleParser ?? throw new ArgumentNullException(nameof(implicationRuleParser));
         }
 
-        public ImplicationRule CreateImplicationRuleEntity(ImplicationRuleStrings implicationRuleStrings)
+        public ImplicationRule CreateImplicationRuleEntity(string implicationRule)
         {
+            ImplicationRuleStrings implicationRuleStrings = _implicationRuleParser.ExtractStatementParts(implicationRule);
             string ifStatement = implicationRuleStrings.IfStatement;
             string thenStatement = implicationRuleStrings.ThenStatement;
             List<string> ifStatementParts = _implicationRuleParser.ParseImplicationRule(ref ifStatement);

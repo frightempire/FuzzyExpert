@@ -5,6 +5,7 @@ using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.Enums;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Entities;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations;
+using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Entities;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Interfaces;
 using NUnit.Framework;
@@ -16,20 +17,23 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
     public class LinguisticVariableCreatorTests
     {
         private IMembershipFunctionCreator _membershipFunctionCreatorMock;
+        private ILinguisticVariableParser _linguisticVariableParserMock;
         private LinguisticVariableCreator _linguisticVariableCreator;
 
         [SetUp]
         public void SetUp()
         {
             _membershipFunctionCreatorMock = MockRepository.GenerateMock<IMembershipFunctionCreator>();
-            _linguisticVariableCreator = new LinguisticVariableCreator(_membershipFunctionCreatorMock);
+            _linguisticVariableParserMock = MockRepository.GenerateMock<ILinguisticVariableParser>();
+            _linguisticVariableCreator = new LinguisticVariableCreator(_membershipFunctionCreatorMock, _linguisticVariableParserMock);
         }
 
         [Test]
-        public void Constructor_ThrowsArgumentNullExceptionIfMembershipFunctionCreatorIsNull()
+        public void Constructor_ExpectedBehavior()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => { new LinguisticVariableCreator(null); });
+            Assert.Throws<ArgumentNullException>(() => { new LinguisticVariableCreator(null, _linguisticVariableParserMock); });
+            Assert.Throws<ArgumentNullException>(() => { new LinguisticVariableCreator(_membershipFunctionCreatorMock, null); });
         }
 
         [Test]
@@ -43,7 +47,10 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
                 new MembershipFunctionStrings("Cold", "Trapezoidal", firstFunctionValues),
                 new MembershipFunctionStrings("Hot", "Trapezoidal", secondFunctionValues)
             };
+            string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
             LinguisticVariableStrings linguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", membershipFunctionStringsList);
+
+            _linguisticVariableParserMock.Expect(x => x.ParseLinguisticVariable(linguisticVariable)).Return(linguisticVariableStrings);
 
             var firstMembershipFunction = new TrapezoidalMembershipFunction("Cold", 0, 20, 20, 30);
             var secondMembershipFunction = new TrapezoidalMembershipFunction("Hot", 50, 60, 60, 80);
@@ -59,7 +66,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
                 true);
 
             // Act
-            LinguisticVariable actualLinguisticVariable = _linguisticVariableCreator.CreateLinguisticVariableEntity(linguisticVariableStrings);
+            LinguisticVariable actualLinguisticVariable = _linguisticVariableCreator.CreateLinguisticVariableEntity(linguisticVariable);
 
             // Assert
             Assert.IsTrue(ObjectComparer.LinguisticVariablesAreEqual(expectedLinguisticVariable, actualLinguisticVariable));

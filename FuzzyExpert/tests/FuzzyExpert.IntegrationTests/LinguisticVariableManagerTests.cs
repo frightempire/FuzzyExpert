@@ -34,14 +34,13 @@ namespace FuzzyExpert.IntegrationTests
             MembershipFunctionParser membershipFunctionParser = new MembershipFunctionParser();
             LinguisticVariableParser linguisticVariableParser = new LinguisticVariableParser(membershipFunctionParser);
             MembershipFunctionCreator membershipFunctionCreator = new MembershipFunctionCreator();
-            LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator);
+            LinguisticVariableCreator linguisticVariableCreator = new LinguisticVariableCreator(membershipFunctionCreator, linguisticVariableParser);
             _filePathProvider = new LinguisticVariableFilePathProvider {FilePath = _filePath};
             FileOperations fileOperations = new FileOperations();
             FileValidationOperationResultLogger validationOperationResultLogger = new FileValidationOperationResultLogger(fileOperations);
 
             FileLinguisticVariableProvider linguisticVariableProvider = new FileLinguisticVariableProvider(
                 linguisticVariableValidator,
-                linguisticVariableParser,
                 linguisticVariableCreator,
                 _filePathProvider,
                 fileOperations,

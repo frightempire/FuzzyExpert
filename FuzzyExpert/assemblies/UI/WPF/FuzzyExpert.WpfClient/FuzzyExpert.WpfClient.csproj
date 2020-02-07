@@ -61,11 +61,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\FuzzyExpertActionsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyInjection\SimpleInjectorContainerFactory.cs" />
     <Compile Include="DependencyInjection\SimpleInjectorResolver.cs" />
-    <Compile Include="FuzzyExpertActions.xaml.cs">
+    <Compile Include="Views\FuzzyExpertActions.xaml.cs">
       <DependentUpon>FuzzyExpertActions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -121,7 +123,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="FuzzyExpertActions.xaml">
+    <Page Include="Views\FuzzyExpertActions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

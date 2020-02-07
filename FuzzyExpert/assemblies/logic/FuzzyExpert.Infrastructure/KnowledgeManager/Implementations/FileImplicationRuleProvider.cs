@@ -8,7 +8,6 @@ using FuzzyExpert.Application.Entities;
 using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.Extensions;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
-using FuzzyExpert.Infrastructure.ProductionRuleParsing.Entities;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
 
@@ -19,7 +18,6 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
         private readonly IFileOperations _fileOperations;
         private readonly IImplicationRuleFilePathProvider _filePathProvider;
         private readonly IImplicationRuleCreator _implicationRuleCreator;
-        private readonly IImplicationRuleParser _implicationRuleParser;
         private readonly IImplicationRuleValidator _implicationRuleValidator;
         private readonly INameSupervisor _nameSupervisor;
         private readonly IValidationOperationResultLogger _validationOperationResultLogger;
@@ -28,7 +26,6 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
             IFileOperations fileOperations,
             IImplicationRuleFilePathProvider filePathProvider,
             IImplicationRuleValidator implicationRuleValidator,
-            IImplicationRuleParser implicationRuleParser,
             IImplicationRuleCreator implicationRuleCreator,
             INameSupervisor nameSupervisor,
             IValidationOperationResultLogger validationOperationResultLogger)
@@ -36,7 +33,6 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
             _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
             _filePathProvider = filePathProvider ?? throw new ArgumentNullException(nameof(filePathProvider));
             _implicationRuleValidator = implicationRuleValidator ?? throw new ArgumentNullException(nameof(implicationRuleValidator));
-            _implicationRuleParser = implicationRuleParser ?? throw new ArgumentNullException(nameof(implicationRuleParser));
             _implicationRuleCreator = implicationRuleCreator ?? throw new ArgumentNullException(nameof(implicationRuleCreator));
             _nameSupervisor = nameSupervisor ?? throw new ArgumentNullException(nameof(nameSupervisor));
             _validationOperationResultLogger = validationOperationResultLogger ?? throw new ArgumentNullException(nameof(validationOperationResultLogger));
@@ -56,8 +52,7 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
                 ValidationOperationResult validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(preProcessedImplicationRule);
                 if (validationOperationResult.IsSuccess)
                 {
-                    ImplicationRuleStrings implicationRuleStrings = _implicationRuleParser.ExtractStatementParts(preProcessedImplicationRule);
-                    ImplicationRule implicationRule = _implicationRuleCreator.CreateImplicationRuleEntity(implicationRuleStrings);
+                    ImplicationRule implicationRule = _implicationRuleCreator.CreateImplicationRuleEntity(preProcessedImplicationRule);
                     implicationRules.Add(implicationRule);
                 }
                 else

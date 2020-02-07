@@ -21,10 +21,16 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
         {
             get
             {
-                if (_implicationRules.IsPresent) return _implicationRules;
+                if (_implicationRules.IsPresent)
+                {
+                    return _implicationRules;
+                }
 
                 Optional<List<ImplicationRule>> implicationRulesFromProvider = _implicationRuleProvider.GetImplicationRules();
-                if (!implicationRulesFromProvider.IsPresent) return Optional<Dictionary<int, ImplicationRule>>.Empty();
+                if (!implicationRulesFromProvider.IsPresent)
+                {
+                    return Optional<Dictionary<int, ImplicationRule>>.Empty();
+                }
 
                 Dictionary<int, ImplicationRule> implicationRules = new Dictionary<int, ImplicationRule>();
                 for (int i = 1; i <= implicationRulesFromProvider.Value.Count; i++)

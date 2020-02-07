@@ -7,7 +7,7 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces
     public interface IKnowledgeBaseValidator
     {
         ValidationOperationResult ValidateLinguisticVariablesNames(
-            Dictionary<int, ImplicationRule> implicationRules,
-            Dictionary<int, LinguisticVariable> linguisticVariables);
+            List<ImplicationRule> implicationRules,
+            List<LinguisticVariable> linguisticVariables);
     }
 }

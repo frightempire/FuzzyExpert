@@ -12,14 +12,19 @@ namespace FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations
     public class LinguisticVariableCreator : ILinguisticVariableCreator
     {
         private readonly IMembershipFunctionCreator _membershipFunctionCreator;
+        private readonly ILinguisticVariableParser _linguisticVariableParser;
 
-        public LinguisticVariableCreator(IMembershipFunctionCreator membershipFunctionCreator)
+        public LinguisticVariableCreator(
+            IMembershipFunctionCreator membershipFunctionCreator,
+            ILinguisticVariableParser linguisticVariableParser)
         {
             _membershipFunctionCreator = membershipFunctionCreator ?? throw new ArgumentNullException(nameof(membershipFunctionCreator));
+            _linguisticVariableParser = linguisticVariableParser ?? throw new ArgumentNullException(nameof(linguisticVariableParser));
         }
 
-        public LinguisticVariable CreateLinguisticVariableEntity(LinguisticVariableStrings linguisticVariableStrings)
+        public LinguisticVariable CreateLinguisticVariableEntity(string linguisticVariable)
         {
+            LinguisticVariableStrings linguisticVariableStrings = _linguisticVariableParser.ParseLinguisticVariable(linguisticVariable);
             DataOriginType dataOriginType = linguisticVariableStrings.DataOrigin.ToEnum<DataOriginType>();
             bool isInitial = dataOriginType == DataOriginType.Initial;
 

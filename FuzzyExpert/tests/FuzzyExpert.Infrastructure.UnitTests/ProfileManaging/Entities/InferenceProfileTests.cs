@@ -29,6 +29,19 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Entities
         }
 
         [Test]
+        public void Description_PropertyExpectedBehavior()
+        {
+            // Arrange
+            string expectedDescription = "profile_description";
+
+            // Act
+            _inferenceProfile.Description = expectedDescription;
+
+            // Assert
+            Assert.AreEqual(expectedDescription, _inferenceProfile.Description);
+        }
+
+        [Test]
         public void Rules_PropertyExpectedBehavior()
         {
             // Arrange
@@ -62,24 +75,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Entities
             Assert.AreEqual(2, _inferenceProfile.Variables.Count);
             Assert.AreEqual(expectedVariables[0], _inferenceProfile.Variables[0]);
             Assert.AreEqual(expectedVariables[1], _inferenceProfile.Variables[1]);
-        }
-
-        [Test]
-        public void Functions_PropertyExpectedBehavior()
-        {
-            // Arrange
-            var expectedFunctions = new List<string>
-            {
-                "Function_1", "Function_2"
-            };
-
-            // Act
-            _inferenceProfile.Functions = expectedFunctions;
-
-            // Assert
-            Assert.AreEqual(2, _inferenceProfile.Functions.Count);
-            Assert.AreEqual(expectedFunctions[0], _inferenceProfile.Functions[0]);
-            Assert.AreEqual(expectedFunctions[1], _inferenceProfile.Functions[1]);
         }
     }
 }

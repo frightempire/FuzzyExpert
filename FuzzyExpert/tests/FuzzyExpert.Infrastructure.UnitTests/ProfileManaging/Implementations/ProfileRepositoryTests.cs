@@ -49,13 +49,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Implementations
                 },
                 Variables = new List<string>
                 {
-                    "A", "B", "C"
-                },
-                Functions = new List<string>
-                {
-                    "A:Initial:[1|2|3]",
-                    "B:Derivative:[1|2|3]",
-                    "C:Derivative:[1|2|3]"
+                    "A:Initial:[1|2|3]", "B:Derivative:[1|2|3]", "C:Derivative:[1|2|3]"
                 }
             };
 
@@ -70,7 +64,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Implementations
             Assert.AreEqual(profile.ProfileName, profileFromDatabase.Value.ProfileName);
             Assert.AreEqual(2, profileFromDatabase.Value.Rules.Count);
             Assert.AreEqual(3, profileFromDatabase.Value.Variables.Count);
-            Assert.AreEqual(3, profileFromDatabase.Value.Functions.Count);
         }
 
         [Test]
@@ -87,13 +80,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Implementations
                 },
                 Variables = new List<string>
                 {
-                    "A", "B", "C"
-                },
-                Functions = new List<string>
-                {
-                    "A:Initial:[1|2|3]",
-                    "B:Derivative:[1|2|3]",
-                    "C:Derivative:[1|2|3]"
+                    "A:Initial:[1|2|3]", "B:Derivative:[1|2|3]", "C:Derivative:[1|2|3]"
                 }
             };
             var secondProfile = new InferenceProfile
@@ -106,13 +93,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Implementations
                 },
                 Variables = new List<string>
                 {
-                    "A", "B", "C"
-                },
-                Functions = new List<string>
-                {
-                    "A:Initial:[1|2|3]",
-                    "B:Derivative:[1|2|3]",
-                    "C:Derivative:[1|2|3]"
+                    "A:Initial:[1|2|3]", "B:Derivative:[1|2|3]", "C:Derivative:[1|2|3]"
                 }
             };
 
@@ -147,13 +128,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Implementations
                 },
                 Variables = new List<string>
                 {
-                    "A", "B", "C"
-                },
-                Functions = new List<string>
-                {
-                    "A:Initial:[1|2|3]",
-                    "B:Derivative:[1|2|3]",
-                    "C:Derivative:[1|2|3]"
+                    "A:Initial:[1|2|3]", "B:Derivative:[1|2|3]", "C:Derivative:[1|2|3]"
                 }
             };
             var firstResult = _profileRepository.SaveProfile(profile);
@@ -188,13 +163,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Implementations
                 },
                 Variables = new List<string>
                 {
-                    "A", "B", "C"
-                },
-                Functions = new List<string>
-                {
-                    "A:Initial:[1|2|3]",
-                    "B:Derivative:[1|2|3]",
-                    "C:Derivative:[1|2|3]"
+                    "A:Initial:[1|2|3]", "B:Derivative:[1|2|3]", "C:Derivative:[1|2|3]"
                 }
             };
             var firstResult = _profileRepository.SaveProfile(profile);
@@ -230,13 +199,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProfileManaging.Implementations
                 },
                 Variables = new List<string>
                 {
-                    "A", "B", "C"
-                },
-                Functions = new List<string>
-                {
-                    "A:Initial:[1|2|3]",
-                    "B:Derivative:[1|2|3]",
-                    "C:Derivative:[1|2|3]"
+                    "A:Initial:[1|2|3]", "B:Derivative:[1|2|3]", "C:Derivative:[1|2|3]"
                 }
             };
 

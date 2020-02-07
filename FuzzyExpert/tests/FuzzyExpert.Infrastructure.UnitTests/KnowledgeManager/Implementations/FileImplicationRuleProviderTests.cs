@@ -8,7 +8,6 @@ using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.Enums;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
-using FuzzyExpert.Infrastructure.ProductionRuleParsing.Entities;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
 using NUnit.Framework;
@@ -24,7 +23,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
         private IFileOperations _fileOperationsMock;
         private IImplicationRuleFilePathProvider _filePathProviderMock;
         private IImplicationRuleValidator _implicationRuleValidatorMock;
-        private IImplicationRuleParser _implicationRuleParserMock;
         private IImplicationRuleCreator _implicationRuleCreatorMock;
         private INameSupervisor _nameSupervisorMock;
         private IValidationOperationResultLogger _validationOperationResultLoggerMock;
@@ -41,7 +39,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             _filePathProviderMock.Stub(x => x.FilePath).PropertyBehavior();
 
             _implicationRuleValidatorMock = MockRepository.GenerateMock<IImplicationRuleValidator>();
-            _implicationRuleParserMock = MockRepository.GenerateMock<IImplicationRuleParser>();
             _implicationRuleCreatorMock = MockRepository.GenerateMock<IImplicationRuleCreator>();
 
             _nameSupervisorMock = MockRepository.GenerateMock<INameSupervisor>();
@@ -50,7 +47,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 _fileOperationsMock,
                 _filePathProviderMock,
                 _implicationRuleValidatorMock,
-                _implicationRuleParserMock,
                 _implicationRuleCreatorMock,
                 _nameSupervisorMock,
                 _validationOperationResultLoggerMock);
@@ -66,7 +62,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                     null,
                     _filePathProviderMock,
                     _implicationRuleValidatorMock,
-                    _implicationRuleParserMock,
                     _implicationRuleCreatorMock,
                     _nameSupervisorMock,
                     _validationOperationResultLoggerMock);
@@ -77,7 +72,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                     _fileOperationsMock,
                     null,
                     _implicationRuleValidatorMock,
-                    _implicationRuleParserMock,
                     _implicationRuleCreatorMock,
                     _nameSupervisorMock,
                     _validationOperationResultLoggerMock);
@@ -87,18 +81,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 new FileImplicationRuleProvider(
                     _fileOperationsMock,
                     _filePathProviderMock,
-                    null,
-                    _implicationRuleParserMock,
-                    _implicationRuleCreatorMock,
-                    _nameSupervisorMock,
-                    _validationOperationResultLoggerMock);
-            });
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new FileImplicationRuleProvider(
-                    _fileOperationsMock,
-                    _filePathProviderMock,
-                    _implicationRuleValidatorMock,
                     null,
                     _implicationRuleCreatorMock,
                     _nameSupervisorMock,
@@ -110,7 +92,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                     _fileOperationsMock,
                     _filePathProviderMock,
                     _implicationRuleValidatorMock,
-                    _implicationRuleParserMock,
                     null,
                     _nameSupervisorMock,
                     _validationOperationResultLoggerMock);
@@ -121,7 +102,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                     _fileOperationsMock,
                     _filePathProviderMock,
                     _implicationRuleValidatorMock,
-                    _implicationRuleParserMock,
                     _implicationRuleCreatorMock,
                     null,
                     _validationOperationResultLoggerMock);
@@ -132,7 +112,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                     _fileOperationsMock,
                     _filePathProviderMock,
                     _implicationRuleValidatorMock,
-                    _implicationRuleParserMock,
                     _implicationRuleCreatorMock,
                     _nameSupervisorMock,
                     null);
@@ -182,17 +161,15 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 .Stub(x => x.ValidateImplicationRule(Arg<string>.Is.Anything))
                 .Return(new ValidationOperationResult());
 
+            string firstImplicationRuleString = "IF(A>10)THEN(X=5)";
+            string secondImplicationRuleString = "IF(B!=1&C!=2)THEN(X=10)";
             List<string> implicationRulesFromFile = new List<string>
             {
-                "IF(A>10)THEN(X=5)",
-                "IF(B!=1&C!=2)THEN(X=10)"
+                firstImplicationRuleString, secondImplicationRuleString
             };
             _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(implicationRulesFromFile);
 
             // IF (A > 10) THEN (X = 5)
-            ImplicationRuleStrings firstImplicationRuleStrings = new ImplicationRuleStrings("A>10", "X=5");
-            _implicationRuleParserMock.Stub(x => x.ExtractStatementParts(implicationRulesFromFile[0]))
-                .Return(firstImplicationRuleStrings);
             ImplicationRule firstImplicationRule = new ImplicationRule(
             new List<StatementCombination>
             {
@@ -205,13 +182,10 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             {
                 new UnaryStatement("X", ComparisonOperation.Equal, "5")
             }));
-            _implicationRuleCreatorMock.Stub(x => x.CreateImplicationRuleEntity(firstImplicationRuleStrings))
+            _implicationRuleCreatorMock.Stub(x => x.CreateImplicationRuleEntity(firstImplicationRuleString))
                 .Return(firstImplicationRule);
 
             // IF (B != 1 & C != 2) THEN (X = 10)
-            ImplicationRuleStrings secondImplicationRuleStrings = new ImplicationRuleStrings("B!=1&C!=2", "X=10");
-            _implicationRuleParserMock.Stub(x => x.ExtractStatementParts(implicationRulesFromFile[1]))
-                .Return(secondImplicationRuleStrings);
             ImplicationRule secondImplicationRule = new ImplicationRule(
             new List<StatementCombination>
             {
@@ -225,7 +199,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             {
                 new UnaryStatement("X", ComparisonOperation.Equal, "10")
             }));
-            _implicationRuleCreatorMock.Stub(x => x.CreateImplicationRuleEntity(secondImplicationRuleStrings))
+            _implicationRuleCreatorMock.Stub(x => x.CreateImplicationRuleEntity(secondImplicationRuleString))
                 .Return(secondImplicationRule);
 
             List<ImplicationRule> expectedImplicationRules = new List<ImplicationRule>
@@ -269,9 +243,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             _fileOperationsMock.Stub(x => x.ReadFileByLines(Arg<string>.Is.Anything)).IgnoreArguments().Return(implicationRulesFromFile);
 
             // IF (A > 10) THEN (X = 5)
-            ImplicationRuleStrings firstImplicationRuleStrings = new ImplicationRuleStrings("A>10", "X=5");
-            _implicationRuleParserMock.Stub(x => x.ExtractStatementParts(implicationRulesFromFile[0]))
-                .Return(firstImplicationRuleStrings);
             ImplicationRule firstImplicationRule = new ImplicationRule(
                 new List<StatementCombination>
                 {
@@ -284,13 +255,10 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 {
                     new UnaryStatement("X", ComparisonOperation.Equal, "5")
                 }));
-            _implicationRuleCreatorMock.Stub(x => x.CreateImplicationRuleEntity(firstImplicationRuleStrings))
+            _implicationRuleCreatorMock.Stub(x => x.CreateImplicationRuleEntity(firstRuleFromFile))
                 .Return(firstImplicationRule);
 
             // IF (B != 1 & C != 2) THEN (X = 10)
-            ImplicationRuleStrings secondImplicationRuleStrings = new ImplicationRuleStrings("B!=1&C!=2", "X=10");
-            _implicationRuleParserMock.Stub(x => x.ExtractStatementParts(implicationRulesFromFile[1]))
-                .Return(secondImplicationRuleStrings);
             ImplicationRule secondImplicationRule = new ImplicationRule(
                 new List<StatementCombination>
                 {
@@ -304,7 +272,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 {
                     new UnaryStatement("X", ComparisonOperation.Equal, "10")
                 }));
-            _implicationRuleCreatorMock.Stub(x => x.CreateImplicationRuleEntity(secondImplicationRuleStrings))
+            _implicationRuleCreatorMock.Stub(x => x.CreateImplicationRuleEntity(secondRuleFromFile))
                 .Return(secondImplicationRule);
 
             List<ImplicationRule> expectedImplicationRules = new List<ImplicationRule>

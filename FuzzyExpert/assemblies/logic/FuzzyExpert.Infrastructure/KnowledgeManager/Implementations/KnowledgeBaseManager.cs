@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FuzzyExpert.Application.Common.Entities;
 using FuzzyExpert.Application.Contracts;
 using FuzzyExpert.Application.Entities;
@@ -36,10 +37,15 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
             Optional<Dictionary<int, ImplicationRule>> implicationRules = _implicationRuleManager.ImplicationRules;
             Optional<Dictionary<int, LinguisticVariable>> linguisticVariables = _linguisticVariableManager.LinguisticVariables;
 
-            if (!implicationRules.IsPresent || !linguisticVariables.IsPresent) return Optional<KnowledgeBase>.Empty();
+            if (!implicationRules.IsPresent || !linguisticVariables.IsPresent)
+            {
+                return Optional<KnowledgeBase>.Empty();
+            }
 
             ValidationOperationResult validationOperationResult =
-                _knowledgeBaseValidator.ValidateLinguisticVariablesNames(implicationRules.Value, linguisticVariables.Value);
+                _knowledgeBaseValidator.ValidateLinguisticVariablesNames(
+                    implicationRules.Value.Select(ir => ir.Value).ToList(),
+                    linguisticVariables.Value.Select(lv => lv.Value).ToList());
 
             if (validationOperationResult.IsSuccess)
             {

@@ -19,7 +19,8 @@
                     <ColumnDefinition Width = "3*" />
                 </Grid.ColumnDefinitions>
                 <Label Content="Name:" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                <TextBox Grid.Column="1" Margin="10,10,10,10" HorizontalAlignment="Stretch" Name="NameTextBox" TextChanged="OnNameChanged"/>
+                <TextBox Grid.Column="1" Margin="10,10,10,10" HorizontalAlignment="Stretch" 
+                         Text="{Binding ProfileName, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </StackPanel>
 
@@ -30,14 +31,17 @@
                     <ColumnDefinition Width = "3*" />
                 </Grid.ColumnDefinitions>
                 <Label Content="Description:" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                <TextBox Grid.Column="1" Margin="10,10,10,10" HorizontalAlignment="Stretch" Name="DescriptionTextBox" TextChanged="OnDescriptionChanged"
+                <TextBox Grid.Column="1" Margin="10,10,10,10" HorizontalAlignment="Stretch"
+                         Text="{Binding ProfileDescription, UpdateSourceTrigger=PropertyChanged}"
                          AcceptsReturn="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"/>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Content="Add" Margin="10" Width = "120" Height ="30" IsEnabled="false" Click="OnAddClicked" Name="AddButton"/>
+            <Button Content="Add" Margin="10" Width = "120" Height ="30"
+                    IsEnabled="{Binding AddButtonEnable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{Binding AddProfileCommand}"/>
             <Button Content="Cancel" Margin="10" Width ="120" Height ="30" Click="OnCancelClicked"/>
         </StackPanel>
     </Grid>
-</Window>
+</Window>   

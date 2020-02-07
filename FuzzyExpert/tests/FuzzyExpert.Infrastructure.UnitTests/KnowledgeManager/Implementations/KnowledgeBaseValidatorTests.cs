@@ -19,12 +19,12 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
         }
 
         [Test]
-        public void ValidateLinguisticVariablesNames_ReturnValidationOperationResultWithErrorIfOneOfVariablesInImplicationRulesIsNotKnownToKnowledgeBase()
+        public void ValidateLinguisticVariablesNames_ReturnValidationOperationResultWithError_IfOneOfVariablesInImplicationRulesIsNotKnownToKnowledgeBase()
         {
             // Arrange
             string expectedVariable = "Air";
-            Dictionary<int, ImplicationRule> implicationRules = PrepareImplicationRules();
-            Dictionary<int, LinguisticVariable> linguisticVariables = PrepareLinguisticVariables();
+            List<ImplicationRule> implicationRules = PrepareImplicationRules();
+            List<LinguisticVariable> linguisticVariables = PrepareLinguisticVariables();
             string errorMessage = $"Knowledge base: linguistic variable {expectedVariable} is unknown to linguistic variable base";
 
             // Act
@@ -35,7 +35,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
         }
 
-        private Dictionary<int, LinguisticVariable> PrepareLinguisticVariables()
+        private List<LinguisticVariable> PrepareLinguisticVariables()
         {
             // Water variable
             MembershipFunctionList firstMembershipFunctionList = new MembershipFunctionList
@@ -56,15 +56,14 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             LinguisticVariable secondLinguisticVariable =
                 new LinguisticVariable("Pressure", secondsMembershipFunctionList, isInitialData: false);
 
-            Dictionary<int, LinguisticVariable> linguisticVariables = new Dictionary<int, LinguisticVariable>
+            List<LinguisticVariable> variables = new List<LinguisticVariable>
             {
-                {1, firstLinguisticVariable},
-                {2, secondLinguisticVariable}
+                firstLinguisticVariable, secondLinguisticVariable
             };
-            return linguisticVariables;
+            return variables;
         }
 
-        private Dictionary<int, ImplicationRule> PrepareImplicationRules()
+        private List<ImplicationRule> PrepareImplicationRules()
         {
             // IF(Water IS Cold) THEN (Pressure IS Low)
             ImplicationRule firstImplicationRule = new ImplicationRule(
@@ -95,12 +94,11 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                     new UnaryStatement("Pressure", ComparisonOperation.Equal, "Medium")
                 }));
 
-            Dictionary<int, ImplicationRule> implicationRules = new Dictionary<int, ImplicationRule>
+            List<ImplicationRule> rules = new List<ImplicationRule>
             {
-                {1, firstImplicationRule},
-                {2, secondImplicationRule}
+                firstImplicationRule, secondImplicationRule
             };
-            return implicationRules;
+            return rules;
         }
     }
 }
