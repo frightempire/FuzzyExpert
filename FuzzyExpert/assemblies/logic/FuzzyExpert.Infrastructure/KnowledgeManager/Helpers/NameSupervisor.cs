@@ -18,6 +18,7 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Helpers
 
         public void AssignNames(List<UnaryStatement> unaryStatements)
         {
+            _nameProvider.Reset();
             List<Tuple<string, string>> cachedNames = new List<Tuple<string, string>>();
             foreach (var statement in unaryStatements)
             {

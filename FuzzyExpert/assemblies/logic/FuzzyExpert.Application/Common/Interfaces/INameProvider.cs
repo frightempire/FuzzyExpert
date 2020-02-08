@@ -3,5 +3,7 @@
     public interface INameProvider
     {
         string GetName();
+
+        void Reset();
     }
 }

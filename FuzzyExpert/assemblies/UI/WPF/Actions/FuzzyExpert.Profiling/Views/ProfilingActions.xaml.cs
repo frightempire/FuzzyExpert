@@ -46,8 +46,14 @@ namespace FuzzyExpert.Profiling.Views
         // issue : no command binding for double click event
         private void OnProfileDoubleClicked(object sender, MouseButtonEventArgs e)
         {
+            var selectedProfile = ((ProfilingActionsModel) DataContext).SelectedProfile;
+            if (selectedProfile == null)
+            {
+                return;
+            }
+
             var action = new AddImplicationRuleAction(new AddImplicationRuleActionModel(
-                ((ProfilingActionsModel)DataContext).SelectedProfile,
+                selectedProfile,
                 _profileRepository,
                 _ruleValidator,
                 _variableValidator,

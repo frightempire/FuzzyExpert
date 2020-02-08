@@ -14,6 +14,12 @@ namespace FuzzyExpert.Application.Common.Implementations
             return newName;
         }
 
+        public void Reset()
+        {
+            _availableCharacter = 'A';
+            _availableNumber = 1;
+        }
+
         private void UpdateAvailableInfo()
         {
             if (_availableNumber == 9)

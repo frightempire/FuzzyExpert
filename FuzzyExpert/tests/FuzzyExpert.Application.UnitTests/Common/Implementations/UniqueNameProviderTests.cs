@@ -62,5 +62,28 @@ namespace FuzzyExpert.Application.UnitTests.Common.Implementations
             // Assert
             Assert.AreEqual(expectedName, actualName);
         }
+
+        [Test]
+        public void Reset_ChangingNumberAndLetterToDefaultValues()
+        {
+            // Arrange
+            string expectedName = "A1";
+            _uniqueNameProvider.GetName();
+            _uniqueNameProvider.GetName();
+            _uniqueNameProvider.GetName();
+            _uniqueNameProvider.GetName();
+            _uniqueNameProvider.GetName();
+            _uniqueNameProvider.GetName();
+            _uniqueNameProvider.GetName();
+            _uniqueNameProvider.GetName();
+            _uniqueNameProvider.GetName();
+
+            // Act
+            _uniqueNameProvider.Reset();
+            string actualName = _uniqueNameProvider.GetName();
+
+            // Assert
+            Assert.AreEqual(expectedName, actualName);
+        }
     }
 }
