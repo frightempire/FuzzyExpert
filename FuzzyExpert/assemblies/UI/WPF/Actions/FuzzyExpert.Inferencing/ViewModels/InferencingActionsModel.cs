@@ -71,7 +71,7 @@ namespace FuzzyExpert.Inferencing.ViewModels
         private void InitializeCollectionValues()
         {
             var profiles = _profileRepository.GetProfiles();
-            if (profiles == null)
+            if (!profiles.IsPresent)
             {
                 return;
             }
@@ -216,7 +216,8 @@ namespace FuzzyExpert.Inferencing.ViewModels
             }
 
             var knowledgeBase = _knowledgeBaseManager.GetKnowledgeBase(SelectedProfile.ProfileName);
-            if (!knowledgeBase.IsPresent)
+            if (!knowledgeBase.IsPresent &&
+                (knowledgeBase.Value.ImplicationRules.Count == 0 || knowledgeBase.Value.LinguisticVariables.Count == 0))
             {
                 return;
             }

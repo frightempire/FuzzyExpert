@@ -35,7 +35,7 @@ namespace FuzzyExpert.Profiling.ViewModels
         private void InitializeCollectionValues()
         {
             var profiles = _profileRepository.GetProfiles();
-            if (profiles == null)
+            if (!profiles.IsPresent)
             {
                 return;
             }
