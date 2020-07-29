@@ -42,12 +42,12 @@ namespace FuzzyExpert.IntegrationTests
                 },
                 Variables = new List<string>
                 {
-                    "Temperature:Initial:[Cold:Trapezoidal:(0,20,20,30)|HOT:Trapezoidal:(50,60,60,80)]",
-                    "Pressure:Derivative:[Low: Trapezoidal:(20, 50, 50, 60) | HIGH:Trapezoidal: (80, 100, 100, 150)]",
-                    "Volume:Initial:[Small:Trapezoidal:(100,200,200,600)|BIG:Trapezoidal:(800,1000,1100,1500)]",
-                    "Color:Initial:[Blue:Trapezoidal:(5,10,10,20)|RED:Trapezoidal:(50,60,65,80)]",
-                    "Danger:Derivative:[Low:Trapezoidal:(5,10,10,20)|HIGH:Trapezoidal:(50,60,60,80)]",
-                    "Evacuate:Derivative:[TRUE:Trapezoidal:(5,10,10,20)|False:Trapezoidal:(50,60,60,80)]"
+                    "[Temperature]:Initial:[Cold:Trapezoidal:(0,20,20,30)|HOT:Trapezoidal:(50,60,60,80)]",
+                    "[Pressure]:Derivative:[Low: Trapezoidal:(20, 50, 50, 60) | HIGH:Trapezoidal: (80, 100, 100, 150)]",
+                    "[Volume]:Initial:[Small:Trapezoidal:(100,200,200,600)|BIG:Trapezoidal:(800,1000,1100,1500)]",
+                    "[Color]:Initial:[Blue:Trapezoidal:(5,10,10,20)|RED:Trapezoidal:(50,60,65,80)]",
+                    "[Danger]:Derivative:[Low:Trapezoidal:(5,10,10,20)|HIGH:Trapezoidal:(50,60,60,80)]",
+                    "[Evacuate]:Derivative:[TRUE:Trapezoidal:(5,10,10,20)|False:Trapezoidal:(50,60,60,80)]"
                 }
             };
             _profileRepository.SaveProfile(profile);
@@ -109,7 +109,7 @@ namespace FuzzyExpert.IntegrationTests
 
             // Assert
             Assert.AreEqual(expectedRelations.Count, actualRelations.Count);
-            for (int i = 0; i < expectedRelations.Count; i++)
+            for (var i = 0; i < expectedRelations.Count; i++)
             {
                 Assert.IsTrue(ObjectComparer.LinguisticVariableRelationsAreEqual(expectedRelations[i], actualRelations[i]));
             }

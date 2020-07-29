@@ -24,8 +24,6 @@ using FuzzyExpert.Infrastructure.ProfileManaging.Implementations;
 using FuzzyExpert.Infrastructure.ProfileManaging.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Implementations;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
-using FuzzyExpert.Profiling.ViewModels;
-using FuzzyExpert.Profiling.Views;
 using FuzzyExpert.WpfClient.ViewModels;
 using FuzzyExpert.WpfClient.Views;
 using SimpleInjector;
@@ -51,7 +49,6 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<IImplicationRuleProvider, DatabaseImplicationRuleProvider>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleManager, ImplicationRuleManager>(Lifestyle.Singleton);
 
-            _container.Register<IMembershipFunctionValidator, MembershipFunctionValidator>(Lifestyle.Singleton);
             _container.Register<IMembershipFunctionParser, MembershipFunctionParser>(Lifestyle.Singleton);
             _container.Register<IMembershipFunctionCreator, MembershipFunctionCreator>(Lifestyle.Singleton);
             _container.Register<ILinguisticVariableValidator, LinguisticVariableValidator>(Lifestyle.Singleton);
@@ -80,8 +77,6 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<InferencingActions>(Lifestyle.Singleton);
             _container.Register<ProfilingActionsModel>(Lifestyle.Singleton);
             _container.Register<ProfilingActions>(Lifestyle.Singleton);
-            _container.Register<AddProfileActionModel>(Lifestyle.Singleton);
-            _container.Register<AddProfileAction>(Lifestyle.Singleton);
             _container.Register<FuzzyExpertActionsModel>(Lifestyle.Singleton);
             _container.Register<FuzzyExpertActions>(Lifestyle.Singleton);
 

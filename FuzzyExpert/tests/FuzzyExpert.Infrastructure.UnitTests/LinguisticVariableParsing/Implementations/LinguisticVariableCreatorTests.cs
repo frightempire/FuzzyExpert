@@ -48,9 +48,10 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
                 new MembershipFunctionStrings("Hot", "Trapezoidal", secondFunctionValues)
             };
             string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
-            LinguisticVariableStrings linguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", membershipFunctionStringsList);
+            var linguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", membershipFunctionStringsList);
+            var linguisticVariableStringsList = new List<LinguisticVariableStrings> {linguisticVariableStrings};
 
-            _linguisticVariableParserMock.Expect(x => x.ParseLinguisticVariable(linguisticVariable)).Return(linguisticVariableStrings);
+            _linguisticVariableParserMock.Expect(x => x.ParseLinguisticVariable(linguisticVariable)).Return(linguisticVariableStringsList);
 
             var firstMembershipFunction = new TrapezoidalMembershipFunction("Cold", 0, 20, 20, 30);
             var secondMembershipFunction = new TrapezoidalMembershipFunction("Hot", 50, 60, 60, 80);
@@ -60,16 +61,17 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
             _membershipFunctionCreatorMock.Expect(x => x.CreateMembershipFunctionEntity(MembershipFunctionType.Trapezoidal, "Hot", secondFunctionValues))
                 .Return(secondMembershipFunction);
 
-            LinguisticVariable expectedLinguisticVariable = new LinguisticVariable(
+            var expectedLinguisticVariable = new LinguisticVariable(
                 "Water",
                 new MembershipFunctionList {firstMembershipFunction, secondMembershipFunction},
                 true);
 
             // Act
-            LinguisticVariable actualLinguisticVariable = _linguisticVariableCreator.CreateLinguisticVariableEntity(linguisticVariable);
+            var actualLinguisticVariables = _linguisticVariableCreator.CreateLinguisticVariableEntities(linguisticVariable);
 
             // Assert
-            Assert.IsTrue(ObjectComparer.LinguisticVariablesAreEqual(expectedLinguisticVariable, actualLinguisticVariable));
+            Assert.AreEqual(1, actualLinguisticVariables.Count);
+            Assert.IsTrue(ObjectComparer.LinguisticVariablesAreEqual(expectedLinguisticVariable, actualLinguisticVariables[0]));
         }
     }
 }

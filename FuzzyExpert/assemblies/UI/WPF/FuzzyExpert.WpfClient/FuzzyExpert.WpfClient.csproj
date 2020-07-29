@@ -61,8 +61,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\CollectionToVisibilityConverter.cs" />
+    <Compile Include="Models\InferenceProfileModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\Annotations1.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModels\AddImplicationRuleActionModel.cs" />
     <Compile Include="ViewModels\FuzzyExpertActionsModel.cs" />
+    <Compile Include="ViewModels\ProfilingActionsModel.cs" />
+    <Compile Include="Views\AddImplicationRuleAction.xaml.cs">
+      <DependentUpon>AddImplicationRuleAction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProfilingActions.xaml.cs">
+      <DependentUpon>ProfilingActions.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DependencyInjection\SimpleInjectorContainerFactory.cs" />
@@ -109,20 +123,32 @@
       <Project>{C82A3455-593B-416C-8056-9D89743F5257}</Project>
       <Name>FuzzyExpert.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\FuzzyExpert.CommonUILogic\FuzzyExpert.CommonUILogic.csproj">
+      <Project>{B874082C-7FC3-4071-9F74-4C5FBEFE7635}</Project>
+      <Name>FuzzyExpert.CommonUILogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Actions\FuzzyExpert.Inferencing\FuzzyExpert.Inferencing.csproj">
       <Project>{33BC4540-18D7-4646-9F2F-8AA2E1899654}</Project>
       <Name>FuzzyExpert.Inferencing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Actions\FuzzyExpert.Profiling\FuzzyExpert.Profiling.csproj">
-      <Project>{81EAFE6D-36A6-4B28-A121-85BBABCDF5D3}</Project>
-      <Name>FuzzyExpert.Profiling</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AddImplicationRuleAction.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\FuzzyExpertActions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ProfilingActions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\main_header.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

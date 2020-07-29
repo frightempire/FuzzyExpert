@@ -1,9 +1,10 @@
-﻿using FuzzyExpert.Core.Entities;
+﻿using System.Collections.Generic;
+using FuzzyExpert.Core.Entities;
 
 namespace FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces
 {
     public interface ILinguisticVariableCreator
     {
-        LinguisticVariable CreateLinguisticVariableEntity(string linguisticVariable);
+        List<LinguisticVariable> CreateLinguisticVariableEntities(string linguisticVariable);
     }
 }

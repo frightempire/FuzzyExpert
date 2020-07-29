@@ -4,6 +4,6 @@ namespace FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces
 {
     public interface ILinguisticVariableValidator
     {
-        ValidationOperationResult ValidateLinguisticVariable(string linguisticVariable);
+        ValidationOperationResult ValidateLinguisticVariables(string linguisticVariable);
     }
 }

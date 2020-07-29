@@ -73,7 +73,6 @@
     <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionCreatorTests.cs" />
     <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionListTests.cs" />
     <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionParserTests.cs" />
-    <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionValidatorTests.cs" />
     <Compile Include="MembershipFunctionParsing\TestEntities\StubMembershipFunction.cs" />
     <Compile Include="ProductionRuleParsing\Entities\ImplicationRuleStringsTests.cs" />
     <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleCreatorTests.cs" />

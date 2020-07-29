@@ -9,10 +9,7 @@ namespace FuzzyExpert.WpfClient.Views
         public FuzzyExpertActions(FuzzyExpertActionsModel model)
         {
             DataContext = model ?? throw new ArgumentNullException(nameof(model));
-
             InitializeComponent();
-            ProfilingTab.Content = model.ProfilingActions;
-            InferencingTab.Content = model.InferencingActions;
         }
     }
 }

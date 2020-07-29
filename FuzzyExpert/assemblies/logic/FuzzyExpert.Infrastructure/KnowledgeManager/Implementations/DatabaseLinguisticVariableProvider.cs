@@ -30,11 +30,10 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
                 return Optional<List<LinguisticVariable>>.Empty();
             }
 
-            List<LinguisticVariable> linguisticVariables = new List<LinguisticVariable>();
+            var linguisticVariables = new List<LinguisticVariable>();
             foreach (var variable in profile.Value.Variables)
             {
-                LinguisticVariable linguisticVariable = _linguisticVariableCreator.CreateLinguisticVariableEntity(variable);
-                linguisticVariables.Add(linguisticVariable);
+                _linguisticVariableCreator.CreateLinguisticVariableEntities(variable).ForEach(lv => linguisticVariables.Add(lv));
             }
 
             return Optional<List<LinguisticVariable>>.For(linguisticVariables);

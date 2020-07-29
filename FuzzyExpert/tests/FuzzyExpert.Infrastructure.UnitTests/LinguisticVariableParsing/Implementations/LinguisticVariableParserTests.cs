@@ -13,7 +13,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
     public class LinguisticVariableParserTests
     {
         private IMembershipFunctionParser _membershipFunctionParserMock;
-        private FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations.LinguisticVariableParser _linguisticVariableParser;
+        private Infrastructure.LinguisticVariableParsing.Implementations.LinguisticVariableParser _linguisticVariableParser;
 
         [SetUp]
         public void SetUp()
@@ -33,25 +33,51 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
         }
 
         [Test]
-        public void ParseLinguisticVariable_ReturnsCorrectLinguisticVariableString()
+        public void ParseLinguisticVariable_ReturnsCorrectLinguisticVariableString_WithOneVariable()
         {
             // Arrange
-            string linguisticVariable = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)]";
-            List<MembershipFunctionStrings> expectedMembershipFunctionStringsList = new List<MembershipFunctionStrings>
+            var membershipFunction = "Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)";
+            var linguisticVariable = $"[Water]:Initial:[{membershipFunction}]";
+            var expectedMembershipFunctionStringsList = new List<MembershipFunctionStrings>
             {
                 new MembershipFunctionStrings("Cold", "Trapezoidal", new List<double> {0, 20, 20, 30}),
                 new MembershipFunctionStrings("Hot", "Trapezoidal", new List<double> {50, 60, 60, 80})
             };
-            LinguisticVariableStrings expectedLinguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", expectedMembershipFunctionStringsList);
+            var expectedLinguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", expectedMembershipFunctionStringsList);
 
-            _membershipFunctionParserMock.Stub(x => x.ParseMembershipFunctions(Arg<string>.Is.Anything))
-                .Return(expectedMembershipFunctionStringsList);
+            _membershipFunctionParserMock.Stub(x => x.ParseMembershipFunctions(membershipFunction)).Return(expectedMembershipFunctionStringsList);
 
             // Act
-            LinguisticVariableStrings actualLinguisticVariableStrings = _linguisticVariableParser.ParseLinguisticVariable(linguisticVariable);
+            var actualLinguisticVariableStringsList = _linguisticVariableParser.ParseLinguisticVariable(linguisticVariable);
 
             // Assert
-            Assert.IsTrue(ObjectComparer.LinguisticVariableStringsAreEqual(expectedLinguisticVariableStrings, actualLinguisticVariableStrings));
+            Assert.AreEqual(1, actualLinguisticVariableStringsList.Count);
+            Assert.IsTrue(ObjectComparer.LinguisticVariableStringsAreEqual(expectedLinguisticVariableStrings, actualLinguisticVariableStringsList[0]));
+        }
+
+        [Test]
+        public void ParseLinguisticVariable_ReturnsCorrectLinguisticVariableString_WithTwoVariables()
+        {
+            // Arrange
+            var membershipFunction = "Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal(50,60,60,80)";
+            var linguisticVariable = $"[Water,NotWater]:Initial:[{membershipFunction}]";
+            var expectedMembershipFunctionStringsList = new List<MembershipFunctionStrings>
+            {
+                new MembershipFunctionStrings("Cold", "Trapezoidal", new List<double> {0, 20, 20, 30}),
+                new MembershipFunctionStrings("Hot", "Trapezoidal", new List<double> {50, 60, 60, 80})
+            };
+            var firstExpectedLinguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", expectedMembershipFunctionStringsList);
+            var secondExpectedLinguisticVariableStrings = new LinguisticVariableStrings("NotWater", "Initial", expectedMembershipFunctionStringsList);
+
+            _membershipFunctionParserMock.Stub(x => x.ParseMembershipFunctions(membershipFunction)).Return(expectedMembershipFunctionStringsList);
+
+            // Act
+            var actualLinguisticVariableStringsList = _linguisticVariableParser.ParseLinguisticVariable(linguisticVariable);
+
+            // Assert
+            Assert.AreEqual(2, actualLinguisticVariableStringsList.Count);
+            Assert.IsTrue(ObjectComparer.LinguisticVariableStringsAreEqual(firstExpectedLinguisticVariableStrings, actualLinguisticVariableStringsList[0]));
+            Assert.IsTrue(ObjectComparer.LinguisticVariableStringsAreEqual(secondExpectedLinguisticVariableStrings, actualLinguisticVariableStringsList[1]));
         }
     }
 }

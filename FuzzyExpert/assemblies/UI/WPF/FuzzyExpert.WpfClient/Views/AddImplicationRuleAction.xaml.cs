@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Windows;
-using FuzzyExpert.Profiling.ViewModels;
+using FuzzyExpert.WpfClient.ViewModels;
 
-namespace FuzzyExpert.Profiling.Views
+namespace FuzzyExpert.WpfClient.Views
 {
-    public partial class AddProfileAction : Window
+    public partial class AddImplicationRuleAction : Window
     {
-        public AddProfileAction(AddProfileActionModel model)
+        public AddImplicationRuleAction(AddImplicationRuleActionModel model)
         {
-            InitializeComponent();
             DataContext = model ?? throw new ArgumentNullException(nameof(model));
-            model.CloseAction = Close;
+            InitializeComponent();
         }
 
         private void OnCancelClicked(object sender, RoutedEventArgs e)

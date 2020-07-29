@@ -1,5 +1,4 @@
-﻿using FuzzyExpert.Application.Entities;
-using FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations;
+﻿using FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
 using NUnit.Framework;
 
@@ -17,145 +16,107 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
         }
 
         [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfThereWhitespacesInIt()
+        public void ValidateImplicationRule_ReturnValidationResultWithError_IfThereWhitespacesInIt()
         {
             // Arrange
-            string implicationRule = "IF (Something > 10) THEN (Anything = 5)";
-            string errorMessage = "Implication rule string is not valid: haven't been preprocessed";
+            var implicationRule = "IF (Something > 10) THEN (Anything = 5)";
 
             // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
+            Assert.IsFalse(validationOperationResult.IsSuccess);
         }
 
         [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleDoesNotStartsWithIf()
+        public void ValidateImplicationRule_ReturnValidationResultWithError_IfImplicationRuleDoesNotStartsWithIf()
         {
             // Arrange
-            string implicationRule = "(Something>10)THEN(Anything=5)";
-            string errorMessage = "Implication rule string is not valid: no if statement";
+            var implicationRule = "(Something>10)THEN(Anything=5)";
 
             // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
+            Assert.IsFalse(validationOperationResult.IsSuccess);
         }
 
         [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleDoesNotContainThen()
+        public void ValidateImplicationRule_ReturnValidationResultWithError_IfImplicationRuleDoesNotContainThen()
         {
             // Arrange
-            string implicationRule = "IF(Something>10)(Anything=5)";
-            string errorMessage = "Implication rule string is not valid: no then statement";
+            var implicationRule = "IF(Something>10)(Anything=5)";
 
             // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
+            Assert.IsFalse(validationOperationResult.IsSuccess);
         }
 
         [Test]
         public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleHasNoBrackets()
         {
             // Arrange
-            string implicationRule = "IFSomething>10THENAnything=5";
-            string errorMessage = "Implication rule string is not valid: no brackets";
+            var implicationRule = "IFSomething>10THENAnything=5";
 
             // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
+            Assert.IsFalse(validationOperationResult.IsSuccess);
         }
 
         [Test]
         public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleHasOddCountOfBrackets()
         {
             // Arrange
-            string implicationRule = "IF(Something>10)THENAnything=5)";
-            string errorMessage = "Implication rule string is not valid: odd count of brackets";
+            var implicationRule = "IF(Something>10)THENAnything=5)";
 
             // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
+            Assert.IsFalse(validationOperationResult.IsSuccess);
         }
 
         [Test]
         public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleFirstBracketIsClosing()
         {
             // Arrange
-            string implicationRule = "IF)Something>10)THEN(Anything=5)";
-            string errorMessage = "Implication rule string is not valid: wrong opening or closing bracket";
+            var implicationRule = "IF)Something>10)THEN(Anything=5)";
 
             // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
+            Assert.IsFalse(validationOperationResult.IsSuccess);
         }
 
         [Test]
         public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleLastBracketIsOpening()
         {
             // Arrange
-            string implicationRule = "IF(Something>10)THEN(Anything=5(";
-            string errorMessage = "Implication rule string is not valid: wrong opening or closing bracket";
+            var implicationRule = "IF(Something>10)THEN(Anything=5(";
 
             // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
-        }
-
-        [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleHasMismatchingBracketsCount()
-        {
-            // Arrange
-            string implicationRule = "IF(Something>10)THEN(Anything=5)))";
-            string errorMessage = "Implication rule string is not valid: mismatching brackets";
-
-            // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
-
-            // Assert
-            Assert.AreEqual(false, validationOperationResult.IsSuccess);
-            Assert.IsTrue(validationOperationResult.Messages.Contains(errorMessage));
+            Assert.IsFalse(validationOperationResult.IsSuccess);
         }
 
         [Test]
         public void ValidateImplicationRule_ReturnValidationResultWithoutErrorsIfImplicationRuleIsValid()
         {
             // Arrange
-            string implicationRule = "IF(Something>10)THEN(Anything=5)";
+            var implicationRule = "IF(Something>10)THEN(Anything=5)";
 
             // Act
-            ValidationOperationResult validationOperationResult =
-                _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.AreEqual(true, validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.IsSuccess);
             Assert.AreEqual(0, validationOperationResult.Messages.Count);
         }
     }

@@ -21,9 +21,9 @@ namespace FuzzyExpert.Core.Entities
 
         public override double MembershipDegree(double value)
         {
-            if (PointsList[0] <= value && value < PointsList[1]) return (value - PointsList[0]) / (PointsList[1] - PointsList[0]);
+            if (PointsList[0] <= value && value < PointsList[1]) return (0.1 + value - PointsList[0]) / (PointsList[1] - PointsList[0]);
             if (PointsList[1] <= value && value <= PointsList[2]) return 1;
-            if (PointsList[2] < value && value <= PointsList[3]) return (PointsList[3] - value) / (PointsList[3] - PointsList[2]);
+            if (PointsList[2] < value && value <= PointsList[3]) return (PointsList[3] - value + 0.1) / (PointsList[3] - PointsList[2]);
             return 0;
         }
 

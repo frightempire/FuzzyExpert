@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.Enums;
 using FuzzyExpert.Core.Extensions;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Entities;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces;
-using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Entities;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Interfaces;
 
 namespace FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations
@@ -22,21 +23,23 @@ namespace FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations
             _linguisticVariableParser = linguisticVariableParser ?? throw new ArgumentNullException(nameof(linguisticVariableParser));
         }
 
-        public LinguisticVariable CreateLinguisticVariableEntity(string linguisticVariable)
+        public List<LinguisticVariable> CreateLinguisticVariableEntities(string linguisticVariable)
         {
-            LinguisticVariableStrings linguisticVariableStrings = _linguisticVariableParser.ParseLinguisticVariable(linguisticVariable);
-            DataOriginType dataOriginType = linguisticVariableStrings.DataOrigin.ToEnum<DataOriginType>();
-            bool isInitial = dataOriginType == DataOriginType.Initial;
+            var linguisticVariableStringsList = _linguisticVariableParser.ParseLinguisticVariable(linguisticVariable);
+            return linguisticVariableStringsList.Select(CreateLinguisticVariableEntity).ToList();
+        }
 
-            MembershipFunctionList membershipFunctions = new MembershipFunctionList();
-            foreach (MembershipFunctionStrings membershipFunctionStrings in linguisticVariableStrings.MembershipFunctions)
+        private LinguisticVariable CreateLinguisticVariableEntity(LinguisticVariableStrings linguisticVariableStrings)
+        {
+            var isInitial = linguisticVariableStrings.DataOrigin.ToEnum<DataOriginType>() == DataOriginType.Initial;
+            var membershipFunctions = new MembershipFunctionList();
+            foreach (var membershipFunctionStrings in linguisticVariableStrings.MembershipFunctions)
             {
-                MembershipFunctionType functionType = membershipFunctionStrings.MembershipFunctionType.ToEnum<MembershipFunctionType>();
+                var functionType = membershipFunctionStrings.MembershipFunctionType.ToEnum<MembershipFunctionType>();
                 var membershipFunction = _membershipFunctionCreator.CreateMembershipFunctionEntity(
                     functionType, membershipFunctionStrings.MembershipFunctionName, membershipFunctionStrings.MembershipFunctionValues);
                 membershipFunctions.Add(membershipFunction);
             }
-
             return new LinguisticVariable(linguisticVariableStrings.VariableName, membershipFunctions, isInitial);
         }
     }

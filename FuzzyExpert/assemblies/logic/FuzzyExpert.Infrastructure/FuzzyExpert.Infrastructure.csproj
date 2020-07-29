@@ -77,10 +77,8 @@
     <Compile Include="MembershipFunctionParsing\Entities\MembershipFunctionStrings.cs" />
     <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionCreator.cs" />
     <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionParser.cs" />
-    <Compile Include="MembershipFunctionParsing\Implementations\MembershipFunctionValidator.cs" />
     <Compile Include="MembershipFunctionParsing\Interfaces\IMembershipFunctionCreator.cs" />
     <Compile Include="MembershipFunctionParsing\Interfaces\IMembershipFunctionParser.cs" />
-    <Compile Include="MembershipFunctionParsing\Interfaces\IMembershipFunctionValidator.cs" />
     <Compile Include="ProductionRuleParsing\Entities\ImplicationRuleStrings.cs" />
     <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleCreator.cs" />
     <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleParser.cs" />

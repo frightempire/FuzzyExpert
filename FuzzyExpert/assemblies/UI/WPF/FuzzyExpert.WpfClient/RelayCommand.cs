@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace FuzzyExpert.Profiling
+namespace FuzzyExpert.WpfClient
 {
     public class RelayCommand: ICommand
     {

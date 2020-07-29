@@ -15,9 +15,9 @@ using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
 using FuzzyExpert.Infrastructure.ProfileManaging.Entities;
 using FuzzyExpert.Infrastructure.ProfileManaging.Interfaces;
-using FuzzyExpert.Profiling.Properties;
+using FuzzyExpert.WpfClient.Annotations;
 
-namespace FuzzyExpert.Profiling.ViewModels
+namespace FuzzyExpert.WpfClient.ViewModels
 {
     public class AddImplicationRuleActionModel : INotifyPropertyChanged
     {
@@ -325,7 +325,7 @@ namespace FuzzyExpert.Profiling.ViewModels
                        (_addVariableCommand = new RelayCommand(obj =>
                        {
                            string preProcessedLinguisticVariable = PreprocessString(UserInput);
-                           var validationResult = _variableValidator.ValidateLinguisticVariable(preProcessedLinguisticVariable);
+                           var validationResult = _variableValidator.ValidateLinguisticVariables(preProcessedLinguisticVariable);
                            if (validationResult.IsSuccess)
                            {
                                Variables.Add(preProcessedLinguisticVariable);
@@ -439,7 +439,7 @@ namespace FuzzyExpert.Profiling.ViewModels
                     foreach (var variableFromFile in variablesFromFile)
                     {
                         string preProcessedLinguisticVariable = PreprocessString(variableFromFile);
-                        var validationResult = _variableValidator.ValidateLinguisticVariable(preProcessedLinguisticVariable);
+                        var validationResult = _variableValidator.ValidateLinguisticVariables(preProcessedLinguisticVariable);
                         if (!validationResult.IsSuccess)
                         {
                             failedVariablesValidations.Add(validationResult);
@@ -486,7 +486,7 @@ namespace FuzzyExpert.Profiling.ViewModels
                            var variables = new List<LinguisticVariable>();
                            foreach (var variable in Variables)
                            {
-                               variables.Add(_variableCreator.CreateLinguisticVariableEntity(variable));
+                               variables.AddRange(_variableCreator.CreateLinguisticVariableEntities(variable));
                            }
 
                            var validationResult = _knowledgeValidator.ValidateLinguisticVariablesNames(rules, variables);
@@ -516,7 +516,6 @@ namespace FuzzyExpert.Profiling.ViewModels
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

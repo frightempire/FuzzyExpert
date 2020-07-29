@@ -60,13 +60,13 @@ namespace FuzzyExpert.Core.UnitTests.Entities
         {
             // Arrange
             double inputValue = 6;
-            double expectedDegree = 0.2;
+            double expectedDegree = 0.22;
 
             // Act
             double actualDegree = _trapezoidalMembershipFunction.MembershipDegree(inputValue);
 
             // Assert
-            Assert.AreEqual(expectedDegree, actualDegree);
+            Assert.AreEqual(expectedDegree, Math.Round(actualDegree, 2));
         }
 
         [Test]
@@ -74,13 +74,13 @@ namespace FuzzyExpert.Core.UnitTests.Entities
         {
             // Arrange
             double inputValue = 17;
-            double expectedDegree = 0.6;
+            double expectedDegree = 0.62;
 
             // Act
             double actualDegree = _trapezoidalMembershipFunction.MembershipDegree(inputValue);
 
             // Assert
-            Assert.AreEqual(expectedDegree, actualDegree);
+            Assert.AreEqual(expectedDegree, Math.Round(actualDegree, 2));
         }
 
         [Test]

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using FuzzyExpert.Application.Common.Entities;
 using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
-using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Entities;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces;
-using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Entities;
 using FuzzyExpert.Infrastructure.ProfileManaging.Entities;
 using FuzzyExpert.Infrastructure.ProfileManaging.Interfaces;
 using NUnit.Framework;
@@ -34,18 +32,8 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
         public void Constructor_ExpectedBehavior()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new DatabaseLinguisticVariableProvider(
-                    null,
-                    _linguisticVariableCreatorMock);
-            });
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new DatabaseLinguisticVariableProvider(
-                    _profileRepositoryMock,
-                    null);
-            });
+            Assert.Throws<ArgumentNullException>(() => { new DatabaseLinguisticVariableProvider(null, _linguisticVariableCreatorMock); });
+            Assert.Throws<ArgumentNullException>(() => { new DatabaseLinguisticVariableProvider(_profileRepositoryMock, null); });
         }
 
         [Test]
@@ -84,8 +72,8 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
         public void GetLinguisticVariables_ReturnsCorrectListOfVariables()
         {
             // Arrange
-            var firstLinguisticVariableStringFromFile = "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
-            var secondLinguisticVariableStringFromFile = "Pressure:Derivative:[Low:Trapezoidal:(20,50,50,60)|High:Trapezoidal:(80,100,100,150)]";
+            var firstLinguisticVariableStringFromFile = "[Water]:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
+            var secondLinguisticVariableStringFromFile = "[Pressure]:Derivative:[Low:Trapezoidal:(20,50,50,60)|High:Trapezoidal:(80,100,100,150)]";
             var linguisticVariablesInDatabase = new List<string>
             {
                 firstLinguisticVariableStringFromFile, secondLinguisticVariableStringFromFile
@@ -105,13 +93,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 new TrapezoidalMembershipFunction("Hot", 50, 60, 60, 80)
             };
             var firstLinguisticVariable = new LinguisticVariable("Water", firstMembershipFunctionList, isInitialData:true);
-
-            var firstMembershipFunctionStrings = new List<MembershipFunctionStrings>
-            {
-                new MembershipFunctionStrings("Cold", "Trapezoidal", new List<double> {0, 20, 20, 30}),
-                new MembershipFunctionStrings("Hot", "Trapezoidal", new List<double> {50, 60, 60, 80})
-            };
-            var firstLinguisticVariableStrings = new LinguisticVariableStrings("Water", "Initial", firstMembershipFunctionStrings);
+            var firstLinguisticVariables = new List<LinguisticVariable> {firstLinguisticVariable};
 
             // Pressure variable
             var secondsMembershipFunctionList = new MembershipFunctionList
@@ -120,13 +102,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 new TrapezoidalMembershipFunction("High", 80, 100, 100, 150)
             };
             var secondLinguisticVariable = new LinguisticVariable("Pressure", secondsMembershipFunctionList, isInitialData:false);
-
-            var secondMembershipFunctionStrings = new List<MembershipFunctionStrings>
-            {
-                new MembershipFunctionStrings("Low", "Trapezoidal", new List<double> {20, 50, 50, 60}),
-                new MembershipFunctionStrings("High", "Trapezoidal", new List<double> {80, 100, 100, 150})
-            };
-            var secondLinguisticVariableStrings = new LinguisticVariableStrings("Pressure", "Derivative", secondMembershipFunctionStrings);
+            var secondLinguisticVariables = new List<LinguisticVariable> { secondLinguisticVariable };
 
             var expectedLinguisticVariables = new List<LinguisticVariable>
             {
@@ -135,8 +111,8 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             var expectedOptional = Optional<List<LinguisticVariable>>.For(expectedLinguisticVariables);
 
             // Stubs
-            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(firstLinguisticVariableStringFromFile)).Return(firstLinguisticVariable);
-            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntity(secondLinguisticVariableStringFromFile)).Return(secondLinguisticVariable);
+            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntities(firstLinguisticVariableStringFromFile)).Return(firstLinguisticVariables);
+            _linguisticVariableCreatorMock.Stub(x => x.CreateLinguisticVariableEntities(secondLinguisticVariableStringFromFile)).Return(secondLinguisticVariables);
 
             // Act
             var actualOptional = _databaseLinguisticVariableProvider.GetLinguisticVariables(profileName);

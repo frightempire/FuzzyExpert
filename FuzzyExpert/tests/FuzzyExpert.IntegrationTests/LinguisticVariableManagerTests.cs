@@ -33,8 +33,8 @@ namespace FuzzyExpert.IntegrationTests
                 ProfileName = _profileName,
                 Variables = new List<string>
                 {
-                    "Water:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]",
-                    "Pressure:Derivative:[Low:Trapezoidal:(20,50,50,60)|High:Trapezoidal:(80,100,100,150)]"
+                    "[Water]:Initial:[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]",
+                    "[Pressure]:Derivative:[Low:Trapezoidal:(20,50,50,60)|High:Trapezoidal:(80,100,100,150)]"
                 }
             };
             _profileRepository.SaveProfile(profile);
@@ -57,16 +57,15 @@ namespace FuzzyExpert.IntegrationTests
         public void GetLinguisticVariables_ReturnsLinguisticVariablesList()
         {
             // Arrange
-            Optional<Dictionary<int, LinguisticVariable>> expectedLinguisticVariables =
-                Optional<Dictionary<int, LinguisticVariable>>.For(PrepareExpectedLinguisticVariables());
+            var expectedLinguisticVariables = Optional<Dictionary<int, LinguisticVariable>>.For(PrepareExpectedLinguisticVariables());
 
             // Act
-            Optional<Dictionary<int, LinguisticVariable>> actualLinguisticVariables = _linguisticVariableManager.GetLinguisticVariables(_profileName);
+            var actualLinguisticVariables = _linguisticVariableManager.GetLinguisticVariables(_profileName);
 
             // Assert
             Assert.IsTrue(actualLinguisticVariables.IsPresent);
             Assert.AreEqual(expectedLinguisticVariables.Value.Count, actualLinguisticVariables.Value.Count);
-            for (int i = 1; i <= actualLinguisticVariables.Value.Count; i++)
+            for (var i = 1; i <= actualLinguisticVariables.Value.Count; i++)
             {
                 Assert.IsTrue(ObjectComparer.LinguisticVariablesAreEqual(expectedLinguisticVariables.Value[i], actualLinguisticVariables.Value[i]));
             }
