@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using FuzzyExpert.WpfClient.Annotations;
@@ -29,8 +29,8 @@ namespace FuzzyExpert.WpfClient.Models
             }
         }
 
-        private List<string> _rules;
-        public List<string> Rules
+        private ObservableCollection<ContentModel> _rules;
+        public ObservableCollection<ContentModel> Rules
         {
             get => _rules;
             set
@@ -40,8 +40,8 @@ namespace FuzzyExpert.WpfClient.Models
             }
         }
 
-        private List<string> _variables;
-        public List<string> Variables
+        private ObservableCollection<ContentModel> _variables;
+        public ObservableCollection<ContentModel> Variables
         {
             get => _variables;
             set

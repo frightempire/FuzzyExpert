@@ -64,6 +64,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\CollectionToVisibilityConverter.cs" />
+    <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\InferenceProfileModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Annotations1.cs" />

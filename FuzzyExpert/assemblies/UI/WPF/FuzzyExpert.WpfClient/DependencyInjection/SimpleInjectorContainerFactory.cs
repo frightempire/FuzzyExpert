@@ -81,7 +81,7 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<FuzzyExpertActions>(Lifestyle.Singleton);
 
             // Logging
-            _container.Register<IInferenceResultLogger, FileInferenceResultLogger>(Lifestyle.Singleton);
+            _container.Register<IResultLogger, FileResultLogger>(Lifestyle.Singleton);
 
             _container.Verify();
             return _container;

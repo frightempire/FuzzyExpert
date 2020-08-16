@@ -88,8 +88,12 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 {
                     ProfileName = p.ProfileName,
                     Description = p.Description,
-                    Rules = p.Rules,
-                    Variables = p.Variables
+                    Rules = p.Rules != null ?
+                        new ObservableCollection<ContentModel>(p.Rules.Select(r => new ContentModel { Content = r })) :
+                        new ObservableCollection<ContentModel>(),
+                    Variables = p.Variables != null ?
+                        new ObservableCollection<ContentModel>(p.Variables.Select(v => new ContentModel { Content = v })) :
+                        new ObservableCollection<ContentModel>()
                 }));
         }
 

@@ -22,20 +22,20 @@ namespace FuzzyExpert.Inferencing.ViewModels
         private readonly IExpert _expert;
         private readonly IKnowledgeBaseManager _knowledgeBaseManager;
         private readonly IDataFilePathProvider _dataFilePathProvider;
-        private readonly IInferenceResultLogger _inferenceResultLogger;
+        private readonly IResultLogger _resultLogger;
 
         public InferencingActionsModel(
             IProfileRepository profileRepository,
             IExpert expert,
             IKnowledgeBaseManager knowledgeBaseManager,
             IDataFilePathProvider dataFilePathProvider,
-            IInferenceResultLogger inferenceResultLogger)
+            IResultLogger resultLogger)
         {
             _profileRepository = profileRepository ?? throw new ArgumentNullException(nameof(profileRepository));
             _expert = expert ?? throw new ArgumentNullException(nameof(expert));
             _knowledgeBaseManager = knowledgeBaseManager ?? throw new ArgumentNullException(nameof(knowledgeBaseManager));
             _dataFilePathProvider = dataFilePathProvider ?? throw new ArgumentNullException(nameof(dataFilePathProvider));
-            _inferenceResultLogger = inferenceResultLogger ?? throw new ArgumentNullException(nameof(inferenceResultLogger));
+            _resultLogger = resultLogger ?? throw new ArgumentNullException(nameof(resultLogger));
 
             InitializeBindingProperties();
             InitializeCollectionValues();
@@ -185,20 +185,20 @@ namespace FuzzyExpert.Inferencing.ViewModels
                 return _openResultFileCommand ??
                        (_openResultFileCommand = new RelayCommand(obj =>
                        {
-                           File.Delete(_inferenceResultLogger.LogPath);
+                           File.Delete(_resultLogger.ResultLogPath);
 
                            var rules = _knowledgeBaseManager.GetKnowledgeBase(SelectedProfile.ProfileName).Value.ImplicationRules;
-                           _inferenceResultLogger.LogImplicationRules(rules);
+                           _resultLogger.LogImplicationRules(rules);
 
                            if (ExpertOpinion.IsSuccess)
                            {
-                               _inferenceResultLogger.LogInferenceResult(ExpertOpinion.Result);
+                               _resultLogger.LogInferenceResult(ExpertOpinion.Result);
                            }
                            else
                            {
-                               _inferenceResultLogger.LogInferenceErrors(ExpertOpinion.ErrorMessages);
+                               _resultLogger.LogInferenceErrors(ExpertOpinion.ErrorMessages);
                            }
-                           Process.Start(_inferenceResultLogger.LogPath);
+                           Process.Start(_resultLogger.ResultLogPath);
                        }));
             }
         }

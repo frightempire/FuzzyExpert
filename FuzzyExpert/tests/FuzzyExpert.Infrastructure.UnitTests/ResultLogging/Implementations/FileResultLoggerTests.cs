@@ -7,23 +7,23 @@ using Rhino.Mocks;
 namespace FuzzyExpert.Infrastructure.UnitTests.ResultLogging.Implementations
 {
     [TestFixture]
-    public class FileInferenceResultLoggerTests
+    public class FileResultLoggerTests
     {
         private IFileOperations _fileOperations;
-        private FileInferenceResultLogger _fileInferenceResultLogger;
+        private FileResultLogger _fileResultLogger;
 
         [SetUp]
         public void SetUp()
         {
             _fileOperations = MockRepository.GenerateMock<IFileOperations>();
-            _fileInferenceResultLogger = new FileInferenceResultLogger(_fileOperations);
+            _fileResultLogger = new FileResultLogger(_fileOperations);
         }
 
         [Test]
         public void Constructor_ThrowsArgumentNullExceptionIfFileOperationsIsNull()
         {
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => { new FileInferenceResultLogger(null); });
+            Assert.Throws<ArgumentNullException>(() => { new FileResultLogger(null); });
         }
     }
 }

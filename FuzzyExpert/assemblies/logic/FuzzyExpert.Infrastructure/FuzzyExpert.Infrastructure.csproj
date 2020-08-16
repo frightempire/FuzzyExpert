@@ -90,9 +90,9 @@
     <Compile Include="ProfileManaging\Implementations\ProfileRepository.cs" />
     <Compile Include="ProfileManaging\Interfaces\IProfileRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultLogging\Implementations\FileInferenceResultLogger.cs" />
+    <Compile Include="ResultLogging\Implementations\FileResultLogger.cs" />
     <Compile Include="ResultLogging\Implementations\FileValidationOperationResultLogger.cs" />
-    <Compile Include="ResultLogging\Interfaces\IInferenceResultLogger.cs" />
+    <Compile Include="ResultLogging\Interfaces\IResultLogger.cs" />
     <Compile Include="ResultLogging\Interfaces\IValidationOperationResultLogger.cs" />
   </ItemGroup>
   <ItemGroup>

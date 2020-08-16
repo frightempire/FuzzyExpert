@@ -81,7 +81,7 @@
     <Compile Include="ProfileManaging\Entities\InferenceProfileTests.cs" />
     <Compile Include="ProfileManaging\Implementations\ProfileRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResultLogging\Implementations\FileInferenceResultLoggerTests.cs" />
+    <Compile Include="ResultLogging\Implementations\FileResultLoggerTests.cs" />
     <Compile Include="ResultLogging\Implementations\FileValidationOperationResultLoggerTests.cs" />
   </ItemGroup>
   <ItemGroup>
