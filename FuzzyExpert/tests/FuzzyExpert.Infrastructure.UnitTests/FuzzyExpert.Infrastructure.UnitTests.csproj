@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseManagement\Entities\UserTests.cs" />
+    <Compile Include="DatabaseManagement\Implementations\UserRepositoryTests.cs" />
     <Compile Include="InitialDataProviding\Implementations\CsvDataProviderTests.cs" />
     <Compile Include="InitialDataProviding\Implementations\CsvFileParserTests.cs" />
     <Compile Include="InitialDataProviding\Implementations\InitialDataFilePathProviderTests.cs" />
@@ -78,8 +80,8 @@
     <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleCreatorTests.cs" />
     <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleParserTests.cs" />
     <Compile Include="ProductionRuleParsing\Implementations\ImplicationRuleValidatorTests.cs" />
-    <Compile Include="ProfileManaging\Entities\InferenceProfileTests.cs" />
-    <Compile Include="ProfileManaging\Implementations\ProfileRepositoryTests.cs" />
+    <Compile Include="DatabaseManagement\Entities\InferenceProfileTests.cs" />
+    <Compile Include="DatabaseManagement\Implementations\ProfileRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultLogging\Implementations\FileResultLoggerTests.cs" />
     <Compile Include="ResultLogging\Implementations\FileValidationOperationResultLoggerTests.cs" />

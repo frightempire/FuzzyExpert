@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using FuzzyExpert.Application.Common.Entities;
 using FuzzyExpert.Core.Entities;
+using FuzzyExpert.Infrastructure.DatabaseManagement.Interfaces;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
-using FuzzyExpert.Infrastructure.ProfileManaging.Interfaces;
 
 namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
 {

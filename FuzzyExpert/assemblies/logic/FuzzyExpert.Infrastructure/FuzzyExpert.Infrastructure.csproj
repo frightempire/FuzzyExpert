@@ -45,6 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseManagement\Implementations\ConnectionStringProvider.cs" />
+    <Compile Include="DatabaseManagement\Interfaces\IConnectionStringProvider.cs" />
+    <Compile Include="DatabaseManagement\Interfaces\IUserRepository.cs" />
+    <Compile Include="DatabaseManagement\Implementations\UserRepository.cs" />
     <Compile Include="InitialDataProviding\Implementations\CsvDataProvider.cs" />
     <Compile Include="InitialDataProviding\Implementations\CsvFileParser.cs" />
     <Compile Include="InitialDataProviding\Implementations\InitialDataFilePathProvider.cs" />
@@ -86,9 +90,10 @@
     <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleCreator.cs" />
     <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleParser.cs" />
     <Compile Include="ProductionRuleParsing\Interfaces\IImplicationRuleValidator.cs" />
-    <Compile Include="ProfileManaging\Entities\InferenceProfile.cs" />
-    <Compile Include="ProfileManaging\Implementations\ProfileRepository.cs" />
-    <Compile Include="ProfileManaging\Interfaces\IProfileRepository.cs" />
+    <Compile Include="DatabaseManagement\Entities\InferenceProfile.cs" />
+    <Compile Include="DatabaseManagement\Entities\User.cs" />
+    <Compile Include="DatabaseManagement\Implementations\ProfileRepository.cs" />
+    <Compile Include="DatabaseManagement\Interfaces\IProfileRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultLogging\Implementations\FileResultLogger.cs" />
     <Compile Include="ResultLogging\Implementations\FileValidationOperationResultLogger.cs" />

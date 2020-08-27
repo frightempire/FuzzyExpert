@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using FuzzyExpert.Application.Common.Entities;
 using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.Enums;
+using FuzzyExpert.Infrastructure.DatabaseManagement.Entities;
+using FuzzyExpert.Infrastructure.DatabaseManagement.Interfaces;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
-using FuzzyExpert.Infrastructure.ProfileManaging.Entities;
-using FuzzyExpert.Infrastructure.ProfileManaging.Interfaces;
 using NUnit.Framework;
 using Rhino.Mocks;
 

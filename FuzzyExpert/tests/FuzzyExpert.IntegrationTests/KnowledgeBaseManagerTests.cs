@@ -2,13 +2,13 @@
 using FuzzyExpert.Application.Common.Implementations;
 using FuzzyExpert.Application.Entities;
 using FuzzyExpert.Base.UnitTests;
+using FuzzyExpert.Infrastructure.DatabaseManagement.Entities;
+using FuzzyExpert.Infrastructure.DatabaseManagement.Implementations;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Helpers;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Implementations;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations;
-using FuzzyExpert.Infrastructure.ProfileManaging.Entities;
-using FuzzyExpert.Infrastructure.ProfileManaging.Implementations;
 using FuzzyExpert.Infrastructure.ResultLogging.Implementations;
 using NUnit.Framework;
 
@@ -30,7 +30,7 @@ namespace FuzzyExpert.IntegrationTests
 
         private void PrepareProfileRepository()
         {
-            _profileRepository = new ProfileRepository();
+            _profileRepository = new ProfileRepository(new ConnectionStringProvider());
             var profile = new InferenceProfile
             {
                 ProfileName = _profileName,

@@ -34,18 +34,27 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
 
         public ExpertOpinion GetResult(string profileName)
         {
-            Optional<List<InitialData>> initialData = _initialDataProvider.GetInitialData();
-            Optional<KnowledgeBase> knowledgeBase = _knowledgeManager.GetKnowledgeBase(profileName);
+            var initialData = _initialDataProvider.GetInitialData();
+            var knowledgeBase = _knowledgeManager.GetKnowledgeBase(profileName);
 
-            ExpertOpinion opinion = new ExpertOpinion();
-            if (!initialData.IsPresent) opinion.AddErrorMessage("Initial data is not consistent. Check logs for more information.");
-            if (!knowledgeBase.IsPresent) opinion.AddErrorMessage("Knowledge base is not consistent. Check logs for more information.");
+            var opinion = new ExpertOpinion();
+            if (!initialData.IsPresent)
+            {
+                opinion.AddErrorMessage("Initial data is not consistent. Check logs for more information.");
+            }
+            if (!knowledgeBase.IsPresent)
+            {
+                opinion.AddErrorMessage("Knowledge base is not consistent. Check logs for more information.");
+            }
+
             ValidateInitialDataAgainstKnowledgeBase(initialData, knowledgeBase, opinion);
-
-            if (!opinion.IsSuccess) return opinion;
+            if (!opinion.IsSuccess)
+            {
+                return opinion;
+            }
 
             FillInferenceEngineRules(knowledgeBase.Value);
-            List<InitialData> activatedNodes = GetInitialNodes(knowledgeBase.Value, initialData.Value);
+            var activatedNodes = GetInitialNodes(knowledgeBase.Value, initialData.Value);
             opinion.AddResults(_inferenceEngine.GetInferenceResults(activatedNodes));
             return opinion;
         }
@@ -57,8 +66,7 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
         {
             foreach (var data in initialData.Value)
             {
-                KeyValuePair<int, LinguisticVariable> matchingVariable =
-                    knowledgeBase.Value.LinguisticVariables.SingleOrDefault(lv => lv.Value.VariableName == data.Name);
+                var matchingVariable = knowledgeBase.Value.LinguisticVariables.SingleOrDefault(lv => lv.Value.VariableName == data.Name);
                 if (matchingVariable.Value == null)
                 {
                     opinion.AddErrorMessage($"Initial data {data.Name} is not present in linguistic variables base.");
@@ -68,27 +76,28 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
 
         private List<InitialData> GetInitialNodes(KnowledgeBase knowledgeBase, List<InitialData> initialData)
         {
-            List<UnaryStatement> ifUnaryStatements = knowledgeBase.ImplicationRules
+            var ifUnaryStatements = knowledgeBase.ImplicationRules
                 .SelectMany(ir => ir.Value.IfStatement.SelectMany(ifs => ifs.UnaryStatements))
                 .ToList();
 
-            List<InitialData> activatedNodes = new List<InitialData>();
+            var activatedNodes = new List<InitialData>();
 
             foreach (var data in initialData)
             {
-                KeyValuePair<int, LinguisticVariable> matchingVariable = knowledgeBase.LinguisticVariables
-                    .SingleOrDefault(lv => lv.Value.VariableName == data.Name);
-                List<string> relatedStatementNames = knowledgeBase.LinguisticVariablesRelations
+                var matchingVariable = knowledgeBase.LinguisticVariables.SingleOrDefault(lv => lv.Value.VariableName == data.Name);
+                var relatedStatementNames = knowledgeBase.LinguisticVariablesRelations
                     .SingleOrDefault(lvr => lvr.LinguisticVariableNumber == matchingVariable.Key)
                     ?.RelatedUnaryStatementNames;
 
-                MembershipFunction membershipFunction = _fuzzyEngine.Fuzzify(matchingVariable.Value, data.Value);
+                var membershipFunction = _fuzzyEngine.Fuzzify(matchingVariable.Value, data.Value);
 
                 foreach (var name in relatedStatementNames)
                 {
-                    UnaryStatement matchingStatement = ifUnaryStatements
-                        .FirstOrDefault(ius => ius.Name == name && ius.RightOperand == membershipFunction.LinguisticVariableName);
-                    if (matchingStatement != null) activatedNodes.Add(new InitialData(name, data.Value, data.ConfidenceFactor));
+                    var matchingStatement = ifUnaryStatements.FirstOrDefault(ius => ius.Name == name && ius.RightOperand == membershipFunction.LinguisticVariableName);
+                    if (matchingStatement != null)
+                    {
+                        activatedNodes.Add(new InitialData(name, data.Value, data.ConfidenceFactor));
+                    }
                 }
             }
             return activatedNodes;
@@ -98,11 +107,11 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
         {
             foreach (var implicationRule in knowledgeBase.ImplicationRules)
             {
-                List<string> ifNodeNames = implicationRule.Value.IfStatement
+                var ifNodeNames = implicationRule.Value.IfStatement
                     .SelectMany(ifs => ifs.UnaryStatements.Select(us => us.Name))
                     .ToList();
-                LogicalOperation operation = ifNodeNames.Count == 1 ? LogicalOperation.None : LogicalOperation.And;
-                List<string> thenNodeNames = implicationRule.Value.ThenStatement.UnaryStatements
+                var operation = ifNodeNames.Count == 1 ? LogicalOperation.None : LogicalOperation.And;
+                var thenNodeNames = implicationRule.Value.ThenStatement.UnaryStatements
                     .Select(us => us.Name)
                     .ToList();
                 _inferenceEngine.AddRule(ifNodeNames, operation, thenNodeNames);

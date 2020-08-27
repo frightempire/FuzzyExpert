@@ -2,11 +2,11 @@
 using FuzzyExpert.Application.Common.Entities;
 using FuzzyExpert.Base.UnitTests;
 using FuzzyExpert.Core.Entities;
+using FuzzyExpert.Infrastructure.DatabaseManagement.Entities;
+using FuzzyExpert.Infrastructure.DatabaseManagement.Implementations;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Implementations;
-using FuzzyExpert.Infrastructure.ProfileManaging.Entities;
-using FuzzyExpert.Infrastructure.ProfileManaging.Implementations;
 using NUnit.Framework;
 
 namespace FuzzyExpert.IntegrationTests
@@ -27,7 +27,7 @@ namespace FuzzyExpert.IntegrationTests
 
         private void PrepareProfileRepository()
         {
-            _profileRepository = new ProfileRepository();
+            _profileRepository = new ProfileRepository(new ConnectionStringProvider());
             var profile = new InferenceProfile
             {
                 ProfileName = _profileName,

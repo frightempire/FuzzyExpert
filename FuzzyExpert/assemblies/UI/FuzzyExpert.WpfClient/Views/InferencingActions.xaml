@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="FuzzyExpert.WpfClient.Views.InferencingActions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="clr-namespace:FuzzyExpert.WpfClient.Controls"
+             xmlns:converters="clr-namespace:FuzzyExpert.WpfClient.Converters"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0"
+                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Text="1. Select inferencing profile" FontWeight="Bold" FontSize="24"/>
+        <Grid Grid.Row="0" Grid.Column="1"
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" 
+                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="150"
+                      IsEditable="True" IsReadOnly="True" Text="SELECT ..."
+                      SelectedItem="{Binding SelectedProfile}"  
+                      ItemsSource = "{Binding Profiles}"
+                      DisplayMemberPath="ProfileName"/>
+            <TextBlock Grid.Column="1"
+                       Text="=>" FontSize="30"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"
+                       Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}"/>
+            <Border Grid.Column="2"
+                    BorderBrush="Black" BorderThickness="2"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center" FontWeight="Bold" Margin="5"
+                               Text="{Binding SelectedProfile.ProfileName}"/>
+                    <StackPanel Grid.Row="1" Grid.Column="0"
+                                Orientation="Horizontal" HorizontalAlignment="Center"
+                                Margin="5">
+                        <TextBlock Text="{Binding SelectedProfile.Rules.Count, FallbackValue='0'}"/>
+                        <TextBlock Text=" rules"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="1"
+                                Orientation="Horizontal" HorizontalAlignment="Center"
+                                Margin="5">
+                        <TextBlock Text="{Binding SelectedProfile.Variables.Count, FallbackValue='0'}"/>
+                        <TextBlock Text=" variables"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,20,0" FontWeight="Bold" Height="10"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Text="2. Select initial data" FontWeight="Bold" FontSize="24"/>
+        <StackPanel Grid.Row="2" Grid.Column="1"
+                    Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <controls:TooltipTextboxControl Text="{Binding DataFilePath, Mode=TwoWay}" Tooltip="Data file path ..." Width="250"/>
+            <Button Content="..." Width="30" Margin="10"
+                    HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    Command="{Binding GetDataCommand}"/>
+        </StackPanel>
+
+        <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,20,0" FontWeight="Bold" Height="10"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   Text="3. Perform inference" FontWeight="Bold" FontSize="24"/>
+        <Grid Grid.Row="4" Grid.Column="1"
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" 
+                    Content="Start inference"
+                    Width="110" Height="50" Margin="10"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Command="{Binding StartInferenceCommand}"/>
+            <TextBlock Grid.Column="1"
+                       Text="=>" FontSize="30"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
+            <Button Grid.Column="2"
+                    Content="Open result log"
+                    Width="110" Height="50" Margin="10"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Command="{Binding OpenResultFileCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

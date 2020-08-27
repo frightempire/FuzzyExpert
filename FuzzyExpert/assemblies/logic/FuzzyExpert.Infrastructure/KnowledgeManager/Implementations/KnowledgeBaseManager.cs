@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using FuzzyExpert.Application.Common.Entities;
 using FuzzyExpert.Application.Contracts;
 using FuzzyExpert.Application.Entities;
-using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
 
@@ -34,23 +32,21 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
 
         public Optional<KnowledgeBase> GetKnowledgeBase(string profileName)
         {
-            Optional<Dictionary<int, ImplicationRule>> implicationRules = _implicationRuleManager.GetImplicationRules(profileName);
-            Optional<Dictionary<int, LinguisticVariable>> linguisticVariables = _linguisticVariableManager.GetLinguisticVariables(profileName);
+            var implicationRules = _implicationRuleManager.GetImplicationRules(profileName);
+            var linguisticVariables = _linguisticVariableManager.GetLinguisticVariables(profileName);
 
             if (!implicationRules.IsPresent || !linguisticVariables.IsPresent)
             {
                 return Optional<KnowledgeBase>.Empty();
             }
 
-            ValidationOperationResult validationOperationResult =
-                _knowledgeBaseValidator.ValidateLinguisticVariablesNames(
+            var validationOperationResult = _knowledgeBaseValidator.ValidateLinguisticVariablesNames(
                     implicationRules.Value.Select(ir => ir.Value).ToList(),
                     linguisticVariables.Value.Select(lv => lv.Value).ToList());
 
             if (validationOperationResult.IsSuccess)
             {
-                List<LinguisticVariableRelations> linguisticVariablesRelations = 
-                    _linguisticVariableRelationsInitializer.FormRelations(implicationRules.Value, linguisticVariables.Value);         
+                var linguisticVariablesRelations = _linguisticVariableRelationsInitializer.FormRelations(implicationRules.Value, linguisticVariables.Value);         
                 return Optional<KnowledgeBase>.For(new KnowledgeBase(implicationRules.Value, linguisticVariables.Value, linguisticVariablesRelations));
             }
 
