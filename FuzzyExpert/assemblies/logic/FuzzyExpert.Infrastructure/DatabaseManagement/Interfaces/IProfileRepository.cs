@@ -6,7 +6,7 @@ namespace FuzzyExpert.Infrastructure.DatabaseManagement.Interfaces
 {
     public interface IProfileRepository
     {
-        Optional<IEnumerable<InferenceProfile>> GetProfiles();
+        Optional<IEnumerable<InferenceProfile>> GetProfilesForUser(string userName);
 
         Optional<InferenceProfile> GetProfileByName(string profileName);
 

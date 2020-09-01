@@ -43,8 +43,10 @@
                        Text="{Binding ValidationMessage, Mode=TwoWay}"
                        FontSize="20"/>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Content="Log In" Margin="10" FontSize="24" Click="Login"/>
-                <Button Content="Register" Margin="10" FontSize="24" Click="Register"/>
+                <Button Content="Log In" Margin="10" FontSize="24"
+                        Click="Login"/>
+                <Button Content="Register" Margin="10" FontSize="24"
+                        Click="Register"/>
             </StackPanel>
         </StackPanel>
     </Grid>

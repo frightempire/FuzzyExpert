@@ -73,6 +73,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.DatabaseManagement.Implementation
             var firstProfile = new InferenceProfile
             {
                 ProfileName = "ProjectSelection",
+                UserName = "ProfileUser",
                 Rules = new List<string>
                 {
                     "IF A=1 THEN B=2",
@@ -86,6 +87,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.DatabaseManagement.Implementation
             var secondProfile = new InferenceProfile
             {
                 ProfileName = "BusinessCaseCreation",
+                UserName = "ProfileUser",
                 Rules = new List<string>
                 {
                     "IF A=1 THEN B=2",
@@ -100,7 +102,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.DatabaseManagement.Implementation
             // Act
             var firstSaveResult = _profileRepository.SaveProfile(firstProfile);
             var secondSaveResult = _profileRepository.SaveProfile(secondProfile);
-            var profilesFromDatabase = _profileRepository.GetProfiles();
+            var profilesFromDatabase = _profileRepository.GetProfilesForUser(firstProfile.UserName);
 
             // Assert
             Assert.IsTrue(firstSaveResult);
@@ -156,6 +158,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.DatabaseManagement.Implementation
             var profile = new InferenceProfile
             {
                 ProfileName = "ProjectSelection",
+                UserName = "ProfileUser",
                 Rules = new List<string>
                 {
                     "IF A=1 THEN B=2",
@@ -172,7 +175,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.DatabaseManagement.Implementation
             // Act
             var secondResult = _profileRepository.SaveProfile(profile);
             var updatedProfileFromDatabase = _profileRepository.GetProfileByName(profile.ProfileName);
-            var profilesFromDatabase = _profileRepository.GetProfiles();
+            var profilesFromDatabase = _profileRepository.GetProfilesForUser(profile.UserName);
 
             // Assert
             Assert.IsTrue(firstResult); // LiteDB Upsert returns TRUE if INSERTED
@@ -182,6 +185,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.DatabaseManagement.Implementation
             Assert.IsTrue(profilesFromDatabase.IsPresent);
             Assert.AreEqual(1, profilesFromDatabase.Value.ToList().Count);
             Assert.AreEqual(profile.ProfileName, updatedProfileFromDatabase.Value.ProfileName);
+            Assert.AreEqual(profile.UserName, updatedProfileFromDatabase.Value.UserName);
             Assert.AreEqual(3, updatedProfileFromDatabase.Value.Rules.Count);
         }
 

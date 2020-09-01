@@ -18,6 +18,17 @@ namespace FuzzyExpert.WpfClient.Models
             }
         }
 
+        private string _userName;
+        public string UserName
+        {
+            get => _userName;
+            set
+            {
+                _userName = value;
+                OnPropertyChanged(nameof(UserName));
+            }
+        }
+
         private string _description;
         public string Description
         {

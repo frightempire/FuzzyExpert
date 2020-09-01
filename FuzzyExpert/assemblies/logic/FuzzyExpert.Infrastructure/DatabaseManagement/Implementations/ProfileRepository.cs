@@ -16,11 +16,11 @@ namespace FuzzyExpert.Infrastructure.DatabaseManagement.Implementations
             _connectionStringProvider = connectionStringProvider ?? throw new ArgumentNullException(nameof(connectionStringProvider));
         }
 
-        public Optional<IEnumerable<InferenceProfile>> GetProfiles()
+        public Optional<IEnumerable<InferenceProfile>> GetProfilesForUser(string userName)
         {
             using (var repository = new LiteRepository(_connectionStringProvider.ConnectionString))
             {
-                var entities = repository.Fetch<InferenceProfile>();
+                var entities = repository.Query<InferenceProfile>().Where(p => p.UserName == userName).ToList();
                 return entities.Count == 0 ? 
                     Optional<IEnumerable<InferenceProfile>>.Empty() :
                     Optional<IEnumerable<InferenceProfile>>.For(entities);

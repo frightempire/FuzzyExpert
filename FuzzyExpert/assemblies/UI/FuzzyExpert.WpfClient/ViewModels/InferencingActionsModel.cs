@@ -42,9 +42,15 @@ namespace FuzzyExpert.WpfClient.ViewModels
             StartInferenceCommand = new RelayCommand(obj => StartInference(), obj => !string.IsNullOrEmpty(DataFilePath) && SelectedProfile != null && SelectedProfile.Rules.Count != 0);
             OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => ExpertOpinion.IsSuccess);
 
+            InitializeState();
+        }
+
+        public void InitializeState()
+        {
             Profiles = new ObservableCollection<InferenceProfileModel>();
             Results = new ObservableCollection<string>();
             ExpertOpinion = new ExpertOpinion();
+            DataFilePath = string.Empty;
         }
 
         private ExpertOpinion ExpertOpinion { get; set; }
@@ -136,9 +142,9 @@ namespace FuzzyExpert.WpfClient.ViewModels
             Process.Start(_resultLogger.ResultLogPath);
         }
 
-        public void RefreshProfiles()
+        public void RefreshProfiles(string userName)
         {
-            var profiles = _profileRepository.GetProfiles();
+            var profiles = _profileRepository.GetProfilesForUser(userName);
             if (!profiles.IsPresent)
             {
                 return;
@@ -156,7 +162,8 @@ namespace FuzzyExpert.WpfClient.ViewModels
                         new ObservableCollection<ContentModel>(),
                     Variables = profile.Variables != null ?
                         new ObservableCollection<ContentModel>(profile.Variables.Select(v => new ContentModel { Content = v })) :
-                        new ObservableCollection<ContentModel>()
+                        new ObservableCollection<ContentModel>(),
+                    UserName = userName
                 });
             }
             OnPropertyChanged(nameof(Profiles));

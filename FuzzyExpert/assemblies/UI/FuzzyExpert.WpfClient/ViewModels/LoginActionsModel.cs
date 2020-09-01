@@ -45,7 +45,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 OnPropertyChanged(nameof(ValidationMessage));
             }
         }
-        
+
         public bool Login()
         {
             var user = _userRepository.GetUserByName(User.UserName);

@@ -12,9 +12,11 @@ namespace FuzzyExpert.WpfClient.Views
             InitializeComponent();
         }
 
-        public void RefreshProfiles()
+        public void InitializeState(string userName)
         {
-            ((InferencingActionsModel)DataContext).RefreshProfiles();
+            var model = (InferencingActionsModel)DataContext;
+            model.InitializeState();
+            model.RefreshProfiles(userName);
         }
     }
 }

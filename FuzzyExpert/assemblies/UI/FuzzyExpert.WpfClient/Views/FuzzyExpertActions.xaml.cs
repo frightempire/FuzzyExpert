@@ -48,12 +48,11 @@ namespace FuzzyExpert.WpfClient.Views
             switch (origin.Name)
             {
                 case "ProfilingButton":
-                    //var res = _loginActions.LoggedInUserName;
-                    _profilingActions.RefreshProfiles();
+                    _profilingActions.InitializeState(_loginActions.LoggedInUserName);
                     ContentArea.Children.Add(_profilingActions);
                     break;
                 case "InferencingButton":
-                    _inferencingActions.RefreshProfiles();
+                    _inferencingActions.InitializeState(_loginActions.LoggedInUserName);
                     ContentArea.Children.Add(_inferencingActions);
                     break;
                 case "LoginButton":

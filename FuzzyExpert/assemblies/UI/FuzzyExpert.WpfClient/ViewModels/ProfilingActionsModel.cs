@@ -69,6 +69,11 @@ namespace FuzzyExpert.WpfClient.ViewModels
             Profiles = new ObservableCollection<InferenceProfileModel>();
         }
 
+        public void InitializeState()
+        {
+            Profiles = new ObservableCollection<InferenceProfileModel>();
+        }
+
         #region Collections
 
         private ObservableCollection<InferenceProfileModel> _profiles;
@@ -95,6 +100,17 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
                 _selectedProfile = value;
                 OnPropertyChanged(nameof(SelectedProfile));
+            }
+        }
+
+        private string _userName;
+        public string UserName
+        {
+            get => _userName;
+            set
+            {
+                _userName = value;
+                OnPropertyChanged(nameof(UserName));
             }
         }
 
@@ -281,10 +297,13 @@ namespace FuzzyExpert.WpfClient.ViewModels
                     var profile = new InferenceProfile
                     {
                         ProfileName = SelectedProfile.ProfileName,
+                        UserName = UserName,
+                        Description = SelectedProfile.Description,
                         Rules = preProcessedImplicationRules,
                         Variables = preProcessedLinguisticVariables
                     };
                     _profileRepository.SaveProfile(profile);
+                    RefreshProfiles(UserName);
                     CommitProfileValidationMessage = "Knowledge base is valid. Update successful!";
                 }
                 else
@@ -417,12 +436,13 @@ namespace FuzzyExpert.WpfClient.ViewModels
             _profileRepository.SaveProfile(new InferenceProfile
             {
                 ProfileName = NewProfileName,
-                Description = NewProfileDescription
+                Description = NewProfileDescription,
+                UserName = UserName
             });
 
             CreateProfileVisible = false;
             PopUpVisible = false;
-            RefreshProfiles();
+            RefreshProfiles(UserName);
         }
 
         private bool _createProfileVisible;
@@ -458,15 +478,17 @@ namespace FuzzyExpert.WpfClient.ViewModels
             }
         }
 
-        public void RefreshProfiles()
+        public void RefreshProfiles(string userName)
         {
-            var profiles = _profileRepository.GetProfiles();
+            Profiles = new ObservableCollection<InferenceProfileModel>();
+
+            UserName = userName;
+            var profiles = _profileRepository.GetProfilesForUser(userName);
             if (!profiles.IsPresent)
             {
                 return;
             }
 
-            Profiles.Clear();
             foreach (var profile in profiles.Value)
             {
                 Profiles.Add(new InferenceProfileModel
@@ -478,7 +500,8 @@ namespace FuzzyExpert.WpfClient.ViewModels
                         new ObservableCollection<ContentModel>(),
                     Variables = profile.Variables != null ?
                         new ObservableCollection<ContentModel>(profile.Variables.Select(v => new ContentModel { Content = v })) :
-                        new ObservableCollection<ContentModel>()
+                        new ObservableCollection<ContentModel>(),
+                    UserName = UserName
                 });
             }
             OnPropertyChanged(nameof(Profiles));
