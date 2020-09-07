@@ -60,6 +60,18 @@
                      ItemsSource="{Binding Profiles}"
                      ItemTemplate="{StaticResource ProfilingItem}">
             </ListBox>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="50">
+                <Button Style="{DynamicResource EmptyButton}" 
+                        Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding AddProfileCommand}">
+                    <Image Source="../Resources/plus.png"/>
+                </Button>
+                <Button Style="{DynamicResource EmptyButton}" 
+                        Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Command="{Binding RemoveProfileCommand}">
+                    <Image Source="../Resources/delete_big.png"/>
+                </Button>
+            </StackPanel>
         </StackPanel>
         <TextBlock Grid.Row="0" Grid.Column="0"
                    HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -83,9 +95,11 @@
                            HorizontalAlignment="Left" VerticalAlignment="Center"
                            Text="{Binding SelectedProfile.Description}"/>
                 <Button Grid.Row="0" Grid.Column="1"
+                        Style="{DynamicResource RoundButton}"
                         Content="Update" Margin="5" Width="120" Height="30"
                         Command="{Binding UpdateProfileCommand}"/>
                 <Button Grid.Row="1" Grid.Column="1"
+                        Style="{DynamicResource RoundButton}"
                         Content="Commit" Margin="5" Width="120" Height="30"
                         Command="{Binding CommitProfileCommand}"/>
             </Grid>
@@ -96,13 +110,6 @@
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    Text="Profile details should be available here once selected"
                    Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=true, FallbackValue=Hidden}"/>
-        <StackPanel Grid.Row="1" Grid.Column="0" 
-                    Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="50">
-            <Button Margin="5" Content="Add" VerticalAlignment="Center" HorizontalAlignment="Center"
-                    Command="{Binding AddProfileCommand}"/>
-            <Button Margin="5" Content="Remove" VerticalAlignment="Center" HorizontalAlignment="Center"
-                    Command="{Binding RemoveProfileCommand}"/>
-        </StackPanel>
         <TextBlock Grid.Row="1" Grid.Column="1" Margin="5"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                    Text="{Binding CommitProfileValidationMessage, UpdateSourceTrigger=PropertyChanged}"/>
@@ -129,9 +136,11 @@
                                                 Tooltip="Profile description ..." IsBigText="True"/>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Content="Create" Margin="10" Width="120" Height="30"
+                <Button Style="{DynamicResource RoundButton}" 
+                        Content="Create" Margin="10" Width="120" Height="30"
                         Command="{Binding CreateProfileCommand}"/>
-                <Button Content="Cancel" Margin="10" Width="120" Height="30"
+                <Button Style="{DynamicResource RoundButton}" 
+                        Content="Cancel" Margin="10" Width="120" Height="30"
                         Command="{Binding CloseCreateProfileCommand}"/>
             </StackPanel>
         </StackPanel>
@@ -140,7 +149,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"
               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"
               ZIndex="2" Background="White"
-              Width="400" Height="350"
+              Width="450" Height="350"
               Visibility="{Binding UpdateProfileVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}">
             <Label Background="LightGray" BorderBrush="Gray" BorderThickness="1" FontWeight="Bold"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -157,17 +166,21 @@
                                                     Text="{Binding UpdatingInput, Mode=TwoWay}"
                                                     Tooltip="Input rule or variable here ..." IsBigText="True"/>
                     <StackPanel HorizontalAlignment="Stretch" Margin="5">
-                        <Button Content="Import rule"
-                                Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
+                        <Button Style="{DynamicResource RoundButton}" 
+                                Content="Import rule"
+                                Width="110" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
                                 Command="{Binding ImportRuleFromInputCommand}" />
-                        <Button Content="Import variable"
-                                Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
+                        <Button Style="{DynamicResource RoundButton}" 
+                                Content="Import variable"
+                                Width="110" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
                                 Command="{Binding ImportVariableFromInputCommand}" />
                     </StackPanel>
                 </StackPanel>
                 <TextBlock Grid.Row="1"
                            Margin="5" HorizontalAlignment="Center" Text="---------------OR---------------"/>
-                <Button Grid.Row="2" Margin="5" Width="150" Height="50"
+                <Button Grid.Row="2"
+                        Style="{DynamicResource RoundButton}" 
+                        Margin="5" Width="150" Height="50"
                         VerticalAlignment="Center" HorizontalAlignment="Center"
                         Content="Import from files"
                         Visibility="{Binding ImportButtonVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}"
@@ -188,20 +201,24 @@
                     <controls:TooltipTextboxControl Grid.Row="1" Grid.Column="0" Margin="5"
                                                     Text="{Binding VariableFilePath, Mode=TwoWay}" Tooltip="Variables file ..." />
                     <Button Grid.Row="0" Grid.Column="1" Content="..."
-                            Width="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
+                            Style="{DynamicResource RoundButton}" 
+                            Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
                             Command="{Binding GetRulesFromFileCommand}" /> 
                     <Button Grid.Row="1" Grid.Column="1" Content="..."
-                            Width="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
+                            Style="{DynamicResource RoundButton}" 
+                            Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
                             Command="{Binding GetVariablesFromFileCommand}" />
                     <Button Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
-                            Content="Start" Width="50"
+                            Style="{DynamicResource RoundButton}" 
+                            Content="Start" Width="75"
                             HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"
                             Command="{Binding StartImportFromFilesCommand}" />
                 </Grid>
             </Grid>
             <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
                        Text="{Binding UpdateProfileValidationMessage, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Content="Cancel" Margin="10" Width="120" Height="30"
+            <Button Style="{DynamicResource RoundButton}" 
+                    Content="Cancel" Margin="10" Width="120" Height="30"
                     Command="{Binding CloseUpdateProfileCommand}"/>
         </StackPanel>
     </Grid>

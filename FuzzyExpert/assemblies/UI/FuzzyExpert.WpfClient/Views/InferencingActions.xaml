@@ -81,8 +81,9 @@
                    Text="2. Select initial data" FontWeight="Bold" FontSize="24"/>
         <StackPanel Grid.Row="2" Grid.Column="1"
                     Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <controls:TooltipTextboxControl Text="{Binding DataFilePath, Mode=TwoWay}" Tooltip="Data file path ..." Width="250"/>
-            <Button Content="..." Width="30" Margin="10"
+            <controls:TooltipTextboxControl Text="{Binding DataFilePath, Mode=TwoWay}" Tooltip="Data file path ..." Width="300"/>
+            <Button Style="{DynamicResource RoundButton}"
+                    Content="..." Width="50" Margin="10"
                     HorizontalAlignment="Center" VerticalAlignment="Center" 
                     Command="{Binding GetDataCommand}"/>
         </StackPanel>
@@ -98,7 +99,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" 
+            <Button Grid.Column="0"
+                    Style="{DynamicResource RoundButton}"
                     Content="Start inference"
                     Width="110" Height="50" Margin="10"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -107,6 +109,7 @@
                        Text="=>" FontSize="30"
                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
             <Button Grid.Column="2"
+                    Style="{DynamicResource RoundButton}"
                     Content="Open result log"
                     Width="110" Height="50" Margin="10"
                     HorizontalAlignment="Center" VerticalAlignment="Center"

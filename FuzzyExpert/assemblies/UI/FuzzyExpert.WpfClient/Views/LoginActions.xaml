@@ -34,18 +34,20 @@
                            FontSize="24" Text="User name : "/>
                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" 
                            FontSize="24" Text="Password : "/>
-                <TextBox Grid.Row="0" Grid.Column="1" Margin="5" 
-                         FontSize="24" Text="{Binding User.UserName}"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Margin="5" 
-                         FontSize="24" Text="{Binding User.Password}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" 
+                         Margin="5" FontSize="24" Text="{Binding User.UserName}"/>
+                <TextBox Grid.Row="1" Grid.Column="1" 
+                         Margin="5" FontSize="24" Text="{Binding User.Password}"/>
             </Grid>
             <TextBlock Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"
                        Text="{Binding ValidationMessage, Mode=TwoWay}"
                        FontSize="20"/>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Content="Log In" Margin="10" FontSize="24"
+                <Button Style="{DynamicResource RoundButton}"
+                        Content="Log In" Margin="10" FontSize="24" Width="120"
                         Click="Login"/>
-                <Button Content="Register" Margin="10" FontSize="24"
+                <Button Style="{DynamicResource RoundButton}" 
+                        Content="Register" Margin="10" FontSize="24" Width="120"
                         Click="Register"/>
             </StackPanel>
         </StackPanel>

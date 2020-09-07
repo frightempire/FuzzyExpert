@@ -10,9 +10,12 @@
     <UserControl.Resources>
         <DataTemplate x:Key="EditableListBoxItem">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Horizontal">
-                <Button Content="Delete" FontWeight="Bold" HorizontalAlignment="Left" Margin="2" DockPanel.Dock="Left"
+                <Button Style="{DynamicResource EmptyButton}" 
+                        FontWeight="Bold" HorizontalAlignment="Left" Margin="2" DockPanel.Dock="Left"
                         Command="{Binding DataContext.DeleteSelectedItemCommand, ElementName=Root}"
-                        CommandParameter="{Binding ElementName=ListBox}"/>
+                        CommandParameter="{Binding ElementName=ListBox}">
+                    <Image Source="../Resources/delete_small.png"/>
+                </Button>
                 <TextBox Name="ListBoxItem" DockPanel.Dock="Left"
                          Text="{Binding Path=Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          HorizontalAlignment="Stretch" BorderThickness="0">

@@ -170,5 +170,15 @@
   <ItemGroup>
     <Resource Include="Resources\main_header.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\delete_big.png" />
+    <Resource Include="Resources\delete_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\main_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

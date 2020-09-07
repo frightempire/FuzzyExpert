@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Fuzzy Expert"
+        Icon="../Resources/main_icon.png"
         Height="Auto" Width="Auto" SizeToContent="Height">
     <StackPanel>
         <Grid>
@@ -26,36 +27,32 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" 
-                        Margin="5" Padding="5" Width="75" HorizontalAlignment="Right"
+                        Style="{DynamicResource RoundButton}"
+                        Content = "Profiling"
+                        Margin="5" Padding="5" Width="100" HorizontalAlignment="Right"
                         Name="ProfilingButton"
                         Click="LoadAction">
-                    <Button.Content>
-                        <TextBlock>Profiling</TextBlock>
-                    </Button.Content>
                 </Button>
-                <Button Grid.Column="1" 
-                        Margin="5" Padding="5" Width="75" HorizontalAlignment="Right"
+                <Button Grid.Column="1"
+                        Style="{DynamicResource RoundButton}"
+                        Content = "Inferencing"
+                        Margin="5" Padding="5" Width="100" HorizontalAlignment="Right"
                         Name="InferencingButton"
                         Click="LoadAction">
-                    <Button.Content>
-                        <TextBlock>Inferencing</TextBlock>
-                    </Button.Content>
                 </Button>
-                <Button Grid.Column="2" 
-                        Margin="5" Padding="5" Width="75" HorizontalAlignment="Right"
+                <Button Grid.Column="2"
+                        Style="{DynamicResource RoundButton}"
+                        Content = "Log In"
+                        Margin="5" Padding="5" Width="100" HorizontalAlignment="Right"
                         Name="LoginButton"
                         Click="LoadAction">
-                    <Button.Content>
-                        <TextBlock>Log In</TextBlock>
-                    </Button.Content>
                 </Button>
-                <Button Grid.Column="2" 
-                        Margin="5" Padding="5" Width="75" HorizontalAlignment="Right"
+                <Button Grid.Column="2"
+                        Style="{DynamicResource RoundButton}"
+                        Content = "Log Out"
+                        Margin="5" Padding="5" Width="100" HorizontalAlignment="Right"
                         Name="LogoutButton"
                         Click="LoadAction">
-                    <Button.Content>
-                        <TextBlock>Log Out</TextBlock>
-                    </Button.Content>
                 </Button>
             </Grid>
         </Grid>
