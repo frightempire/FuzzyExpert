@@ -3,11 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:controls="clr-namespace:FuzzyExpert.WpfClient.Controls"
              xmlns:converters="clr-namespace:FuzzyExpert.WpfClient.Converters"
              mc:Ignorable="d">
     <UserControl.Resources>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:CollectionToVisibilityConverter x:Key="CollectionToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -19,12 +22,12 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0"
                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Text="1. Select inferencing profile" FontWeight="Bold" FontSize="24"/>
+                   Text="[1] Select inferencing profile" FontWeight="Bold" FontSize="18"/>
         <Grid Grid.Row="0" Grid.Column="1"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
@@ -78,7 +81,7 @@
         <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,20,0" FontWeight="Bold" Height="10"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Text="2. Select initial data" FontWeight="Bold" FontSize="24"/>
+                   Text="[2] Select initial data" FontWeight="Bold" FontSize="18"/>
         <StackPanel Grid.Row="2" Grid.Column="1"
                     Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <controls:TooltipTextboxControl Text="{Binding DataFilePath, Mode=TwoWay}" Tooltip="Data file path ..." Width="300"/>
@@ -91,7 +94,7 @@
         <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,20,0" FontWeight="Bold" Height="10"/>
 
         <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Text="3. Perform inference" FontWeight="Bold" FontSize="24"/>
+                   Text="[3] Perform inference" FontWeight="Bold" FontSize="18"/>
         <Grid Grid.Row="4" Grid.Column="1"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
@@ -110,10 +113,65 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
             <Button Grid.Column="2"
                     Style="{DynamicResource RoundButton}"
-                    Content="Open result log"
+                    Content="View Result"
                     Width="110" Height="50" Margin="10"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Command="{Binding OpenResultFileCommand}"/>
+                    Command="{Binding OpenResultViewCommand}"/>
         </Grid>
+
+        <!--Gray area-->
+        <Rectangle Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Grid.ColumnSpan="2"
+                   Panel.ZIndex="1" Fill="DimGray" Opacity=".8" Stroke="DimGray" StrokeThickness="2"
+                   Visibility="{Binding PopUpVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}"/>
+
+        <!--Result view popup-->
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Grid.ColumnSpan="2"
+              VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"
+              ZIndex="2" Background="White"
+              Width="700" Height="400"
+              Visibility="{Binding ResultViewVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}">
+            <Label Background="LightGray" BorderBrush="Gray" BorderThickness="1" FontWeight="Bold"
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                   Content="Result"/>
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="5"
+                            VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="150"
+                              IsEditable="True" IsReadOnly="True" Text="SELECT ..."
+                              SelectedItem="{Binding SelectedVariable}"  
+                              ItemsSource = "{Binding Variables}"
+                              DisplayMemberPath="Content">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding GetPartialResultCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ListBox MinHeight="250" MaxHeight="250" Width="400" HorizontalContentAlignment="Stretch"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             ItemsSource="{Binding PartialResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                             DisplayMemberPath="Content"
+                             Visibility="{Binding PartialResult, Converter={StaticResource CollectionToVisibilityConverter}, FallbackValue=Hidden}"/>
+                </StackPanel>
+                <TextBlock Grid.Column="1"
+                           Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Text="OR" FontSize="18" FontWeight="Bold"/>
+                <Button Grid.Column="2"
+                        Style="{DynamicResource RoundButton}" 
+                        Margin="5" Width="150" Height="50"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"
+                        Content="View ALL results"
+                        Command="{Binding OpenResultFileCommand}" />
+            </Grid>
+            <Button Style="{DynamicResource RoundButton}" 
+                    Content="Cancel" Margin="10" Width="120" Height="30"
+                    Command="{Binding CloseResultViewCommand}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -22,13 +22,13 @@ namespace FuzzyExpert.Infrastructure.ResultLogging.Implementations
 
         public void LogImplicationRules(Dictionary<int, ImplicationRule> implicationRules)
         {
-            List<string> rules = implicationRules.Select(rule => $"Implication rule {rule.Key} : {rule.Value}").ToList();
+            var rules = implicationRules.Select(rule => $"Implication rule {rule.Key} : {rule.Value}").ToList();
             _fileOperations.AppendLinesToFile(ResultLogPath, rules);
         }
 
-        public void LogInferenceResult(Dictionary<string, double> inferenceResult)
+        public void LogInferenceResult(List<Tuple<string, double>> inferenceResult)
         {
-            List<string> results = inferenceResult.Select(result => $"Node {result.Key} was enabled with confidence factor {result.Value}").ToList();
+            var results = inferenceResult.Select(result => $"Node {result.Item1} was enabled with confidence factor {result.Item2}").ToList();
             _fileOperations.AppendLinesToFile(ResultLogPath, results);
         }
 

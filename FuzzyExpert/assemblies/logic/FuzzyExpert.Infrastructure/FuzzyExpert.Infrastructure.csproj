@@ -56,7 +56,6 @@
     <Compile Include="InitialDataProviding\Interfaces\IDataFilePathProvider.cs" />
     <Compile Include="InitialDataProviding\Interfaces\IFileParser.cs" />
     <Compile Include="InitialDataProviding\Interfaces\IParsingResultValidator.cs" />
-    <Compile Include="KnowledgeManager\Helpers\NameSupervisor.cs" />
     <Compile Include="KnowledgeManager\Implementations\DatabaseImplicationRuleProvider.cs" />
     <Compile Include="KnowledgeManager\Implementations\DatabaseLinguisticVariableProvider.cs" />
     <Compile Include="KnowledgeManager\Implementations\ImplicationRuleManager.cs" />
@@ -70,7 +69,6 @@
     <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableManager.cs" />
     <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableProvider.cs" />
     <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableRelationsInitializer.cs" />
-    <Compile Include="KnowledgeManager\Interfaces\INameSupervisor.cs" />
     <Compile Include="LinguisticVariableParsing\Entities\LinguisticVariableStrings.cs" />
     <Compile Include="LinguisticVariableParsing\Implementations\LinguisticVariableCreator.cs" />
     <Compile Include="LinguisticVariableParsing\Implementations\LinguisticVariableParser.cs" />

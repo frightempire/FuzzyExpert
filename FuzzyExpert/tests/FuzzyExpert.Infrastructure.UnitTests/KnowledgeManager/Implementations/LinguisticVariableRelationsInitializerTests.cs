@@ -28,12 +28,12 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
 
             List<LinguisticVariableRelations> expectedRelations = new List<LinguisticVariableRelations>
             {
-                new LinguisticVariableRelations(1, new List<string> {"A1"}),
-                new LinguisticVariableRelations(2, new List<string> {"A2"}),
-                new LinguisticVariableRelations(3, new List<string> {"A3"}),
-                new LinguisticVariableRelations(4, new List<string> {"A4"}),
-                new LinguisticVariableRelations(5, new List<string> {"A5"}),
-                new LinguisticVariableRelations(6, new List<string> {"A6"}),
+                new LinguisticVariableRelations(1, new List<string> {"Temperature > HOT"}),
+                new LinguisticVariableRelations(2, new List<string> {"Pressure = HIGH"}),
+                new LinguisticVariableRelations(3, new List<string> {"Volume >= BIG"}),
+                new LinguisticVariableRelations(4, new List<string> {"Color = RED"}),
+                new LinguisticVariableRelations(5, new List<string> {"Danger = HIGH"}),
+                new LinguisticVariableRelations(6, new List<string> {"Evacuate = TRUE"})
             };
 
             // Act
@@ -54,38 +54,38 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
                 {
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("Temperature", ComparisonOperation.Greater, "HOT") {Name = "A1"}
+                        new UnaryStatement("Temperature", ComparisonOperation.Greater, "HOT")
                     })
                 },
                 new StatementCombination(new List<UnaryStatement>
                 {
-                    new UnaryStatement("Pressure", ComparisonOperation.Equal, "HIGH") {Name = "A2"}
+                    new UnaryStatement("Pressure", ComparisonOperation.Equal, "HIGH")
                 }));
             ImplicationRule secondImplicationRule = new ImplicationRule(
                 new List<StatementCombination>
                 {
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("Volume", ComparisonOperation.GreaterOrEqual, "BIG") {Name = "A3"},
-                        new UnaryStatement("Color", ComparisonOperation.Equal, "RED") {Name = "A4"}
+                        new UnaryStatement("Volume", ComparisonOperation.GreaterOrEqual, "BIG"),
+                        new UnaryStatement("Color", ComparisonOperation.Equal, "RED")
                     })
                 },
                 new StatementCombination(new List<UnaryStatement>
                 {
-                    new UnaryStatement("Danger", ComparisonOperation.Equal, "HIGH") {Name = "A5"}
+                    new UnaryStatement("Danger", ComparisonOperation.Equal, "HIGH")
                 }));
             ImplicationRule thirdImplicationRule = new ImplicationRule(
                 new List<StatementCombination>
                 {
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("Pressure", ComparisonOperation.Equal, "HIGH") {Name = "A2"},
-                        new UnaryStatement("Danger", ComparisonOperation.Equal, "HIGH") {Name = "A5"}
+                        new UnaryStatement("Pressure", ComparisonOperation.Equal, "HIGH"),
+                        new UnaryStatement("Danger", ComparisonOperation.Equal, "HIGH")
                     })
                 },
                 new StatementCombination(new List<UnaryStatement>
                 {
-                    new UnaryStatement("Evacuate", ComparisonOperation.Equal, "TRUE") {Name = "A6"}
+                    new UnaryStatement("Evacuate", ComparisonOperation.Equal, "TRUE")
                 }));
 
             return new Dictionary<int, ImplicationRule>

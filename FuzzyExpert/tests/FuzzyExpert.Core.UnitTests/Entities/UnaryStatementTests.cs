@@ -11,7 +11,6 @@ namespace FuzzyExpert.Core.UnitTests.Entities
     {
         private UnaryStatement _unaryStatement;
 
-        private string _expectedName = "A1";
         private string _expectedLeftOperand = "leftOperand";
         private ComparisonOperation _expectedComparisonOperation = ComparisonOperation.Equal;
         private string _expectedRightOperand = "rightOperand";
@@ -19,8 +18,7 @@ namespace FuzzyExpert.Core.UnitTests.Entities
         [SetUp]
         public void SetUp()
         {
-            _unaryStatement = new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, _expectedRightOperand)
-            { Name = _expectedName};
+            _unaryStatement = new UnaryStatement(_expectedLeftOperand, _expectedComparisonOperation, _expectedRightOperand);
         }
 
         [Test]
@@ -98,26 +96,6 @@ namespace FuzzyExpert.Core.UnitTests.Entities
 
             // Assert
             Assert.AreEqual(_expectedRightOperand, actualRightOperand);
-        }
-
-        [Test]
-        public void Name_SetterWorksProperly()
-        {
-            // Act
-            _unaryStatement.Name = _expectedName;
-
-            // Assert
-            Assert.AreEqual(_expectedName, _unaryStatement.Name);
-        }
-
-        [Test]
-        public void Name_GetterWorksProperly()
-        {
-            // Act
-            string actualName = _unaryStatement.Name;
-
-            // Assert
-            Assert.AreEqual(_expectedName, actualName);
         }
 
         [Test]

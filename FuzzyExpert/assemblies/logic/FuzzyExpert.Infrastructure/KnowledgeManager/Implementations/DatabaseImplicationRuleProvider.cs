@@ -13,16 +13,13 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
     {
         private readonly IProfileRepository _profileRepository;
         private readonly IImplicationRuleCreator _implicationRuleCreator;
-        private readonly INameSupervisor _nameSupervisor;
 
         public DatabaseImplicationRuleProvider(
             IProfileRepository fileOperations,
-            IImplicationRuleCreator implicationRuleCreator,
-            INameSupervisor nameSupervisor)
+            IImplicationRuleCreator implicationRuleCreator)
         {
             _profileRepository = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
             _implicationRuleCreator = implicationRuleCreator ?? throw new ArgumentNullException(nameof(implicationRuleCreator));
-            _nameSupervisor = nameSupervisor ?? throw new ArgumentNullException(nameof(nameSupervisor));
         }
 
         public Optional<List<ImplicationRule>> GetImplicationRules(string profileName)
@@ -41,7 +38,6 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
             }
 
             List<ImplicationRule> separatedImplicationRules = DivideComplexImplicationRules(implicationRules);
-            SetNamesForUnaryStatements(separatedImplicationRules);
             return Optional<List<ImplicationRule>>.For(separatedImplicationRules);
         }
 
@@ -68,16 +64,6 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
             }
 
             return grownRuleList;
-        }
-
-        private void SetNamesForUnaryStatements(List<ImplicationRule> implicationRules)
-        {
-            List<UnaryStatement> ifUnaryStatements = implicationRules.SelectMany(ir => ir.IfStatement.SelectMany(ifs => ifs.UnaryStatements)).ToList();
-            List<UnaryStatement> thenUnaryStatements = implicationRules.SelectMany(ir => ir.ThenStatement.UnaryStatements).ToList();
-            List<UnaryStatement> allUnaryStatements = new List<UnaryStatement>();
-            allUnaryStatements.AddRange(ifUnaryStatements);
-            allUnaryStatements.AddRange(thenUnaryStatements);
-            _nameSupervisor.AssignNames(allUnaryStatements);
         }
     }
 }

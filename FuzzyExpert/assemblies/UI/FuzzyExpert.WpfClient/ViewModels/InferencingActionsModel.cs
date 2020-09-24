@@ -40,7 +40,11 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
             GetDataCommand = new RelayCommand(obj => GetData(), obj => true);
             StartInferenceCommand = new RelayCommand(obj => StartInference(), obj => !string.IsNullOrEmpty(DataFilePath) && SelectedProfile != null && SelectedProfile.Rules.Count != 0);
+            GetPartialResultCommand = new RelayCommand(obj => GetPartialResult(), obj => true);
             OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => ExpertOpinion.IsSuccess);
+
+            OpenResultViewCommand = new RelayCommand(obj => OpenResultView(), obj => true);
+            CloseResultViewCommand = new RelayCommand(obj => CloseResultView(), obj => true);
 
             InitializeState();
         }
@@ -48,7 +52,8 @@ namespace FuzzyExpert.WpfClient.ViewModels
         public void InitializeState()
         {
             Profiles = new ObservableCollection<InferenceProfileModel>();
-            Results = new ObservableCollection<string>();
+            PartialResult = new ObservableCollection<ContentModel>();
+            Variables = new ObservableCollection<ContentModel>();
             ExpertOpinion = new ExpertOpinion();
             DataFilePath = string.Empty;
         }
@@ -74,11 +79,30 @@ namespace FuzzyExpert.WpfClient.ViewModels
             }
         }
 
-        public ObservableCollection<string> Results { get; set; }
+        public ObservableCollection<ContentModel> PartialResult { get; set; }
+
+        public ObservableCollection<ContentModel> Variables { get; set; }
+
+        private ContentModel _selectedVariable;
+        public ContentModel SelectedVariable
+        {
+            get => _selectedVariable;
+            set
+            {
+                if (value == _selectedVariable)
+                {
+                    return;
+                }
+
+                _selectedVariable = value;
+                OnPropertyChanged(nameof(SelectedVariable));
+            }
+        }
 
         private void ResetBindingProperties()
         {
-            Results.Clear();
+            PartialResult.Clear();
+            Variables.Clear();
             ExpertOpinion = new ExpertOpinion();
         }
 
@@ -97,7 +121,14 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public RelayCommand StartInferenceCommand { get; }
 
+        public RelayCommand GetPartialResultCommand { get; }
+
         public RelayCommand OpenResultFileCommand { get; }
+
+        public RelayCommand CloseResultViewCommand { get; }
+
+        public RelayCommand OpenResultViewCommand { get; }
+
 
         private void GetData()
         {
@@ -113,15 +144,39 @@ namespace FuzzyExpert.WpfClient.ViewModels
         private void StartInference()
         {
             ExpertOpinion = _expert.GetResult(SelectedProfile.ProfileName);
+
             if (!ExpertOpinion.IsSuccess)
             {
                 return;
             }
 
-            foreach (var result in ExpertOpinion.Result)
+            Variables.Clear();
+            foreach (var variable in SelectedProfile.Variables.SelectMany(v => v.Content.Substring(1, v.Content.IndexOf(']') - 1).Split(',')))
             {
-                Results.Add($"Node {result.Key} was enabled with confidence factor {result.Value}");
+                Variables.Add(new ContentModel { Content = variable });
             }
+            OnPropertyChanged(nameof(Variables));
+        }
+
+        private void GetPartialResult()
+        {
+            if (!ExpertOpinion.IsSuccess)
+            {
+                return;
+            }
+
+            PartialResult.Clear();
+            var selectedVariable = SelectedVariable.Content;
+            var lastVariableUsage = ExpertOpinion.Result.LastIndexOf(ExpertOpinion.Result.Last(r => r.Item1.Contains(selectedVariable)));
+            var previousResults = ExpertOpinion.Result.GetRange(0, lastVariableUsage+1);
+            foreach (var previousResult in previousResults)
+            {
+                PartialResult.Add(new ContentModel
+                {
+                    Content = $"Node {previousResult.Item1} was enabled with confidence factor {previousResult.Item2}"
+                });
+            }
+            OnPropertyChanged(nameof(PartialResult));
         }
 
         private void OpenResultFile()
@@ -140,6 +195,40 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 _resultLogger.LogInferenceErrors(ExpertOpinion.ErrorMessages);
             }
             Process.Start(_resultLogger.ResultLogPath);
+        }
+
+        private void OpenResultView()
+        {
+            ResultViewVisible = true;
+            PopUpVisible = true;
+        }
+
+        private void CloseResultView()
+        {
+            ResultViewVisible = false;
+            PopUpVisible = false;
+        }
+
+        private bool _resultViewVisible;
+        public bool ResultViewVisible
+        {
+            get => _resultViewVisible;
+            set
+            {
+                _resultViewVisible = value;
+                OnPropertyChanged(nameof(ResultViewVisible));
+            }
+        }
+
+        private bool _popUpVisible;
+        public bool PopUpVisible
+        {
+            get => _popUpVisible;
+            set
+            {
+                _popUpVisible = value;
+                OnPropertyChanged(nameof(PopUpVisible));
+            }
         }
 
         public void RefreshProfiles(string userName)

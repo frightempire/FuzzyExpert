@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.Enums;
 using FuzzyExpert.Core.InferenceEngine.Implementations;
@@ -44,30 +45,30 @@ namespace FuzzyExpert.IntegrationTests
             _inferenceGraph.AddRule(new List<string> { "init2_1", "B4" }, LogicalOperation.And, new List<string> { "F1" });
             _inferenceGraph.AddRule(new List<string> { "B5", "B3" }, LogicalOperation.And, new List<string> { "F3" });
 
-            Dictionary<string, double> expectedInferenceResult = new Dictionary<string, double>
+            var expectedInferenceResult = new List<Tuple<string, double>>
             {
-                {"init1_1" , 0.1 },
-                {"A3" , 0.1 },
-                {"init1_2" , 0.9 },
-                {"A1" , 0.1 },
-                {"init2_1" , 0.4 },
-                {"A2" , 0.4 },
-                {"B2" , 0.1 },
-                {"B5" , 0.1 },
-                {"B3" , 0.1 },
-                {"F1" , 0.1 },
-                {"F6" , 0.1 },
-                {"F3" , 0.1 },
-                {"init3_1" , 0.3 },
-                {"A4" , 0.9 },
-                {"B4" , 0.9 },
-                {"init4_1" , 0.9 },
-                {"B1" , 0.4 },
-                {"F2" , 0.4 }
+                new Tuple<string, double>("init1_1" , 0.1),
+                new Tuple<string, double>("A3" , 0.1),
+                new Tuple<string, double>("init1_2" , 0.9),
+                new Tuple<string, double>("A1" , 0.1 ),
+                new Tuple<string, double>("init2_1" , 0.4),
+                new Tuple<string, double>("A2" , 0.4),
+                new Tuple<string, double>("B2" , 0.1),
+                new Tuple<string, double>("B5" , 0.1),
+                new Tuple<string, double>("B3" , 0.1),
+                new Tuple<string, double>("F1" , 0.1),
+                new Tuple<string, double>("F6" , 0.1),
+                new Tuple<string, double>("F3" , 0.1),
+                new Tuple<string, double>("init3_1" , 0.3),
+                new Tuple<string, double>("A4" , 0.9),
+                new Tuple<string, double>("B4" , 0.9),
+                new Tuple<string, double>("init4_1" , 0.9),
+                new Tuple<string, double>("B1" , 0.4),
+                new Tuple<string, double>("F2" , 0.4)
             };
 
             // Act
-            Dictionary<string, double> actualInferenceResult = _inferenceGraph.GetInferenceResults(initialData);
+            var actualInferenceResult = _inferenceGraph.GetInferenceResults(initialData);
 
             // Assert
             Assert.AreEqual(expectedInferenceResult, actualInferenceResult);

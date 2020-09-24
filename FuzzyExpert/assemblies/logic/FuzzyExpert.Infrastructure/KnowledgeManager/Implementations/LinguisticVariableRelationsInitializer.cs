@@ -26,9 +26,9 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
                 foreach (UnaryStatement unaryStatement in allUnaryStatements)
                 {
                     if (linguisticVariable.Value.VariableName == unaryStatement.LeftOperand &&
-                        !relatedStatements.Contains(unaryStatement.Name))
+                        !relatedStatements.Contains(unaryStatement.ToString()))
                     {
-                        relatedStatements.Add(unaryStatement.Name);
+                        relatedStatements.Add(unaryStatement.ToString());
                     }
                 }
                 relations.Add(new LinguisticVariableRelations(linguisticVariable.Key, relatedStatements));

@@ -36,7 +36,6 @@ namespace FuzzyExpert.Core.Entities
                 UnaryStatement lastIfUnaryStatement = statementCombination.UnaryStatements.Last();
                 foreach (UnaryStatement unaryStatement in statementCombination.UnaryStatements)
                 {
-                    ifStatementStringBuilder.Append($"[{unaryStatement.Name}] ");
                     ifStatementStringBuilder.Append(unaryStatement);
                     if (unaryStatement != lastIfUnaryStatement)
                         ifStatementStringBuilder.Append(" & ");
@@ -60,7 +59,6 @@ namespace FuzzyExpert.Core.Entities
             UnaryStatement lastThenUnaryStatement = ThenStatement.UnaryStatements.Last();
             foreach (UnaryStatement unaryStatement in ThenStatement.UnaryStatements)
             {
-                thenStatementStringBuilder.Append($"[{unaryStatement.Name}] ");
                 thenStatementStringBuilder.Append(unaryStatement);
                 if (unaryStatement != lastThenUnaryStatement)
                     thenStatementStringBuilder.Append(" & ");

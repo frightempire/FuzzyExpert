@@ -44,9 +44,7 @@
     <Compile Include="Common\Entities\Optional.cs" />
     <Compile Include="Common\Entities\StringCharacter.cs" />
     <Compile Include="Common\Implementations\FileOperations.cs" />
-    <Compile Include="Common\Implementations\UniqueNameProvider.cs" />
     <Compile Include="Common\Interfaces\IFileOperations.cs" />
-    <Compile Include="Common\Interfaces\INameProvider.cs" />
     <Compile Include="Contracts\IDataProvider.cs" />
     <Compile Include="Entities\ValidationOperationResult.cs" />
     <Compile Include="InferenceExpert\Entities\ExpertOpinion.cs" />

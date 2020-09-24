@@ -18,7 +18,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
     {
         private IProfileRepository _profileRepositoryMock;
         private IImplicationRuleCreator _implicationRuleCreatorMock;
-        private INameSupervisor _nameSupervisorMock;
 
         private DatabaseImplicationRuleProvider _databaseImplicationRuleProvider;
 
@@ -27,12 +26,10 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
         {
             _profileRepositoryMock = MockRepository.GenerateMock<IProfileRepository>();
             _implicationRuleCreatorMock = MockRepository.GenerateMock<IImplicationRuleCreator>();
-            _nameSupervisorMock = MockRepository.GenerateMock<INameSupervisor>();
 
             _databaseImplicationRuleProvider = new DatabaseImplicationRuleProvider(
                 _profileRepositoryMock,
-                _implicationRuleCreatorMock,
-                _nameSupervisorMock);
+                _implicationRuleCreatorMock);
         }
 
         [Test]
@@ -43,21 +40,12 @@ namespace FuzzyExpert.Infrastructure.UnitTests.KnowledgeManager.Implementations
             {
                 new DatabaseImplicationRuleProvider(
                     null,
-                    _implicationRuleCreatorMock,
-                    _nameSupervisorMock);
+                    _implicationRuleCreatorMock);
             });
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new DatabaseImplicationRuleProvider(
                     _profileRepositoryMock,
-                    null,
-                    _nameSupervisorMock);
-            });
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new DatabaseImplicationRuleProvider(
-                    _profileRepositoryMock,
-                    _implicationRuleCreatorMock,
                     null);
             });
         }

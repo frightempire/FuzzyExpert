@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using FuzzyExpert.Application.Common.Implementations;
 using FuzzyExpert.Application.InferenceExpert.Entities;
@@ -7,7 +8,6 @@ using FuzzyExpert.Core.InferenceEngine.Implementations;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Entities;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Implementations;
 using FuzzyExpert.Infrastructure.InitialDataProviding.Implementations;
-using FuzzyExpert.Infrastructure.KnowledgeManager.Helpers;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Implementations;
@@ -72,11 +72,9 @@ namespace FuzzyExpert.IntegrationTests
             // Implication rule manager
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
-            NameSupervisor nameSupervisor = new NameSupervisor(new UniqueNameProvider());
             DatabaseImplicationRuleProvider ruleProvider = new DatabaseImplicationRuleProvider(
                 _profileRepository,
-                ruleCreator,
-                nameSupervisor);
+                ruleCreator);
             ImplicationRuleManager implicationRuleManager = new ImplicationRuleManager(ruleProvider);
 
             // Linguistic variable manager
@@ -115,24 +113,22 @@ namespace FuzzyExpert.IntegrationTests
         public void GetResult_ReturnsCorrectResult()
         {
             // Arrange
-            var expectedResult = new Dictionary<string, double>
+            var expectedResult = new List<Tuple<string, double>>
             {
-                {"A1", 0 },
-                {"A4", 0 },
-                {"A2", 0 },
-                {"A3", 0 },
-                {"A5", 0 },
-                {"A6", 0 }
+                new Tuple<string, double>("Temperature = HOT", 0.8),
+                new Tuple<string, double>("Pressure = HIGH", 0.8),
+                new Tuple<string, double>("Volume = BIG", 0.7),
+                new Tuple<string, double>("Color = RED", 0.6),
+                new Tuple<string, double>("Danger = HIGH", 0.6),
+                new Tuple<string, double>("Evacuate = TRUE", 0.6)
             };
-            ExpertOpinion expectedOpinion = new ExpertOpinion();
-            expectedOpinion.AddResults(expectedResult);
 
             // Act
             ExpertOpinion actualOpinion = _fuzzyExpert.GetResult(_profileName);
 
             // Assert
             Assert.IsTrue(actualOpinion.IsSuccess);
-            Assert.AreEqual(actualOpinion.Result, actualOpinion.Result);
+            Assert.AreEqual(expectedResult, actualOpinion.Result);
         }
     }
 }

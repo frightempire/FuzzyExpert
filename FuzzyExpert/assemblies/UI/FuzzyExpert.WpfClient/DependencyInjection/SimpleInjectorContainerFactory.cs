@@ -11,7 +11,6 @@ using FuzzyExpert.Infrastructure.DatabaseManagement.Implementations;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Interfaces;
 using FuzzyExpert.Infrastructure.InitialDataProviding.Implementations;
 using FuzzyExpert.Infrastructure.InitialDataProviding.Interfaces;
-using FuzzyExpert.Infrastructure.KnowledgeManager.Helpers;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations;
@@ -45,8 +44,6 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<IImplicationRuleValidator, ImplicationRuleValidator>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleParser, ImplicationRuleParser>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleCreator, ImplicationRuleCreator>(Lifestyle.Singleton);
-            _container.Register<INameProvider, UniqueNameProvider>(Lifestyle.Singleton);
-            _container.Register<INameSupervisor, NameSupervisor>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleProvider, DatabaseImplicationRuleProvider>(Lifestyle.Singleton);
             _container.Register<IImplicationRuleManager, ImplicationRuleManager>(Lifestyle.Singleton);
 
