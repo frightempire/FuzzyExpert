@@ -9,7 +9,7 @@
         <Rectangle Panel.ZIndex="1" Fill="DimGray" Opacity=".8" Stroke="DimGray" StrokeThickness="2"
                    Height="500"/>
 
-        <!--Creating profile popup-->
+        <!--Login popup-->
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Width="500" Height="250"
                     ZIndex="2" Background="White">
             <Label Background="LightGray" BorderBrush="Gray" BorderThickness="1" FontWeight="Bold" FontSize="24"
@@ -44,10 +44,10 @@
                        FontSize="20"/>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button Style="{DynamicResource RoundButton}"
-                        Content="Log In" Margin="10" FontSize="24" Width="120"
+                        Content="Log In" Margin="10" FontSize="24" Width="120" FontWeight="Bold"
                         Click="Login"/>
                 <Button Style="{DynamicResource RoundButton}" 
-                        Content="Register" Margin="10" FontSize="24" Width="120"
+                        Content="Register" Margin="10" FontSize="24" Width="120" FontWeight="Bold"
                         Click="Register"/>
             </StackPanel>
         </StackPanel>

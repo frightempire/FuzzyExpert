@@ -35,6 +35,8 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
         {
             // Database
             _container.Register<IConnectionStringProvider, ConnectionStringProvider>(Lifestyle.Singleton);
+            _container.Register<IDefaultSettingsProvider, DefaultSettingsProvider>(Lifestyle.Singleton);
+            _container.Register<ISettingsRepository, SettingsRepository>(Lifestyle.Singleton);
             _container.Register<IProfileRepository, ProfileRepository>(Lifestyle.Singleton);
             _container.Register<IUserRepository, UserRepository>(Lifestyle.Singleton);
 
@@ -71,6 +73,8 @@ namespace FuzzyExpert.WpfClient.DependencyInjection
             _container.Register<IExpert, Application.InferenceExpert.Implementations.FuzzyExpert>(Lifestyle.Singleton);
 
             // Models and ViewModels
+            _container.Register<SettingsActionsModel>(Lifestyle.Singleton);
+            _container.Register<SettingsActions>(Lifestyle.Singleton);
             _container.Register<InferencingActionsModel>(Lifestyle.Singleton);
             _container.Register<InferencingActions>(Lifestyle.Singleton);
             _container.Register<ProfilingActionsModel>(Lifestyle.Singleton);

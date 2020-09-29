@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using FuzzyExpert.WpfClient.Annotations;
 
 namespace FuzzyExpert.WpfClient.Views
 {
     public partial class FuzzyExpertActions : Window
     {
+        private readonly SettingsActions _settingsActions;
         private readonly LoginActions _loginActions;
         private readonly ProfilingActions _profilingActions;
         private readonly InferencingActions _inferencingActions;
 
         public FuzzyExpertActions(
+            [NotNull] SettingsActions settingsActions,
             ProfilingActions profilingActions,
             InferencingActions inferencingActions,
             LoginActions loginActions)
         {
+            _settingsActions = settingsActions ?? throw new ArgumentNullException(nameof(settingsActions));
             _loginActions = loginActions ?? throw new ArgumentNullException(nameof(loginActions));
             _profilingActions = profilingActions ?? throw new ArgumentNullException(nameof(profilingActions));
             _inferencingActions = inferencingActions ?? throw new ArgumentNullException(nameof(inferencingActions));
@@ -27,6 +31,7 @@ namespace FuzzyExpert.WpfClient.Views
 
         private void InitializeHeaderState()
         {
+            SettingsButton.IsEnabled = false;
             ProfilingButton.IsEnabled = false;
             InferencingButton.IsEnabled = false;
             LogoutButton.Visibility = Visibility.Hidden;
@@ -35,6 +40,7 @@ namespace FuzzyExpert.WpfClient.Views
 
         private void OnLoggedIn(object sender, EventArgs e)
         {
+            SettingsButton.IsEnabled = true;
             ProfilingButton.IsEnabled = true;
             InferencingButton.IsEnabled = true;
             LogoutButton.Visibility = Visibility.Visible;
@@ -47,6 +53,10 @@ namespace FuzzyExpert.WpfClient.Views
             ContentArea.Children.Clear();
             switch (origin.Name)
             {
+                case "SettingsButton":
+                    _settingsActions.InitializeState(_loginActions.LoggedInUserName);
+                    ContentArea.Children.Add(_settingsActions);
+                    break;
                 case "ProfilingButton":
                     _profilingActions.InitializeState(_loginActions.LoggedInUserName);
                     ContentArea.Children.Add(_profilingActions);

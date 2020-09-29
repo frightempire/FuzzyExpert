@@ -84,7 +84,7 @@
                    Text="[2] Select initial data" FontWeight="Bold" FontSize="18"/>
         <StackPanel Grid.Row="2" Grid.Column="1"
                     Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <controls:TooltipTextboxControl Text="{Binding DataFilePath, Mode=TwoWay}" Tooltip="Data file path ..." Width="300"/>
+            <controls:TooltipTextboxControl Text="{Binding DataFilePath, Mode=TwoWay}" Tooltip="Data file path ..." HorizontalAlignment="Stretch"/>
             <Button Style="{DynamicResource RoundButton}"
                     Content="..." Width="50" Margin="10"
                     HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -128,7 +128,7 @@
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="5" Grid.ColumnSpan="2"
               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"
               ZIndex="2" Background="White"
-              Width="700" Height="400"
+              Width="700" Height="440"
               Visibility="{Binding ResultViewVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}">
             <Label Background="LightGray" BorderBrush="Gray" BorderThickness="1" FontWeight="Bold"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
@@ -158,6 +158,9 @@
                              ItemsSource="{Binding PartialResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                              DisplayMemberPath="Content"
                              Visibility="{Binding PartialResult, Converter={StaticResource CollectionToVisibilityConverter}, FallbackValue=Hidden}"/>
+                    <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               FontWeight="Bold" TextWrapping="Wrap"
+                               Text="{Binding ConfidenceResultMessage, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <TextBlock Grid.Column="1"
                            Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"

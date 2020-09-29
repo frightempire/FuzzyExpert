@@ -45,8 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseManagement\Entities\DefaultSettings.cs" />
+    <Compile Include="DatabaseManagement\Entities\Settings.cs" />
     <Compile Include="DatabaseManagement\Implementations\ConnectionStringProvider.cs" />
+    <Compile Include="DatabaseManagement\Implementations\SettingsRepository.cs" />
+    <Compile Include="DatabaseManagement\Implementations\DefaultSettingsProvider.cs" />
     <Compile Include="DatabaseManagement\Interfaces\IConnectionStringProvider.cs" />
+    <Compile Include="DatabaseManagement\Interfaces\IDefaultSettingsProvider.cs" />
+    <Compile Include="DatabaseManagement\Interfaces\ISettingsRepository.cs" />
     <Compile Include="DatabaseManagement\Interfaces\IUserRepository.cs" />
     <Compile Include="DatabaseManagement\Implementations\UserRepository.cs" />
     <Compile Include="InitialDataProviding\Implementations\CsvDataProvider.cs" />

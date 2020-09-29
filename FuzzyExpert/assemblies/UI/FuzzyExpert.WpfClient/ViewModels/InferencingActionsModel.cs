@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using FuzzyExpert.Application.Contracts;
 using FuzzyExpert.Application.InferenceExpert.Entities;
 using FuzzyExpert.Application.InferenceExpert.Interfaces;
@@ -20,6 +22,8 @@ namespace FuzzyExpert.WpfClient.ViewModels
     public class InferencingActionsModel : INotifyPropertyChanged
     {
         private readonly IProfileRepository _profileRepository;
+        private readonly ISettingsRepository _settingsRepository;
+        private readonly IDefaultSettingsProvider _defaultSettingsProvider;
         private readonly IExpert _expert;
         private readonly IKnowledgeBaseManager _knowledgeBaseManager;
         private readonly IDataFilePathProvider _dataFilePathProvider;
@@ -27,12 +31,16 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public InferencingActionsModel(
             IProfileRepository profileRepository,
+            ISettingsRepository settingsRepository,
+            IDefaultSettingsProvider defaultSettingsProvider,
             IExpert expert,
             IKnowledgeBaseManager knowledgeBaseManager,
             IDataFilePathProvider dataFilePathProvider,
             IResultLogger resultLogger)
         {
             _profileRepository = profileRepository ?? throw new ArgumentNullException(nameof(profileRepository));
+            _settingsRepository = settingsRepository ?? throw new ArgumentNullException(nameof(settingsRepository));
+            _defaultSettingsProvider = defaultSettingsProvider ?? throw new ArgumentNullException(nameof(defaultSettingsProvider));
             _expert = expert ?? throw new ArgumentNullException(nameof(expert));
             _knowledgeBaseManager = knowledgeBaseManager ?? throw new ArgumentNullException(nameof(knowledgeBaseManager));
             _dataFilePathProvider = dataFilePathProvider ?? throw new ArgumentNullException(nameof(dataFilePathProvider));
@@ -41,7 +49,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
             GetDataCommand = new RelayCommand(obj => GetData(), obj => true);
             StartInferenceCommand = new RelayCommand(obj => StartInference(), obj => !string.IsNullOrEmpty(DataFilePath) && SelectedProfile != null && SelectedProfile.Rules.Count != 0);
             GetPartialResultCommand = new RelayCommand(obj => GetPartialResult(), obj => true);
-            OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => ExpertOpinion.IsSuccess);
+            OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => true);
 
             OpenResultViewCommand = new RelayCommand(obj => OpenResultView(), obj => true);
             CloseResultViewCommand = new RelayCommand(obj => CloseResultView(), obj => true);
@@ -56,6 +64,24 @@ namespace FuzzyExpert.WpfClient.ViewModels
             Variables = new ObservableCollection<ContentModel>();
             ExpertOpinion = new ExpertOpinion();
             DataFilePath = string.Empty;
+            Settings = new SettingsModel();
+            ConfidenceResultMessage = string.Empty;
+        }
+
+        private SettingsModel _settings;
+        public SettingsModel Settings
+        {
+            get => _settings;
+            set
+            {
+                if (value == _settings)
+                {
+                    return;
+                }
+
+                _settings = value;
+                OnPropertyChanged(nameof(Settings));
+            }
         }
 
         private ExpertOpinion ExpertOpinion { get; set; }
@@ -99,11 +125,46 @@ namespace FuzzyExpert.WpfClient.ViewModels
             }
         }
 
+        private string _confidenceResultMessage;
+        public string ConfidenceResultMessage
+        {
+            get => _confidenceResultMessage;
+            set
+            {
+                _confidenceResultMessage = value;
+                OnPropertyChanged(nameof(ConfidenceResultMessage));
+            }
+        }
+
         private void ResetBindingProperties()
         {
             PartialResult.Clear();
             Variables.Clear();
             ExpertOpinion = new ExpertOpinion();
+        }
+
+        public void RefreshSettings(string userName)
+        {
+            var settings = _settingsRepository.GetSettingsForUser(userName);
+            if (!settings.IsPresent)
+            {
+                Settings = new SettingsModel
+                {
+                    Id = _settingsRepository.GetMaxSettingsId() + 1,
+                    UserName = userName,
+                    ConfidenceFactorLowerBoundary = _defaultSettingsProvider.Settings.ConfidenceFactorLowerBoundary
+                };
+            }
+            else
+            {
+                Settings = new SettingsModel
+                {
+                    Id = settings.Value.Id,
+                    UserName = settings.Value.UserName,
+                    ConfidenceFactorLowerBoundary = settings.Value.ConfidenceFactorLowerBoundary
+                };
+            }
+            OnPropertyChanged(nameof(Settings));
         }
 
         private string _dataFilePath;
@@ -128,7 +189,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
         public RelayCommand CloseResultViewCommand { get; }
 
         public RelayCommand OpenResultViewCommand { get; }
-
 
         private void GetData()
         {
@@ -167,8 +227,9 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
             PartialResult.Clear();
             var selectedVariable = SelectedVariable.Content;
-            var lastVariableUsage = ExpertOpinion.Result.LastIndexOf(ExpertOpinion.Result.Last(r => r.Item1.Contains(selectedVariable)));
-            var previousResults = ExpertOpinion.Result.GetRange(0, lastVariableUsage+1);
+            var lastVariableUsage = ExpertOpinion.Result.Last(r => r.Item1.Contains(selectedVariable));
+            var lastVariableUsageIndex = ExpertOpinion.Result.LastIndexOf(lastVariableUsage);
+            var previousResults = ExpertOpinion.Result.GetRange(0, lastVariableUsageIndex+1);
             foreach (var previousResult in previousResults)
             {
                 PartialResult.Add(new ContentModel
@@ -177,6 +238,18 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 });
             }
             OnPropertyChanged(nameof(PartialResult));
+
+            if (lastVariableUsage.Item2 < Settings.ConfidenceFactorLowerBoundary)
+            {
+                ConfidenceResultMessage = $"Confidence for {lastVariableUsage.Item1} is lower then {Settings.ConfidenceFactorLowerBoundary}. " +
+                                          "It's not advisable to proceed.";
+            }
+            else
+            {
+                ConfidenceResultMessage = $"Confidence for {lastVariableUsage.Item1} is greater then {Settings.ConfidenceFactorLowerBoundary}. " +
+                                          "It's advisable to proceed.";
+            }
+            OnPropertyChanged(nameof(ConfidenceResultMessage));
         }
 
         private void OpenResultFile()
@@ -201,12 +274,18 @@ namespace FuzzyExpert.WpfClient.ViewModels
         {
             ResultViewVisible = true;
             PopUpVisible = true;
+
+            if (!ExpertOpinion.IsSuccess)
+            {
+                ConfidenceResultMessage = "Inference failed. Consult result log for more information.";
+            }
         }
 
         private void CloseResultView()
         {
             ResultViewVisible = false;
             PopUpVisible = false;
+            ConfidenceResultMessage = string.Empty;
         }
 
         private bool _resultViewVisible;

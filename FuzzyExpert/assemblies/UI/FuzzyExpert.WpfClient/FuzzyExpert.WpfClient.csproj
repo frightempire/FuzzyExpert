@@ -76,14 +76,17 @@
     <Compile Include="Helpers\IFileDialogInteractor.cs" />
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\InferenceProfileModel.cs" />
+    <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Annotations1.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="Validations\ConfidenceFactorValidationRule.cs" />
     <Compile Include="ViewModels\FuzzyExpertActionsModel.cs" />
     <Compile Include="ViewModels\InferencingActionsModel.cs" />
     <Compile Include="ViewModels\LoginActionsModel.cs" />
     <Compile Include="ViewModels\ProfilingActionsModel.cs" />
+    <Compile Include="ViewModels\SettingsActionsModel.cs" />
     <Compile Include="Views\InferencingActions.xaml.cs">
       <DependentUpon>InferencingActions.xaml</DependentUpon>
     </Compile>
@@ -92,6 +95,9 @@
     </Compile>
     <Compile Include="Views\ProfilingActions.xaml.cs">
       <DependentUpon>ProfilingActions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsActions.xaml.cs">
+      <DependentUpon>SettingsActions.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\SettingsActions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\key.png" />
@@ -181,6 +191,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\main_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\error.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
