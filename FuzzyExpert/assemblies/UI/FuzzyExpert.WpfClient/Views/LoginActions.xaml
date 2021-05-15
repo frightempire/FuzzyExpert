@@ -3,15 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d">
-    <Grid>
-        <!--Gray area-->
-        <Rectangle Panel.ZIndex="1" Fill="DimGray" Opacity=".8" Stroke="DimGray" StrokeThickness="2"
-                   Height="500"/>
-
-        <!--Login popup-->
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Width="500" Height="250"
-                    ZIndex="2" Background="White">
+             mc:Ignorable="d"
+             MinHeight="500">
+    <Grid Background="DimGray">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Width="500" Height="250" Background="White">
             <Label Background="LightGray" BorderBrush="Gray" BorderThickness="1" FontWeight="Bold" FontSize="24"
                    HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center">
                 <DockPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">

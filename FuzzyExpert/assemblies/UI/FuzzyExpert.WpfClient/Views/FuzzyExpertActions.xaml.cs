@@ -29,6 +29,9 @@ namespace FuzzyExpert.WpfClient.Views
             _loginActions.LoggedIn += OnLoggedIn;
         }
 
+        private double BasicMinHeight = 130;
+        private double BasicMinWidth = 1200;
+
         private void InitializeHeaderState()
         {
             SettingsButton.IsEnabled = false;
@@ -51,29 +54,44 @@ namespace FuzzyExpert.WpfClient.Views
         {
             var origin = (Button) sender;
             ContentArea.Children.Clear();
+            MinHeight = BasicMinHeight;
+            MinWidth = BasicMinWidth;
+
             switch (origin.Name)
             {
                 case "SettingsButton":
                     _settingsActions.InitializeState(_loginActions.LoggedInUserName);
+                    UpdateMainWindowsSize(_settingsActions);
                     ContentArea.Children.Add(_settingsActions);
                     break;
                 case "ProfilingButton":
                     _profilingActions.InitializeState(_loginActions.LoggedInUserName);
+                    UpdateMainWindowsSize(_profilingActions);
                     ContentArea.Children.Add(_profilingActions);
                     break;
                 case "InferencingButton":
                     _inferencingActions.InitializeState(_loginActions.LoggedInUserName);
+                    UpdateMainWindowsSize(_inferencingActions);
                     ContentArea.Children.Add(_inferencingActions);
                     break;
                 case "LoginButton":
+                    UpdateMainWindowsSize(_loginActions);
                     ContentArea.Children.Add(_loginActions);
                     break;
                 case "LogoutButton":
                     InitializeHeaderState();
                     _loginActions.InitializeState();
+                    UpdateMainWindowsSize(_loginActions);
                     ContentArea.Children.Add(_loginActions);
                     break;
             }
+        }
+
+        private void UpdateMainWindowsSize(UserControl control)
+        {
+            MinHeight += control.MinHeight;
+            Height = MinHeight;
+            Width = MinWidth;
         }
     }
 }
