@@ -13,44 +13,54 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
         // Simplifies implication rule string. As the result we have list of statements divided by OR.
         public List<string> ParseImplicationRule(ref string implicationRuleString)
         {
-            List<string> ruleParts = new List<string>();
-            List<string> implicationRules = new List<string>();
-            string appendingString = string.Empty;
+            var ruleParts = new List<string>();
+            var implicationRules = new List<string>();
+            var appendingString = string.Empty;
 
             while (implicationRuleString.Length != 0)
             {
-                int iterator = 0;
-                char currentCharacter = implicationRuleString[iterator];
+                var iterator = 0;
+                var currentCharacter = implicationRuleString[iterator];
                 implicationRuleString = implicationRuleString.Remove(iterator, 1);
                 switch (currentCharacter)
                 {
                     case '(':
                         ruleParts.AddRange(ParseImplicationRule(ref implicationRuleString));
-                        for (int i = 0; i < ruleParts.Count; i++)
+                        for (var i = 0; i < ruleParts.Count; i++)
+                        {
                             ruleParts[i] = appendingString + ruleParts[i];
+                        }
                         appendingString = string.Empty;
                         continue;
                     case ')':
                         if (ruleParts.Any())
-                        {                          
-                            for (int i = 0; i < ruleParts.Count; i++)
+                        {
+                            for (var i = 0; i < ruleParts.Count; i++)
+                            {
                                 ruleParts[i] += appendingString;
+                            }
                             implicationRules.AddRange(ruleParts);
                         }
                         else if (!string.IsNullOrEmpty(appendingString))
+                        {
                             implicationRules.Add(appendingString);
+                        }
 
                         return implicationRules;
                     case '|':
                         if (ruleParts.Any())
                         {
-                            for (int i = 0; i < ruleParts.Count; i++)
+                            for (var i = 0; i < ruleParts.Count; i++)
+                            {
                                 ruleParts[i] += appendingString;
+                            }
                             implicationRules.AddRange(ruleParts);
                             ruleParts = new List<string>();
                         }
                         else if (!string.IsNullOrEmpty(appendingString))
+                        {
                             implicationRules.Add(appendingString);
+                        }
 
                         appendingString = string.Empty;
                         continue;
@@ -62,12 +72,16 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
 
             if (ruleParts.Any())
             {
-                for (int i = 0; i < ruleParts.Count; i++)
+                for (var i = 0; i < ruleParts.Count; i++)
+                {
                     ruleParts[i] += appendingString;
+                }
                 implicationRules.AddRange(ruleParts);
             }
             else if (!string.IsNullOrEmpty(appendingString))
+            {
                 implicationRules.Add(appendingString);
+            }
 
             return implicationRules;
         }
@@ -82,13 +96,12 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
         {
             if (string.IsNullOrWhiteSpace(implicationRule)) throw new ArgumentNullException(nameof(implicationRule));
 
-            int indexOfDelimiter = implicationRule.IndexOf(")THEN(", StringComparison.Ordinal);
+            var indexOfDelimiter = implicationRule.IndexOf(")THEN(", StringComparison.Ordinal);
 
-            if (indexOfDelimiter == -1)
-                throw new ArgumentException("Invalid implication rule");
+            if (indexOfDelimiter == -1) throw new ArgumentException("Invalid implication rule");
 
-            string ifStatement = implicationRule.Substring(2, indexOfDelimiter - 1);
-            string thenStatement = implicationRule.Substring(indexOfDelimiter + 5);
+            var ifStatement = implicationRule.Substring(2, indexOfDelimiter - 1);
+            var thenStatement = implicationRule.Substring(indexOfDelimiter + 5);
             return new ImplicationRuleStrings(ifStatement, thenStatement);
         }
 
@@ -96,12 +109,12 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
         {
             if (string.IsNullOrWhiteSpace(statement)) throw new ArgumentNullException(nameof(statement));
 
-            int indexOfLess = statement.IndexOf('<');
-            int indexOfLessEquals = statement.IndexOf("<=", StringComparison.Ordinal);
-            int indexOfGrater = statement.IndexOf('>');
-            int indexOfGraterEquals = statement.IndexOf(">=", StringComparison.Ordinal);
-            int indexOfEqual = statement.IndexOf('=');
-            int indexOfNotEqual = statement.IndexOf("!=", StringComparison.Ordinal);
+            var indexOfLess = statement.IndexOf('<');
+            var indexOfLessEquals = statement.IndexOf("<=", StringComparison.Ordinal);
+            var indexOfGrater = statement.IndexOf('>');
+            var indexOfGraterEquals = statement.IndexOf(">=", StringComparison.Ordinal);
+            var indexOfEqual = statement.IndexOf('=');
+            var indexOfNotEqual = statement.IndexOf("!=", StringComparison.Ordinal);
 
             ComparisonOperation comparisonOperation;
             string leftOperand;

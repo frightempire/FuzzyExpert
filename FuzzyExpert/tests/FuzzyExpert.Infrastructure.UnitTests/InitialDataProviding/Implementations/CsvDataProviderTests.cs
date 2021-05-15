@@ -71,12 +71,11 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
         {
             // Arrange
             _filePathProviderMock.Stub(x => x.FilePath).Return(_csvFilePath);
-            ValidationOperationResult expectedValidationResult = new ValidationOperationResult();
-            expectedValidationResult.AddMessage("something is not right");
+            var expectedValidationResult = ValidationOperationResult.Fail(new List<string> { "something is not right" });
             _validatorMock.Stub(x => x.Validate(Arg<List<string[]>>.Is.Anything)).Return(expectedValidationResult);
 
             // Act
-            Optional<List<InitialData>> initialData = _csvDataProvider.GetInitialData();
+            var initialData = _csvDataProvider.GetInitialData();
 
             // Assert
             Assert.IsFalse(initialData.IsPresent);
@@ -88,7 +87,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
         {
             // Arrange
             _filePathProviderMock.Stub(x => x.FilePath).Return(_csvFilePath);
-            List<string[]> expectedParsingResult = new List<string[]>
+            var expectedParsingResult = new List<string[]>
             {
                 new []{ "I1_1", "55", "0.1" },
                 new []{ "I1_2", "10.5", "0.1" },
@@ -97,9 +96,9 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
                 new []{ "Init5", "2", "0.1" }
             };
             _csvParserMock.Stub(x => x.ParseFile(_csvFilePath)).Return(expectedParsingResult);
-            ValidationOperationResult expectedValidationResult = new ValidationOperationResult();
+            var expectedValidationResult = ValidationOperationResult.Success();
             _validatorMock.Stub(x => x.Validate(Arg<List<string[]>>.Is.Anything)).Return(expectedValidationResult);
-            List<InitialData> expectedData = new List<InitialData>
+            var expectedData = new List<InitialData>
             {
                 new InitialData("I1_1", 55, 0.1),
                 new InitialData("I1_2", 10.5, 0.1),
@@ -107,15 +106,15 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
                 new InitialData("Init4", 1, 0.1),
                 new InitialData("Init5", 2, 0.1)
             };
-            Optional<List<InitialData>> expectedResult = Optional<List<InitialData>>.For(expectedData);
+            var expectedResult = Optional<List<InitialData>>.For(expectedData);
 
             // Act
-            Optional<List<InitialData>> actualResult = _csvDataProvider.GetInitialData();
+            var actualResult = _csvDataProvider.GetInitialData();
 
             // Assert
             Assert.IsTrue(actualResult.IsPresent);
             Assert.AreEqual(expectedResult.Value.Count, actualResult.Value.Count);
-            for (int i = 0; i < actualResult.Value.Count; i++)
+            for (var i = 0; i < actualResult.Value.Count; i++)
             {
                 Assert.IsTrue(ObjectComparer.InitialDatasAreEqual(expectedResult.Value[i], actualResult.Value[i]));
             }

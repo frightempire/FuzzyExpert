@@ -12,38 +12,22 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
             List<ImplicationRule> implicationRules,
             List<LinguisticVariable> linguisticVariables)
         {
-            ValidationOperationResult validationOperationResult = new ValidationOperationResult();
+            var allVariableNames = linguisticVariables.Select(lv => lv.VariableName).ToList();
 
-            List<string> initialVariableNames = linguisticVariables
-                .Where(lv => lv.IsInitialData)
-                .Select(lv => lv.VariableName)
-                .ToList();
-            List<string> derivativeVariableNames = linguisticVariables
-                .Where(lv => !lv.IsInitialData)
-                .Select(lv => lv.VariableName)
-                .ToList();
-            List<string> allVariableNames = new List<string>();
-            allVariableNames.AddRange(initialVariableNames);
-            allVariableNames.AddRange(derivativeVariableNames);
-
-            List<string> ifStatementsLinguisticVariableNames = implicationRules
+            var ifStatementsLinguisticVariableNames = implicationRules
                 .SelectMany(ir => ir.IfStatement.SelectMany(ifs => ifs.UnaryStatements.Select(us => us.LeftOperand)))
                 .ToList();
-            List<string> thenStatementsLinguisticVariableNames = implicationRules
+            var thenStatementsLinguisticVariableNames = implicationRules
                 .SelectMany(ir => ir.ThenStatement.UnaryStatements.Select(us => us.LeftOperand))
                 .ToList();
-            List<string> implicationRulesLinguisticVariableNames = new List<string>();
-            implicationRulesLinguisticVariableNames.AddRange(ifStatementsLinguisticVariableNames);
-            implicationRulesLinguisticVariableNames.AddRange(thenStatementsLinguisticVariableNames);
+            var implicationRulesLinguisticVariableNames = new List<string>(ifStatementsLinguisticVariableNames.Concat(thenStatementsLinguisticVariableNames));
 
-            foreach (string implicationRulesLinguisticVariableName in implicationRulesLinguisticVariableNames)
-            {
-                if (!allVariableNames.Contains(implicationRulesLinguisticVariableName))
-                    validationOperationResult.AddMessage(
-                        $"Knowledge base: linguistic variable {implicationRulesLinguisticVariableName} is unknown to linguistic variable base");
-            }
+            var validationMessages = implicationRulesLinguisticVariableNames
+                .Where(implicationRulesLinguisticVariableName => !allVariableNames.Contains(implicationRulesLinguisticVariableName))
+                .Select(implicationRulesLinguisticVariableName => $"Knowledge base: linguistic variable {implicationRulesLinguisticVariableName} is unknown to linguistic variable base")
+                .ToList();
 
-            return validationOperationResult;
+            return validationMessages.Any() ? ValidationOperationResult.Fail(validationMessages) : ValidationOperationResult.Success();
         }
     }
 }

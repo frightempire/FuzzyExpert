@@ -24,7 +24,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
             var validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariables(linguisticVariable);
             
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
             var validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariables(linguisticVariable);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
             var validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariables(linguisticVariable);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
             var validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariables(linguisticVariable);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
             var validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariables(linguisticVariable);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
             var validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariables(linguisticVariable);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
         }
 
         [Test]
@@ -102,7 +102,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.LinguisticVariableParsing.Impleme
             var validationOperationResult = _linguisticVariableValidator.ValidateLinguisticVariables(linguisticVariable);
 
             // Assert
-            Assert.IsTrue(validationOperationResult.IsSuccess);
+            Assert.IsTrue(validationOperationResult.Successful);
         }
     }
 }

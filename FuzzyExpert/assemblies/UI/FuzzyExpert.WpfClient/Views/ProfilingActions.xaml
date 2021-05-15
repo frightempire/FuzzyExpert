@@ -49,16 +49,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="5"
-                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                    Visibility="{Binding Profiles, Converter={StaticResource CollectionToVisibilityConverter}, FallbackValue=Hidden}">
+                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Label Background="LightGray" BorderBrush="Gray" BorderThickness="1" FontWeight="Bold"
                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                   Content="Inferencing profiles"/>
+                   Content="Inferencing profiles"
+                   Visibility="{Binding Profiles, Converter={StaticResource CollectionToVisibilityConverter}, FallbackValue=Hidden}"/>
             <ListBox Name="Profiles" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                      SelectedItem="{Binding SelectedProfile}"
                      ItemsSource="{Binding Profiles}"
-                     ItemTemplate="{StaticResource ProfilingItem}">
+                     ItemTemplate="{StaticResource ProfilingItem}"
+                     Visibility="{Binding Profiles, Converter={StaticResource CollectionToVisibilityConverter}, FallbackValue=Hidden}">
             </ListBox>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="50">
                 <Button Style="{DynamicResource EmptyButton}" 

@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="Fuzzy Expert"
         Icon="../Resources/main_icon.png"
-        Height="Auto" Width="Auto" SizeToContent="Height">
+        Width="Auto" SizeToContent="Height">
     <StackPanel>
         <Grid>
             <Grid.RowDefinitions>

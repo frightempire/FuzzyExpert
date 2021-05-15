@@ -44,7 +44,7 @@ namespace FuzzyExpert.Infrastructure.KnowledgeManager.Implementations
                     implicationRules.Value.Select(ir => ir.Value).ToList(),
                     linguisticVariables.Value.Select(lv => lv.Value).ToList());
 
-            if (validationOperationResult.IsSuccess)
+            if (validationOperationResult.Successful)
             {
                 var linguisticVariablesRelations = _linguisticVariableRelationsInitializer.FormRelations(implicationRules.Value, linguisticVariables.Value);         
                 return Optional<KnowledgeBase>.For(new KnowledgeBase(implicationRules.Value, linguisticVariables.Value, linguisticVariablesRelations));

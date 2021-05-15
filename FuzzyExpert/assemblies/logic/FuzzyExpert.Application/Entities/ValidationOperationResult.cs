@@ -6,24 +6,18 @@ namespace FuzzyExpert.Application.Entities
     {
         public List<string> Messages { get; }
 
-        public bool IsSuccess { get; private set; }
+        public bool Successful { get; }
 
-        public ValidationOperationResult()
+        public bool Failed => !Successful;
+
+        private ValidationOperationResult(bool successful, List<string> errorMessages)
         {
-            Messages = new List<string>();
-            IsSuccess = true;
+            Messages = errorMessages;
+            Successful = successful;
         }
 
-        public void AddMessage(string message)
-        {
-            Messages.Add(message);
-            IsSuccess = false;
-        }
+        public static ValidationOperationResult Success() => new ValidationOperationResult(true, null);
 
-        public void AddMessages(List<string> messages)
-        {
-            Messages.AddRange(messages);
-            IsSuccess = false;
-        }
+        public static ValidationOperationResult Fail(List<string> errorMessages) => new ValidationOperationResult(false, errorMessages);
     }
 }

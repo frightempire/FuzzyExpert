@@ -26,7 +26,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
             ValidationOperationResult result = _validator.Validate(input);
 
             // Assert
-            Assert.IsFalse(result.IsSuccess);
+            Assert.IsFalse(result.Successful);
             Assert.AreEqual(result.Messages.Count, 1);
         }
 
@@ -46,7 +46,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
             ValidationOperationResult result = _validator.Validate(input);
 
             // Assert
-            Assert.IsFalse(result.IsSuccess);
+            Assert.IsFalse(result.Successful);
             Assert.AreEqual(result.Messages.Count, 1);
             Assert.IsTrue(result.Messages[0].Contains(wrongValue));
         }
@@ -67,7 +67,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
             ValidationOperationResult result = _validator.Validate(input);
 
             // Assert
-            Assert.IsFalse(result.IsSuccess);
+            Assert.IsFalse(result.Successful);
             Assert.AreEqual(result.Messages.Count, 1);
             Assert.IsTrue(result.Messages[0].Contains(wrongValue));
         }
@@ -87,7 +87,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
             ValidationOperationResult result = _validator.Validate(input);
 
             // Assert
-            Assert.IsFalse(result.IsSuccess);
+            Assert.IsFalse(result.Successful);
             Assert.AreEqual(result.Messages.Count, 1);
             Assert.IsTrue(result.Messages[0].Contains(faltedValue));
         }
@@ -107,7 +107,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.InitialDataProviding.Implementati
             ValidationOperationResult result = _validator.Validate(input);
 
             // Assert
-            Assert.IsFalse(result.IsSuccess);
+            Assert.IsFalse(result.Successful);
             Assert.AreEqual(result.Messages.Count, 1);
             Assert.IsTrue(result.Messages[0].Contains(wrongValue));
         }

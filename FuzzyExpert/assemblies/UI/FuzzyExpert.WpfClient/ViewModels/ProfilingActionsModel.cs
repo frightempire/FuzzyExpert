@@ -184,27 +184,22 @@ namespace FuzzyExpert.WpfClient.ViewModels
             var preProcessedImplicationRules = rulesFromFile.Select(PreprocessString).ToList();
             var failedRulesValidations = preProcessedImplicationRules
                 .Select(ruleFromFile => _ruleValidator.ValidateImplicationRule(ruleFromFile))
-                .Where(validationResult => !validationResult.IsSuccess).ToList();
+                .Where(validationResult => validationResult.Failed).ToList();
 
             var variablesFromFile = _fileOperations.ReadFileByLines(VariableFilePath).ToList();
             var preProcessedLinguisticVariables = variablesFromFile.Select(PreprocessString).ToList();
             var failedVariablesValidations = preProcessedLinguisticVariables
                 .Select(variableFromFile => _variableValidator.ValidateLinguisticVariables(variableFromFile))
-                .Where(validationResult => !validationResult.IsSuccess).ToList();
+                .Where(validationResult => validationResult.Failed).ToList();
 
+            // TODO: Get rid of validation file. Add UI (window or section) to display those errors.
             if (failedRulesValidations.Any() || failedVariablesValidations.Any())
             {
                 UpdateProfileValidationMessage = $"{failedVariablesValidations.Count + failedRulesValidations.Count} validation errors were found." +
                                                  "Consult log file for more information.";
                 File.Delete(_resultLogger.ValidationLogPath);
-                if (failedRulesValidations.Any())
-                {
-                    _resultLogger.LogValidationErrors(failedRulesValidations.SelectMany(f => f.Messages).ToList());
-                }
-                if (failedVariablesValidations.Any())
-                {
-                    _resultLogger.LogValidationErrors(failedVariablesValidations.SelectMany(f => f.Messages).ToList());
-                }
+                _resultLogger.LogValidationErrors(failedRulesValidations.SelectMany(f => f.Messages).ToList());
+                _resultLogger.LogValidationErrors(failedVariablesValidations.SelectMany(f => f.Messages).ToList());
                 Process.Start(_resultLogger.ValidationLogPath);
             }
             else
@@ -225,7 +220,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
         {
             var preProcessedRule = PreprocessString(UpdatingInput);
             var validationResult = _ruleValidator.ValidateImplicationRule(preProcessedRule);
-            if (validationResult.IsSuccess)
+            if (validationResult.Successful)
             {
                 UpdateProfileValidationMessage = "Validation passed successfully";
                 SelectedProfile.Rules.Add(new ContentModel {Content = preProcessedRule});
@@ -243,7 +238,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
         {
             var preProcessedVariable = PreprocessString(UpdatingInput);
             var validationResult = _variableValidator.ValidateLinguisticVariables(preProcessedVariable);
-            if (validationResult.IsSuccess)
+            if (validationResult.Successful)
             {
                 UpdateProfileValidationMessage = "Validation passed successfully";
                 SelectedProfile.Variables.Add(new ContentModel {Content = preProcessedVariable});
@@ -262,13 +257,14 @@ namespace FuzzyExpert.WpfClient.ViewModels
             var preProcessedImplicationRules = SelectedProfile.Rules.Select(x => PreprocessString(x.Content)).ToList();
             var failedRulesValidations = preProcessedImplicationRules
                 .Select(ruleFromFile => _ruleValidator.ValidateImplicationRule(ruleFromFile))
-                .Where(validationResult => !validationResult.IsSuccess).ToList();
+                .Where(validationResult => validationResult.Failed).ToList();
 
             var preProcessedLinguisticVariables = SelectedProfile.Variables.Select(x => PreprocessString(x.Content)).ToList();
             var failedVariablesValidations = preProcessedLinguisticVariables
                 .Select(variableFromFile => _variableValidator.ValidateLinguisticVariables(variableFromFile))
-                .Where(validationResult => !validationResult.IsSuccess).ToList();
+                .Where(validationResult => validationResult.Failed).ToList();
 
+            // TODO: Get rid of validation file
             if (failedRulesValidations.Any() || failedVariablesValidations.Any())
             {
                 CommitProfileValidationMessage = $"{failedVariablesValidations.Count + failedRulesValidations.Count} validation errors were found." +
@@ -292,7 +288,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 }
                 var knowledgeValidationResult = _knowledgeValidator.ValidateLinguisticVariablesNames(rules, variables);
 
-                if (knowledgeValidationResult.IsSuccess)
+                if (knowledgeValidationResult.Successful)
                 {
                     var profile = new InferenceProfile
                     {
