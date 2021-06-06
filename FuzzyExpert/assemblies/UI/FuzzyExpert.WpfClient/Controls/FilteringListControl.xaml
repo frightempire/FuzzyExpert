@@ -40,9 +40,9 @@
     <Grid x:Name="Root">
         <StackPanel Margin="5"
                     Visibility="{Binding Items, Converter={StaticResource CollectionToVisibilityConverter}, FallbackValue=Hidden, Mode=TwoWay}">
-            <controls:TooltipTextboxControl Text="{Binding Filter, Mode=TwoWay}" Tooltip="Filter here ..."/>
+            <controls:TextboxWithPlaceholderControl Text="{Binding Filter, Mode=TwoWay}" Placeholder="Filter here ..."/>
             <ListBox x:Name="ListBox"
-                 MinHeight="250" MaxHeight="250" HorizontalContentAlignment="Stretch"
+                 MinHeight="200" MaxHeight="200" HorizontalContentAlignment="Stretch"
                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                  ItemsSource="{Binding Items, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  ItemTemplate="{StaticResource EditableListBoxItem}"/>

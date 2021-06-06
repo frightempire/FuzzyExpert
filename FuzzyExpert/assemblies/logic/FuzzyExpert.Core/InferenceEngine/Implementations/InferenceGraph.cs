@@ -9,7 +9,7 @@ namespace FuzzyExpert.Core.InferenceEngine.Implementations
 {
     public class InferenceGraph : IInferenceEngine
     {
-        private readonly Dictionary<string, double> _activationOrder = new Dictionary<string, double>();
+        private readonly List<Tuple<string, double>> _activationOrder = new List<Tuple<string, double>>();
 
         private readonly List<IInferenceRule> _rules = new List<IInferenceRule>();
         private readonly List<IInferenceNode> _nodes = new List<IInferenceNode>();
@@ -31,7 +31,7 @@ namespace FuzzyExpert.Core.InferenceEngine.Implementations
             ifNodes.ForEach(ifn => ifn.RelatedRules.Add(rule));
         }
 
-        public Dictionary<string, double> GetInferenceResults(List<InitialData> initialData)
+        public List<Tuple<string, double>> GetInferenceResults(List<InitialData> initialData)
         {
             var nodes = GetNodes(initialData.Select(id => id.Name).ToList());
             nodes.ForEach(n => n.UpdateConfidenceFactor(initialData.First(id => id.Name == n.Name).ConfidenceFactor));

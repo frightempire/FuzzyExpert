@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using FuzzyExpert.Application.Contracts;
 using FuzzyExpert.Application.InferenceExpert.Entities;
 using FuzzyExpert.Application.InferenceExpert.Interfaces;
@@ -20,6 +22,8 @@ namespace FuzzyExpert.WpfClient.ViewModels
     public class InferencingActionsModel : INotifyPropertyChanged
     {
         private readonly IProfileRepository _profileRepository;
+        private readonly ISettingsRepository _settingsRepository;
+        private readonly IDefaultSettingsProvider _defaultSettingsProvider;
         private readonly IExpert _expert;
         private readonly IKnowledgeBaseManager _knowledgeBaseManager;
         private readonly IDataFilePathProvider _dataFilePathProvider;
@@ -27,12 +31,16 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public InferencingActionsModel(
             IProfileRepository profileRepository,
+            ISettingsRepository settingsRepository,
+            IDefaultSettingsProvider defaultSettingsProvider,
             IExpert expert,
             IKnowledgeBaseManager knowledgeBaseManager,
             IDataFilePathProvider dataFilePathProvider,
             IResultLogger resultLogger)
         {
             _profileRepository = profileRepository ?? throw new ArgumentNullException(nameof(profileRepository));
+            _settingsRepository = settingsRepository ?? throw new ArgumentNullException(nameof(settingsRepository));
+            _defaultSettingsProvider = defaultSettingsProvider ?? throw new ArgumentNullException(nameof(defaultSettingsProvider));
             _expert = expert ?? throw new ArgumentNullException(nameof(expert));
             _knowledgeBaseManager = knowledgeBaseManager ?? throw new ArgumentNullException(nameof(knowledgeBaseManager));
             _dataFilePathProvider = dataFilePathProvider ?? throw new ArgumentNullException(nameof(dataFilePathProvider));
@@ -40,7 +48,11 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
             GetDataCommand = new RelayCommand(obj => GetData(), obj => true);
             StartInferenceCommand = new RelayCommand(obj => StartInference(), obj => !string.IsNullOrEmpty(DataFilePath) && SelectedProfile != null && SelectedProfile.Rules.Count != 0);
-            OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => ExpertOpinion.IsSuccess);
+            GetPartialResultCommand = new RelayCommand(obj => GetPartialResult(), obj => true);
+            OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => true);
+
+            OpenResultViewCommand = new RelayCommand(obj => OpenResultView(), obj => true);
+            CloseResultViewCommand = new RelayCommand(obj => CloseResultView(), obj => true);
 
             InitializeState();
         }
@@ -48,9 +60,28 @@ namespace FuzzyExpert.WpfClient.ViewModels
         public void InitializeState()
         {
             Profiles = new ObservableCollection<InferenceProfileModel>();
-            Results = new ObservableCollection<string>();
+            PartialResult = new ObservableCollection<ContentModel>();
+            Variables = new ObservableCollection<ContentModel>();
             ExpertOpinion = new ExpertOpinion();
             DataFilePath = string.Empty;
+            Settings = new SettingsModel();
+            ConfidenceResultMessage = string.Empty;
+        }
+
+        private SettingsModel _settings;
+        public SettingsModel Settings
+        {
+            get => _settings;
+            set
+            {
+                if (value == _settings)
+                {
+                    return;
+                }
+
+                _settings = value;
+                OnPropertyChanged(nameof(Settings));
+            }
         }
 
         private ExpertOpinion ExpertOpinion { get; set; }
@@ -74,12 +105,66 @@ namespace FuzzyExpert.WpfClient.ViewModels
             }
         }
 
-        public ObservableCollection<string> Results { get; set; }
+        public ObservableCollection<ContentModel> PartialResult { get; set; }
+
+        public ObservableCollection<ContentModel> Variables { get; set; }
+
+        private ContentModel _selectedVariable;
+        public ContentModel SelectedVariable
+        {
+            get => _selectedVariable;
+            set
+            {
+                if (value == _selectedVariable)
+                {
+                    return;
+                }
+
+                _selectedVariable = value;
+                OnPropertyChanged(nameof(SelectedVariable));
+            }
+        }
+
+        private string _confidenceResultMessage;
+        public string ConfidenceResultMessage
+        {
+            get => _confidenceResultMessage;
+            set
+            {
+                _confidenceResultMessage = value;
+                OnPropertyChanged(nameof(ConfidenceResultMessage));
+            }
+        }
 
         private void ResetBindingProperties()
         {
-            Results.Clear();
+            PartialResult.Clear();
+            Variables.Clear();
             ExpertOpinion = new ExpertOpinion();
+        }
+
+        public void RefreshSettings(string userName)
+        {
+            var settings = _settingsRepository.GetSettingsForUser(userName);
+            if (!settings.IsPresent)
+            {
+                Settings = new SettingsModel
+                {
+                    Id = _settingsRepository.GetMaxSettingsId() + 1,
+                    UserName = userName,
+                    ConfidenceFactorLowerBoundary = _defaultSettingsProvider.Settings.ConfidenceFactorLowerBoundary
+                };
+            }
+            else
+            {
+                Settings = new SettingsModel
+                {
+                    Id = settings.Value.Id,
+                    UserName = settings.Value.UserName,
+                    ConfidenceFactorLowerBoundary = settings.Value.ConfidenceFactorLowerBoundary
+                };
+            }
+            OnPropertyChanged(nameof(Settings));
         }
 
         private string _dataFilePath;
@@ -97,7 +182,13 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public RelayCommand StartInferenceCommand { get; }
 
+        public RelayCommand GetPartialResultCommand { get; }
+
         public RelayCommand OpenResultFileCommand { get; }
+
+        public RelayCommand CloseResultViewCommand { get; }
+
+        public RelayCommand OpenResultViewCommand { get; }
 
         private void GetData()
         {
@@ -113,15 +204,52 @@ namespace FuzzyExpert.WpfClient.ViewModels
         private void StartInference()
         {
             ExpertOpinion = _expert.GetResult(SelectedProfile.ProfileName);
+
             if (!ExpertOpinion.IsSuccess)
             {
                 return;
             }
 
-            foreach (var result in ExpertOpinion.Result)
+            Variables.Clear();
+            foreach (var variable in SelectedProfile.Variables.SelectMany(v => v.Content.Substring(1, v.Content.IndexOf(']') - 1).Split(',')))
             {
-                Results.Add($"Node {result.Key} was enabled with confidence factor {result.Value}");
+                Variables.Add(new ContentModel { Content = variable });
             }
+            OnPropertyChanged(nameof(Variables));
+        }
+
+        private void GetPartialResult()
+        {
+            if (!ExpertOpinion.IsSuccess)
+            {
+                return;
+            }
+
+            PartialResult.Clear();
+            var selectedVariable = SelectedVariable.Content;
+            var lastVariableUsage = ExpertOpinion.Result.Last(r => r.Item1.Contains(selectedVariable));
+            var lastVariableUsageIndex = ExpertOpinion.Result.LastIndexOf(lastVariableUsage);
+            var previousResults = ExpertOpinion.Result.GetRange(0, lastVariableUsageIndex+1);
+            foreach (var previousResult in previousResults)
+            {
+                PartialResult.Add(new ContentModel
+                {
+                    Content = $"Node {previousResult.Item1} was enabled with confidence factor {previousResult.Item2}"
+                });
+            }
+            OnPropertyChanged(nameof(PartialResult));
+
+            if (lastVariableUsage.Item2 < Settings.ConfidenceFactorLowerBoundary)
+            {
+                ConfidenceResultMessage = $"Confidence for {lastVariableUsage.Item1} is lower then {Settings.ConfidenceFactorLowerBoundary}. " +
+                                          "It's not advisable to proceed.";
+            }
+            else
+            {
+                ConfidenceResultMessage = $"Confidence for {lastVariableUsage.Item1} is greater then {Settings.ConfidenceFactorLowerBoundary}. " +
+                                          "It's advisable to proceed.";
+            }
+            OnPropertyChanged(nameof(ConfidenceResultMessage));
         }
 
         private void OpenResultFile()
@@ -140,6 +268,46 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 _resultLogger.LogInferenceErrors(ExpertOpinion.ErrorMessages);
             }
             Process.Start(_resultLogger.ResultLogPath);
+        }
+
+        private void OpenResultView()
+        {
+            ResultViewVisible = true;
+            PopUpVisible = true;
+
+            if (!ExpertOpinion.IsSuccess)
+            {
+                ConfidenceResultMessage = "Inference failed. Consult result log for more information.";
+            }
+        }
+
+        private void CloseResultView()
+        {
+            ResultViewVisible = false;
+            PopUpVisible = false;
+            ConfidenceResultMessage = string.Empty;
+        }
+
+        private bool _resultViewVisible;
+        public bool ResultViewVisible
+        {
+            get => _resultViewVisible;
+            set
+            {
+                _resultViewVisible = value;
+                OnPropertyChanged(nameof(ResultViewVisible));
+            }
+        }
+
+        private bool _popUpVisible;
+        public bool PopUpVisible
+        {
+            get => _popUpVisible;
+            set
+            {
+                _popUpVisible = value;
+                OnPropertyChanged(nameof(PopUpVisible));
+            }
         }
 
         public void RefreshProfiles(string userName)

@@ -16,14 +16,14 @@ namespace FuzzyExpert.Core.UnitTests.InferenceEngine.Implementations
         [SetUp]
         public void SetUp()
         {
-            _graphNode = new GraphNode(NodeName, new Dictionary<string, double> ());
+            _graphNode = new GraphNode(NodeName, new List<Tuple<string, double>>());
         }
 
         [Test]
         public void Constructor_ThrowsArgumentNullExceptionIfOneOfInputParametersIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => { new GraphNode(null, new Dictionary<string, double> ()); });
-            Assert.Throws<ArgumentNullException>(() => { new GraphNode(string.Empty, new Dictionary<string, double>()); });
+            Assert.Throws<ArgumentNullException>(() => { new GraphNode(null, new List<Tuple<string, double>>()); });
+            Assert.Throws<ArgumentNullException>(() => { new GraphNode(string.Empty, new List<Tuple<string, double>>()); });
             Assert.Throws<ArgumentNullException>(() => { new GraphNode(NodeName, null); });
         }
 

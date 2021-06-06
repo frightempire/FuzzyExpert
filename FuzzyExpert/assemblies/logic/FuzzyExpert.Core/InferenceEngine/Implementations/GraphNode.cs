@@ -6,9 +6,9 @@ namespace FuzzyExpert.Core.InferenceEngine.Implementations
 {
     public class GraphNode : IInferenceNode
     {
-        private readonly Dictionary<string, double> _activationOrder;
+        private readonly List<Tuple<string, double>> _activationOrder;
 
-        public GraphNode(string name, Dictionary<string, double> activationOrder)
+        public GraphNode(string name, List<Tuple<string, double>> activationOrder)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
             _activationOrder = activationOrder ?? throw new ArgumentNullException(nameof(activationOrder));
@@ -26,7 +26,7 @@ namespace FuzzyExpert.Core.InferenceEngine.Implementations
             if (ConfidenceFactor == 0)
             {
                 ConfidenceFactor = confidenceFactor;
-                _activationOrder.Add(Name, ConfidenceFactor);
+                _activationOrder.Add(new Tuple<string, double>(Name, ConfidenceFactor));
             }
 
             foreach (IInferenceRule rule in RelatedRules) rule.UpdateConfidenceFactor();

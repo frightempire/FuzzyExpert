@@ -22,8 +22,6 @@ namespace FuzzyExpert.Core.Entities
 
         public string RightOperand { get; }
 
-        public string Name { get; set; }
-
         public override string ToString()
         {
             return $"{LeftOperand} {ComparisonOperation.GetDescription()} {RightOperand}";

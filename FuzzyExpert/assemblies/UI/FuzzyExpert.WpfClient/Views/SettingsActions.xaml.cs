@@ -4,9 +4,9 @@ using FuzzyExpert.WpfClient.ViewModels;
 
 namespace FuzzyExpert.WpfClient.Views
 {
-    public partial class InferencingActions : UserControl
+    public partial class SettingsActions : UserControl
     {
-        public InferencingActions(InferencingActionsModel model)
+        public SettingsActions(SettingsActionsModel model)
         {
             DataContext = model ?? throw new ArgumentNullException(nameof(model));
             InitializeComponent();
@@ -14,10 +14,9 @@ namespace FuzzyExpert.WpfClient.Views
 
         public void InitializeState(string userName)
         {
-            var model = (InferencingActionsModel)DataContext;
+            var model = (SettingsActionsModel)DataContext;
             model.InitializeState();
             model.RefreshSettings(userName);
-            model.RefreshProfiles(userName);
         }
     }
 }

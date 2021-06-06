@@ -16,19 +16,6 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
         }
 
         [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithError_IfThereWhitespacesInIt()
-        {
-            // Arrange
-            var implicationRule = "IF (Something > 10) THEN (Anything = 5)";
-
-            // Act
-            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
-
-            // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
-        }
-
-        [Test]
         public void ValidateImplicationRule_ReturnValidationResultWithError_IfImplicationRuleDoesNotStartsWithIf()
         {
             // Arrange
@@ -38,7 +25,9 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
             var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
+            Assert.AreEqual(2, validationOperationResult.Messages.Count);
+            Assert.AreEqual("No IF statement", validationOperationResult.Messages[0]);
         }
 
         [Test]
@@ -51,59 +40,35 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
             var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
+            Assert.AreEqual(2, validationOperationResult.Messages.Count);
+            Assert.AreEqual("No THEN statement", validationOperationResult.Messages[0]);
         }
 
-        [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleHasNoBrackets()
+        [TestCase("IF((Something>10)THEN(Anything=5)")]
+        [TestCase("IF()Something>10)THEN(Anything=5)")]
+        public void ValidateImplicationRule_ReturnValidationResultWithError_IfIfStatementBracketsDoesNotMatch(string rule)
         {
-            // Arrange
-            var implicationRule = "IFSomething>10THENAnything=5";
-
             // Act
-            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(rule);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
+            Assert.AreEqual(2, validationOperationResult.Messages.Count);
+            Assert.AreEqual("IF statement parenthesis don't match", validationOperationResult.Messages[0]);
         }
 
-        [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleHasOddCountOfBrackets()
+        [TestCase("IF(Something>10)THEN((Anything=5)")]
+        [TestCase("IF(Something>10)THEN(Anything=5(")]
+        public void ValidateImplicationRule_ReturnValidationResultWithError_IfThenStatementBracketsDoesNotMatch(string rule)
         {
-            // Arrange
-            var implicationRule = "IF(Something>10)THENAnything=5)";
-
             // Act
-            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
+            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(rule);
 
             // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
-        }
-
-        [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleFirstBracketIsClosing()
-        {
-            // Arrange
-            var implicationRule = "IF)Something>10)THEN(Anything=5)";
-
-            // Act
-            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
-
-            // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
-        }
-
-        [Test]
-        public void ValidateImplicationRule_ReturnValidationResultWithErrorIfImplicationRuleLastBracketIsOpening()
-        {
-            // Arrange
-            var implicationRule = "IF(Something>10)THEN(Anything=5(";
-
-            // Act
-            var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
-
-            // Assert
-            Assert.IsFalse(validationOperationResult.IsSuccess);
+            Assert.IsFalse(validationOperationResult.Successful);
+            Assert.AreEqual(2, validationOperationResult.Messages.Count);
+            Assert.AreEqual("THEN statement parenthesis don't match", validationOperationResult.Messages[0]);
         }
 
         [Test]
@@ -116,8 +81,8 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
             var validationOperationResult = _implicationRuleValidator.ValidateImplicationRule(implicationRule);
 
             // Assert
-            Assert.IsTrue(validationOperationResult.IsSuccess);
-            Assert.AreEqual(0, validationOperationResult.Messages.Count);
+            Assert.IsTrue(validationOperationResult.Successful);
+            Assert.IsNull(validationOperationResult.Messages);
         }
     }
 }

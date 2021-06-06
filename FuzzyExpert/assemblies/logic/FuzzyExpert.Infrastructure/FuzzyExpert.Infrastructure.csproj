@@ -45,8 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseManagement\Entities\DefaultSettings.cs" />
+    <Compile Include="DatabaseManagement\Entities\Settings.cs" />
     <Compile Include="DatabaseManagement\Implementations\ConnectionStringProvider.cs" />
+    <Compile Include="DatabaseManagement\Implementations\SettingsRepository.cs" />
+    <Compile Include="DatabaseManagement\Implementations\DefaultSettingsProvider.cs" />
     <Compile Include="DatabaseManagement\Interfaces\IConnectionStringProvider.cs" />
+    <Compile Include="DatabaseManagement\Interfaces\IDefaultSettingsProvider.cs" />
+    <Compile Include="DatabaseManagement\Interfaces\ISettingsRepository.cs" />
     <Compile Include="DatabaseManagement\Interfaces\IUserRepository.cs" />
     <Compile Include="DatabaseManagement\Implementations\UserRepository.cs" />
     <Compile Include="InitialDataProviding\Implementations\CsvDataProvider.cs" />
@@ -56,7 +62,6 @@
     <Compile Include="InitialDataProviding\Interfaces\IDataFilePathProvider.cs" />
     <Compile Include="InitialDataProviding\Interfaces\IFileParser.cs" />
     <Compile Include="InitialDataProviding\Interfaces\IParsingResultValidator.cs" />
-    <Compile Include="KnowledgeManager\Helpers\NameSupervisor.cs" />
     <Compile Include="KnowledgeManager\Implementations\DatabaseImplicationRuleProvider.cs" />
     <Compile Include="KnowledgeManager\Implementations\DatabaseLinguisticVariableProvider.cs" />
     <Compile Include="KnowledgeManager\Implementations\ImplicationRuleManager.cs" />
@@ -70,7 +75,6 @@
     <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableManager.cs" />
     <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableProvider.cs" />
     <Compile Include="KnowledgeManager\Interfaces\ILinguisticVariableRelationsInitializer.cs" />
-    <Compile Include="KnowledgeManager\Interfaces\INameSupervisor.cs" />
     <Compile Include="LinguisticVariableParsing\Entities\LinguisticVariableStrings.cs" />
     <Compile Include="LinguisticVariableParsing\Implementations\LinguisticVariableCreator.cs" />
     <Compile Include="LinguisticVariableParsing\Implementations\LinguisticVariableParser.cs" />

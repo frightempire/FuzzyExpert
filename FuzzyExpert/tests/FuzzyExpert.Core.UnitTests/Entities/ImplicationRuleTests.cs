@@ -95,18 +95,18 @@ namespace FuzzyExpert.Core.UnitTests.Entities
         public void ToString_ReturnsCorrectStringRepresentaionSingleUnaryCase()
         {
             // Arrange
-            string expectedStringRepresentation = "IF ([A1] C != 2) THEN ([A2] X = 10)";
+            string expectedStringRepresentation = "IF (C != 2) THEN (X = 10)";
             ImplicationRule implicationRule = new ImplicationRule(
                 new List<StatementCombination>
                 {
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2") {Name = "A1"}
+                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2")
                     })
                 },
                 new StatementCombination(new List<UnaryStatement>
                 {
-                    new UnaryStatement("X", ComparisonOperation.Equal, "10") {Name = "A2"}
+                    new UnaryStatement("X", ComparisonOperation.Equal, "10")
                 }));
 
             // Act
@@ -120,19 +120,19 @@ namespace FuzzyExpert.Core.UnitTests.Entities
         public void ToString_ReturnsCorrectStringRepresentaionSimpleCase()
         {
             // Arrange
-            string expectedStringRepresentation = "IF ([A1] B != 1 & [A2] C != 2) THEN ([A3] X = 10)";
+            string expectedStringRepresentation = "IF (B != 1 & C != 2) THEN (X = 10)";
             ImplicationRule implicationRule = new ImplicationRule(
                 new List<StatementCombination>
                 {
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1") {Name = "A1"},
-                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2") {Name = "A2"}
+                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1"),
+                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2")
                     })
                 },
                 new StatementCombination(new List<UnaryStatement>
                 {
-                    new UnaryStatement("X", ComparisonOperation.Equal, "10") {Name = "A3"}
+                    new UnaryStatement("X", ComparisonOperation.Equal, "10")
                 }));
 
             // Act
@@ -146,24 +146,24 @@ namespace FuzzyExpert.Core.UnitTests.Entities
         public void ToString_ReturnsCorrectStringRepresentaionComplexCase()
         {
             // Arrange
-            string expectedStringRepresentation = "IF (([A1] B != 1 & [A2] C != 2) | [A3] D >= 5) THEN ([A4] X = 10 & [A5] Y = 7)";
+            string expectedStringRepresentation = "IF ((B != 1 & C != 2) | D >= 5) THEN (X = 10 & Y = 7)";
             ImplicationRule implicationRule = new ImplicationRule(
                 new List<StatementCombination>
                 {
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1") {Name = "A1"},
-                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2") {Name = "A2"}
+                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1"),
+                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2")
                     }),
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("D", ComparisonOperation.GreaterOrEqual, "5") {Name = "A3"}
+                        new UnaryStatement("D", ComparisonOperation.GreaterOrEqual, "5")
                     })
                 },
                 new StatementCombination(new List<UnaryStatement>
                 {
-                    new UnaryStatement("X", ComparisonOperation.Equal, "10") {Name = "A4"},
-                    new UnaryStatement("Y", ComparisonOperation.Equal, "7") {Name = "A5"}
+                    new UnaryStatement("X", ComparisonOperation.Equal, "10"),
+                    new UnaryStatement("Y", ComparisonOperation.Equal, "7")
                 }));
 
             // Act
@@ -177,24 +177,24 @@ namespace FuzzyExpert.Core.UnitTests.Entities
         public void ToString_ReturnsCorrectStringRepresentaionReversedComplexCase()
         {
             // Arrange
-            string expectedStringRepresentation = "IF ([A1] D >= 5 | ([A2] B != 1 & [A3] C != 2)) THEN ([A4] X = 10 & [A5] Y = 7)";
+            string expectedStringRepresentation = "IF (D >= 5 | (B != 1 & C != 2)) THEN (X = 10 & Y = 7)";
             ImplicationRule implicationRule = new ImplicationRule(
                 new List<StatementCombination>
                 {
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("D", ComparisonOperation.GreaterOrEqual, "5") {Name = "A1"}
+                        new UnaryStatement("D", ComparisonOperation.GreaterOrEqual, "5")
                     }),
                     new StatementCombination(new List<UnaryStatement>
                     {
-                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1") {Name = "A2"},
-                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2") {Name = "A3"}
+                        new UnaryStatement("B", ComparisonOperation.NotEqual, "1"),
+                        new UnaryStatement("C", ComparisonOperation.NotEqual, "2")
                     })
                 },
                 new StatementCombination(new List<UnaryStatement>
                 {
-                    new UnaryStatement("X", ComparisonOperation.Equal, "10") {Name = "A4"},
-                    new UnaryStatement("Y", ComparisonOperation.Equal, "7") {Name = "A5"}
+                    new UnaryStatement("X", ComparisonOperation.Equal, "10"),
+                    new UnaryStatement("Y", ComparisonOperation.Equal, "7")
                 }));
 
             // Act

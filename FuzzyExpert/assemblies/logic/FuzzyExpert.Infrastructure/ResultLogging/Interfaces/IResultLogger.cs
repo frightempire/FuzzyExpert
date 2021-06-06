@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FuzzyExpert.Core.Entities;
 
 namespace FuzzyExpert.Infrastructure.ResultLogging.Interfaces
@@ -11,7 +12,7 @@ namespace FuzzyExpert.Infrastructure.ResultLogging.Interfaces
 
         void LogImplicationRules(Dictionary<int, ImplicationRule> implicationRules);
 
-        void LogInferenceResult(Dictionary<string, double> inferenceResult);
+        void LogInferenceResult(List<Tuple<string, double>> inferenceResult);
 
         void LogInferenceErrors(List<string> inferenceErrors);
 

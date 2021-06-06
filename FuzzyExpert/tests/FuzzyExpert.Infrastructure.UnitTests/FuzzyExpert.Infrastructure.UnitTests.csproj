@@ -59,7 +59,6 @@
     <Compile Include="InitialDataProviding\Implementations\CsvFileParserTests.cs" />
     <Compile Include="InitialDataProviding\Implementations\InitialDataFilePathProviderTests.cs" />
     <Compile Include="InitialDataProviding\Implementations\ParsingResultValidatorTests.cs" />
-    <Compile Include="KnowledgeManager\Helpers\NameSupervisorTests.cs" />
     <Compile Include="KnowledgeManager\Implementations\DatabaseImplicationRuleProviderTests.cs" />
     <Compile Include="KnowledgeManager\Implementations\DatabaseLinguisticVariableProviderTests.cs" />
     <Compile Include="KnowledgeManager\Implementations\ImplicationRuleManagerTests.cs" />

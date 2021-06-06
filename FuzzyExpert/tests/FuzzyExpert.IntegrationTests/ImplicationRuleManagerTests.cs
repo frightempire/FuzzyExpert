@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using FuzzyExpert.Application.Common.Entities;
-using FuzzyExpert.Application.Common.Implementations;
 using FuzzyExpert.Base.UnitTests;
 using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.Enums;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Entities;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Implementations;
-using FuzzyExpert.Infrastructure.KnowledgeManager.Helpers;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations;
 using NUnit.Framework;
@@ -47,12 +45,10 @@ namespace FuzzyExpert.IntegrationTests
         {
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
-            NameSupervisor nameSupervisor = new NameSupervisor(new UniqueNameProvider());
 
             DatabaseImplicationRuleProvider ruleProvider = new DatabaseImplicationRuleProvider(
                 _profileRepository,
-                ruleCreator,
-                nameSupervisor);
+                ruleCreator);
             _implicationRuleManager = new ImplicationRuleManager(ruleProvider);
         }
 

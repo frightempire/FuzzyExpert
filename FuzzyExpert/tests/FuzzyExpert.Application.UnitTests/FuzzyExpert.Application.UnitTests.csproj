@@ -52,9 +52,7 @@
   <ItemGroup>
     <Compile Include="Common\Entities\OptionalTests.cs" />
     <Compile Include="Common\Entities\StringCharacterTests.cs" />
-    <Compile Include="Common\Entities\ValidationOperationResultTests.cs" />
     <Compile Include="Common\Implementations\FileOperationsTests.cs" />
-    <Compile Include="Common\Implementations\UniqueNameProviderTests.cs" />
     <Compile Include="Entities\LinguisticVariableRelationsTests.cs" />
     <Compile Include="InferenceExpert\Entities\ExpertOpinionTests.cs" />
     <Compile Include="InferenceExpert\Implementations\FuzzyExpertTests.cs" />

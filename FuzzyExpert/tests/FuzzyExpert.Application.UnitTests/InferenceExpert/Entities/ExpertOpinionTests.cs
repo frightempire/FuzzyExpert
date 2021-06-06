@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FuzzyExpert.Application.InferenceExpert.Entities;
 using NUnit.Framework;
 
@@ -58,23 +59,6 @@ namespace FuzzyExpert.Application.UnitTests.InferenceExpert.Entities
         }
 
         [Test]
-        public void AddResult_AddsResultToResultDictionary()
-        {
-            // Arrange
-            double expectedValue = 50;
-            string expectedKey = "A1";
-            var result = new KeyValuePair<string, double>(expectedKey, expectedValue);
-
-            // Act
-            _expertOpinion.AddResult(result);
-
-            // Assert
-            Assert.IsTrue(_expertOpinion.IsSuccess);
-            Assert.AreEqual(1, _expertOpinion.Result.Count);
-            Assert.AreEqual(expectedValue, _expertOpinion.Result[expectedKey]);
-        }
-
-        [Test]
         public void AddResult_AddMessagesToErrorMessagesList()
         {
             // Arrange
@@ -82,10 +66,10 @@ namespace FuzzyExpert.Application.UnitTests.InferenceExpert.Entities
             string firstExpectedKey = "A1";
             double secondExpectedValue = 100;
             string secondExpectedKey = "B1";
-            var results = new Dictionary<string, double>
+            var results = new List<Tuple<string, double>>
             {
-                {firstExpectedKey, firstExpectedValue},
-                {secondExpectedKey, secondExpectedValue}
+                new Tuple<string, double>(firstExpectedKey, firstExpectedValue),
+                new Tuple<string, double>(secondExpectedKey, secondExpectedValue)
             };
 
             // Act
@@ -94,8 +78,8 @@ namespace FuzzyExpert.Application.UnitTests.InferenceExpert.Entities
             // Assert
             Assert.IsTrue(_expertOpinion.IsSuccess);
             Assert.AreEqual(2, _expertOpinion.Result.Count);
-            Assert.AreEqual(firstExpectedValue, _expertOpinion.Result[firstExpectedKey]);
-            Assert.AreEqual(secondExpectedValue, _expertOpinion.Result[secondExpectedKey]);
+            Assert.AreEqual(firstExpectedValue, _expertOpinion.Result[0].Item2);
+            Assert.AreEqual(secondExpectedValue, _expertOpinion.Result[1].Item2);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace FuzzyExpert.Infrastructure.InitialDataProviding.Implementations
             List<string[]> parsingResult = _csvParser.ParseFile(initialDataFilePath);
             ValidationOperationResult operationResult = _validator.Validate(parsingResult);
 
-            if (operationResult.IsSuccess)
+            if (operationResult.Successful)
             {
                 List<InitialData> initialData = parsingResult.Select(
                     strings => new InitialData(

@@ -91,12 +91,12 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
 
                 var membershipFunction = _fuzzyEngine.Fuzzify(matchingVariable.Value, data.Value);
 
-                foreach (var name in relatedStatementNames)
+                foreach (var relatedStatementName in relatedStatementNames)
                 {
-                    var matchingStatement = ifUnaryStatements.FirstOrDefault(ius => ius.Name == name && ius.RightOperand == membershipFunction.LinguisticVariableName);
+                    var matchingStatement = ifUnaryStatements.FirstOrDefault(ius => ius.ToString() == relatedStatementName && ius.RightOperand == membershipFunction.LinguisticVariableName);
                     if (matchingStatement != null)
                     {
-                        activatedNodes.Add(new InitialData(name, data.Value, data.ConfidenceFactor));
+                        activatedNodes.Add(new InitialData(relatedStatementName, data.Value, data.ConfidenceFactor));
                     }
                 }
             }
@@ -108,11 +108,11 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
             foreach (var implicationRule in knowledgeBase.ImplicationRules)
             {
                 var ifNodeNames = implicationRule.Value.IfStatement
-                    .SelectMany(ifs => ifs.UnaryStatements.Select(us => us.Name))
+                    .SelectMany(ifs => ifs.UnaryStatements.Select(us => us.ToString()))
                     .ToList();
                 var operation = ifNodeNames.Count == 1 ? LogicalOperation.None : LogicalOperation.And;
                 var thenNodeNames = implicationRule.Value.ThenStatement.UnaryStatements
-                    .Select(us => us.Name)
+                    .Select(us => us.ToString())
                     .ToList();
                 _inferenceEngine.AddRule(ifNodeNames, operation, thenNodeNames);
             }

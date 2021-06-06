@@ -31,5 +31,21 @@
                 </Style>
             </Style.Resources>
         </Style>
+        <Style TargetType="ListBox" x:Key="EmptyListStyle" BasedOn="{StaticResource {x:Type ListBox}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border BorderThickness="1" BorderBrush="Gray" Padding="10">
+                                    <TextBlock Text="No items to display"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

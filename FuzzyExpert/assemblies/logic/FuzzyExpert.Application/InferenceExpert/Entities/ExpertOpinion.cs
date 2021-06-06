@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FuzzyExpert.Application.InferenceExpert.Entities
 {
@@ -6,14 +7,14 @@ namespace FuzzyExpert.Application.InferenceExpert.Entities
     {
         public List<string> ErrorMessages { get; }
 
-        public Dictionary<string, double> Result { get; }
+        public List<Tuple<string, double>> Result { get; }
 
         public bool IsSuccess { get; private set; }
 
         public ExpertOpinion()
         {
             ErrorMessages = new List<string>();
-            Result = new Dictionary<string, double>();
+            Result = new List<Tuple<string, double>>();
             IsSuccess = true;
         }
 
@@ -29,17 +30,9 @@ namespace FuzzyExpert.Application.InferenceExpert.Entities
             IsSuccess = false;
         }
 
-        public void AddResult(KeyValuePair<string, double> result)
+        public void AddResults(List<Tuple<string, double>> results)
         {
-            Result.Add(result.Key, result.Value);
-        }
-
-        public void AddResults(Dictionary<string, double> results)
-        {
-            foreach (var result in results)
-            {
-                Result.Add(result.Key, result.Value);
-            }
+            Result.AddRange(results);
         }
     }
 }

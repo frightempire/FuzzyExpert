@@ -4,7 +4,6 @@ using FuzzyExpert.Application.Entities;
 using FuzzyExpert.Base.UnitTests;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Entities;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Implementations;
-using FuzzyExpert.Infrastructure.KnowledgeManager.Helpers;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Implementations;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Implementations;
 using FuzzyExpert.Infrastructure.MembershipFunctionParsing.Implementations;
@@ -60,11 +59,9 @@ namespace FuzzyExpert.IntegrationTests
             // Implication rule manager
             ImplicationRuleParser ruleParser = new ImplicationRuleParser();
             ImplicationRuleCreator ruleCreator = new ImplicationRuleCreator(ruleParser);
-            NameSupervisor nameSupervisor = new NameSupervisor(new UniqueNameProvider());
             DatabaseImplicationRuleProvider ruleProvider = new DatabaseImplicationRuleProvider(
                 _profileRepository,
-                ruleCreator,
-                nameSupervisor);
+                ruleCreator);
             ImplicationRuleManager implicationRuleManager = new ImplicationRuleManager(ruleProvider);
 
             // Linguistic variable manager
@@ -96,12 +93,12 @@ namespace FuzzyExpert.IntegrationTests
             // Arrange
             List<LinguisticVariableRelations> expectedRelations = new List<LinguisticVariableRelations>
             {
-                new LinguisticVariableRelations(1, new List<string> {"A1"}),
-                new LinguisticVariableRelations(2, new List<string> {"A4"}),
-                new LinguisticVariableRelations(3, new List<string> {"A2"}),
-                new LinguisticVariableRelations(4, new List<string> {"A3"}),
-                new LinguisticVariableRelations(5, new List<string> {"A5"}),
-                new LinguisticVariableRelations(6, new List<string> {"A6"})
+                new LinguisticVariableRelations(1, new List<string> {"Temperature = HOT"}),
+                new LinguisticVariableRelations(2, new List<string> {"Pressure = HIGH"}),
+                new LinguisticVariableRelations(3, new List<string> {"Volume = BIG"}),
+                new LinguisticVariableRelations(4, new List<string> {"Color = RED"}),
+                new LinguisticVariableRelations(5, new List<string> {"Danger = HIGH"}),
+                new LinguisticVariableRelations(6, new List<string> {"Evacuate = TRUE"})
             };
 
             // Act
