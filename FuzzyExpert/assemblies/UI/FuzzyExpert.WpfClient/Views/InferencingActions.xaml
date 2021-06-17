@@ -10,171 +10,137 @@
              MinHeight="500">
     <UserControl.Resources>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <converters:PathShortenerConverter x:Key="PathShortenerConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="150"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="150"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0"
-                   VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Text="[1] Select inferencing profile" FontWeight="Bold" FontSize="18"/>
-            <Grid Grid.Row="0" Grid.Column="1"
-              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <ComboBox Grid.Column="0" 
+            <GroupBox Grid.Row="0" Grid.Column="0" BorderThickness="2" Margin="5">
+                <GroupBox.Header>
+                    <TextBlock Text="[1] Select inferencing profile" FontSize="16" FontWeight="Bold"/>
+                </GroupBox.Header>
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox Grid.Column="0" 
                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="150"
                       IsEditable="True" IsReadOnly="True" Text="SELECT ..."
                       SelectedItem="{Binding SelectedProfile}"  
                       ItemsSource = "{Binding Profiles}"
                       DisplayMemberPath="ProfileName"/>
-                <TextBlock Grid.Column="1"
+                    <TextBlock Grid.Column="1"
                        Text="=>" FontSize="30"
                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"
                        Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}"/>
-                <Border Grid.Column="2"
+                    <Border Grid.Column="2"
                     BorderBrush="Black" BorderThickness="2"
                     HorizontalAlignment="Center" VerticalAlignment="Center"
                     Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}">
-                    <Grid Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                                HorizontalAlignment="Center" FontWeight="Bold" Margin="5"
                                Text="{Binding SelectedProfile.ProfileName}"/>
-                        <StackPanel Grid.Row="1" Grid.Column="0"
+                            <StackPanel Grid.Row="1" Grid.Column="0"
                                 Orientation="Horizontal" HorizontalAlignment="Center"
                                 Margin="5">
-                            <TextBlock Text="{Binding SelectedProfile.Rules.Count, FallbackValue='0'}"/>
-                            <TextBlock Text=" rules"/>
-                        </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="1"
+                                <TextBlock Text="{Binding SelectedProfile.Rules.Count, FallbackValue='0'}"/>
+                                <TextBlock Text=" rules"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1"
                                 Orientation="Horizontal" HorizontalAlignment="Center"
                                 Margin="5">
-                            <TextBlock Text="{Binding SelectedProfile.Variables.Count, FallbackValue='0'}"/>
-                            <TextBlock Text=" variables"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </Grid>
+                                <TextBlock Text="{Binding SelectedProfile.Variables.Count, FallbackValue='0'}"/>
+                                <TextBlock Text=" variables"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </GroupBox>
 
-            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,20,0" FontWeight="Bold" Height="10"/>
-
-            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Text="[2] Select initial data" FontWeight="Bold" FontSize="18"/>
-            <StackPanel Grid.Row="2" Grid.Column="1"
-                    Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <controls:TextboxWithPlaceholderControl 
-                    Text="{Binding DataFilePath, Mode=TwoWay, Converter={StaticResource PathShortenerConverter}}" 
-                    Placeholder="Data file path ..." 
-                    TooltipText="{Binding DataFilePath, Mode=TwoWay}"
-                    HorizontalAlignment="Stretch"
-                    Width="200"/>
-                <Button Style="{DynamicResource RoundButton}"
-                    Content="..." Width="50" Margin="10"
-                    HorizontalAlignment="Center" VerticalAlignment="Center" 
-                    Command="{Binding GetDataCommand}"/>
-            </StackPanel>
-
-            <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,20,0" FontWeight="Bold" Height="10"/>
-
-            <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
-                   Text="[3] Perform inference" FontWeight="Bold" FontSize="18"/>
-            <Grid Grid.Row="4" Grid.Column="1"
-              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"
-                    Style="{DynamicResource RoundButton}"
-                    Content="Start inference"
-                    Width="110" Height="50" Margin="10"
-                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Command="{Binding StartInferenceCommand}"/>
-                <TextBlock Grid.Column="1"
-                       Text="=>" FontSize="30"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"/>
-                <Button Grid.Column="2"
-                    Style="{DynamicResource RoundButton}"
-                    Content="View Result"
-                    Width="110" Height="50" Margin="10"
-                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Command="{Binding OpenResultViewCommand}"/>
-            </Grid>
-        </Grid>
-
-        <Canvas Name="PopupWindow" Visibility="{Binding PopUpVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}">
-            <!--Gray area-->
-            <Rectangle Panel.ZIndex="1" Fill="DimGray" Opacity=".8" Stroke="DimGray" StrokeThickness="2"
-                       Width="{Binding ActualWidth, ElementName=PopupWindow}" 
-                       Height="{Binding ActualHeight, ElementName=PopupWindow}"/>
-
-            <Grid Width="{Binding ActualWidth, ElementName=PopupWindow}" 
-                  Height="{Binding ActualHeight, ElementName=PopupWindow}"
-                  ZIndex ="2"
-                  VerticalAlignment="Center" HorizontalAlignment="Center">
-                <!--Result view popup-->
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Background="White"
-                        Width="500" Height="500">
-                    <Label Background="LightGray" BorderBrush="Gray" BorderThickness="1" FontWeight="Bold"
-                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                           Content="Result"/>
-                    <StackPanel Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                                  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="400"
-                                  IsEditable="True" IsReadOnly="True" Text="SELECT ..."
-                                  SelectedItem="{Binding SelectedVariable}"  
-                                  ItemsSource = "{Binding Variables}"
-                                  DisplayMemberPath="Content">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="SelectionChanged">
-                                    <i:InvokeCommandAction Command="{Binding GetPartialResultCommand}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </ComboBox>
-                        <ListBox Style="{DynamicResource EmptyListStyle}"
-                                 MinHeight="250" MaxHeight="250" Width="400" HorizontalContentAlignment="Stretch"
-                                 ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                 ItemsSource="{Binding PartialResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 DisplayMemberPath="Content"/>
-                        <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
-                                   FontWeight="Bold" TextWrapping="Wrap"
-                                   Text="{Binding ConfidenceResultMessage, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Style="{DynamicResource RoundButton}" 
-                                Margin="5" Width="150" Height="50"
-                                VerticalAlignment="Center" HorizontalAlignment="Center"
-                                Content="View ALL results"
-                                Command="{Binding OpenResultFileCommand}" />
-                        <Button Style="{DynamicResource RoundButton}" 
-                                Content="Cancel" Margin="10" Width="120" Height="30"
-                                Command="{Binding CloseResultViewCommand}"/>
-                    </StackPanel>
+            <GroupBox Grid.Row="1" Grid.Column="0" BorderThickness="2" Margin="5">
+                <GroupBox.Header>
+                    <TextBlock Text="[2] Select initial data" FontSize="16" FontWeight="Bold"/>
+                </GroupBox.Header>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <controls:TextboxWithPlaceholderControl 
+                        Text="{Binding DataFilePath, Mode=TwoWay, Converter={StaticResource PathShortenerConverter}}" 
+                        Placeholder="Data file path ..." 
+                        TooltipText="{Binding DataFilePath, Mode=TwoWay}"
+                        HorizontalAlignment="Stretch"
+                        Width="200"/>
+                    <Button Style="{DynamicResource RoundButton}"
+                            Content="..." Width="50" Margin="10"
+                            HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            Command="{Binding GetDataCommand}"/>
                 </StackPanel>
-            </Grid>
-        </Canvas>
+            </GroupBox>
+
+            <GroupBox Grid.Row="2" Grid.Column="0" BorderThickness="2" Margin="5">
+                <GroupBox.Header>
+                    <TextBlock Text="[3] Perform inference" FontSize="16" FontWeight="Bold"/>
+                </GroupBox.Header>
+                <Button Style="{DynamicResource RoundButton}"
+                        Content="Start inference"
+                        Width="110" Height="50" Margin="10"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Command="{Binding StartInferenceCommand}"/>
+            </GroupBox>
+
+            <GroupBox Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" 
+                      BorderThickness="2" Margin="5">
+                <GroupBox.Header>
+                    <TextBlock Text="[4] Inference results" FontSize="16" FontWeight="Bold"/>
+                </GroupBox.Header>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"
+                            Width="500" Height="500">
+                    <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="400"
+                              IsEditable="True" IsReadOnly="True" Text="SELECT ..."
+                              SelectedItem="{Binding SelectedVariable}"  
+                              ItemsSource = "{Binding Variables}"
+                              DisplayMemberPath="Content">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding GetPartialResultCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                    <ListBox Style="{DynamicResource EmptyListStyle}"
+                             Margin="5" Height="350" HorizontalContentAlignment="Stretch"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             ItemsSource="{Binding PartialResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                             DisplayMemberPath="Content"/>
+                    <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               FontWeight="Bold" TextWrapping="Wrap"
+                               Text="{Binding ConfidenceResultMessage, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Style="{DynamicResource RoundButton}" 
+                            Margin="5" Width="150" Height="50"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Content="View ALL results"
+                            Command="{Binding OpenResultFileCommand}" />
+                </StackPanel>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>

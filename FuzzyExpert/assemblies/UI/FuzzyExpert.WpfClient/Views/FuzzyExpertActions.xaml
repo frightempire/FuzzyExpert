@@ -42,24 +42,28 @@
                 <Button Grid.Column="1" 
                         Style="{DynamicResource RoundButton}"
                         Content = "Profiling"
+                        FontWeight="Bold"
                         Margin="5" Padding="5" Width="100" HorizontalAlignment="Right"
                         Name="ProfilingButton"
                         Click="LoadAction"/>
                 <Button Grid.Column="2"
                         Style="{DynamicResource RoundButton}"
                         Content = "Inferencing"
+                        FontWeight="Bold"
                         Margin="5" Padding="5" Width="100" HorizontalAlignment="Right"
                         Name="InferencingButton"
                         Click="LoadAction"/>
                 <Button Grid.Column="3"
                         Style="{DynamicResource RoundButton}"
                         Content = "Log In"
+                        FontWeight="Bold"
                         Margin="5" Padding="5" Width="100" HorizontalAlignment="Right"
                         Name="LoginButton"
                         Click="LoadAction"/>
                 <Button Grid.Column="3"
                         Style="{DynamicResource RoundButton}"
                         Content = "Log Out"
+                        FontWeight="Bold"
                         Margin="5" Padding="5" Width="100" HorizontalAlignment="Right"
                         Name="LogoutButton"
                         Click="LoadAction"/>

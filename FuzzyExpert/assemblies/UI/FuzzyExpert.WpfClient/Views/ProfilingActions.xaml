@@ -46,71 +46,77 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Grid.Column="0" Margin="5"
-                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Label Background="LightGray" BorderBrush="Gray" BorderThickness="1" FontWeight="Bold"
-                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                       Content="Inferencing profiles"/>
-                <ListBox Style="{DynamicResource EmptyListStyle}" 
-                         MinHeight="450" MaxHeight="450"
-                         Name="Profiles" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                         SelectedItem="{Binding SelectedProfile}"
-                         ItemsSource="{Binding Profiles}"
-                         ItemTemplate="{StaticResource ProfilingItem}"/>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="50">
-                    <Button Style="{DynamicResource EmptyButton}" 
-                            Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Command="{Binding AddProfileCommand}">
-                        <Image Source="../Resources/plus.png"/>
-                    </Button>
-                    <Button Style="{DynamicResource EmptyButton}" 
-                            Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Command="{Binding RemoveProfileCommand}">
-                        <Image Source="../Resources/delete_big.png"/>
-                    </Button>
+
+            <GroupBox Grid.Column="0" BorderThickness="2" Margin="5">
+                <GroupBox.Header>
+                    <TextBlock Text="Inferencing profiles" FontSize="16" FontWeight="Bold"/>
+                </GroupBox.Header>
+                <StackPanel Margin="5"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <ListBox Style="{DynamicResource EmptyListStyle}" 
+                             MinHeight="550" MaxHeight="550"
+                             Name="Profiles" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                             SelectedItem="{Binding SelectedProfile}"
+                             ItemsSource="{Binding Profiles}"
+                             ItemTemplate="{StaticResource ProfilingItem}"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="50">
+                        <Button Style="{DynamicResource EmptyButton}" 
+                                Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                Command="{Binding AddProfileCommand}">
+                            <Image Source="../Resources/plus.png"/>
+                        </Button>
+                        <Button Style="{DynamicResource EmptyButton}" 
+                                Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                Command="{Binding RemoveProfileCommand}">
+                            <Image Source="../Resources/delete_big.png"/>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="1" Margin="5"
-                        Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
-                               Text="{Binding SelectedProfile.ProfileName}"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5"
-                               HorizontalAlignment="Left" VerticalAlignment="Center"
-                               Text="{Binding SelectedProfile.Description}"/>
-                    <Button Grid.Row="0" Grid.Column="1"
-                            Style="{DynamicResource RoundButton}"
-                            Content="Update" Margin="5" Width="120" Height="30"
-                            Command="{Binding UpdateProfileCommand}"/>
-                    <Button Grid.Row="1" Grid.Column="1"
-                            Style="{DynamicResource RoundButton}"
-                            Content="Commit" Margin="5" Width="120" Height="30"
-                            Command="{Binding CommitProfileCommand}"/>
-                </Grid>
-                <controls:FilteringListControl Items="{Binding SelectedProfile.Rules, Mode=TwoWay}"/>
-                <controls:FilteringListControl Items="{Binding SelectedProfile.Variables, Mode=TwoWay}"/>
-            </StackPanel>
-            <TextBlock Grid.Row="0" Grid.Column="1"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Text="Profile details should be available here once selected"
-                       Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=true, FallbackValue=Hidden}"/>
-            <TextBlock Grid.Row="1" Grid.Column="1" Margin="5"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
-                       Text="{Binding CommitProfileValidationMessage, UpdateSourceTrigger=PropertyChanged}"/>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" BorderThickness="2" Margin="5">
+                <GroupBox.Header>
+                    <TextBlock Text="{Binding SelectedProfile.ProfileName}" FontSize="16" FontWeight="Bold"/>
+                </GroupBox.Header>
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                               FontSize="16"
+                               Text="Select inferencing profile to show details"
+                               Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=true, FallbackValue=Hidden}"/>
+
+                    <StackPanel Margin="5"
+                                Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Margin="5"
+                                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       Text="{Binding SelectedProfile.Description}"/>
+                            <Button Grid.Row="0" Grid.Column="1"
+                                    Style="{DynamicResource RoundButton}"
+                                    Content="Update" Margin="5" Width="120" Height="30"
+                                    Command="{Binding UpdateProfileCommand}"/>
+                            <Button Grid.Row="1" Grid.Column="1"
+                                    Style="{DynamicResource RoundButton}"
+                                    Content="Commit" Margin="5" Width="120" Height="30"
+                                    Command="{Binding CommitProfileCommand}"/>
+                        </Grid>
+                        <controls:FilteringListControl Items="{Binding SelectedProfile.Rules, Mode=TwoWay}"/>
+                        <controls:FilteringListControl Items="{Binding SelectedProfile.Variables, Mode=TwoWay}"/>
+                        <TextBlock Margin="5"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                                   Text="{Binding CommitProfileValidationMessage, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
         </Grid>
 
         <Canvas Name="PopupWindow" Visibility="{Binding PopUpVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Hidden}">

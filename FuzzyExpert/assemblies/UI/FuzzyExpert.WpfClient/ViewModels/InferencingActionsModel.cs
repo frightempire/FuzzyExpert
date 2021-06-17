@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using FuzzyExpert.Application.Contracts;
 using FuzzyExpert.Application.InferenceExpert.Entities;
 using FuzzyExpert.Application.InferenceExpert.Interfaces;
@@ -50,9 +48,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
             StartInferenceCommand = new RelayCommand(obj => StartInference(), obj => !string.IsNullOrEmpty(DataFilePath) && SelectedProfile != null && SelectedProfile.Rules.Count != 0);
             GetPartialResultCommand = new RelayCommand(obj => GetPartialResult(), obj => true);
             OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => true);
-
-            OpenResultViewCommand = new RelayCommand(obj => OpenResultView(), obj => true);
-            CloseResultViewCommand = new RelayCommand(obj => CloseResultView(), obj => true);
 
             InitializeState();
         }
@@ -186,10 +181,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public RelayCommand OpenResultFileCommand { get; }
 
-        public RelayCommand CloseResultViewCommand { get; }
-
-        public RelayCommand OpenResultViewCommand { get; }
-
         private void GetData()
         {
             var dialog = new FileDialogInteractor();
@@ -207,6 +198,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
             if (!ExpertOpinion.IsSuccess)
             {
+                ConfidenceResultMessage = "Inference failed. Consult result log for more information.";
                 return;
             }
 
@@ -268,46 +260,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 _resultLogger.LogInferenceErrors(ExpertOpinion.ErrorMessages);
             }
             Process.Start(_resultLogger.ResultLogPath);
-        }
-
-        private void OpenResultView()
-        {
-            ResultViewVisible = true;
-            PopUpVisible = true;
-
-            if (!ExpertOpinion.IsSuccess)
-            {
-                ConfidenceResultMessage = "Inference failed. Consult result log for more information.";
-            }
-        }
-
-        private void CloseResultView()
-        {
-            ResultViewVisible = false;
-            PopUpVisible = false;
-            ConfidenceResultMessage = string.Empty;
-        }
-
-        private bool _resultViewVisible;
-        public bool ResultViewVisible
-        {
-            get => _resultViewVisible;
-            set
-            {
-                _resultViewVisible = value;
-                OnPropertyChanged(nameof(ResultViewVisible));
-            }
-        }
-
-        private bool _popUpVisible;
-        public bool PopUpVisible
-        {
-            get => _popUpVisible;
-            set
-            {
-                _popUpVisible = value;
-                OnPropertyChanged(nameof(PopUpVisible));
-            }
         }
 
         public void RefreshProfiles(string userName)
