@@ -31,8 +31,8 @@
                            FontSize="24" Text="Password : "/>
                 <TextBox Grid.Row="0" Grid.Column="1" 
                          Margin="5" FontSize="24" Text="{Binding User.UserName}"/>
-                <TextBox Grid.Row="1" Grid.Column="1" 
-                         Margin="5" FontSize="24" Text="{Binding User.Password}"/>
+                <PasswordBox Grid.Row="1" Grid.Column="1" Name="Password"
+                             Margin="5" FontSize="24" PasswordChanged="OnPasswordChanged"/>
             </Grid>
             <TextBlock Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center"
                        Text="{Binding ValidationMessage, Mode=TwoWay}"

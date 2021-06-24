@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using FuzzyExpert.Application.InferenceExpert.Entities;
 using FuzzyExpert.Core.Entities;
 
 namespace FuzzyExpert.Infrastructure.ResultLogging.Interfaces
 {
     public interface IResultLogger
     {
-        string ResultLogPath { get; }
-
-        string ValidationLogPath { get; }
-
-        void LogImplicationRules(Dictionary<int, ImplicationRule> implicationRules);
-
-        void LogInferenceResult(List<Tuple<string, double>> inferenceResult);
-
-        void LogInferenceErrors(List<string> inferenceErrors);
-
-        void LogValidationErrors(List<string> validationErrors);
+        string LogInferenceResult(Dictionary<int, ImplicationRule> implicationRules, ExpertOpinion expertOpinion, string userName);
     }
 }

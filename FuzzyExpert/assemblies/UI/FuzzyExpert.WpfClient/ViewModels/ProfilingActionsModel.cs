@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using FuzzyExpert.Application.Common.Interfaces;
@@ -14,7 +12,6 @@ using FuzzyExpert.Infrastructure.DatabaseManagement.Interfaces;
 using FuzzyExpert.Infrastructure.KnowledgeManager.Interfaces;
 using FuzzyExpert.Infrastructure.LinguisticVariableParsing.Interfaces;
 using FuzzyExpert.Infrastructure.ProductionRuleParsing.Interfaces;
-using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
 using FuzzyExpert.WpfClient.Annotations;
 using FuzzyExpert.WpfClient.Helpers;
 using FuzzyExpert.WpfClient.Models;
@@ -30,7 +27,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
         private readonly IImplicationRuleCreator _ruleCreator;
         private readonly ILinguisticVariableCreator _variableCreator;
         private readonly IKnowledgeBaseValidator _knowledgeValidator;
-        private readonly IResultLogger _resultLogger;
 
         public ProfilingActionsModel(
             IProfileRepository profileRepository,
@@ -39,8 +35,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
             ILinguisticVariableValidator variableValidator,
             IImplicationRuleCreator ruleCreator,
             ILinguisticVariableCreator variableCreator,
-            IKnowledgeBaseValidator knowledgeValidator,
-            IResultLogger resultLogger)
+            IKnowledgeBaseValidator knowledgeValidator)
         {
             _profileRepository = profileRepository ?? throw new ArgumentNullException(nameof(profileRepository));
             _fileOperations = fileOperations ?? throw new ArgumentNullException(nameof(fileOperations));
@@ -49,16 +44,14 @@ namespace FuzzyExpert.WpfClient.ViewModels
             _ruleCreator = ruleCreator ?? throw new ArgumentNullException(nameof(ruleCreator));
             _variableCreator = variableCreator ?? throw new ArgumentNullException(nameof(variableCreator));
             _knowledgeValidator = knowledgeValidator ?? throw new ArgumentNullException(nameof(knowledgeValidator));
-            _resultLogger = resultLogger ?? throw new ArgumentNullException(nameof(resultLogger));
 
             AddProfileCommand = new RelayCommand(obj => AddProfile(), obj => true);
             RemoveProfileCommand = new RelayCommand(obj => RemoveProfile(), obj => SelectedProfile != null);
             CreateProfileCommand = new RelayCommand(obj => CreateProfile(), obj => !string.IsNullOrEmpty(NewProfileName));
             CloseCreateProfileCommand = new RelayCommand(obj => CloseCreateProfile(), obj => true);
 
-            UpdateProfileCommand = new RelayCommand(obj => UpdateProfile(), obj => true);
-            CloseUpdateProfileCommand = new RelayCommand(obj => CloseUpdateProfile(), obj => true);
-            ImportFromFilesCommand = new RelayCommand(obj => ImportFromFiles(), obj => true);
+            UpdateProfileCommand = new RelayCommand(obj => OpenUpdateProfileForm(updateMode: true), obj => true);
+            CloseUpdateProfileCommand = new RelayCommand(obj => CloseUpdateProfileForm(), obj => true);
             GetRulesFromFileCommand = new RelayCommand(obj => GetRulesFromFile(), obj => true);
             GetVariablesFromFileCommand = new RelayCommand(obj => GetVariablesFromFile(), obj => true);
             StartImportFromFilesCommand = new RelayCommand(obj => StartImportFromFiles(), obj => !string.IsNullOrEmpty(RuleFilePath) && !string.IsNullOrEmpty(VariableFilePath));
@@ -66,15 +59,28 @@ namespace FuzzyExpert.WpfClient.ViewModels
             ImportVariableFromInputCommand = new RelayCommand(obj => ImportVariableFromInput(), obj => !string.IsNullOrEmpty(UpdatingInput));
             CommitProfileCommand = new RelayCommand(obj => CommitProfile(), obj => true);
 
+            ValidationResults = new ObservableCollection<string>();
             Profiles = new ObservableCollection<InferenceProfileModel>();
         }
 
         public void InitializeState()
         {
+            ValidationResults = new ObservableCollection<string>();
             Profiles = new ObservableCollection<InferenceProfileModel>();
         }
 
         #region Collections
+
+        private ObservableCollection<string> _validationResults;
+        public ObservableCollection<string> ValidationResults
+        {
+            get => _validationResults;
+            set
+            {
+                _validationResults = value;
+                OnPropertyChanged(nameof(ValidationResults));
+            }
+        }
 
         private ObservableCollection<InferenceProfileModel> _profiles;
         public ObservableCollection<InferenceProfileModel> Profiles
@@ -122,8 +128,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public RelayCommand CloseUpdateProfileCommand { get; }
 
-        public RelayCommand ImportFromFilesCommand { get; }
-
         public RelayCommand GetRulesFromFileCommand { get; }
 
         public RelayCommand GetVariablesFromFileCommand { get; }
@@ -136,26 +140,24 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public RelayCommand CommitProfileCommand { get; }
 
-        private void UpdateProfile()
+        private void OpenUpdateProfileForm(bool updateMode)
         {
             UpdatingInput = string.Empty;
             RuleFilePath = string.Empty;
             VariableFilePath = string.Empty;
-            UpdateProfileValidationMessage = string.Empty;
-            ImportButtonVisible = true;
             UpdateProfileVisible = true;
             PopUpVisible = true;
+
+            if (updateMode)
+            {
+                ValidationResults.Clear();
+            }
         }
 
-        private void CloseUpdateProfile()
+        private void CloseUpdateProfileForm()
         {
             UpdateProfileVisible = false;
             PopUpVisible = false;
-        }
-
-        private void ImportFromFiles()
-        {
-            ImportButtonVisible = false;
         }
 
         private void GetRulesFromFile()
@@ -182,37 +184,25 @@ namespace FuzzyExpert.WpfClient.ViewModels
         {
             var rulesFromFile = _fileOperations.ReadFileByLines(RuleFilePath).ToList();
             var preProcessedImplicationRules = rulesFromFile.Select(PreprocessString).ToList();
-            var failedRulesValidations = preProcessedImplicationRules
-                .Select(ruleFromFile => _ruleValidator.ValidateImplicationRule(ruleFromFile))
-                .Where(validationResult => validationResult.Failed).ToList();
+            ValidateImplicationRules(preProcessedImplicationRules);
 
             var variablesFromFile = _fileOperations.ReadFileByLines(VariableFilePath).ToList();
             var preProcessedLinguisticVariables = variablesFromFile.Select(PreprocessString).ToList();
-            var failedVariablesValidations = preProcessedLinguisticVariables
-                .Select(variableFromFile => _variableValidator.ValidateLinguisticVariables(variableFromFile))
-                .Where(validationResult => validationResult.Failed).ToList();
+            ValidateLinguisticVariables(preProcessedLinguisticVariables);
 
-            // TODO: Get rid of validation file. Add UI (window or section) to display those errors.
-            if (failedRulesValidations.Any() || failedVariablesValidations.Any())
+            if (ValidationResults.Any())
             {
-                UpdateProfileValidationMessage = $"{failedVariablesValidations.Count + failedRulesValidations.Count} validation errors were found." +
-                                                 "Consult log file for more information.";
-                File.Delete(_resultLogger.ValidationLogPath);
-                _resultLogger.LogValidationErrors(failedRulesValidations.SelectMany(f => f.Messages).ToList());
-                _resultLogger.LogValidationErrors(failedVariablesValidations.SelectMany(f => f.Messages).ToList());
-                Process.Start(_resultLogger.ValidationLogPath);
+                return;
             }
-            else
+
+            ValidationResults.Add("Validation passed successfully");
+            foreach (var rule in preProcessedImplicationRules)
             {
-                UpdateProfileValidationMessage = "Validation passed successfully";
-                foreach (var rule in preProcessedImplicationRules)
-                {
-                    SelectedProfile.Rules.Add(new ContentModel { Content = rule });
-                }
-                foreach (var variable in preProcessedLinguisticVariables)
-                {
-                    SelectedProfile.Variables.Add(new ContentModel { Content = variable });
-                }
+                SelectedProfile.Rules.Add(new ContentModel { Content = rule });
+            }
+            foreach (var variable in preProcessedLinguisticVariables)
+            {
+                SelectedProfile.Variables.Add(new ContentModel { Content = variable });
             }
         }
 
@@ -222,15 +212,13 @@ namespace FuzzyExpert.WpfClient.ViewModels
             var validationResult = _ruleValidator.ValidateImplicationRule(preProcessedRule);
             if (validationResult.Successful)
             {
-                UpdateProfileValidationMessage = "Validation passed successfully";
+                ValidationResults.Add("Validation passed successfully");
                 SelectedProfile.Rules.Add(new ContentModel {Content = preProcessedRule});
             }
             else
             {
-                UpdateProfileValidationMessage = $"{validationResult.Messages.Count} validation errors were found.";
-                File.Delete(_resultLogger.ValidationLogPath);
-                _resultLogger.LogValidationErrors(validationResult.Messages);
-                Process.Start(_resultLogger.ValidationLogPath);
+                ValidationResults.Add($"{validationResult.Messages.Count} validation errors were found");
+                validationResult.Messages.ForEach(v => ValidationResults.Add(v));
             }
         }
 
@@ -240,78 +228,112 @@ namespace FuzzyExpert.WpfClient.ViewModels
             var validationResult = _variableValidator.ValidateLinguisticVariables(preProcessedVariable);
             if (validationResult.Successful)
             {
-                UpdateProfileValidationMessage = "Validation passed successfully";
+                ValidationResults.Add("Validation passed successfully");
                 SelectedProfile.Variables.Add(new ContentModel {Content = preProcessedVariable});
             }
             else
             {
-                UpdateProfileValidationMessage = $"{validationResult.Messages.Count} validation errors were found.";
-                File.Delete(_resultLogger.ValidationLogPath);
-                _resultLogger.LogValidationErrors(validationResult.Messages);
-                Process.Start(_resultLogger.ValidationLogPath);
+                ValidationResults.Add($"{validationResult.Messages.Count} validation errors were found");
+                validationResult.Messages.ForEach(v => ValidationResults.Add(v));
             }
         }
 
         private void CommitProfile()
         {
             var preProcessedImplicationRules = SelectedProfile.Rules.Select(x => PreprocessString(x.Content)).ToList();
-            var failedRulesValidations = preProcessedImplicationRules
-                .Select(ruleFromFile => _ruleValidator.ValidateImplicationRule(ruleFromFile))
-                .Where(validationResult => validationResult.Failed).ToList();
+            ValidateImplicationRules(preProcessedImplicationRules);
 
             var preProcessedLinguisticVariables = SelectedProfile.Variables.Select(x => PreprocessString(x.Content)).ToList();
-            var failedVariablesValidations = preProcessedLinguisticVariables
-                .Select(variableFromFile => _variableValidator.ValidateLinguisticVariables(variableFromFile))
-                .Where(validationResult => validationResult.Failed).ToList();
+            ValidateLinguisticVariables(preProcessedLinguisticVariables);
 
-            // TODO: Get rid of validation file
-            if (failedRulesValidations.Any() || failedVariablesValidations.Any())
+            if (ValidationResults.Any())
             {
-                CommitProfileValidationMessage = $"{failedVariablesValidations.Count + failedRulesValidations.Count} validation errors were found." +
-                                                 "Consult log file for more information.";
-                File.Delete(_resultLogger.ValidationLogPath);
-                _resultLogger.LogValidationErrors(failedRulesValidations.SelectMany(f => f.Messages).ToList());
-                _resultLogger.LogValidationErrors(failedVariablesValidations.SelectMany(f => f.Messages).ToList());
-                Process.Start(_resultLogger.ValidationLogPath);
+                OpenUpdateProfileForm(updateMode: false);
+                return;
+            }
+
+            var rules = new List<ImplicationRule>();
+            var variables = new List<LinguisticVariable>();
+            foreach (var rule in preProcessedImplicationRules)
+            {
+                rules.Add(_ruleCreator.CreateImplicationRuleEntity(rule));
+            }
+            foreach (var variable in preProcessedLinguisticVariables)
+            {
+                variables.AddRange(_variableCreator.CreateLinguisticVariableEntities(variable));
+            }
+            var knowledgeValidationResult = _knowledgeValidator.ValidateLinguisticVariablesNames(rules, variables);
+
+            if (knowledgeValidationResult.Successful)
+            {
+                var profile = new InferenceProfile
+                {
+                    ProfileName = SelectedProfile.ProfileName,
+                    UserName = UserName,
+                    Description = SelectedProfile.Description,
+                    Rules = preProcessedImplicationRules,
+                    Variables = preProcessedLinguisticVariables
+                };
+                _profileRepository.SaveProfile(profile);
+                RefreshProfiles(UserName);
+                ProfileValidationMessage = "Knowledge base is valid - update successful";
             }
             else
             {
-                var rules = new List<ImplicationRule>();
-                var variables = new List<LinguisticVariable>();
-                foreach (var rule in preProcessedImplicationRules)
-                {
-                    rules.Add(_ruleCreator.CreateImplicationRuleEntity(rule));
-                }
-                foreach (var variable in preProcessedLinguisticVariables)
-                {
-                    variables.AddRange(_variableCreator.CreateLinguisticVariableEntities(variable));
-                }
-                var knowledgeValidationResult = _knowledgeValidator.ValidateLinguisticVariablesNames(rules, variables);
-
-                if (knowledgeValidationResult.Successful)
-                {
-                    var profile = new InferenceProfile
-                    {
-                        ProfileName = SelectedProfile.ProfileName,
-                        UserName = UserName,
-                        Description = SelectedProfile.Description,
-                        Rules = preProcessedImplicationRules,
-                        Variables = preProcessedLinguisticVariables
-                    };
-                    _profileRepository.SaveProfile(profile);
-                    RefreshProfiles(UserName);
-                    CommitProfileValidationMessage = "Knowledge base is valid. Update successful!";
-                }
-                else
-                {
-                    CommitProfileValidationMessage = $"{knowledgeValidationResult.Messages.Count} validation errors were found." +
-                                                     "Consult log file for more information.";
-                    File.Delete(_resultLogger.ValidationLogPath);
-                    _resultLogger.LogValidationErrors(knowledgeValidationResult.Messages);
-                    Process.Start(_resultLogger.ValidationLogPath);
-                }
+                ProfileValidationMessage = $"{knowledgeValidationResult.Messages.Count} validation errors were found";
+                knowledgeValidationResult.Messages.ForEach(v => ValidationResults.Add(v));
+                OpenUpdateProfileForm(updateMode: false);
             }
         }
+
+        private void ValidateImplicationRules(List<string> preProcessedImplicationRules)
+        {
+            var ruleErrorsFound = false;
+            foreach (var implicationRule in preProcessedImplicationRules)
+            {
+                var validationResult = _ruleValidator.ValidateImplicationRule(implicationRule);
+                if (validationResult.Successful)
+                {
+                    continue;
+                }
+
+                ValidationResults.Add(implicationRule);
+                validationResult.Messages.ForEach(v => ValidationResults.Add(v));
+                ruleErrorsFound = true;
+            }
+
+            if (ruleErrorsFound)
+            {
+                ValidationResults.Add($"Rule example : {RuleFormatExample}");
+            }
+        }
+
+        private string RuleFormatExample => "IF (Pressure = HIGH & Danger = HIGH) THEN (Evacuate = TRUE)";
+
+        private void ValidateLinguisticVariables(List<string> preProcessedLinguisticVariables)
+        {
+            var variableErrorsFound = false;
+            foreach (var linguisticVariable in preProcessedLinguisticVariables)
+            {
+                var validationResult = _variableValidator.ValidateLinguisticVariables(linguisticVariable);
+                if (validationResult.Successful)
+                {
+                    continue;
+                }
+
+                ValidationResults.Add(linguisticVariable);
+                validationResult.Messages.ForEach(v => ValidationResults.Add(v));
+                variableErrorsFound = true;
+            }
+
+            if (variableErrorsFound)
+            {
+                ValidationResults.Add($"Rule example : {VariableFormatExample}");
+            }
+        }
+
+        private string VariableFormatExample => "[WaterTemperature,AirTemperature]:Initial:" +
+                                                "[Cold:Trapezoidal:(0,20,20,30)|Hot:Trapezoidal:(50,60,60,80)]";
 
         private string _updatingInput;
         public string UpdatingInput
@@ -346,17 +368,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
             }
         }
 
-        private string _updateProfileValidationMessage;
-        public string UpdateProfileValidationMessage
-        {
-            get => _updateProfileValidationMessage;
-            set
-            {
-                _updateProfileValidationMessage = value;
-                OnPropertyChanged(nameof(UpdateProfileValidationMessage));
-            }
-        }
-
         private bool _updateProfileVisible;
         public bool UpdateProfileVisible
         {
@@ -368,25 +379,14 @@ namespace FuzzyExpert.WpfClient.ViewModels
             }
         }
 
-        private bool _importButtonVisible;
-        public bool ImportButtonVisible
+        private string _profileValidationMessage;
+        public string ProfileValidationMessage
         {
-            get => _importButtonVisible;
+            get => _profileValidationMessage;
             set
             {
-                _importButtonVisible = value;
-                OnPropertyChanged(nameof(ImportButtonVisible));
-            }
-        }
-
-        private string _commitProfileValidationMessage;
-        public string CommitProfileValidationMessage
-        {
-            get => _commitProfileValidationMessage;
-            set
-            {
-                _commitProfileValidationMessage = value;
-                OnPropertyChanged(nameof(CommitProfileValidationMessage));
+                _profileValidationMessage = value;
+                OnPropertyChanged(nameof(ProfileValidationMessage));
             }
         }
 

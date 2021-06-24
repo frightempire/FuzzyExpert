@@ -14,7 +14,6 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
             if (string.IsNullOrWhiteSpace(implicationRule))
             {
                 validationMessages.Add("Implication rule is empty");
-                validationMessages.Add($"Rule example : {FormatExample}");
                 return ValidationOperationResult.Fail(validationMessages);
             }
 
@@ -32,7 +31,6 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
 
             if (validationMessages.Any())
             {
-                validationMessages.Add($"Rule example : {FormatExample}");
                 return ValidationOperationResult.Fail(validationMessages);
             }
 
@@ -49,14 +47,9 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
                 validationMessages.Add("THEN statement parenthesis don't match");
             }
 
-            if (!validationMessages.Any())
-            {
-                return ValidationOperationResult.Success();
-            }
-
-            validationMessages.Add($"Rule example : {FormatExample}");
-            return ValidationOperationResult.Fail(validationMessages);
-
+            return !validationMessages.Any() ? 
+                ValidationOperationResult.Success() : 
+                ValidationOperationResult.Fail(validationMessages);
         }
 
         private bool ParenthesisMismatched(string ifStatement)
@@ -85,7 +78,5 @@ namespace FuzzyExpert.Infrastructure.ProductionRuleParsing.Implementations
 
             return parenthesisStack.Any();
         }
-
-        private string FormatExample => "IF (Pressure = HIGH & Danger = HIGH) THEN (Evacuate = TRUE)";
     }
 }

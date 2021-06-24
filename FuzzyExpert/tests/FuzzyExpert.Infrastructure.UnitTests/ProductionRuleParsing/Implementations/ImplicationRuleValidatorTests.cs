@@ -26,7 +26,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
 
             // Assert
             Assert.IsFalse(validationOperationResult.Successful);
-            Assert.AreEqual(2, validationOperationResult.Messages.Count);
+            Assert.AreEqual(1, validationOperationResult.Messages.Count);
             Assert.AreEqual("No IF statement", validationOperationResult.Messages[0]);
         }
 
@@ -41,7 +41,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
 
             // Assert
             Assert.IsFalse(validationOperationResult.Successful);
-            Assert.AreEqual(2, validationOperationResult.Messages.Count);
+            Assert.AreEqual(1, validationOperationResult.Messages.Count);
             Assert.AreEqual("No THEN statement", validationOperationResult.Messages[0]);
         }
 
@@ -54,7 +54,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
 
             // Assert
             Assert.IsFalse(validationOperationResult.Successful);
-            Assert.AreEqual(2, validationOperationResult.Messages.Count);
+            Assert.AreEqual(1, validationOperationResult.Messages.Count);
             Assert.AreEqual("IF statement parenthesis don't match", validationOperationResult.Messages[0]);
         }
 
@@ -67,7 +67,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.ProductionRuleParsing.Implementat
 
             // Assert
             Assert.IsFalse(validationOperationResult.Successful);
-            Assert.AreEqual(2, validationOperationResult.Messages.Count);
+            Assert.AreEqual(1, validationOperationResult.Messages.Count);
             Assert.AreEqual("THEN statement parenthesis don't match", validationOperationResult.Messages[0]);
         }
 

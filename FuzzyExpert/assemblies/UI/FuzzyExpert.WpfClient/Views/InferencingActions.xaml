@@ -113,7 +113,7 @@
                     <TextBlock Text="[4] Inference results" FontSize="16" FontWeight="Bold"/>
                 </GroupBox.Header>
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"
-                            Width="500" Height="500">
+                            Width="550" Height="500">
                     <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="400"
                               IsEditable="True" IsReadOnly="True" Text="SELECT ..."

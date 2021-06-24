@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using FuzzyExpert.Application.Contracts;
@@ -47,7 +46,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
             GetDataCommand = new RelayCommand(obj => GetData(), obj => true);
             StartInferenceCommand = new RelayCommand(obj => StartInference(), obj => !string.IsNullOrEmpty(DataFilePath) && SelectedProfile != null && SelectedProfile.Rules.Count != 0);
             GetPartialResultCommand = new RelayCommand(obj => GetPartialResult(), obj => true);
-            OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => true);
+            OpenResultFileCommand = new RelayCommand(obj => OpenResultFile(), obj => ExpertOpinion != null);
 
             InitializeState();
         }
@@ -57,10 +56,21 @@ namespace FuzzyExpert.WpfClient.ViewModels
             Profiles = new ObservableCollection<InferenceProfileModel>();
             PartialResult = new ObservableCollection<ContentModel>();
             Variables = new ObservableCollection<ContentModel>();
-            ExpertOpinion = new ExpertOpinion();
+            ExpertOpinion = null;
             DataFilePath = string.Empty;
             Settings = new SettingsModel();
             ConfidenceResultMessage = string.Empty;
+        }
+
+        private string _userName;
+        public string UserName
+        {
+            get => _userName;
+            set
+            {
+                _userName = value;
+                OnPropertyChanged(nameof(UserName));
+            }
         }
 
         private SettingsModel _settings;
@@ -135,7 +145,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
         {
             PartialResult.Clear();
             Variables.Clear();
-            ExpertOpinion = new ExpertOpinion();
+            ExpertOpinion = null;
         }
 
         public void RefreshSettings(string userName)
@@ -246,24 +256,15 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         private void OpenResultFile()
         {
-            File.Delete(_resultLogger.ResultLogPath);
-
             var rules = _knowledgeBaseManager.GetKnowledgeBase(SelectedProfile.ProfileName).Value.ImplicationRules;
-            _resultLogger.LogImplicationRules(rules);
-
-            if (ExpertOpinion.IsSuccess)
-            {
-                _resultLogger.LogInferenceResult(ExpertOpinion.Result);
-            }
-            else
-            {
-                _resultLogger.LogInferenceErrors(ExpertOpinion.ErrorMessages);
-            }
-            Process.Start(_resultLogger.ResultLogPath);
+            var resultLogPath = _resultLogger.LogInferenceResult(rules, ExpertOpinion, UserName);
+            Process.Start(resultLogPath);
         }
 
         public void RefreshProfiles(string userName)
         {
+            UserName = userName;
+
             var profiles = _profileRepository.GetProfilesForUser(userName);
             if (!profiles.IsPresent)
             {

@@ -18,23 +18,37 @@ namespace FuzzyExpert.WpfClient.Views
         private void Login(object sender, RoutedEventArgs e)
         {
             var model = (LoginActionsModel) DataContext;
-            if (model.Login())
+            if (!model.Login())
             {
-                LoggedIn?.Invoke(this, new EventArgs());
+                return;
             }
+
+            LoggedIn?.Invoke(this, new EventArgs());
+            Password.Clear();
         }
 
         private void Register(object sender, RoutedEventArgs e)
         {
             var model = (LoginActionsModel)DataContext;
-            if (model.Register())
+            if (!model.Register())
             {
-                LoggedIn?.Invoke(this, new EventArgs());
+                return;
             }
+
+            LoggedIn?.Invoke(this, new EventArgs());
+            Password.Clear();
         }
 
         public void InitializeState() => ((LoginActionsModel)DataContext).InitializeState();
 
         public string LoggedInUserName => ((LoginActionsModel)DataContext).User.UserName;
+
+        private void OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                ((dynamic)DataContext).User.Password = ((PasswordBox)sender).Password;
+            }
+        }
     }
 }
