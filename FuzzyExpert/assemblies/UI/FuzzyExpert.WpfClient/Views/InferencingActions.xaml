@@ -30,9 +30,9 @@
                 </GroupBox.Header>
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <ComboBox Grid.Column="0" 
                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"

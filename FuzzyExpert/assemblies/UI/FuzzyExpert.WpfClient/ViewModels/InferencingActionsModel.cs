@@ -229,7 +229,8 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
             PartialResult.Clear();
             var selectedVariable = SelectedVariable.Content;
-            var lastVariableUsage = ExpertOpinion.Result.Last(r => r.Item1.Contains(selectedVariable));
+            var lastVariableUsage = ExpertOpinion.Result.Last(
+                r => r.Item1.Split(new[] {" = "}, StringSplitOptions.RemoveEmptyEntries)[0] == selectedVariable);
             var lastVariableUsageIndex = ExpertOpinion.Result.LastIndexOf(lastVariableUsage);
             var previousResults = ExpertOpinion.Result.GetRange(0, lastVariableUsageIndex+1);
             foreach (var previousResult in previousResults)

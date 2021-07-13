@@ -45,12 +45,12 @@ namespace FuzzyExpert.WpfClient.ViewModels
             _variableCreator = variableCreator ?? throw new ArgumentNullException(nameof(variableCreator));
             _knowledgeValidator = knowledgeValidator ?? throw new ArgumentNullException(nameof(knowledgeValidator));
 
-            AddProfileCommand = new RelayCommand(obj => AddProfile(), obj => true);
+            AddProfileCommand = new RelayCommand(obj => OpenAddProfileForm(), obj => true);
             RemoveProfileCommand = new RelayCommand(obj => RemoveProfile(), obj => SelectedProfile != null);
             CreateProfileCommand = new RelayCommand(obj => CreateProfile(), obj => !string.IsNullOrEmpty(NewProfileName));
-            CloseCreateProfileCommand = new RelayCommand(obj => CloseCreateProfile(), obj => true);
+            CloseCreateProfileCommand = new RelayCommand(obj => CloseCreateProfileForm(), obj => true);
 
-            UpdateProfileCommand = new RelayCommand(obj => OpenUpdateProfileForm(updateMode: true), obj => true);
+            UpdateProfileCommand = new RelayCommand(obj => OpenUpdateProfileForm(), obj => true);
             CloseUpdateProfileCommand = new RelayCommand(obj => CloseUpdateProfileForm(), obj => true);
             GetRulesFromFileCommand = new RelayCommand(obj => GetRulesFromFile(), obj => true);
             GetVariablesFromFileCommand = new RelayCommand(obj => GetVariablesFromFile(), obj => true);
@@ -58,6 +58,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
             ImportRuleFromInputCommand = new RelayCommand(obj => ImportRuleFromInput(), obj => !string.IsNullOrEmpty(UpdatingInput));
             ImportVariableFromInputCommand = new RelayCommand(obj => ImportVariableFromInput(), obj => !string.IsNullOrEmpty(UpdatingInput));
             CommitProfileCommand = new RelayCommand(obj => CommitProfile(), obj => true);
+            CloseValidationResultsCommand = new RelayCommand(obj => CloseValidationResultsForm(), obj => true);
 
             ValidationResults = new ObservableCollection<string>();
             Profiles = new ObservableCollection<InferenceProfileModel>();
@@ -140,24 +141,39 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public RelayCommand CommitProfileCommand { get; }
 
-        private void OpenUpdateProfileForm(bool updateMode)
+        public RelayCommand CloseValidationResultsCommand { get; }
+
+        private void OpenUpdateProfileForm()
         {
             UpdatingInput = string.Empty;
             RuleFilePath = string.Empty;
             VariableFilePath = string.Empty;
             UpdateProfileVisible = true;
             PopUpVisible = true;
-
-            if (updateMode)
-            {
-                ValidationResults.Clear();
-            }
         }
 
         private void CloseUpdateProfileForm()
         {
             UpdateProfileVisible = false;
-            PopUpVisible = false;
+            if (!ValidationResultsVisible)
+            {
+                PopUpVisible = false;
+            }
+        }
+
+        private void OpenValidationResultsForm()
+        {
+            ValidationResultsVisible = true;
+            PopUpVisible = true;
+        }
+
+        private void CloseValidationResultsForm()
+        {
+            ValidationResultsVisible = false;
+            if (!UpdateProfileVisible)
+            {
+                PopUpVisible = false;
+            }
         }
 
         private void GetRulesFromFile()
@@ -182,6 +198,8 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         private void StartImportFromFiles()
         {
+            ValidationResults.Clear();
+
             var rulesFromFile = _fileOperations.ReadFileByLines(RuleFilePath).ToList();
             var preProcessedImplicationRules = rulesFromFile.Select(PreprocessString).ToList();
             ValidateImplicationRules(preProcessedImplicationRules);
@@ -192,6 +210,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
             if (ValidationResults.Any())
             {
+                OpenValidationResultsForm();
                 return;
             }
 
@@ -204,10 +223,14 @@ namespace FuzzyExpert.WpfClient.ViewModels
             {
                 SelectedProfile.Variables.Add(new ContentModel { Content = variable });
             }
+
+            OpenValidationResultsForm();
         }
 
         private void ImportRuleFromInput()
         {
+            ValidationResults.Clear();
+
             var preProcessedRule = PreprocessString(UpdatingInput);
             var validationResult = _ruleValidator.ValidateImplicationRule(preProcessedRule);
             if (validationResult.Successful)
@@ -220,10 +243,14 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 ValidationResults.Add($"{validationResult.Messages.Count} validation errors were found");
                 validationResult.Messages.ForEach(v => ValidationResults.Add(v));
             }
+
+            OpenValidationResultsForm();
         }
 
         private void ImportVariableFromInput()
         {
+            ValidationResults.Clear();
+
             var preProcessedVariable = PreprocessString(UpdatingInput);
             var validationResult = _variableValidator.ValidateLinguisticVariables(preProcessedVariable);
             if (validationResult.Successful)
@@ -236,10 +263,14 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 ValidationResults.Add($"{validationResult.Messages.Count} validation errors were found");
                 validationResult.Messages.ForEach(v => ValidationResults.Add(v));
             }
+
+            OpenValidationResultsForm();
         }
 
         private void CommitProfile()
         {
+            ValidationResults.Clear();
+
             var preProcessedImplicationRules = SelectedProfile.Rules.Select(x => PreprocessString(x.Content)).ToList();
             ValidateImplicationRules(preProcessedImplicationRules);
 
@@ -248,7 +279,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
             if (ValidationResults.Any())
             {
-                OpenUpdateProfileForm(updateMode: false);
+                OpenValidationResultsForm();
                 return;
             }
 
@@ -276,14 +307,15 @@ namespace FuzzyExpert.WpfClient.ViewModels
                 };
                 _profileRepository.SaveProfile(profile);
                 RefreshProfiles(UserName);
-                ProfileValidationMessage = "Knowledge base is valid - update successful";
+                ValidationResults.Add("Knowledge base is valid - update successful");
             }
             else
             {
-                ProfileValidationMessage = $"{knowledgeValidationResult.Messages.Count} validation errors were found";
+                ValidationResults.Add($"{knowledgeValidationResult.Messages.Count} validation errors were found");
                 knowledgeValidationResult.Messages.ForEach(v => ValidationResults.Add(v));
-                OpenUpdateProfileForm(updateMode: false);
             }
+
+            OpenValidationResultsForm();
         }
 
         private void ValidateImplicationRules(List<string> preProcessedImplicationRules)
@@ -368,28 +400,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
             }
         }
 
-        private bool _updateProfileVisible;
-        public bool UpdateProfileVisible
-        {
-            get => _updateProfileVisible;
-            set
-            {
-                _updateProfileVisible = value;
-                OnPropertyChanged(nameof(UpdateProfileVisible));
-            }
-        }
-
-        private string _profileValidationMessage;
-        public string ProfileValidationMessage
-        {
-            get => _profileValidationMessage;
-            set
-            {
-                _profileValidationMessage = value;
-                OnPropertyChanged(nameof(ProfileValidationMessage));
-            }
-        }
-
         private string PreprocessString(string input)
         {
             return input.RemoveUnwantedCharacters(new List<char> { ' ', '\r', '\n' });
@@ -407,7 +417,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         public RelayCommand CreateProfileCommand { get; }
 
-        private void AddProfile()
+        private void OpenAddProfileForm()
         {
             NewProfileName = string.Empty;
             NewProfileDescription = string.Empty;
@@ -415,7 +425,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
             PopUpVisible = true;
         }
 
-        private void CloseCreateProfile()
+        private void CloseCreateProfileForm()
         {
             CreateProfileVisible = false;
             PopUpVisible = false;
@@ -439,17 +449,6 @@ namespace FuzzyExpert.WpfClient.ViewModels
             CreateProfileVisible = false;
             PopUpVisible = false;
             RefreshProfiles(UserName);
-        }
-
-        private bool _createProfileVisible;
-        public bool CreateProfileVisible
-        {
-            get => _createProfileVisible;
-            set
-            {
-                _createProfileVisible = value;
-                OnPropertyChanged(nameof(CreateProfileVisible));
-            }
         }
 
         private string _newProfileName;
@@ -513,6 +512,39 @@ namespace FuzzyExpert.WpfClient.ViewModels
             {
                 _popUpVisible = value;
                 OnPropertyChanged(nameof(PopUpVisible));
+            }
+        }
+
+        private bool _updateProfileVisible;
+        public bool UpdateProfileVisible
+        {
+            get => _updateProfileVisible;
+            set
+            {
+                _updateProfileVisible = value;
+                OnPropertyChanged(nameof(UpdateProfileVisible));
+            }
+        }
+
+        private bool _createProfileVisible;
+        public bool CreateProfileVisible
+        {
+            get => _createProfileVisible;
+            set
+            {
+                _createProfileVisible = value;
+                OnPropertyChanged(nameof(CreateProfileVisible));
+            }
+        }
+
+        private bool _validationResultsVisible;
+        public bool ValidationResultsVisible
+        {
+            get => _validationResultsVisible;
+            set
+            {
+                _validationResultsVisible = value;
+                OnPropertyChanged(nameof(ValidationResultsVisible));
             }
         }
 
