@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FuzzyExpert.Application.InferenceExpert.Entities;
+using FuzzyExpert.Core.Entities;
 using NUnit.Framework;
 
 namespace FuzzyExpert.Application.UnitTests.InferenceExpert.Entities
@@ -62,14 +63,16 @@ namespace FuzzyExpert.Application.UnitTests.InferenceExpert.Entities
         public void AddResult_AddMessagesToErrorMessagesList()
         {
             // Arrange
-            double firstExpectedValue = 50;
-            string firstExpectedKey = "A1";
-            double secondExpectedValue = 100;
-            string secondExpectedKey = "B1";
-            var results = new List<Tuple<string, double>>
+            double firstExpectedConfidenceFactor = 50;
+            string firstExpectedNodeName = "A1";
+            double firstExpectedDeFuzzifiedValue = 2;
+            double secondExpectedConfidenceFactor = 100;
+            string secondExpectedNodeName = "B1";
+            double secondExpectedDeFuzzifiedValue = 3;
+            var results = new List<DeFuzzifiedInferenceResult>
             {
-                new Tuple<string, double>(firstExpectedKey, firstExpectedValue),
-                new Tuple<string, double>(secondExpectedKey, secondExpectedValue)
+                new DeFuzzifiedInferenceResult(firstExpectedNodeName, firstExpectedConfidenceFactor, firstExpectedDeFuzzifiedValue),
+                new DeFuzzifiedInferenceResult(secondExpectedNodeName, secondExpectedConfidenceFactor, secondExpectedDeFuzzifiedValue)
             };
 
             // Act
@@ -78,8 +81,8 @@ namespace FuzzyExpert.Application.UnitTests.InferenceExpert.Entities
             // Assert
             Assert.IsTrue(_expertOpinion.IsSuccess);
             Assert.AreEqual(2, _expertOpinion.Result.Count);
-            Assert.AreEqual(firstExpectedValue, _expertOpinion.Result[0].Item2);
-            Assert.AreEqual(secondExpectedValue, _expertOpinion.Result[1].Item2);
+            Assert.AreEqual(firstExpectedConfidenceFactor, _expertOpinion.Result[0].ConfidenceFactor);
+            Assert.AreEqual(secondExpectedConfidenceFactor, _expertOpinion.Result[1].ConfidenceFactor);
         }
     }
 }

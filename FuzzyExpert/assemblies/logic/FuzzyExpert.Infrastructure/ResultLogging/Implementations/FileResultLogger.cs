@@ -28,7 +28,7 @@ namespace FuzzyExpert.Infrastructure.ResultLogging.Implementations
 
             if (expertOpinion.IsSuccess)
             {
-                var results = expertOpinion.Result.Select(result => $"Node {result.Item1} was enabled with confidence factor {result.Item2}").ToList();
+                var results = expertOpinion.Result.Select(result => $"Node {result.NodeName} ({result.DefuzzifiedValue}) was enabled with confidence factor {result.ConfidenceFactor}").ToList();
                 _fileOperations.AppendLinesToFile(destinationPath, results);
             }
             else

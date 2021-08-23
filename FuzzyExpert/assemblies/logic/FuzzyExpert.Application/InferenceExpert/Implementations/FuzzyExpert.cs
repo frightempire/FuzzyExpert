@@ -55,8 +55,28 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
 
             FillInferenceEngineRules(knowledgeBase.Value);
             var activatedNodes = GetInitialNodes(knowledgeBase.Value, initialData.Value);
-            opinion.AddResults(_inferenceEngine.GetInferenceResults(activatedNodes));
+            var inferenceResults = _inferenceEngine.GetInferenceResults(activatedNodes);
+            opinion.AddResults(DeFuzzifyResults(inferenceResults, knowledgeBase.Value.LinguisticVariables));
             return opinion;
+        }
+
+        private List<DeFuzzifiedInferenceResult> DeFuzzifyResults(
+            List<InferenceResult> inferenceResults,
+            Dictionary<int, LinguisticVariable> linguisticVariables)
+        {
+            var deFuzzifiedInferenceResult = new List<DeFuzzifiedInferenceResult>();
+            foreach (var inferenceResult in inferenceResults)
+            {
+                var variableName = inferenceResult.NodeName.Split('=')[0].Trim();
+                var fuzzyValue = inferenceResult.NodeName.Split('=')[1].Trim();
+                var matchingVariable = linguisticVariables.First(lv => lv.Value.VariableName == variableName).Value;
+                var matchingMembershipFunction = matchingVariable.MembershipFunctionList.FindByVariableName(fuzzyValue);
+                var deFuzzifiedValue = matchingMembershipFunction.CenterOfGravity();
+                deFuzzifiedInferenceResult.Add(
+                    new DeFuzzifiedInferenceResult(
+                        inferenceResult.NodeName, inferenceResult.ConfidenceFactor, deFuzzifiedValue));
+            }
+            return deFuzzifiedInferenceResult;
         }
 
         private void ValidateInitialDataAgainstKnowledgeBase(
@@ -93,7 +113,9 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
 
                 foreach (var relatedStatementName in relatedStatementNames)
                 {
-                    var matchingStatement = ifUnaryStatements.FirstOrDefault(ius => ius.ToString() == relatedStatementName && ius.RightOperand == membershipFunction.LinguisticVariableName);
+                    var matchingStatement = ifUnaryStatements.FirstOrDefault(ius => 
+                        ius.ToString() == relatedStatementName && 
+                        ius.RightOperand == membershipFunction.LinguisticVariableName);
                     if (matchingStatement != null)
                     {
                         activatedNodes.Add(new InitialData(relatedStatementName, data.Value, data.ConfidenceFactor));

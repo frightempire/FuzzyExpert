@@ -99,44 +99,5 @@ namespace FuzzyExpert.Core.UnitTests.Entities
             // Assert
             Assert.IsTrue(ObjectComparer.MembershipFunctionListsAreEqual(_membershipFunctions, membershipFunctionList));
         }
-
-        [Test]
-        public void MinValue_ReturnsCorrectValue()
-        {
-            // Arrange
-            double expectedMinValue = 0;
-
-            // Act
-            double actualMinValue = _linguisticVariable.MinValue();
-
-            // Assert
-            Assert.AreEqual(expectedMinValue, actualMinValue);
-        }
-
-        [Test]
-        public void MaxValue_ReturnsCorrectValue()
-        {
-            // Arrange
-            double expectedMaxValue = 13;
-
-            // Act
-            double actualMaxValue = _linguisticVariable.MaxValue();
-
-            // Assert
-            Assert.AreEqual(expectedMaxValue, actualMaxValue);
-        }
-
-        [Test]
-        public void ValueRange_ReturnsCorrectValue()
-        {
-            // Arrange
-            double expectedValueRange = 13;
-
-            // Act
-            double actualValueRange = _linguisticVariable.ValueRange();
-
-            // Assert
-            Assert.AreEqual(expectedValueRange, actualValueRange);
-        }
     }
 }

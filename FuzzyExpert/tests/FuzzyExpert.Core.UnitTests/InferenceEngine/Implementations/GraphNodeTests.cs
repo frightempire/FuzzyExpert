@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.InferenceEngine.Implementations;
 using FuzzyExpert.Core.InferenceEngine.Interfaces;
 using NUnit.Framework;
@@ -16,14 +17,14 @@ namespace FuzzyExpert.Core.UnitTests.InferenceEngine.Implementations
         [SetUp]
         public void SetUp()
         {
-            _graphNode = new GraphNode(NodeName, new List<Tuple<string, double>>());
+            _graphNode = new GraphNode(NodeName, new List<InferenceResult>());
         }
 
         [Test]
         public void Constructor_ThrowsArgumentNullExceptionIfOneOfInputParametersIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => { new GraphNode(null, new List<Tuple<string, double>>()); });
-            Assert.Throws<ArgumentNullException>(() => { new GraphNode(string.Empty, new List<Tuple<string, double>>()); });
+            Assert.Throws<ArgumentNullException>(() => { new GraphNode(null, new List<InferenceResult>()); });
+            Assert.Throws<ArgumentNullException>(() => { new GraphNode(string.Empty, new List<InferenceResult>()); });
             Assert.Throws<ArgumentNullException>(() => { new GraphNode(NodeName, null); });
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FuzzyExpert.Core.Entities;
 
 namespace FuzzyExpert.Application.InferenceExpert.Entities
 {
@@ -7,14 +8,14 @@ namespace FuzzyExpert.Application.InferenceExpert.Entities
     {
         public List<string> ErrorMessages { get; }
 
-        public List<Tuple<string, double>> Result { get; }
+        public List<DeFuzzifiedInferenceResult> Result { get; }
 
         public bool IsSuccess { get; private set; }
 
         public ExpertOpinion()
         {
             ErrorMessages = new List<string>();
-            Result = new List<Tuple<string, double>>();
+            Result = new List<DeFuzzifiedInferenceResult>();
             IsSuccess = true;
         }
 
@@ -30,7 +31,7 @@ namespace FuzzyExpert.Application.InferenceExpert.Entities
             IsSuccess = false;
         }
 
-        public void AddResults(List<Tuple<string, double>> results)
+        public void AddResults(List<DeFuzzifiedInferenceResult> results)
         {
             Result.AddRange(results);
         }

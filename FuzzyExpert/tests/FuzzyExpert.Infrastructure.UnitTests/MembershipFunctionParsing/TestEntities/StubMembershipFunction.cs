@@ -7,5 +7,7 @@ namespace FuzzyExpert.Infrastructure.UnitTests.MembershipFunctionParsing.TestEnt
         public StubMembershipFunction(string linguisticVariableName) : base(linguisticVariableName) { }
 
         public override double MembershipDegree(double value) => 0;
+
+        public override double CenterOfGravity() => 1;
     }
 }

@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using FuzzyExpert.Application.Contracts;
 using FuzzyExpert.Application.InferenceExpert.Entities;
 using FuzzyExpert.Application.InferenceExpert.Interfaces;
+using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Interfaces;
 using FuzzyExpert.Infrastructure.InitialDataProviding.Interfaces;
 using FuzzyExpert.Infrastructure.ResultLogging.Interfaces;
@@ -234,7 +235,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
             var selectedVariable = SelectedVariable.Content;
             var lastVariableUsage = ExpertOpinion.Result.LastOrDefault(
-                r => r.Item1.Split(new[] {" = "}, StringSplitOptions.RemoveEmptyEntries)[0] == selectedVariable);
+                r => r.NodeName.Split(new[] {" = "}, StringSplitOptions.RemoveEmptyEntries)[0] == selectedVariable);
 
             if (lastVariableUsage == null)
             {
@@ -258,7 +259,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
             OnPropertyChanged(nameof(ConfidenceResultMessage));
         }
 
-        private void FillReachedInferenceResult(Tuple<string, double> lastVariableUsage)
+        private void FillReachedInferenceResult(DeFuzzifiedInferenceResult lastVariableUsage)
         {
             var lastVariableUsageIndex = ExpertOpinion.Result.LastIndexOf(lastVariableUsage);
             var previousResults = ExpertOpinion.Result.GetRange(0, lastVariableUsageIndex + 1);
@@ -267,14 +268,14 @@ namespace FuzzyExpert.WpfClient.ViewModels
             {
                 PartialResult.Add(new ContentModel
                 {
-                    Content = $"Node {previousResult.Item1} was enabled with confidence factor {previousResult.Item2}"
+                    Content = $"Node {previousResult.NodeName} ({previousResult.DefuzzifiedValue}) was enabled with confidence factor {previousResult.ConfidenceFactor}"
                 });
             }
 
-            ConfidenceResultMessage = lastVariableUsage.Item2 < Settings.ConfidenceFactorLowerBoundary
-                ? $"Confidence for {lastVariableUsage.Item1} is lower then {Settings.ConfidenceFactorLowerBoundary}. " +
+            ConfidenceResultMessage = lastVariableUsage.ConfidenceFactor < Settings.ConfidenceFactorLowerBoundary
+                ? $"Confidence for {lastVariableUsage.NodeName} is lower then {Settings.ConfidenceFactorLowerBoundary}. " +
                   "It's not advisable to proceed."
-                : $"Confidence for {lastVariableUsage.Item1} is greater then {Settings.ConfidenceFactorLowerBoundary}. " +
+                : $"Confidence for {lastVariableUsage.NodeName} is greater then {Settings.ConfidenceFactorLowerBoundary}. " +
                   "It's advisable to proceed.";
 
             OnPropertyChanged(nameof(ConfidenceResultMessage));

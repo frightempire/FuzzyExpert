@@ -27,6 +27,24 @@ namespace FuzzyExpert.Core.Entities
             return 0;
         }
 
+        public override double CenterOfGravity()
+        {
+            var leftTriangleArea = (PointsList[1] - PointsList[0]) / 2;
+            var centerRectangleArea = PointsList[2] - PointsList[1];
+            var rightTriangleArea = (PointsList[3] - PointsList[2]) / 2;
+
+            var leftTriangleCentroid = (PointsList[0] + PointsList[1] * 2) / 3;
+            var centerRectangleCentroid = (PointsList[1] + PointsList[2]) / 2;
+            var rightTriangleCentroid = (PointsList[2] * 2 + PointsList[3]) / 3;
+
+            var centerOfGravity = (leftTriangleArea * leftTriangleCentroid +
+                                   centerRectangleArea * centerRectangleCentroid +
+                                   rightTriangleArea * rightTriangleCentroid) /
+                                  (leftTriangleArea + centerRectangleArea + rightTriangleArea);
+            
+            return Math.Round(centerOfGravity, 2);
+        }
+
         #region Equals/GetHashCode
 
         private const double Precision = 0.00001;

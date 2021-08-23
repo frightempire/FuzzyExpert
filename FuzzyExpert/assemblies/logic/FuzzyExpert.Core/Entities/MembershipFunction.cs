@@ -18,5 +18,7 @@ namespace FuzzyExpert.Core.Entities
         public List<double> PointsList { get; }
 
         public abstract double MembershipDegree(double value);
+
+        public abstract double CenterOfGravity();
     }
 }

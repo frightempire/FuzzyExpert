@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ImplicationRule.cs" />
+    <Compile Include="Entities\InferenceResult.cs" />
     <Compile Include="Entities\InitialData.cs" />
     <Compile Include="Entities\LinguisticVariable.cs" />
     <Compile Include="Entities\MembershipFunction.cs" />

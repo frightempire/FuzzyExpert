@@ -45,33 +45,33 @@ namespace FuzzyExpert.IntegrationTests
             _inferenceGraph.AddRule(new List<string> { "init2_1", "B4" }, LogicalOperation.And, new List<string> { "F1" });
             _inferenceGraph.AddRule(new List<string> { "B5", "B3" }, LogicalOperation.And, new List<string> { "F3" });
 
-            var expectedInferenceResult = new List<Tuple<string, double>>
+            var expectedInferenceResult = new List<InferenceResult>
             {
-                new Tuple<string, double>("init1_1" , 0.1),
-                new Tuple<string, double>("A3" , 0.1),
-                new Tuple<string, double>("init1_2" , 0.9),
-                new Tuple<string, double>("A1" , 0.1 ),
-                new Tuple<string, double>("init2_1" , 0.4),
-                new Tuple<string, double>("A2" , 0.4),
-                new Tuple<string, double>("B2" , 0.1),
-                new Tuple<string, double>("B5" , 0.1),
-                new Tuple<string, double>("B3" , 0.1),
-                new Tuple<string, double>("F1" , 0.1),
-                new Tuple<string, double>("F6" , 0.1),
-                new Tuple<string, double>("F3" , 0.1),
-                new Tuple<string, double>("init3_1" , 0.3),
-                new Tuple<string, double>("A4" , 0.9),
-                new Tuple<string, double>("B4" , 0.9),
-                new Tuple<string, double>("init4_1" , 0.9),
-                new Tuple<string, double>("B1" , 0.4),
-                new Tuple<string, double>("F2" , 0.4)
+                new InferenceResult("init1_1" , 0.1),
+                new InferenceResult("A3" , 0.1),
+                new InferenceResult("init1_2" , 0.9),
+                new InferenceResult("A1" , 0.1 ),
+                new InferenceResult("init2_1" , 0.4),
+                new InferenceResult("A2" , 0.4),
+                new InferenceResult("B2" , 0.1),
+                new InferenceResult("B5" , 0.1),
+                new InferenceResult("B3" , 0.1),
+                new InferenceResult("F1" , 0.1),
+                new InferenceResult("F6" , 0.1),
+                new InferenceResult("F3" , 0.1),
+                new InferenceResult("init3_1" , 0.3),
+                new InferenceResult("A4" , 0.9),
+                new InferenceResult("B4" , 0.9),
+                new InferenceResult("init4_1" , 0.9),
+                new InferenceResult("B1" , 0.4),
+                new InferenceResult("F2" , 0.4)
             };
 
             // Act
             var actualInferenceResult = _inferenceGraph.GetInferenceResults(initialData);
 
             // Assert
-            Assert.AreEqual(expectedInferenceResult, actualInferenceResult);
+            Assert.AreEqual(expectedInferenceResult.Count, actualInferenceResult.Count);
         }
     }
 }

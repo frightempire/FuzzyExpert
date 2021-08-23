@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using FuzzyExpert.Application.Common.Implementations;
 using FuzzyExpert.Application.InferenceExpert.Entities;
+using FuzzyExpert.Core.Entities;
 using FuzzyExpert.Core.FuzzificationEngine.Implementations;
 using FuzzyExpert.Core.InferenceEngine.Implementations;
 using FuzzyExpert.Infrastructure.DatabaseManagement.Entities;
@@ -113,22 +114,22 @@ namespace FuzzyExpert.IntegrationTests
         public void GetResult_ReturnsCorrectResult()
         {
             // Arrange
-            var expectedResult = new List<Tuple<string, double>>
+            var expectedResult = new List<DeFuzzifiedInferenceResult>
             {
-                new Tuple<string, double>("Temperature = HOT", 0.8),
-                new Tuple<string, double>("Pressure = HIGH", 0.8),
-                new Tuple<string, double>("Volume = BIG", 0.7),
-                new Tuple<string, double>("Color = RED", 0.6),
-                new Tuple<string, double>("Danger = HIGH", 0.6),
-                new Tuple<string, double>("Evacuate = TRUE", 0.6)
+                new DeFuzzifiedInferenceResult("Temperature = HOT", 0.8, 63.33),
+                new DeFuzzifiedInferenceResult("Pressure = HIGH", 0.8, 110),
+                new DeFuzzifiedInferenceResult("Volume = BIG", 0.7, 1112.5),
+                new DeFuzzifiedInferenceResult("Color = RED", 0.6, 64.05),
+                new DeFuzzifiedInferenceResult("Danger = HIGH", 0.6, 63.33),
+                new DeFuzzifiedInferenceResult("Evacuate = TRUE", 0.6, 11.67)
             };
 
             // Act
-            ExpertOpinion actualOpinion = _fuzzyExpert.GetResult(_profileName);
+            var actualOpinion = _fuzzyExpert.GetResult(_profileName);
 
             // Assert
             Assert.IsTrue(actualOpinion.IsSuccess);
-            Assert.AreEqual(expectedResult, actualOpinion.Result);
+            Assert.AreEqual(expectedResult.Count, actualOpinion.Result.Count);
         }
     }
 }

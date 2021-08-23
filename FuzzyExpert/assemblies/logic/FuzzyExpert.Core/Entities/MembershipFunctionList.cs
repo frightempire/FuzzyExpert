@@ -9,10 +9,10 @@ namespace FuzzyExpert.Core.Entities
         public MembershipFunction FindByVariableName(string variableName)
         {
             ValidateVariableNameInList(variableName);
-            return this.First(mf => mf.LinguisticVariableName == variableName);
+            return this.First(mf => mf.LinguisticVariableName.Trim() == variableName);
         }
 
-        private List<string> VariableNames => this.Select(mf => mf.LinguisticVariableName).ToList();
+        private List<string> VariableNames => this.Select(mf => mf.LinguisticVariableName.Trim()).ToList();
 
         private void ValidateVariableNameInList(string variableName)
         {

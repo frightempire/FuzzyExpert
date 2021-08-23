@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace FuzzyExpert.Core.Entities
@@ -22,22 +21,5 @@ namespace FuzzyExpert.Core.Entities
         public MembershipFunctionList MembershipFunctionList { get; }
 
         public bool IsInitialData { get; }
-
-        public double MinValue()
-        {
-            List<double> firstPoints = MembershipFunctionList.Select(mf => mf.PointsList.First()).ToList();
-            return firstPoints.Min();
-        }
-
-        public double MaxValue()
-        {
-            List<double> lastPoints = MembershipFunctionList.Select(mf => mf.PointsList.Last()).ToList();
-            return lastPoints.Max();
-        }
-
-        public double ValueRange()
-        {
-            return MaxValue() - MinValue();
-        }
     }
 }
