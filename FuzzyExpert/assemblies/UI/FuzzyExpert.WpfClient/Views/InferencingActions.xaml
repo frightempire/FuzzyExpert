@@ -35,20 +35,20 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <ComboBox Grid.Column="0" 
-                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                      HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="150"
-                      IsEditable="True" IsReadOnly="True" Text="SELECT ..."
-                      SelectedItem="{Binding SelectedProfile}"  
-                      ItemsSource = "{Binding Profiles}"
-                      DisplayMemberPath="ProfileName"/>
+                              HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="150"
+                              IsEditable="True" IsReadOnly="True" Text="SELECT ..."
+                              SelectedItem="{Binding SelectedProfile}"  
+                              ItemsSource = "{Binding Profiles}"
+                              DisplayMemberPath="ProfileName"/>
                     <TextBlock Grid.Column="1"
-                       Text="=>" FontSize="30"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"
-                       Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}"/>
+                               Text="=>" FontSize="30"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10"
+                               Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}"/>
                     <Border Grid.Column="2"
-                    BorderBrush="Black" BorderThickness="2"
-                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}">
+                            BorderBrush="Black" BorderThickness="2"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Visibility="{Binding SelectedProfile, Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Hidden}">
                         <Grid Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -118,7 +118,7 @@
                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10" Width="400"
                               IsEditable="True" IsReadOnly="True" Text="SELECT ..."
                               SelectedItem="{Binding SelectedVariable}"  
-                              ItemsSource = "{Binding Variables}"
+                              ItemsSource = "{Binding Variables, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Content">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
@@ -129,7 +129,7 @@
                     <ListBox Style="{DynamicResource EmptyListStyle}"
                              Margin="5" Height="350" HorizontalContentAlignment="Stretch"
                              ScrollViewer.VerticalScrollBarVisibility="Visible"
-                             ItemsSource="{Binding PartialResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                             ItemsSource="{Binding PartialResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              DisplayMemberPath="Content"/>
                     <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
                                FontWeight="Bold" TextWrapping="Wrap"

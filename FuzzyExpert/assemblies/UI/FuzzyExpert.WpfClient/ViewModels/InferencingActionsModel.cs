@@ -55,7 +55,9 @@ namespace FuzzyExpert.WpfClient.ViewModels
         {
             Profiles = new ObservableCollection<InferenceProfileModel>();
             PartialResult = new ObservableCollection<ContentModel>();
+            OnPropertyChanged(nameof(PartialResult));
             Variables = new ObservableCollection<ContentModel>();
+            OnPropertyChanged(nameof(Variables));
             ExpertOpinion = null;
             DataFilePath = string.Empty;
             Settings = new SettingsModel();
@@ -144,6 +146,7 @@ namespace FuzzyExpert.WpfClient.ViewModels
         private void ResetBindingProperties()
         {
             PartialResult.Clear();
+            ConfidenceResultMessage = string.Empty;
             Variables.Clear();
             ExpertOpinion = null;
         }
@@ -222,17 +225,44 @@ namespace FuzzyExpert.WpfClient.ViewModels
 
         private void GetPartialResult()
         {
-            if (!ExpertOpinion.IsSuccess)
+            if (!ExpertOpinion.IsSuccess || SelectedVariable == null)
             {
                 return;
             }
 
             PartialResult.Clear();
+
             var selectedVariable = SelectedVariable.Content;
-            var lastVariableUsage = ExpertOpinion.Result.Last(
+            var lastVariableUsage = ExpertOpinion.Result.LastOrDefault(
                 r => r.Item1.Split(new[] {" = "}, StringSplitOptions.RemoveEmptyEntries)[0] == selectedVariable);
+
+            if (lastVariableUsage == null)
+            {
+                FillUnreachedInferenceResult(selectedVariable);
+            }
+            else
+            {
+                FillReachedInferenceResult(lastVariableUsage);
+            }
+        }
+
+        private void FillUnreachedInferenceResult(string selectedVariable)
+        {
+            PartialResult.Add(new ContentModel
+            {
+                Content = $"Variable {selectedVariable} was not used during inference"
+            });
+            ConfidenceResultMessage = string.Empty;
+
+            OnPropertyChanged(nameof(PartialResult));
+            OnPropertyChanged(nameof(ConfidenceResultMessage));
+        }
+
+        private void FillReachedInferenceResult(Tuple<string, double> lastVariableUsage)
+        {
             var lastVariableUsageIndex = ExpertOpinion.Result.LastIndexOf(lastVariableUsage);
-            var previousResults = ExpertOpinion.Result.GetRange(0, lastVariableUsageIndex+1);
+            var previousResults = ExpertOpinion.Result.GetRange(0, lastVariableUsageIndex + 1);
+
             foreach (var previousResult in previousResults)
             {
                 PartialResult.Add(new ContentModel
@@ -240,19 +270,15 @@ namespace FuzzyExpert.WpfClient.ViewModels
                     Content = $"Node {previousResult.Item1} was enabled with confidence factor {previousResult.Item2}"
                 });
             }
-            OnPropertyChanged(nameof(PartialResult));
 
-            if (lastVariableUsage.Item2 < Settings.ConfidenceFactorLowerBoundary)
-            {
-                ConfidenceResultMessage = $"Confidence for {lastVariableUsage.Item1} is lower then {Settings.ConfidenceFactorLowerBoundary}. " +
-                                          "It's not advisable to proceed.";
-            }
-            else
-            {
-                ConfidenceResultMessage = $"Confidence for {lastVariableUsage.Item1} is greater then {Settings.ConfidenceFactorLowerBoundary}. " +
-                                          "It's advisable to proceed.";
-            }
+            ConfidenceResultMessage = lastVariableUsage.Item2 < Settings.ConfidenceFactorLowerBoundary
+                ? $"Confidence for {lastVariableUsage.Item1} is lower then {Settings.ConfidenceFactorLowerBoundary}. " +
+                  "It's not advisable to proceed."
+                : $"Confidence for {lastVariableUsage.Item1} is greater then {Settings.ConfidenceFactorLowerBoundary}. " +
+                  "It's advisable to proceed.";
+
             OnPropertyChanged(nameof(ConfidenceResultMessage));
+            OnPropertyChanged(nameof(PartialResult));
         }
 
         private void OpenResultFile()
