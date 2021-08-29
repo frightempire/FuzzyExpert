@@ -53,6 +53,7 @@ namespace FuzzyExpert.Application.InferenceExpert.Implementations
                 return opinion;
             }
 
+            _inferenceEngine.InitializeEngine();
             FillInferenceEngineRules(knowledgeBase.Value);
             var activatedNodes = GetInitialNodes(knowledgeBase.Value, initialData.Value);
             var inferenceResults = _inferenceEngine.GetInferenceResults(activatedNodes);

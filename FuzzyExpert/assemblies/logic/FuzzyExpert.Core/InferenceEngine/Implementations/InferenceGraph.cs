@@ -38,6 +38,13 @@ namespace FuzzyExpert.Core.InferenceEngine.Implementations
             return _activationOrder;
         }
 
+        public void InitializeEngine()
+        {
+            _activationOrder.Clear();
+            _rules.Clear();
+            _nodes.Clear();
+        }
+
         private void UpdateNodeList(string nodeName)
         {
             IInferenceNode matchingNode = _nodes.FirstOrDefault(n => n.Name == nodeName);

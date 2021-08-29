@@ -9,5 +9,7 @@ namespace FuzzyExpert.Core.InferenceEngine.Interfaces
         void AddRule(List<string> ifNodeNames, LogicalOperation operation, List<string> thenNodeNames);
 
         List<InferenceResult> GetInferenceResults(List<InitialData> initialData);
+
+        void InitializeEngine();
     }
 }

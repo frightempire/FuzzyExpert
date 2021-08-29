@@ -30,14 +30,9 @@ namespace FuzzyExpert.Application.Common.Implementations
                 throw new ArgumentNullException(nameof(filePath));
             }
 
-            if (lines == null)
+            if (lines == null || !lines.Any())
             {
-                throw new ArgumentNullException(nameof(lines));
-            }
-
-            if (!lines.Any())
-            {
-                throw new ArgumentNullException(nameof(filePath));
+                return;
             }
 
             File.AppendAllLines(filePath, lines);
