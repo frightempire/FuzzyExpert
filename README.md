@@ -22,7 +22,6 @@ After successful login\register users can gain access to other 3 main windows.
 3. Second window is purposed to work with multiple knowledge bases by adding\modifying profiles, which consist of implications rules and linguistic variables sets.
 The application GUI allows adding of inference profiles by adding name and description to them. After profile is created application allows adding of rules and variables sets to be achieved in two ways:  by adding them individually or by uploading them from files in batches.
 Once adding of inference rules and variables is done, users have ability to filter though existing rules and variables and also to modify them in the same window.
-![image](https://user-images.githubusercontent.com/27803595/186420442-9fd36dd8-27a3-4fbf-bb38-cd1f39c9e27f.png)
 ![image](https://user-images.githubusercontent.com/27803595/186420457-cac7bebc-422c-45ad-b2d3-c7e288c4c028.png)
 ![image](https://user-images.githubusercontent.com/27803595/186420467-c6acb278-d402-4da2-9f7e-b4226d302a12.png)
 ![image](https://user-images.githubusercontent.com/27803595/186420490-9d4fb7e8-0fc4-4ec4-84f3-d5058c77c860.png)
