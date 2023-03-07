@@ -1,3 +1,5 @@
+# General overview
+
 The general architecture of the developed FuzzyKIDE application consists of the following components:
 1. Database (Input)
     Stores the initial data as Comma Separated Values (CSV).
@@ -41,3 +43,9 @@ Once adding of inference rules and variables is done, users have ability to filt
 Once inference is finished the same windows is used to display and filter inference results. Application decision suggestion could also be seen on the same screen, when specific part of inference result is selected.
 
 ![image](https://user-images.githubusercontent.com/27803595/186420570-626bcc63-42a4-4473-8f53-90319fe3939b.png)
+
+---
+
+# License
+
+FuzzyKIDE is [MIT licensed](https://github.com/frightempire/FuzzyExpert/blob/master/LICENSE.md)
